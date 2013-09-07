@@ -1,5 +1,5 @@
 package nitrogene.collision;
-
+//CCDD
 public class AABB {
 	   public Vector center;
 	   public float r[];
