@@ -201,7 +201,7 @@ public class GameState extends BasicGameState{
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
-					mesh.damage(100);
+					mesh.damage(laser.getDamage());
 					explosionSound.play(1f,0.1f);
 					//damage mesh
 					}
@@ -298,7 +298,7 @@ public class GameState extends BasicGameState{
 					basicTestLaser.play(1f, 0.5f);
 					laser.getImage().rotate(laser.getAngle());
 				}
-				laser.getImage().draw(laser.location.getX(), laser.location.getY(),0.5f);
+				laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
 				laser = null;
 
 		}
@@ -362,12 +362,12 @@ public class GameState extends BasicGameState{
 	        public void run()
 	        {
 	          try {
-				laser.fire(craft.getX(),craft.getY());
+				laser.fire();
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
 	        }
-	      }, 1000, laser.maxtime);    
+	      }, laser.maxtime, laser.maxtime);    
 	}
 	
 	public void endFire(Timer timer1){

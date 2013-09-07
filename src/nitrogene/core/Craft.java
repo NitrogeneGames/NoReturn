@@ -40,7 +40,8 @@ public class Craft {
 		lifesupport = new LifeSupport(200,2,5,1000);
 		cumulative = 0;
 		
-		primary1 = new LaserLauncher(135, 17, laser1, 20, 1000);
+		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
+		primary1 = new LaserLauncher(135, 17, laser1, 20, 1000, 100, 10, 0.7f);
 		laserlist.add(primary1);
 	}
 	

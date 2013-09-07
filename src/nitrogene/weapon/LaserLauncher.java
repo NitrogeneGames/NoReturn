@@ -11,13 +11,13 @@ import org.newdawn.slick.SlickException;
 public class LaserLauncher {
 	private float desx, desy, x, y, camX, camY;
 	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
-	public int accuracy, timer, maxtime;
+	public int accuracy, timer, maxtime, speed, damage;
 	private double mangle;
-	private float mmangle, craftX, craftY;
+	private float mmangle, craftX, craftY, size;
 	public boolean isRotating;
 	Image image;
 	
-	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time){
+	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, int speed, int damage, float size){
 		this.x = xpos;
 		this.y = ypos;
 		desx = 0;
@@ -32,6 +32,9 @@ public class LaserLauncher {
 		craftY = 0;
 		camX = 0;
 		camY = 0;
+		this.speed = speed;
+		this.damage = damage;
+		this.size = size;
 	}
 	
 	
@@ -62,8 +65,8 @@ public class LaserLauncher {
 		this.craftY = craftY;
 	}
 	
-	public void fire(float craftX, float craftY) throws SlickException{
-		slaserlist.add(new SLaser(x+craftX,y+craftY, camX+desx, camY+desy, 0));
+	public void fire() throws SlickException{
+		slaserlist.add(new SLaser(x+craftX,y+craftY, camX+desx, camY+desy, accuracy, speed, damage, size));
 	}
 	
 	public float getAngle(){

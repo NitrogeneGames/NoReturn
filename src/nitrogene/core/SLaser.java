@@ -15,15 +15,19 @@ public class SLaser {
 	Point location = new Point(0,0);
 	Image theimage = new Image("res/LaserV2ro.png");
 	double mangle = 0;
-	float mmangle;
+	private float mmangle, scalesize;
+	private int sspeed, sdamage;
 	public AABB boundbox;
 	boolean isRotated = false, isPlaying = false;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, int speed, int damage, float size) throws SlickException{
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;
 		this.desY = destinY;
+		this.sdamage = damage;
+		this.sspeed = speed;
+		this.scalesize = size;
 		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
@@ -40,7 +44,7 @@ public class SLaser {
 	private void recalculateVector(float desX2, float desY2) {
 		float vec = (float)(Math.atan2(desX2 - startX, desY2 - startY));
 		//set speed
-		speed = (float) 70;
+		speed = (float) sspeed;
 
 		this.dx = (float) Math.sin(vec) * speed;
         this.dy = (float) Math.cos(vec) * speed;
@@ -85,6 +89,12 @@ public class SLaser {
 	}
 	public Image getImage(){
 		return theimage;
+	}
+	public int getDamage(){
+		return sdamage;
+	}
+	public float getSize(){
+		return scalesize;
 	}
 
 }
