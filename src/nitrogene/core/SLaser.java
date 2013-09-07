@@ -15,12 +15,12 @@ public class SLaser {
 	Point location = new Point(0,0);
 	Image theimage = new Image("res/LaserV2ro.png");
 	double mangle = 0;
-	private float mmangle, scalesize;
-	private int sspeed, sdamage;
+	private float mmangle, scalesize, sspeed;
+	private int sdamage;
 	public AABB boundbox;
 	boolean isRotated = false, isPlaying = false;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, int speed, int damage, float size) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size) throws SlickException{
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;

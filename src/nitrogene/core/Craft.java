@@ -6,6 +6,7 @@ import nitrogene.collision.AABB;
 import nitrogene.util.Direction;
 import nitrogene.util.Movement;
 import nitrogene.weapon.LaserLauncher;
+import nitrogene.weapon.Weapon;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -41,7 +42,7 @@ public class Craft {
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
-		primary1 = new LaserLauncher(135, 17, laser1, 20, 1000, 100, 100, 0.7f);
+		primary1 = new LaserLauncher(135, 17, Weapon.OP);
 		laserlist.add(primary1);
 	}
 	
