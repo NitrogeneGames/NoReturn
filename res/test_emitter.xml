@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emitter imageName="" name="Shockwave_particle">
+  <spawnInterval enabled="true" max="10.0" min="10.0"/>
+  <spawnCount enabled="true" max="1.0" min="1.0"/>
+  <initialLife enabled="true" max="500.0" min="500.0"/>
+  <initialSize enabled="true" max="50.0" min="50.0"/>
+  <xOffset enabled="true" max="0.0" min="0.0"/>
+  <yOffset enabled="true" max="0.0" min="0.0"/>
+  <initialDistance enabled="false" max="1.0" min="1.0"/>
+  <speed enabled="true" max="200.0" min="150.0"/>
+  <length enabled="true" max="500.0" min="500.0"/>
+  <spread value="360.0"/>
+  <angularOffset value="90.0"/>
+  <growthFactor value="10.0"/>
+  <gravityFactor value="0.0"/>
+  <windFactor value="0.0"/>
+  <startAlpha value="230.0"/>
+  <endAlpha value="230.0"/>
+  <color>
+    <step b="105" g="128" offset="0.0" r="128"/>
+  </color>
+</emitter>
