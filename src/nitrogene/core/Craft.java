@@ -41,7 +41,7 @@ public class Craft {
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
-		primary1 = new LaserLauncher(135, 17, laser1, 20, 1000, 100, 10, 0.7f);
+		primary1 = new LaserLauncher(135, 17, laser1, 20, 1000, 100, 100, 0.7f);
 		laserlist.add(primary1);
 	}
 	

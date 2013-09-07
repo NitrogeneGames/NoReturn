@@ -201,7 +201,7 @@ public class GameState extends BasicGameState{
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
-					mesh.damage(laser.getDamage());
+					mesh.damage(laser.getDamage(), planetlist, circlemeshlist, e);
 					explosionSound.play(1f,0.1f);
 					//damage mesh
 					}
