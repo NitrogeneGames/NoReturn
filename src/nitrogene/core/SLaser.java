@@ -13,7 +13,7 @@ public class SLaser {
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
 	Point location = new Point(0,0);
-	Image theimage = new Image("res/LaserV2ro.png");
+	Image theimage; 
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
@@ -21,6 +21,7 @@ public class SLaser {
 	boolean isRotated = false, isPlaying = false;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size) throws SlickException{
+		theimage = new Image("res/LaserV2ro.png");
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;
@@ -36,6 +37,24 @@ public class SLaser {
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, String im) throws SlickException{
+		theimage = new Image(im);
+		this.startX =startX;
+		this.startY =startY;
+		this.desX = destinX;
+		this.desY = destinY;
+		this.sdamage = damage;
+		this.sspeed = speed;
+		this.scalesize = size;
+		location.setLocation(startX,startY);
+		if(accuracy!=0){
+		desX += randomize(accuracy);
+		desY += randomize(accuracy);}
+		boundbox = new AABB((float) (theimage.getTextureWidth() * 0.7), (float)(theimage.getTextureHeight() * 0.7));
+		recalculateVector(desX, desY);
+		recalculateAngle(desX, desY);
+	}
+	
 	
 	private void updateBounds(float x, float y){
 		boundbox.center = boundbox.getCenter(x, y);

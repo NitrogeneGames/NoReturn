@@ -16,8 +16,9 @@ public class LaserLauncher {
 	private float mmangle, craftX, craftY, size, speed;
 	public boolean isRotating;
 	Image image;
+	private String proje;
 	
-	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size){
+	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, String proj){
 		this.x = xpos;
 		this.y = ypos;
 		desx = 0;
@@ -35,6 +36,27 @@ public class LaserLauncher {
 		this.speed = speed;
 		this.damage = damage;
 		this.size = size;
+		proje = proj;
+	}
+	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size) throws SlickException{
+		this.x = xpos;
+		this.y = ypos;
+		desx = 0;
+		desy = 0;
+		this.accuracy = accuracy;
+		mangle = 0;
+		mmangle = 0f;
+		this.maxtime = time;
+		this.image = image;
+		isRotating = false;
+		craftX = 0;
+		craftY = 0;
+		camX = 0;
+		camY = 0;
+		this.speed = speed;
+		this.damage = damage;
+		this.size = size;
+		proje = "res/LaserV2ro.png";
 	}
 	public LaserLauncher(float xpos, float ypos, Weapon stat){
 		this.x = xpos;
@@ -54,6 +76,7 @@ public class LaserLauncher {
 		this.speed = stat.speed;
 		this.damage = stat.damage;
 		this.size = stat.size;
+		this.proje = stat.laserimage;
 	}
 	
 	
@@ -85,7 +108,7 @@ public class LaserLauncher {
 	}
 	
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser(x+craftX,y+craftY, camX+desx, camY+desy, accuracy, speed, damage, size));
+		slaserlist.add(new SLaser(x+craftX,y+craftY, camX+desx, camY+desy, accuracy, speed, damage, size, proje));
 	}
 	
 	public float getAngle(){
