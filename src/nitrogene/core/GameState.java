@@ -32,7 +32,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class GameState extends BasicGameState{
-	private int delay = 1000;
 	private long start;
 	private long elapsed;
 	Craft craft;
@@ -367,18 +366,39 @@ public class GameState extends BasicGameState{
 	}
 
 	public void mousePressed(int button, int x, int y){
-		firetoggle = !firetoggle;
-		if(firetoggle){
-			craft.laserlist.get(0).setTarget(x, y, camX, camY);
-			//startFire(timer1,craft.laserlist.get(0));
-			timer1.setInitialDelay((int) (1000 - elapsed));
-			timer1.start();
-			start = System.currentTimeMillis();
-		}
-		if (!firetoggle){
+		if(!PAUSED) {
 
-			timer1.stop();
-			elapsed = System.currentTimeMillis() - start;
+		if(button == 1) {
+			firetoggle = !firetoggle;
+			if(firetoggle){
+				
+				//craft.laserlist.get(0).setTarget(x, y, camX, camY);
+				//startFire(timer1,craft.laserlist.get(0));
+				timer1.setInitialDelay((int) (1000 - elapsed));
+				timer1.start();
+				start = System.currentTimeMillis();
+			}
+			if (!firetoggle){
+
+				timer1.stop();
+				elapsed = System.currentTimeMillis() - start;
+			}
+		} else {
+			if(getCraftFromCoord(x, y) != null) {
+				System.out.println("PLANET FOUND");
+				Planet p = (Planet) getCraftFromCoord(x, y);
+				craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y, camX, camY);
+			} else {
+			craft.laserlist.get(0).setTarget(x, y, camX, camY);
+			}
+			if(timer1.isRunning() == false) {
+				firetoggle = true;
+				timer1.setInitialDelay((int) (1000 - elapsed));
+				timer1.start();
+				start = System.currentTimeMillis(); //?
+			}
+
+		}
 		}
 	}
 	
@@ -395,6 +415,16 @@ public class GameState extends BasicGameState{
 	}
 	
 	public void endFire(Timer timer1){
+		
+	}
+	public Object getCraftFromCoord(int x, int y) {
+		for(int i = 0; i < this.planetlist.size(); i++) {
+			if(CollisionLibrary.testCirclePoint(this.planetlist.get(i).boundbox, x, y) == true) {
+				System.out.println("HERE");
+				return this.planetlist.get(i);
+			}
+		}
+		return null;
 		
 	}
 	

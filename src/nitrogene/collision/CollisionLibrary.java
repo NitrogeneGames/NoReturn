@@ -13,6 +13,10 @@ public class CollisionLibrary {
 		  
 		   return distSQ <= radiusSum * radiusSum;
 		}
+	public static boolean testCirclePoint(final Circle c1, final int x, final int y) {
+		   
+		   return testCircleAABB(c1, new AABB(x, y));
+		}
 	public static float sqDistPointAABB(final Vector p, final AABB aabb) {
 		   float sqDist = 0.0f;
 		   float v;

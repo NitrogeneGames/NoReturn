@@ -67,7 +67,11 @@ public class LaserLauncher {
 		mangle = 0;
 		mmangle = 0f;
 		this.maxtime = stat.time;
-		this.image = stat.image;
+		try {
+			this.image = new Image(stat.image);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		isRotating = false;
 		craftX = 0;
 		craftY = 0;
