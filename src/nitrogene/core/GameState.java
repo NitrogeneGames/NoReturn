@@ -384,10 +384,10 @@ public class GameState extends BasicGameState{
 				elapsed = System.currentTimeMillis() - start;
 			}
 		} else {
-			if(getCraftFromCoord(x, y) != null) {
-				System.out.println("PLANET FOUND");
-				Planet p = (Planet) getCraftFromCoord(x, y);
-				craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y, camX, camY);
+			if(getTargetObject(camX + x,camY + y) != null) {
+				Planet p = (Planet) getTargetObject(camX + x,camY + y);
+				craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
+				System.out.println(p.boundbox.center.x);
 			} else {
 			craft.laserlist.get(0).setTarget(x, y, camX, camY);
 			}
@@ -395,7 +395,7 @@ public class GameState extends BasicGameState{
 				firetoggle = true;
 				timer1.setInitialDelay((int) (1000 - elapsed));
 				timer1.start();
-				start = System.currentTimeMillis(); //?
+				start = System.currentTimeMillis();
 			}
 
 		}
@@ -410,17 +410,10 @@ public class GameState extends BasicGameState{
 			e.printStackTrace();
 		}
 	}
-	public void startFire(Timer timer1, final LaserLauncher laser){
-  
-	}
-	
-	public void endFire(Timer timer1){
-		
-	}
-	public Object getCraftFromCoord(int x, int y) {
+
+	public Object getTargetObject(float f, float g) {
 		for(int i = 0; i < this.planetlist.size(); i++) {
-			if(CollisionLibrary.testCirclePoint(this.planetlist.get(i).boundbox, x, y) == true) {
-				System.out.println("HERE");
+			if(CollisionLibrary.testCirclePoint(this.planetlist.get(i).boundbox, f, g) == true) {
 				return this.planetlist.get(i);
 			}
 		}

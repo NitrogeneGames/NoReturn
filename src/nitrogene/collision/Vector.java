@@ -8,6 +8,11 @@ public class Vector {
 	      x = 0.0f;
 	      y = 0.0f;
 	   }
+	   
+	   public Vector(final float x, final float y){
+		   this.x = x;
+		   this.y = y;
+	   }
 	        
 	   // returns the (squared) distance between this Vector and another
 	   public float distSQ(final Vector vec) {
