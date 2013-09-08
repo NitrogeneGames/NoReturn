@@ -10,7 +10,9 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
+import nitrogene.collision.Vector;
 import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
 import nitrogene.weapon.LaserLauncher;
@@ -224,7 +226,7 @@ public class GameState extends BasicGameState{
 					}
 					}
 				for(int e = 0;e<boxmeshlist.size();e++){
-					if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,laser.boundbox)){
+					if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
 					//damage mesh
@@ -250,7 +252,7 @@ public class GameState extends BasicGameState{
 			}
 		//for: craft vs. boxes
 		for(int e = 0;e<boxmeshlist.size();e++){
-			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,craft.boundbox)){
+			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,craft.boundbox)){
 			 //put stuff here
 			}
 			}
@@ -326,23 +328,26 @@ public class GameState extends BasicGameState{
 		}
 		 
 		for(int p = 0; p<craft.laserlist.size(); p++){
+
 			   LaserLauncher laser = craft.laserlist.get(p);
 			   laser.update(craft.getX(), craft.getY());
 			      if(((laser.getAngle()-laser.getImage().getRotation()) != 0)) {
-			      if(((laser.getAngle()-laser.getImage().getRotation()) >= 100)) {
-			      if(((laser.getAngle()-laser.getImage().getRotation()) >= 200)) {
-			      if(((laser.getAngle()-laser.getImage().getRotation()) >= 300)) {
-			       laser.getImage().rotate((laser.getAngle()-laser.getImage().getRotation())/50);
-			       System.out.println("50");
-			      } else {   //<300
-			       laser.getImage().rotate((laser.getAngle()-laser.getImage().getRotation())/40);
-			      }
-			      } else {  //<200
-			       laser.getImage().rotate((laser.getAngle()-laser.getImage().getRotation())/30);
-			      }
-			      } else { //<100
-			       laser.getImage().rotate((laser.getAngle()-laser.getImage().getRotation())/20);
-			      }
+			    	  float rota = func_0001(laser);
+			    	  float dist = Math.abs(rota);
+			    		  if(dist >= 100) {
+			    			  if(dist >= 200) {
+			    				  if(dist >= 300) {
+						       laser.getImage().rotate(rota/50);
+						       
+						      } else {   //<300
+						       laser.getImage().rotate(rota/40);
+						      }
+						      } else {  //<200
+						       laser.getImage().rotate(rota/30);
+						      }
+						      } else { //<100
+						       laser.getImage().rotate(rota/20);
+						      }
 			      } else {
 			          laser.getImage().setRotation(laser.getAngle());
 			      }
@@ -385,9 +390,15 @@ public class GameState extends BasicGameState{
 			}
 		} else {
 			if(getTargetObject(camX + x,camY + y) != null) {
-				Planet p = (Planet) getTargetObject(camX + x,camY + y);
-				craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
-				System.out.println(p.boundbox.center.x);
+				if(getTargetObject(camX + x,camY + y).getClass() == Planet.class) {
+					//Target Planet
+					Planet p = (Planet) getTargetObject(camX + x,camY + y);				
+					craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
+				}else if(getTargetObject(camX + x,camY + y).getClass() == Craft.class) {
+					//Target Ship
+					Craft p = (Craft) getTargetObject(camX + x,camY + y);				
+					craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
+				}
 			} else {
 			craft.laserlist.get(0).setTarget(x, y, camX, camY);
 			}
@@ -405,6 +416,7 @@ public class GameState extends BasicGameState{
 	public void tick(){
 		start = System.currentTimeMillis();
 		try {
+
 			craft.laserlist.get(0).fire();
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -417,10 +429,48 @@ public class GameState extends BasicGameState{
 				return this.planetlist.get(i);
 			}
 		}
+		for(int e = 0;e<boxmeshlist.size();e++){
+			AABB box = new AABB(1f,1f);
+			box.update(new Vector(f,g));
+			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox, box)){
+				return this.boxmeshlist.get(e);
+			}
+		}
 		return null;
 		
 	}
-	
+	public float func_0001(LaserLauncher laser) {
+  	  if((laser.getAngle() >= 0 && laser.getImage().getRotation() >= 0) || (laser.getAngle() <= 0 && laser.getImage().getRotation() <= 0))
+  	  {
+  		  return laser.getAngle()-laser.getImage().getRotation();
+  	  } else {
+  		if(laser.getAngle() >= 0 && laser.getImage().getRotation() <= 0) {
+  			float x = Math.abs(laser.getAngle());
+  			float y = Math.abs(laser.getImage().getRotation());
+  			
+  			float oneeighty = (180 - x) + (180 - y);
+  			float zero = x + y;
+  			if(zero<oneeighty) {
+  				return zero;
+  			} else {
+  				return -oneeighty;
+  			}
+  		} else if(laser.getAngle() <= 0 && laser.getImage().getRotation() >= 0) {
+  			float x = Math.abs(laser.getAngle());
+  			float y = Math.abs(laser.getImage().getRotation());
+  			
+  			float oneeighty = (180 - x) + (180 - y);
+  			float zero = x + y;
+  			if(zero<oneeighty) {
+  				return -zero;
+  			} else {
+  				return oneeighty;
+  			}
+  		} else {
+  			return 0;
+  		}
+  	  }
+	}
 
 
 	@Override
