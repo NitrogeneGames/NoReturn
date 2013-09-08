@@ -48,8 +48,20 @@ public class Movement {
 		if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05;
 	}
 	
+	public void Break(){
+	for(int e = 1; e < 5; e++){
+		if(toggle[e] == true) {
+			toggle[e] = false;
+		}
+		if(diracceleration[e] > 0){
+			diracceleration[e] -= .1;
+		}
+		if(diracceleration[e] < 0 && toggle[e] == true) diracceleration[e] = 0;
+	}
+	}
+	
 	public double getDx(){
-		return diracceleration[4] - diracceleration[3];
+		return diracceleration[4] - diracceleration[3];           
 	}
 	
 	

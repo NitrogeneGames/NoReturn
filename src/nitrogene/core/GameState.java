@@ -176,14 +176,17 @@ public class GameState extends BasicGameState{
 		if(input.isKeyPressed(Input.KEY_A)){
 			if(craft.getX() > offsetMinX){
 				craft.movement.Toggle(Direction.LEFT);
-				}
-		}
-		if(input.isKeyPressed(Input.KEY_D)){
+				}              
+		}  
+		if(input.isKeyPressed(Input.KEY_D)){  
 			if(craft.getX() < offsetMaxX){
 				craft.movement.Toggle(Direction.RIGHT);
 				}
 		}
-		
+		if(input.isKeyDown(Input.KEY_SPACE)){
+			System.out.println("CALLED");
+			craft.movement.Break();
+		}
 		
 		//projectile control
 		for(int m = 0; m<craft.laserlist.size();m++){
