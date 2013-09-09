@@ -157,6 +157,9 @@ public class GameState extends BasicGameState{
 	
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		if(!container.hasFocus()){
+			PAUSED = true;
+		}
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -226,7 +229,7 @@ public class GameState extends BasicGameState{
 					}
 					}
 				for(int e = 0;e<boxmeshlist.size();e++){
-					if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,laser.boundbox)){
+					if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
 					//damage mesh
@@ -252,7 +255,7 @@ public class GameState extends BasicGameState{
 			}
 		//for: craft vs. boxes
 		for(int e = 0;e<boxmeshlist.size();e++){
-			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,craft.boundbox)){
+			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,craft.boundbox)){
 			 //put stuff here
 			}
 			}
@@ -432,7 +435,7 @@ public class GameState extends BasicGameState{
 		for(int e = 0;e<boxmeshlist.size();e++){
 			AABB box = new AABB(1f,1f);
 			box.update(new Vector(f,g));
-			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox, box)){
+			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox, box)){
 				return this.boxmeshlist.get(e);
 			}
 		}
