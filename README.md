@@ -2,7 +2,7 @@ NoReturn
 ========
 A fast paced space shooter game.
 This game is comparable to FTL crossed with a fast paced scrolling shooter implementing RPG elements.
-Built on the Slick2d engine (which is built upon LWGJL framework) in Java with Eclipse IDE.
+Built on the Slick2d engine (which is built upon LWJGL framework) in Java with Eclipse IDE.
 
 
 Development
