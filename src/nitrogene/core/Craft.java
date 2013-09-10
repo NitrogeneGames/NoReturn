@@ -26,6 +26,7 @@ public class Craft {
 	private float x = 0, y = 0;
 	public AABB boundbox = null;
 	private int delta, cumulative;
+	
 	public Craft(float xpos, float ypos) throws SlickException{
 		craftimage = new Image("res/klaarship4.png");
 		laser1 = new Image("res/laser1.png");
@@ -33,12 +34,12 @@ public class Craft {
 		y = ypos;
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
 		updateAABB(x,y);
-		shield = new Shield(1);
+		shield = new Shield(82,45,300,2,30,1000,1);
 		delta = 0;
 		movement = new Movement();
-		engine = new Engine(200,2,20,1000,20,/*warpchage */ 100);
-		core = new Core(500,5,100,2000);
-		lifesupport = new LifeSupport(200,2,5,1000);
+		engine = new Engine(48,77,200,2,20,1000,20,/*warpchage */ 100);
+		core = new Core(82,83,1000,5,100,2000);
+		lifesupport = new LifeSupport(82,125,200,2,5,1000);
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
@@ -61,7 +62,7 @@ public class Craft {
 			lifesupport.tick();
 			cumulative = 0;
 		}
-		
+		System.out.println(craftimage.getWidth());
 		
 		movement.Accelerate();
 	}
@@ -81,12 +82,11 @@ public class Craft {
 		return craftimage;
 	}
 	public float getShieldX(){
-		return boundbox.center.x - shield.getImage().getWidth()/2;
+		return boundbox.center.x - shield.getShieldImage().getWidth()/2*1.2f;
 	}
 	public float getShieldY(){
-		return boundbox.center.y - shield.getImage().getHeight()/2;
+		return boundbox.center.y - shield.getShieldImage().getHeight()/2*1.2f;
 	}
-	
 	//# is the constant
 	public void move(int thrust){
 		float mm = delta/1000f;

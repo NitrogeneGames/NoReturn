@@ -229,7 +229,7 @@ public class GameState extends BasicGameState{
 					}
 					}
 				for(int e = 0;e<boxmeshlist.size();e++){
-					if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,laser.boundbox)){
+					if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
 					//damage mesh
@@ -255,7 +255,7 @@ public class GameState extends BasicGameState{
 			}
 		//for: craft vs. boxes
 		for(int e = 0;e<boxmeshlist.size();e++){
-			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,craft.boundbox)){
+			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,craft.boundbox)){
 			 //put stuff here
 			}
 			}
@@ -299,7 +299,13 @@ public class GameState extends BasicGameState{
 		}
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
-		craft.shield.getImage().draw(craft.getShieldX(),craft.getShieldY());
+		craft.shield.getShieldImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
+		//systems
+		craft.core.getImage().drawCentered(craft.core.getX()+craft.getX(),craft.core.getY()+craft.getY());
+		craft.shield.getImage().drawCentered(craft.shield.getX()+craft.getX(),craft.shield.getY()+craft.getY());
+		craft.engine.getImage().drawCentered(craft.engine.getX()+craft.getX(),craft.engine.getY()+craft.getY());
+		craft.lifesupport.getImage().drawCentered(craft.lifesupport.getX()+craft.getX(),craft.lifesupport.getY()+craft.getY());
+		
 		for (int e = 0; e<planetlist.size();e++){
 			Planet mesh = planetlist.get(e);
 			mesh.getImage().draw(mesh.getX(),mesh.getY(),4);
@@ -331,7 +337,6 @@ public class GameState extends BasicGameState{
 		}
 		 
 		for(int p = 0; p<craft.laserlist.size(); p++){
-
 			   LaserLauncher laser = craft.laserlist.get(p);
 			   laser.update(craft.getX(), craft.getY());
 			      if(((laser.getAngle()-laser.getImage().getRotation()) != 0)) {
@@ -435,7 +440,7 @@ public class GameState extends BasicGameState{
 		for(int e = 0;e<boxmeshlist.size();e++){
 			AABB box = new AABB(1f,1f);
 			box.update(new Vector(f,g));
-			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox, box)){
+			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox, box)){
 				return this.boxmeshlist.get(e);
 			}
 		}

@@ -1,11 +1,17 @@
 package nitrogene.core;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class LifeSupport extends ShipSystem{
 	private int percentoxygen;
 	private int maxhp;
+	private Image im;
 
-	public LifeSupport(int maxhp, int durability, int maxpower, int capacity) {
-		super(maxhp, durability, maxpower, capacity);
+	public LifeSupport(float x, float y, int maxhp, int durability, int maxpower, int capacity) throws SlickException {
+		super(x, y, maxhp, durability, maxpower, capacity);
+		im = new Image("res/icon/oxygensystem.png");
+		this.setImage(im);
 		this.maxhp = maxhp;
 	}
 	

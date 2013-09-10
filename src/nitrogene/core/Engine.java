@@ -1,12 +1,18 @@
 package nitrogene.core;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class Engine extends ShipSystem{
 	private int thrust, warpcharge, warp;
 	private int maxhp;
 	private boolean locked;
+	private Image im;
 
-	public Engine(int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge) {
-		super(maxhp, durability, maxpower, capacity);
+	public Engine(float x, float y, int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge) throws SlickException {
+		super(x, y, maxhp, durability, maxpower, capacity);
+		im = new Image("res/icon/enginesystem.png");
+		this.setImage(im);
 		this.thrust = thrust;
 		this.warpcharge = warpcharge;
 		this.maxhp = getHp();

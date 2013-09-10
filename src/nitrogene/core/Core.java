@@ -1,11 +1,17 @@
 package nitrogene.core;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public class Core extends ShipSystem{
 	private int maxpower;
 	private int maxhp;
+	private Image im;
 
-	public Core(int maxhp, int durability, int maxpower, int capacity) {
-		super(maxhp, durability, maxpower, capacity);
+	public Core(float x, float y, int maxhp, int durability, int maxpower, int capacity) throws SlickException {
+		super(x,y,maxhp, durability, maxpower, capacity);
+		im = new Image("res/icon/coresystem.png");
+		this.setImage(im);
 		this.maxpower = maxpower;
 	}
 	

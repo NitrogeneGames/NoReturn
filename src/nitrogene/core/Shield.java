@@ -3,17 +3,21 @@ package nitrogene.core;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Shield {
+public class Shield extends ShipSystem{
 	
 	private Image shieldimage;
 	private int damageInd;
 	public float shieldPercentage;
 	public int shieldQuality;
-	public Shield(int shieldQuality) throws SlickException{
+	private Image im;
+	
+	public Shield(float x, float y, int maxhp, int durability, int maxpower, int capacity, int shieldQuality) throws SlickException{
+		super(x, y, maxhp, durability, maxpower, capacity);
 		damageInd = 0;
 		shieldPercentage = 100;
 		shieldimage = new Image("res/shieldV2.png");
-		
+		im = new Image("res/icon/shieldsystem.png");
+		this.setImage(im);
 		this.shieldQuality = shieldQuality;
 	}
 	
@@ -61,7 +65,7 @@ public class Shield {
 	public double shieldStrength(){
 		return shieldPercentage;
 	}
-	public Image getImage(){
+	public Image getShieldImage(){
 		return shieldimage;
 	}
 }
