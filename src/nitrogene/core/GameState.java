@@ -15,6 +15,7 @@ import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
 import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
+import nitrogene.util.Stars;
 import nitrogene.weapon.LaserLauncher;
 
 import org.newdawn.slick.Color;
@@ -41,12 +42,11 @@ public class GameState extends BasicGameState{
 	private ParticleSystem shockwave;
 	Timer timer1;
 	PauseButton resume, restart, hangar, menu, options, exit;
-	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, star1;
+	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
 	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
 	Particle part;
-	private int[] starx, stary;
-	private int n;
+	Stars stars;
 	private int mapwidth, mapheight;
 	private int offsetMaxX, offsetMaxY, offsetMinX, offsetMinY;
 	private int SCR_width, SCR_height;
@@ -77,9 +77,8 @@ public class GameState extends BasicGameState{
 		explosionSound = new Sound("res/sound/Explosionfinal.ogg");
 		
 		//load images and objects here
-		craft = new Craft(500, 400);
+		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5));
 		sun = new Image("res/sun_1.png");
-		star1 = new Image("res/star2.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
 		planetlist.add(new Planet(1000,1000,sun, 1000));
@@ -94,21 +93,12 @@ public class GameState extends BasicGameState{
     	offsetMaxY = mapheight - 600;
     	offsetMinX = 400;
     	offsetMinY = 300;
+    	camX = 0;
+    	camY = 0;
+    	
+    	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	
     	firetoggle = false;
-    	
-    	//stars
-    	int biggeststarsize = 2;
-    	Random rand = new Random();
-    	n = rand.nextInt(10) + 510;
-    	starx = new int[n];
-    	stary = new int[n];
-    	for(int i = 0; i < n; i++) {
-    	Random randomx = new Random();
-    	starx[i] = randomx.nextInt(mapwidth - biggeststarsize) + 1;
-    	Random randomy = new Random();
-    	stary[i] = randomy.nextInt(mapheight - biggeststarsize) + 1;
-    	}
     	
     	//particles
     	shockwave = new ParticleSystem(shockimage,1500);
@@ -169,7 +159,6 @@ public class GameState extends BasicGameState{
 		}
 		if(!PAUSED){
 			if(timer1.isRunning() == false && firetoggle == true) {
-				//System.out.println(elapsed);
 				timer1.setInitialDelay((int) (1000 - elapsed));
 				timer1.start();
 				start = System.currentTimeMillis();
@@ -203,7 +192,6 @@ public class GameState extends BasicGameState{
 				}
 		}
 		if(input.isKeyDown(Input.KEY_SPACE)){
-			System.out.println("CALLED");
 			craft.movement.Break();
 		}
 		
@@ -261,8 +249,8 @@ public class GameState extends BasicGameState{
 			}
 		
 		
-		camX = craft.getX() - 800 / 2;
-    	camY = craft.getY() - 600 / 2;
+		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
+    	camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
 		
 		}
 		else{
@@ -294,10 +282,7 @@ public class GameState extends BasicGameState{
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		
-		for(int g1 = 0; g1 < n; g1++){
-			star1.draw(starx[g1],stary[g1]);
-		}
-		
+		stars.render(camX,camY);
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.shield.getShieldImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
 		//systems
@@ -308,6 +293,10 @@ public class GameState extends BasicGameState{
 		
 		for (int e = 0; e<planetlist.size();e++){
 			Planet mesh = planetlist.get(e);
+			if(mesh.getX()-mesh.getImage().getWidth()*4>SCR_width+camX||mesh.getX()+mesh.getImage().getWidth()*4<camX||mesh.getY()-mesh.getImage().getHeight()>SCR_height+camY||mesh.getY()+mesh.getImage().getHeight()<camY){
+				mesh = null;
+				continue;
+			}
 			mesh.getImage().draw(mesh.getX(),mesh.getY(),4);
 			if(mesh.getHp() < mesh.getMaxHp()){
 				if(mesh.getHp() <= 200) g.setColor(Color.red);
@@ -317,6 +306,7 @@ public class GameState extends BasicGameState{
 				float ff = mesh.getMaxHp();
 				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.boundbox.radius*2), 20);
 			}
+			mesh = null;
 		}
 		part.render();
 		shockwave.render();
@@ -330,6 +320,10 @@ public class GameState extends BasicGameState{
 					laser.isRotated = true;
 					basicTestLaser.play(1f, 0.5f);
 					laser.getImage().rotate(laser.getAngle());
+				}
+				if(laser.location.getX()-laser.getImage().getWidth()>SCR_width+camX||laser.location.getX()+laser.getImage().getWidth()<camX||laser.location.getY()-laser.getImage().getHeight()>SCR_height+camY||laser.location.getY()+laser.getImage().getHeight()<camY){
+					laser = null;
+					continue;
 				}
 				laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
 				laser = null;

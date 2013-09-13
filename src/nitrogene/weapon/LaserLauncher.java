@@ -83,7 +83,6 @@ public class LaserLauncher {
 		this.proje = stat.laserimage;
 	}
 	
-	
 	public void setTarget(float desx, float desy){
 		this.desx = desx;
 		this.desy = desy;

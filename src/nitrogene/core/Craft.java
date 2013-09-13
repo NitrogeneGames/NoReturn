@@ -62,8 +62,6 @@ public class Craft {
 			lifesupport.tick();
 			cumulative = 0;
 		}
-		System.out.println(craftimage.getWidth());
-		
 		movement.Accelerate();
 	}
 	public void setX(float x1){
