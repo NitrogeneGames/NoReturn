@@ -32,8 +32,9 @@ public class SLaser {
 		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
-		desY += randomize(accuracy);}
-		boundbox = new AABB((float) (theimage.getTextureWidth() * 0.7), (float)(theimage.getTextureHeight() * 0.7));
+		desY += randomize(accuracy);
+		}
+		boundbox = new AABB((float) (theimage.getTextureWidth() * size), (float)(theimage.getTextureHeight() * size));
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
@@ -49,8 +50,9 @@ public class SLaser {
 		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
-		desY += randomize(accuracy);}
-		boundbox = new AABB((float) (theimage.getTextureWidth() * 0.7), (float)(theimage.getTextureHeight() * 0.7));
+		desY += randomize(accuracy);
+		}
+		boundbox = new AABB((float) (theimage.getTextureWidth() * size), (float)(theimage.getTextureHeight() * size));
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
@@ -96,6 +98,7 @@ public class SLaser {
 		//update boundbox
 		updateBounds(x,y);
 	}
+	
 	
 	private int randomize(int distance) {
 		Random rand = new Random();

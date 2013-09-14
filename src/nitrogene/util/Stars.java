@@ -2,7 +2,6 @@ package nitrogene.util;
 
 import java.util.Random;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 

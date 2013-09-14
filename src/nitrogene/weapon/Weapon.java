@@ -1,8 +1,5 @@
 package nitrogene.weapon;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-
 public enum Weapon{
 	BASIC ("res/Laser1.png", 3, 1000, 100F, 10, 0.7F, "res/LaserV2ro.png"),
     OP ("res/Laser1.png", 0, 100, 100F, 1000, 3F, "res/LaserV2ro.png");

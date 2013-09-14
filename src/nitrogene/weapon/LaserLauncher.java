@@ -2,7 +2,6 @@ package nitrogene.weapon;
 
 import java.util.ArrayList;
 
-import nitrogene.core.Craft;
 import nitrogene.core.SLaser;
 
 import org.newdawn.slick.Image;

@@ -3,7 +3,6 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.collision.AABB;
-import nitrogene.util.Direction;
 import nitrogene.util.Movement;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.Weapon;
@@ -21,7 +20,7 @@ public class Craft {
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	LaserLauncher primary1;
 
-	private Image craftimage = null, laser1;
+	private Image craftimage = null;
 	public Movement movement;
 	private float x = 0, y = 0;
 	public AABB boundbox = null;
@@ -29,7 +28,6 @@ public class Craft {
 	
 	public Craft(float xpos, float ypos) throws SlickException{
 		craftimage = new Image("res/klaarship4.png");
-		laser1 = new Image("res/laser1.png");
 		x = xpos;
 		y = ypos;
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -310,50 +309,48 @@ public class GameState extends BasicGameState{
 		}
 		part.render();
 		shockwave.render();
-
-		
-		//bullet draw
-		for(int m = 0; m<craft.laserlist.size();m++)
-			for(int i = 0;i<craft.laserlist.get(m).slaserlist.size();i++){
-				SLaser laser = craft.laserlist.get(m).slaserlist.get(i);
-				if (laser.isRotated == false){
-					laser.isRotated = true;
-					basicTestLaser.play(1f, 0.5f);
-					laser.getImage().rotate(laser.getAngle());
-				}
-				if(laser.location.getX()-laser.getImage().getWidth()>SCR_width+camX||laser.location.getX()+laser.getImage().getWidth()<camX||laser.location.getY()-laser.getImage().getHeight()>SCR_height+camY||laser.location.getY()+laser.getImage().getHeight()<camY){
-					laser = null;
-					continue;
-				}
-				laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
-				laser = null;
-
-		}
 		 
 		for(int p = 0; p<craft.laserlist.size(); p++){
-			   LaserLauncher laser = craft.laserlist.get(p);
-			   laser.update(craft.getX(), craft.getY());
-			      if(((laser.getAngle()-laser.getImage().getRotation()) != 0)) {
-			    	  float rota = func_0001(laser);
+			   LaserLauncher cannon = craft.laserlist.get(p);
+			   cannon.update(craft.getX(), craft.getY());
+			      if(((cannon.getAngle()-cannon.getImage().getRotation()) != 0)) {
+			    	  float rota = func_0001(cannon);
 			    	  float dist = Math.abs(rota);
 			    		  if(dist >= 100) {
 			    			  if(dist >= 200) {
 			    				  if(dist >= 300) {
-						       laser.getImage().rotate(rota/50);
+						       cannon.getImage().rotate(rota/50);
 						       
 						      } else {   //<300
-						       laser.getImage().rotate(rota/40);
+						       cannon.getImage().rotate(rota/40);
 						      }
 						      } else {  //<200
-						       laser.getImage().rotate(rota/30);
+						       cannon.getImage().rotate(rota/30);
 						      }
 						      } else { //<100
-						       laser.getImage().rotate(rota/20);
+						      cannon.getImage().rotate(rota/20);
 						      }
 			      } else {
-			          laser.getImage().setRotation(laser.getAngle());
+			          cannon.getImage().setRotation(cannon.getAngle());
 			      }
-			      laser.getImage().draw(laser.getX()+craft.getX(), laser.getY()+craft.getY());
+			      cannon.getImage().draw(cannon.getX()+craft.getX(), cannon.getY()+craft.getY());
+			      
+			      //bullet draw
+			      for(int i = 0;i<craft.laserlist.get(p).slaserlist.size();i++){
+						SLaser laser = craft.laserlist.get(p).slaserlist.get(i);
+						if (laser.isRotated == false){
+							laser.isRotated = true;
+							basicTestLaser.play(1f, 0.5f);
+							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
+							laser.getImage().rotate(laser.getAngle());
+						}
+						if(laser.location.getX()-laser.getImage().getWidth()>SCR_width+camX||laser.location.getX()+laser.getImage().getWidth()<camX||laser.location.getY()-laser.getImage().getHeight()>SCR_height+camY||laser.location.getY()+laser.getImage().getHeight()<camY){
+							laser = null;
+							continue;
+						}
+						laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
+						laser = null;
+				}
 			 }
 		//gui
 		GUI.draw(camX,camY);
