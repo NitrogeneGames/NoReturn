@@ -9,8 +9,8 @@ public class Engine extends ShipSystem{
 	private boolean locked;
 	private Image im;
 
-	public Engine(float x, float y, int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge) throws SlickException {
-		super(x, y, maxhp, durability, maxpower, capacity);
+	public Engine(float x, float y, int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge, int damageradius) throws SlickException {
+		super(x, y, maxhp, durability, maxpower, capacity, damageradius);
 		im = new Image("res/icon/enginesystem.png");
 		this.setImage(im);
 		this.thrust = thrust;

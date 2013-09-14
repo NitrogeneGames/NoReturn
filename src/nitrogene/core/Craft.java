@@ -34,12 +34,12 @@ public class Craft {
 		y = ypos;
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
 		updateAABB(x,y);
-		shield = new Shield(82,45,300,2,30,1000,1);
+		shield = new Shield(82,45,300,2,30,1000,1,50);
 		delta = 0;
 		movement = new Movement();
-		engine = new Engine(48,77,200,2,20,1000,20,/*warpchage */ 100);
-		core = new Core(82,83,1000,5,100,2000);
-		lifesupport = new LifeSupport(82,125,200,2,5,1000);
+		engine = new Engine(48,77,200,2,20,1000,20,/*warpchage */ 100,50);
+		core = new Core(82,83,1000,5,100,2000,50);
+		lifesupport = new LifeSupport(82,125,200,2,5,1000,50);
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage

@@ -8,8 +8,8 @@ public class LifeSupport extends ShipSystem{
 	private int maxhp;
 	private Image im;
 
-	public LifeSupport(float x, float y, int maxhp, int durability, int maxpower, int capacity) throws SlickException {
-		super(x, y, maxhp, durability, maxpower, capacity);
+	public LifeSupport(float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
+		super(x, y, maxhp, durability, maxpower, capacity, damageradius);
 		im = new Image("res/icon/oxygensystem.png");
 		this.setImage(im);
 		this.maxhp = maxhp;

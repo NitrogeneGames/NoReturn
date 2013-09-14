@@ -11,8 +11,8 @@ public class Shield extends ShipSystem{
 	public int shieldQuality;
 	private Image im;
 	
-	public Shield(float x, float y, int maxhp, int durability, int maxpower, int capacity, int shieldQuality) throws SlickException{
-		super(x, y, maxhp, durability, maxpower, capacity);
+	public Shield(float x, float y, int maxhp, int durability, int maxpower, int capacity, int shieldQuality, int damageradius) throws SlickException{
+		super(x, y, maxhp, durability, maxpower, capacity, damageradius);
 		damageInd = 0;
 		shieldPercentage = 100;
 		shieldimage = new Image("res/shieldV2.png");

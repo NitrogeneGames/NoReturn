@@ -8,8 +8,8 @@ public class Core extends ShipSystem{
 	private int maxhp;
 	private Image im;
 
-	public Core(float x, float y, int maxhp, int durability, int maxpower, int capacity) throws SlickException {
-		super(x,y,maxhp, durability, maxpower, capacity);
+	public Core(float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
+		super(x,y,maxhp, durability, maxpower, capacity, damageradius);
 		im = new Image("res/icon/coresystem.png");
 		this.setImage(im);
 		this.maxpower = maxpower;
