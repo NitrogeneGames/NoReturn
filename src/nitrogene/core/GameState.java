@@ -80,7 +80,7 @@ public class GameState extends BasicGameState{
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
-		planetlist.add(new Planet(1000,1000,sun, 1000));
+		planetlist.add(new Planet(1000,1000,sun, 1000, 4));
 		statis = new Image("res/klaarship4.png");
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
@@ -292,7 +292,8 @@ public class GameState extends BasicGameState{
 		
 		for (int e = 0; e<planetlist.size();e++){
 			Planet mesh = planetlist.get(e);
-			if(mesh.getX()-mesh.getImage().getWidth()*4>SCR_width+camX||mesh.getX()+mesh.getImage().getWidth()*4<camX||mesh.getY()-mesh.getImage().getHeight()>SCR_height+camY||mesh.getY()+mesh.getImage().getHeight()<camY){
+			if(mesh.getX()-mesh.getImage().getWidth()*mesh.getScaleFactor()>SCR_width+camX||mesh.getX()+mesh.getImage().getWidth()*mesh.getScaleFactor()<camX||mesh.getY()-mesh.getImage().getHeight()*
+					mesh.getScaleFactor()>SCR_height+camY||mesh.getY()+mesh.getImage().getHeight()*mesh.getScaleFactor()<camY){
 				mesh = null;
 				continue;
 			}

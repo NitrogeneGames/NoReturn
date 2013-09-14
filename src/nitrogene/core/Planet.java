@@ -10,8 +10,8 @@ public class Planet extends CircleMesh{
 	private int hp;
 	private Image im;
 
-	public Planet(float centerx, float centery, Image theimage, int maxhp) {
-		super(centerx, centery, theimage);
+	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor) {
+		super(centerx, centery, theimage, scalefactor);
 		this.maxhp = maxhp;
 		hp = maxhp;
 		im = theimage;
