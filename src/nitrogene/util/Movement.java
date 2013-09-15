@@ -53,10 +53,10 @@ public class Movement {
 		if(toggle[e] == true) {
 			toggle[e] = false;
 		}
-		if(diracceleration[e] > 0){
+		if(diracceleration[e] > 0.00){
 			diracceleration[e] -= .1;
 		}
-		if(diracceleration[e] < 0 && toggle[e] == true) diracceleration[e] = 0;
+		if(diracceleration[e] <= 0.00) diracceleration[e] = 0;
 	}
 	}
 	

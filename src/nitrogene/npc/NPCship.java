@@ -15,6 +15,8 @@ public class NPCship extends Craft{
 	public NPCship(float xpos, float ypos, Relation relation) throws SlickException{
 		super(xpos,ypos);
 		this.relation = relation;
+		crafttarget = new ArrayList<Craft>();
+		planettarget = new ArrayList<Planet>();
 	}
 	
 	@Override
@@ -23,7 +25,8 @@ public class NPCship extends Craft{
 		cumulative += delta;
 		
 		//Targetting
-		this.laserlist.get(0).setTarget(crafttarget.get(0).getX()+crafttarget.get(0).core.getX(), crafttarget.get(0).getY()+crafttarget.get(0).core.getY());
+		if(crafttarget.get(0)!=null)
+			this.laserlist.get(0).setTarget(crafttarget.get(0).getX()+crafttarget.get(0).core.getX(), crafttarget.get(0).getY()+crafttarget.get(0).core.getY());
 		
 		//Clock
 		if(cumulative >= 1000){

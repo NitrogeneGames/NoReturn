@@ -80,7 +80,10 @@ public class GameState extends BasicGameState{
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5));
-		enemy = new NPCship(1000,1000,Relation.HOSTILE);
+		enemy = new NPCship(1200,1200,Relation.HOSTILE);
+		enemy.addCraftTarget(craft);
+		enemy.getImage().rotate(180);
+		
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
@@ -212,11 +215,13 @@ public class GameState extends BasicGameState{
 				}
 				for(int e = 0;e<planetlist.size();e++){
 					Planet mesh = planetlist.get(e);
+					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
 					mesh.damage(laser.getDamage(), planetlist, circlemeshlist, e);
 					explosionSound.play(1f,0.1f);
+					mesh.getShake().shakeObject(3, 2000);
 					//damage mesh
 					}
 					}
@@ -288,7 +293,6 @@ public class GameState extends BasicGameState{
 		
 		stars.render(camX,camY);
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		enemy.getImage().rotate(180);
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.shield.getShieldImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
@@ -305,7 +309,7 @@ public class GameState extends BasicGameState{
 				mesh = null;
 				continue;
 			}
-			mesh.getImage().draw(mesh.getX(),mesh.getY(),4);
+			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),4);
 			if(mesh.getHp() < mesh.getMaxHp()){
 				if(mesh.getHp() <= 200) g.setColor(Color.red);
 				else if(mesh.getHp() <= 500) g.setColor(Color.orange);
