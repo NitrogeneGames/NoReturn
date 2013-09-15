@@ -20,11 +20,11 @@ public class Craft {
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	LaserLauncher primary1;
 
-	private Image craftimage = null;
-	public Movement movement;
-	private float x = 0, y = 0;
+	protected Image craftimage = null;
+	protected Movement movement;
+	protected float x, y;
 	public AABB boundbox = null;
-	private int delta, cumulative;
+	protected int delta, cumulative;
 	
 	public Craft(float xpos, float ypos) throws SlickException{
 		craftimage = new Image("res/klaarship4.png");

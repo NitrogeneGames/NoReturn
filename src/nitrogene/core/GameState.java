@@ -12,6 +12,8 @@ import javax.swing.Timer;
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
+import nitrogene.npc.NPCship;
+import nitrogene.npc.Relation;
 import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
@@ -40,6 +42,7 @@ public class GameState extends BasicGameState{
 	private boolean firetoggle;
 	private ParticleSystem shockwave;
 	Timer timer1;
+	NPCship enemy;
 	PauseButton resume, restart, hangar, menu, options, exit;
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
@@ -77,6 +80,7 @@ public class GameState extends BasicGameState{
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5));
+		enemy = new NPCship(1000,1000,Relation.HOSTILE);
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
@@ -165,6 +169,7 @@ public class GameState extends BasicGameState{
     	shockwave.update(delta);
     	craft.update(delta, camX, camY);
     	craft.move(20);
+    	enemy.update(delta, camX, camY);
     	part.update(delta);
     	
     	
@@ -282,6 +287,9 @@ public class GameState extends BasicGameState{
 		g.setBackground(Color.black);
 		
 		stars.render(camX,camY);
+		enemy.getImage().draw(enemy.getX(), enemy.getY());
+		enemy.getImage().rotate(180);
+		
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.shield.getShieldImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
 		//systems
