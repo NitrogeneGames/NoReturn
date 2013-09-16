@@ -21,7 +21,7 @@ public class arenamap {
 	}
 	
 	private void addPlanet(){
-		random.
+		//random.
 	}
 	
 	public ArrayList<Planet> getPlanets(){
