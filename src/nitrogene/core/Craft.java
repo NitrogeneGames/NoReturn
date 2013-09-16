@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import nitrogene.collision.AABB;
 import nitrogene.util.Movement;
 import nitrogene.weapon.LaserLauncher;
-import nitrogene.weapon.Weapon;
+import nitrogene.weapon.EnumWeapon;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -41,7 +41,7 @@ public class Craft {
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
-		primary1 = new LaserLauncher(135, 17, Weapon.BASIC);
+		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.BASIC);
 		laserlist.add(primary1);
 	}
 	

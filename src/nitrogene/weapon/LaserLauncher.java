@@ -2,6 +2,7 @@ package nitrogene.weapon;
 
 import java.util.ArrayList;
 
+import nitrogene.core.Craft;
 import nitrogene.core.SLaser;
 
 import org.newdawn.slick.Image;
@@ -14,10 +15,12 @@ public class LaserLauncher {
 	private double mangle;
 	private float mmangle, craftX, craftY, size, speed;
 	public boolean isRotating;
+	public Craft parent;
 	Image image;
 	private String proje;
 	
-	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, String proj){
+	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, String proj){
+		parent = w;
 		this.x = xpos;
 		this.y = ypos;
 		desx = 0;
@@ -37,7 +40,8 @@ public class LaserLauncher {
 		this.size = size;
 		proje = proj;
 	}
-	public LaserLauncher(float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size) throws SlickException{
+	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size) throws SlickException{
+		parent = w;
 		this.x = xpos;
 		this.y = ypos;
 		desx = 0;
@@ -57,7 +61,8 @@ public class LaserLauncher {
 		this.size = size;
 		proje = "res/LaserV2ro.png";
 	}
-	public LaserLauncher(float xpos, float ypos, Weapon stat){
+	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat){
+		parent = w;
 		this.x = xpos;
 		this.y = ypos;
 		desx = 0;

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import nitrogene.weapon.WeaponTimer;
+
 import org.newdawn.slick.SlickException;
 
 public class TickSystem {
@@ -40,25 +42,13 @@ public class TickSystem {
 			}
 	*/
 	public TickSystem() {
-		ActionListener taskPerformer = new ActionListener() {
-	    	public void actionPerformed(ActionEvent evt) {
 
-	    		tick((Timer) evt.getSource());
-	    	}
-	    };
 	       //timer1 = new Timer(1000, taskPerformer);
 	}
-	public void addTimer(Timer t) {
+	public void addTimer(WeaponTimer t) {
 		
 	}
-	public void removeTimer(Timer t) {
+	public void removeTimer(WeaponTimer t) {
 		
-	}
-	public void tick(Timer t){
-		//start = System.currentTimeMillis();
-
-
-			//craft.laserlist.get(0).fire();
-
 	}
 }

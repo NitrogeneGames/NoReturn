@@ -1,6 +1,6 @@
 package nitrogene.weapon;
 
-public enum Weapon{
+public enum EnumWeapon{
 	BASIC ("res/Laser1.png", 3, 1000, 100F, 10, 0.7F, "res/LaserV2ro.png"),
     OP ("res/Laser1.png", 0, 100, 100F, 1000, 3F, "res/LaserV2ro.png");
 
@@ -14,7 +14,7 @@ public enum Weapon{
 	public String laserimage;
 	//im is the launcehrs image
 	//laserimage is the projectiles image
-	Weapon(String im, int accuracy1, int time1, float speed1, int damage1, float size1, String laserimage) {
+	EnumWeapon(String im, int accuracy1, int time1, float speed1, int damage1, float size1, String laserimage) {
 		this.image = im;
 		this.laserimage = laserimage;
 		this.accuracy = accuracy1;
