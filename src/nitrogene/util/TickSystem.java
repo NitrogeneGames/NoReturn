@@ -2,6 +2,7 @@ package nitrogene.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Timer;
 
@@ -10,45 +11,45 @@ import nitrogene.weapon.WeaponTimer;
 import org.newdawn.slick.SlickException;
 
 public class TickSystem {
-	public void init() {
+	private boolean isPaused = false;
+	public ArrayList<WeaponTimer> timers;
 
-	}
 	public void pause() {
-		//PAUSE ALL TIMERS
+		for (int i = 0; i < timers.size(); i++) {
+			timers.get(i).pause();
+		}
 	}
 	public void resume() {
-		//RESUME ALL TIMERS
+		for (int i = 0; i < timers.size(); i++) {
+			timers.get(i).start();
+		}
 	}
-	/*
-	 * 				timer1.stop();
-				elapsed = System.currentTimeMillis() - start;
-	 * timer1.setInitialDelay((int) (1000 - elapsed));
-				timer1.start();
-	if(timer1.isRunning() == false) {
-		firetoggle = true;
-		timer1.setInitialDelay((int) (1000 - elapsed));
-		timer1.start();
-		start = System.currentTimeMillis();
+	public void gamePause() {
+		for (int i = 0; i < timers.size(); i++) {
+			timers.get(i).gamePause();
+		}
+		isPaused = true;
 	}
-				if(timer1.isRunning() == true) {
-				elapsed = System.currentTimeMillis() - start;
-				timer1.stop();
-			}
-	
-				if(timer1.isRunning() == false && firetoggle == true) {
-				timer1.setInitialDelay((int) (1000 - elapsed));
-				timer1.start();
-				start = System.currentTimeMillis();
-			}
-	*/
+	public void gameResume() {
+		for (int i = 0; i < timers.size(); i++) {
+			timers.get(i).gameResume();
+		}
+		isPaused = false;
+	}
 	public TickSystem() {
-
-	       //timer1 = new Timer(1000, taskPerformer);
+			timers = new ArrayList<WeaponTimer>();
 	}
 	public void addTimer(WeaponTimer t) {
-		
+		timers.add(t);
 	}
 	public void removeTimer(WeaponTimer t) {
-		
+		for (int i = 0; i < timers.size(); i++) {
+			if(timers.get(i).equals(t)) {
+				timers.remove(i);
+			}
+		}
+	}
+	public boolean isPaused() {
+		return isPaused;
 	}
 }

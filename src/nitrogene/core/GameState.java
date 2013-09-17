@@ -17,7 +17,9 @@ import nitrogene.npc.Relation;
 import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
+import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
+import nitrogene.weapon.WeaponTimer;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -41,7 +43,6 @@ public class GameState extends BasicGameState{
 	Craft craft;
 	private boolean firetoggle;
 	private ParticleSystem shockwave;
-	Timer timer1;
 	NPCship enemy;
 	PauseButton resume, restart, hangar, menu, options, exit;
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1;
@@ -57,7 +58,7 @@ public class GameState extends BasicGameState{
 	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
 	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
 	private ArrayList<Planet> planetlist = new ArrayList<Planet>();
-
+	private TickSystem timercontrol;
 	private boolean PAUSED = false;
 	Sound basicTestLaser,explosionSound;
 
@@ -68,18 +69,16 @@ public class GameState extends BasicGameState{
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		ActionListener taskPerformer = new ActionListener() {
-	    	public void actionPerformed(ActionEvent evt) {
-	    		tick();
-	    	}
-	    };
-	       timer1 = new Timer(1000, taskPerformer);
+		timercontrol = new TickSystem();
+
+		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
 		//load sounds here
 		basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		explosionSound = new Sound("res/sound/Explosionfinal.ogg");
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5));
+		timercontrol.addTimer(new WeaponTimer(craft.laserlist.get(0)));
 		enemy = new NPCship(1200,1200,Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.getImage().rotate(180);
@@ -164,11 +163,9 @@ public class GameState extends BasicGameState{
 			container.exit();
 		}
 		if(!PAUSED){
-			if(timer1.isRunning() == false && firetoggle == true) {
-				timer1.setInitialDelay((int) (1000 - elapsed));
-				timer1.start();
-				start = System.currentTimeMillis();
-			}
+		if(timercontrol.isPaused()) {
+			timercontrol.gameResume();
+		}
     	shockwave.update(delta);
     	craft.update(delta, camX, camY);
     	craft.move(20);
@@ -205,7 +202,7 @@ public class GameState extends BasicGameState{
 		//projectile control
 		for(int m = 0; m<craft.laserlist.size();m++){
 			LaserLauncher laserlauncher = craft.laserlist.get(m);
-			
+
 			for(int i = 0;i<craft.laserlist.get(m).slaserlist.size();i++){
 				SLaser laser = craft.laserlist.get(m).slaserlist.get(i);
 				laser.move(delta);
@@ -265,9 +262,8 @@ public class GameState extends BasicGameState{
 		else{
 		//pause menu here
 			//Button Controllers
-			if(timer1.isRunning() == true) {
-				elapsed = System.currentTimeMillis() - start;
-				timer1.stop();
+			if(!timercontrol.isPaused()) {
+				timercontrol.gamePause();
 			}
 			resume.update(container);
 	    	restart.update(container);
@@ -391,14 +387,12 @@ public class GameState extends BasicGameState{
 				
 				//craft.laserlist.get(0).setTarget(x, y, camX, camY);
 				//startFire(timer1,craft.laserlist.get(0));
-				timer1.setInitialDelay((int) (1000 - elapsed));
-				timer1.start();
+				timercontrol.resume();
 				start = System.currentTimeMillis();
 			}
 			if (!firetoggle){
 
-				timer1.stop();
-				elapsed = System.currentTimeMillis() - start;
+				timercontrol.pause();
 			}
 		} else {
 			if(getTargetObject(camX + x,camY + y) != null) {
@@ -414,12 +408,7 @@ public class GameState extends BasicGameState{
 			} else {
 			craft.laserlist.get(0).setTarget(x, y, camX, camY);
 			}
-			if(timer1.isRunning() == false) {
-				firetoggle = true;
-				timer1.setInitialDelay((int) (1000 - elapsed));
-				timer1.start();
-				start = System.currentTimeMillis();
-			}
+			timercontrol.resume();
 
 		}
 		}
