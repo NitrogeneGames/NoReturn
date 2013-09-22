@@ -32,7 +32,7 @@ public class NPCship extends Craft{
 		if(cumulative >= 1000){
 			//1 second cumulative
 			lifesupport.tick();
-			cumulative = 0;
+			cumulative -= 1000;
 		}
 		movement.Accelerate();
 	}

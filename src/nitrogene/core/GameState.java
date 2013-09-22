@@ -21,6 +21,7 @@ import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.WeaponTimer;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -50,6 +51,7 @@ public class GameState extends BasicGameState{
 	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
 	Particle part;
 	Stars stars;
+	private Animation animation;
 	private int mapwidth, mapheight;
 	private int offsetMaxX, offsetMaxY, offsetMinX, offsetMinY;
 	private int SCR_width, SCR_height;

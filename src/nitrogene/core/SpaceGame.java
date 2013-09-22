@@ -7,8 +7,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class SpaceGame extends StateBasedGame{
 
-	
-	private static int SCRwidth, SCRheight;
+	private static int SCRwidth;
+	private static int SCRheight;
 	public SpaceGame(String title) {
 		super("No Return");
 		SCRwidth = 1366;
