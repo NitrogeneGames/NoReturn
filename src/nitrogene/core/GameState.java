@@ -20,6 +20,7 @@ import nitrogene.util.Stars;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.WeaponTimer;
+import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -50,6 +51,7 @@ public class GameState extends BasicGameState{
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
 	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
 	Particle part;
+	ArenaMap map;
 	Stars stars;
 	private Animation animation;
 	private int mapwidth, mapheight;
@@ -103,6 +105,7 @@ public class GameState extends BasicGameState{
     	camX = 0;
     	camY = 0;
     	
+    	map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight);
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	
     	firetoggle = false;

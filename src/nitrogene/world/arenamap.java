@@ -4,19 +4,24 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.Planet;
 
-public class arenamap {
+public class ArenaMap {
 	private int planetnumber;
+	private int plapro;
 	private ArrayList<Planet> planetlist;
+	private ArrayList<Image> imagelist;
 	Random random;
 	
-	public arenamap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight){
+	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight) throws SlickException{
 		this.planetnumber = planetnumber;
 		planetlist = new ArrayList<Planet>();
 		random = new Random();
+		imagelist.add(new Image("res/star2.png"));
+		imagelist.add(new Image("res/sun_1.png"));
 		generate(offsetx, offsety, mapwidth, mapheight);
 	}
 	
@@ -25,6 +30,22 @@ public class arenamap {
 			Vector vec = new Vector();
 			vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 			vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
+			int radius = random.nextInt(700)+500;
+			int maxhp = random.nextInt(1000) +500;
+			int imagenum = random.nextInt(imagelist.size());
+			
+			//check for planet validity
+			for(int i = 0; i < plapro; i++){
+				Planet planet = planetlist.get(i);
+				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
+				if(Math.sqrt(vec.distSQ(planet.boundbox.center)) < radius + 300 + planet.boundbox.radius + 3*planetnumber){
+					e--;
+					continue;
+				}
+			}
+			plapro++;
+			
+			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,1);
 		}
 	}
 	
