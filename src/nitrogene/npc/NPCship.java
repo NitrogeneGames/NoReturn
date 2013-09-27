@@ -6,14 +6,15 @@ import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
 import nitrogene.core.Planet;
+import nitrogene.util.Direction;
 
 public class NPCship extends Craft{
 	private Relation relation;
 	private ArrayList<Craft> crafttarget;
 	private ArrayList<Planet> planettarget;
 	
-	public NPCship(float xpos, float ypos, Relation relation) throws SlickException{
-		super(xpos,ypos);
+	public NPCship(float xpos, float ypos, int upbound, int downbound, int leftbound, int rightbound, Relation relation) throws SlickException{
+		super(xpos,ypos, upbound, downbound, leftbound, rightbound);
 		this.relation = relation;
 		crafttarget = new ArrayList<Craft>();
 		planettarget = new ArrayList<Planet>();
@@ -34,7 +35,16 @@ public class NPCship extends Craft{
 			lifesupport.tick();
 			cumulative -= 1000;
 		}
-		movement.Accelerate();
+		if(x>rightbound){
+			movement.BringBack(Direction.RIGHT);
+		} else if (x < leftbound){
+			movement.BringBack(Direction.LEFT);
+		} else if (y > downbound){
+			movement.BringBack(Direction.DOWN);
+		} else if (y < upbound){
+			movement.BringBack(Direction.UP);
+		} else movement.Accelerate();
+		
 	}
 	
 	public void addCraftTarget(Craft craft){

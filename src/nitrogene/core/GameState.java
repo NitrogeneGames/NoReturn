@@ -55,7 +55,7 @@ public class GameState extends BasicGameState{
 	Stars stars;
 	private Animation animation;
 	private int mapwidth, mapheight;
-	private int offsetMaxX, offsetMaxY, offsetMinX, offsetMinY;
+	private int offsetX, offsetY;
 	private int SCR_width, SCR_height;
 	private float pausemenux, pausemenuy;
 	private float camX, camY;
@@ -74,6 +74,14 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		timercontrol = new TickSystem();
+		
+		//other variables
+				mapwidth = 5000;
+				mapheight = 2000;
+				offsetY = SCR_height/2;
+		    	offsetX = SCR_width/2;
+		    	camX = 0;
+		    	camY = 0;
 
 		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
 		//load sounds here
@@ -81,9 +89,9 @@ public class GameState extends BasicGameState{
 		explosionSound = new Sound("res/sound/Explosionfinal.ogg");
 		
 		//load images and objects here
-		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5));
+		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), offsetY, mapheight - offsetY, offsetX, mapwidth - offsetX);
 		timercontrol.addTimer(new WeaponTimer(craft.laserlist.get(0)));
-		enemy = new NPCship(1200,1200,Relation.HOSTILE);
+		enemy = new NPCship(1200,1200, offsetY, mapheight + offsetY, offsetX, offsetX + mapwidth, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.getImage().rotate(180);
 		
@@ -94,18 +102,8 @@ public class GameState extends BasicGameState{
 		statis = new Image("res/klaarship4.png");
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
-		
-		//other variables
-		mapwidth = 5000;
-		mapheight = 2000;
-		offsetMaxX = mapwidth - 800;
-    	offsetMaxY = mapheight - 600;
-    	offsetMinX = 400;
-    	offsetMinY = 300;
-    	camX = 0;
-    	camY = 0;
     	
-    	map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight);
+    	//map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight);
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	
     	firetoggle = false;
@@ -181,24 +179,16 @@ public class GameState extends BasicGameState{
     	//Input Controllers
     	
 		if(input.isKeyPressed(Input.KEY_W)){
-			if(craft.getY() > offsetMinY){
 			craft.movement.Toggle(Direction.UP);
-			}
 		}
 		if(input.isKeyPressed(Input.KEY_S)){
-			if(craft.getY() < offsetMaxY){
 				craft.movement.Toggle(Direction.DOWN);
-				}
 		}
 		if(input.isKeyPressed(Input.KEY_A)){
-			if(craft.getX() > offsetMinX){
 				craft.movement.Toggle(Direction.LEFT);
-				}              
 		}  
 		if(input.isKeyPressed(Input.KEY_D)){  
-			if(craft.getX() < offsetMaxX){
 				craft.movement.Toggle(Direction.RIGHT);
-				}
 		}
 		if(input.isKeyDown(Input.KEY_SPACE)){
 			craft.movement.Break();
@@ -292,6 +282,8 @@ public class GameState extends BasicGameState{
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		
+		g.setColor(Color.red);
+		g.drawRect(0, 0, mapwidth, mapheight);
 		stars.render(camX,camY);
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		

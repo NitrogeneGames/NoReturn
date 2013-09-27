@@ -48,6 +48,27 @@ public class Movement {
 		if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05;
 	}
 	
+	public void BringBack(Direction direction){
+		switch(direction){
+		case UP: toggle[1] = false;
+			if(diracceleration[1] > 0) diracceleration[1] =0;
+			else if(diracceleration[1] < 0) diracceleration[1] = 0;
+			break;
+		case DOWN: toggle[2] = false;
+			if(diracceleration[2] > 0) diracceleration[2] -= 0.1;
+			else if(diracceleration[2] < 0) diracceleration[2] = 0;
+			break;
+		case LEFT: toggle[3] = false;
+			if(diracceleration[3] > 0) diracceleration[3] -= 0.1;
+			else if(diracceleration[3] < 0) diracceleration[3] = 0;
+			break;
+		case RIGHT: toggle[4] = false;
+			if(diracceleration[4] > 0) diracceleration[4] -= 0.1;
+			else if(diracceleration[4] < 0) diracceleration[4] = 0;
+			break;
+		}
+	}
+	
 	public void Break(){
 	for(int e = 1; e < 5; e++){
 		if(toggle[e] == true) {

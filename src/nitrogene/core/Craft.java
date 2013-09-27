@@ -3,6 +3,7 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.collision.AABB;
+import nitrogene.util.Direction;
 import nitrogene.util.Movement;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
@@ -22,14 +23,20 @@ public class Craft {
 
 	protected Image craftimage = null;
 	protected Movement movement;
+	protected int downbound, leftbound, upbound, rightbound;
 	protected float x, y;
 	public AABB boundbox = null;
 	protected int delta, cumulative;
 	
-	public Craft(float xpos, float ypos) throws SlickException{
+	public Craft(float xpos, float ypos, int upbound, int downbound, int leftbound, int rightbound) throws SlickException{
 		craftimage = new Image("res/klaarship4.png");
 		x = xpos;
 		y = ypos;
+		this.upbound = upbound;
+		this.downbound = downbound;
+		this.leftbound = leftbound;
+		this.rightbound = rightbound;
+		
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
 		updateAABB(x,y);
 		shield = new Shield(82,45,300,2,30,1000,1,50);
@@ -59,6 +66,16 @@ public class Craft {
 			//1 second cumulative
 			lifesupport.tick();
 			cumulative = 0;
+		}
+		
+		if(boundbox.center.x>rightbound){
+			movement.BringBack(Direction.RIGHT);
+		} else if (boundbox.center.x < leftbound){
+			movement.BringBack(Direction.LEFT);
+		} else if (boundbox.center.y > downbound){
+			movement.BringBack(Direction.DOWN);
+		} else if (boundbox.center.y < upbound){
+			movement.BringBack(Direction.UP);
 		}
 		movement.Accelerate();
 	}

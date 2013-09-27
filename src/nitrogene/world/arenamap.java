@@ -12,6 +12,8 @@ import nitrogene.core.Planet;
 public class ArenaMap {
 	private int planetnumber;
 	private int plapro;
+	private Image star2;
+	private Image sun1;
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Image> imagelist;
 	Random random;
@@ -19,9 +21,12 @@ public class ArenaMap {
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight) throws SlickException{
 		this.planetnumber = planetnumber;
 		planetlist = new ArrayList<Planet>();
+		imagelist = new ArrayList<Image>();
 		random = new Random();
-		imagelist.add(new Image("res/star2.png"));
-		imagelist.add(new Image("res/sun_1.png"));
+		star2 = new Image("res/star2.png");
+		sun1 = new Image("res/sun_1.png");
+		imagelist.add(star2);
+		imagelist.add(sun1);
 		generate(offsetx, offsety, mapwidth, mapheight);
 	}
 	

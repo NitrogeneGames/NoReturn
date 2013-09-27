@@ -31,7 +31,7 @@ public class SpaceGame extends StateBasedGame{
 		this.addState(new OptionState(SCRwidth,SCRheight)); //4
 		this.addState(new HangarState()); //3
 	
-		this.enterState(1);
+		this.enterState(2);
 	}
 
 }
