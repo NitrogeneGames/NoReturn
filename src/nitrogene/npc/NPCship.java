@@ -35,15 +35,7 @@ public class NPCship extends Craft{
 			lifesupport.tick();
 			cumulative -= 1000;
 		}
-		if(x>rightbound){
-			movement.BringBack(Direction.RIGHT);
-		} else if (x < leftbound){
-			movement.BringBack(Direction.LEFT);
-		} else if (y > downbound){
-			movement.BringBack(Direction.DOWN);
-		} else if (y < upbound){
-			movement.BringBack(Direction.UP);
-		} else movement.Accelerate();
+		movement.Accelerate(boundbox.center,delta);
 		
 	}
 	

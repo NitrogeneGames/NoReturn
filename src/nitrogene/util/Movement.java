@@ -1,14 +1,22 @@
 package nitrogene.util;
 
+import nitrogene.collision.Vector;
+
 public class Movement {
 	private boolean[] toggle;
-	private double[] dirspeed;
 	private double[] diracceleration;
+	private int [] pixbounds;
+	private int downbound, leftbound, upbound, rightbound;
 	
-	public Movement(){
+	public Movement(int upbound, int downbound, int leftbound, int rightbound){
 		toggle = new boolean[5];
-		dirspeed = new double[5];
 		diracceleration = new double[5];
+		pixbounds = new int[5];
+		
+		this.upbound = upbound;
+		this.downbound = downbound;
+		this.leftbound = leftbound;
+		this.rightbound = rightbound;
 	}
 	
 	public void Toggle(Direction direction){
@@ -37,22 +45,44 @@ public class Movement {
 	}
 	
 	//linear acceleration: 0 to 5 in increments of 0.1
-	public void Accelerate(){
-		if(toggle[1] == true && diracceleration[1] < 20) diracceleration[1] += 0.05;
-		if(toggle[1] == false && diracceleration[1] > 0) diracceleration[1] -= 0.05;
-		if(toggle[2] == true && diracceleration[2] < 20) diracceleration[2] += 0.05;
-		if(toggle[2] == false && diracceleration[2] > 0) diracceleration[2] -= 0.05;
-		if(toggle[3] == true && diracceleration[3] < 20) diracceleration[3] += 0.05;
-		if(toggle[3] == false && diracceleration[3] > 0) diracceleration[3] -= 0.05;
-		if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05;
-		if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05;
+	public void Accelerate(Vector location, int delta){
+		float DELTACON = delta/1000f;
+		if(location.x>rightbound-(diracceleration[4]/(20/DELTACON))-(delta*20)){
+			System.out.println(location.x+1000);
+			BringBack(Direction.RIGHT);
+		} else {
+			if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05;
+			if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05;
+		}
+		
+		if (location.x < leftbound){
+			BringBack(Direction.LEFT);
+		} else{
+			if(toggle[3] == true && diracceleration[3] < 20) diracceleration[3] += 0.05;
+			if(toggle[3] == false && diracceleration[3] > 0) diracceleration[3] -= 0.05;
+		}
+		
+		if (location.y > downbound){
+			BringBack(Direction.DOWN);
+		} else {
+			if(toggle[2] == true && diracceleration[2] < 20) diracceleration[2] += 0.05;
+			if(toggle[2] == false && diracceleration[2] > 0) diracceleration[2] -= 0.05;
+		}
+		
+		if (location.y < upbound){
+			BringBack(Direction.UP);
+		} else{
+			if(toggle[1] == true && diracceleration[1] < 20) diracceleration[1] += 0.05;
+			if(toggle[1] == false && diracceleration[1] > 0) diracceleration[1] -= 0.05;
+		}
+		
 	}
 	
 	public void BringBack(Direction direction){
 		switch(direction){
 		case UP: toggle[1] = false;
-			if(diracceleration[1] > 0) diracceleration[1] =0;
-			else if(diracceleration[1] < 0) diracceleration[1] = 0;
+			if(diracceleration[1] > 0) diracceleration[1] -= 0.1;
+			else if(diracceleration[1] < 0) diracceleration[1] -= 0.1;
 			break;
 		case DOWN: toggle[2] = false;
 			if(diracceleration[2] > 0) diracceleration[2] -= 0.1;

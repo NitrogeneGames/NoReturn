@@ -32,16 +32,12 @@ public class Craft {
 		craftimage = new Image("res/klaarship4.png");
 		x = xpos;
 		y = ypos;
-		this.upbound = upbound;
-		this.downbound = downbound;
-		this.leftbound = leftbound;
-		this.rightbound = rightbound;
 		
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
 		updateAABB(x,y);
 		shield = new Shield(82,45,300,2,30,1000,1,50);
 		delta = 0;
-		movement = new Movement();
+		movement = new Movement(upbound, downbound, leftbound, rightbound);
 		engine = new Engine(48,77,200,2,20,1000,20,/*warpchage */ 100,50);
 		core = new Core(82,83,1000,5,100,2000,50);
 		lifesupport = new LifeSupport(82,125,200,2,5,1000,50);
@@ -68,16 +64,7 @@ public class Craft {
 			cumulative = 0;
 		}
 		
-		if(boundbox.center.x>rightbound){
-			movement.BringBack(Direction.RIGHT);
-		} else if (boundbox.center.x < leftbound){
-			movement.BringBack(Direction.LEFT);
-		} else if (boundbox.center.y > downbound){
-			movement.BringBack(Direction.DOWN);
-		} else if (boundbox.center.y < upbound){
-			movement.BringBack(Direction.UP);
-		}
-		movement.Accelerate();
+		movement.Accelerate(boundbox.center,delta);
 	}
 	public void setX(float x1){
 		x = x1;

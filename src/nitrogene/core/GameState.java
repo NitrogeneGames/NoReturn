@@ -284,6 +284,8 @@ public class GameState extends BasicGameState{
 		
 		g.setColor(Color.red);
 		g.drawRect(0, 0, mapwidth, mapheight);
+		g.setColor(Color.yellow);
+		g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(camX,camY);
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
