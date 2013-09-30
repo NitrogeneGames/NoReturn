@@ -64,7 +64,7 @@ public class Craft {
 			cumulative = 0;
 		}
 		
-		movement.Accelerate(boundbox.center,delta);
+		movement.Accelerate(boundbox.center,delta,craftimage.getWidth()/2);
 	}
 	public void setX(float x1){
 		x = x1;

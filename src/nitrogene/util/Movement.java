@@ -45,10 +45,10 @@ public class Movement {
 	}
 	
 	//linear acceleration: 0 to 5 in increments of 0.1
-	public void Accelerate(Vector location, int delta){
+	public void Accelerate(Vector location, int delta, int cc){
 		float DELTACON = delta/1000f;
-		if(location.x>rightbound-(diracceleration[4]/(20/DELTACON))-(delta*20)){
-			System.out.println(location.x+1000);
+		if(location.x>(rightbound-(diracceleration[4]*0.05)-(1366/2))){
+			System.out.println(location.x-rightbound);
 			BringBack(Direction.RIGHT);
 		} else {
 			if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05;
@@ -82,7 +82,7 @@ public class Movement {
 		switch(direction){
 		case UP: toggle[1] = false;
 			if(diracceleration[1] > 0) diracceleration[1] -= 0.1;
-			else if(diracceleration[1] < 0) diracceleration[1] -= 0.1;
+			else if(diracceleration[1] < 0) diracceleration[1] = 0;
 			break;
 		case DOWN: toggle[2] = false;
 			if(diracceleration[2] > 0) diracceleration[2] -= 0.1;

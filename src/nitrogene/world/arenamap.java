@@ -44,7 +44,7 @@ public class ArenaMap {
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
 				if(Math.sqrt(vec.distSQ(planet.boundbox.center)) < radius + 300 + planet.boundbox.radius + 3*planetnumber){
-					e--;
+					//i--;CAUSING ERROR: FIX
 					continue;
 				}
 			}

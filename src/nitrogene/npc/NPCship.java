@@ -35,7 +35,7 @@ public class NPCship extends Craft{
 			lifesupport.tick();
 			cumulative -= 1000;
 		}
-		movement.Accelerate(boundbox.center,delta);
+		//movement.Accelerate(boundbox.center,delta);
 		
 	}
 	
