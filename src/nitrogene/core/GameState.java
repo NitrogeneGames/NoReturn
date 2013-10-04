@@ -103,7 +103,7 @@ public class GameState extends BasicGameState{
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
     	
-    	//map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight);
+    	map = new ArenaMap(7,offsetX,offsetY,mapwidth,mapheight);
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	
     	firetoggle = false;
@@ -191,7 +191,7 @@ public class GameState extends BasicGameState{
 				craft.movement.Toggle(Direction.RIGHT);
 		}
 		if(input.isKeyDown(Input.KEY_SPACE)){
-			craft.movement.Break();
+			craft.movement.Break(delta);
 		}
 		
 		//projectile control
@@ -296,6 +296,10 @@ public class GameState extends BasicGameState{
 		craft.shield.getImage().drawCentered(craft.shield.getX()+craft.getX(),craft.shield.getY()+craft.getY());
 		craft.engine.getImage().drawCentered(craft.engine.getX()+craft.getX(),craft.engine.getY()+craft.getY());
 		craft.lifesupport.getImage().drawCentered(craft.lifesupport.getX()+craft.getX(),craft.lifesupport.getY()+craft.getY());
+		
+		for(int i = 0; i < map.getPlanets().size(); i ++){
+			map.getPlanets().get(i).meshImage.draw(map.getPlanets().get(i).getX(),map.getPlanets().get(i).getY(),map.getPlanets().get(i).getScaleFactor());
+		}
 		
 		for (int e = 0; e<planetlist.size();e++){
 			Planet mesh = planetlist.get(e);
