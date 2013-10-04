@@ -47,65 +47,69 @@ public class Movement {
 	//linear acceleration: 0 to 5 in increments of 0.1
 	public void Accelerate(Vector location, int delta, int cc){
 		float DELTACON = delta/1000f;
-		if(location.x>(rightbound-(diracceleration[4]*0.05)-(1366/2))){
+		//double accpoints = (diracceleration[4]/.1);
+		
+		
+		
+		if(){
 			System.out.println(location.x-rightbound);
-			BringBack(Direction.RIGHT);
+			BringBack(Direction.RIGHT, delta);
 		} else {
-			if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05;
-			if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05;
+			if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05*delta/1000f;
+			if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05*delta/1000f;
 		}
 		
 		if (location.x < leftbound){
-			BringBack(Direction.LEFT);
+			BringBack(Direction.LEFT, delta);
 		} else{
-			if(toggle[3] == true && diracceleration[3] < 20) diracceleration[3] += 0.05;
-			if(toggle[3] == false && diracceleration[3] > 0) diracceleration[3] -= 0.05;
+			if(toggle[3] == true && diracceleration[3] < 20) diracceleration[3] += 0.05*delta/1000f;
+			if(toggle[3] == false && diracceleration[3] > 0) diracceleration[3] -= 0.05*delta/1000f;
 		}
 		
 		if (location.y > downbound){
-			BringBack(Direction.DOWN);
+			BringBack(Direction.DOWN, delta);
 		} else {
-			if(toggle[2] == true && diracceleration[2] < 20) diracceleration[2] += 0.05;
-			if(toggle[2] == false && diracceleration[2] > 0) diracceleration[2] -= 0.05;
+			if(toggle[2] == true && diracceleration[2] < 20) diracceleration[2] += 0.05*delta/1000f;
+			if(toggle[2] == false && diracceleration[2] > 0) diracceleration[2] -= 0.05*delta/1000f;
 		}
 		
 		if (location.y < upbound){
-			BringBack(Direction.UP);
+			BringBack(Direction.UP, delta);
 		} else{
-			if(toggle[1] == true && diracceleration[1] < 20) diracceleration[1] += 0.05;
-			if(toggle[1] == false && diracceleration[1] > 0) diracceleration[1] -= 0.05;
+			if(toggle[1] == true && diracceleration[1] < 20) diracceleration[1] += 0.05*delta/1000f;
+			if(toggle[1] == false && diracceleration[1] > 0) diracceleration[1] -= 0.05*delta/1000f;
 		}
 		
 	}
 	
-	public void BringBack(Direction direction){
+	public void BringBack(Direction direction, int delta){
 		switch(direction){
 		case UP: toggle[1] = false;
-			if(diracceleration[1] > 0) diracceleration[1] -= 0.1;
+			if(diracceleration[1] > 0) diracceleration[1] -= 0.1*delta/1000f;
 			else if(diracceleration[1] < 0) diracceleration[1] = 0;
 			break;
 		case DOWN: toggle[2] = false;
-			if(diracceleration[2] > 0) diracceleration[2] -= 0.1;
+			if(diracceleration[2] > 0) diracceleration[2] -= 0.1*delta/1000f;
 			else if(diracceleration[2] < 0) diracceleration[2] = 0;
 			break;
 		case LEFT: toggle[3] = false;
-			if(diracceleration[3] > 0) diracceleration[3] -= 0.1;
+			if(diracceleration[3] > 0) diracceleration[3] -= 0.1*delta/1000f;
 			else if(diracceleration[3] < 0) diracceleration[3] = 0;
 			break;
 		case RIGHT: toggle[4] = false;
-			if(diracceleration[4] > 0) diracceleration[4] -= 0.1;
+			if(diracceleration[4] > 0) diracceleration[4] -= 0.1*delta/1000f;
 			else if(diracceleration[4] < 0) diracceleration[4] = 0;
 			break;
 		}
 	}
 	
-	public void Break(){
+	public void Break(int delta){
 	for(int e = 1; e < 5; e++){
 		if(toggle[e] == true) {
 			toggle[e] = false;
 		}
 		if(diracceleration[e] > 0.00){
-			diracceleration[e] -= .1;
+			diracceleration[e] -= .1*delta/1000f;
 		}
 		if(diracceleration[e] <= 0.00) diracceleration[e] = 0;
 	}
