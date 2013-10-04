@@ -8,9 +8,9 @@ import org.newdawn.slick.Image;
 public class CircleMesh {
 	public Circle boundbox;
 	public Image meshImage = null;
-	private int scalefactor;
+	private float scalefactor;
 	
-	public CircleMesh(float centerx, float centery, Image theimage, int scalefactor){
+	public CircleMesh(float centerx, float centery, Image theimage, float scalefactor){
 		this.meshImage = theimage;
 		boundbox = new Circle(meshImage.getWidth()/2*scalefactor);
 		Update(centerx, centery);
@@ -27,7 +27,7 @@ public class CircleMesh {
 	public Image getImage(){
 		return meshImage;
 	}
-	public int getScaleFactor(){
+	public float getScaleFactor(){
 		return scalefactor;
 	}
 	public float getX(){

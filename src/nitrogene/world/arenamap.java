@@ -44,16 +44,17 @@ public class ArenaMap {
 			for(int i = 0; i < planetlist.size(); i++){
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
-				if(Math.sqrt(vec.distSQ(planet.boundbox.center)) < radius + 300 + planet.boundbox.radius + 3*planetnumber){
+				if(Math.sqrt(vec.distSQ(planet.boundbox.center)) <= radius + 300 + planet.boundbox.radius){
 					radius = random.nextInt(200)+200;
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 					vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
-					System.out.println(Math.sqrt(vec.distSQ(planet.boundbox.center)));
-					i--;
-					continue;
+					System.out.println(Math.sqrt(vec.distSQ(planet.boundbox.center)) + "  " + (radius+300+planet.boundbox.radius));
+					i=0;
 				}
+				System.out.println("AND ONE");
 			}
 			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,(radius*2)/imagelist.get(imagenum).getWidth());
+			System.out.println(planetlist.size());
 		}
 	}
 	

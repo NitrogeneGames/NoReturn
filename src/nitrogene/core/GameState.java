@@ -98,7 +98,7 @@ public class GameState extends BasicGameState{
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
-		planetlist.add(new Planet(1000,1000,sun, 1000, 4));
+		//planetlist.add(new Planet(1000,1000,sun, 1000, 4));
 		statis = new Image("res/klaarship4.png");
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
