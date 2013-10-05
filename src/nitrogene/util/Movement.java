@@ -49,8 +49,11 @@ public class Movement {
 		float DELTACON = delta/5f;
 		double accpoints = diracceleration[4]/(0.1*delta/5f);
 		double distance = (rightbound - location.x);
+		float speed = (float) (diracceleration[4]*20*(delta/1000f));
+		double stuff = rightbound + accpoints*speed;
 		
-		if(distance>=accpoints+rightbound){
+		
+		if(distance<stuff){
 			System.out.println(location.x-rightbound);
 			BringBack(Direction.RIGHT, delta);
 		} else {

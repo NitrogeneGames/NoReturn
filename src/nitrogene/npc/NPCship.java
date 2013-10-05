@@ -6,7 +6,6 @@ import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
 import nitrogene.core.Planet;
-import nitrogene.util.Direction;
 
 public class NPCship extends Craft{
 	private Relation relation;
@@ -27,7 +26,7 @@ public class NPCship extends Craft{
 		
 		//Targetting
 		if(crafttarget.get(0)!=null)
-			this.laserlist.get(0).setTarget(crafttarget.get(0).getX()+crafttarget.get(0).core.getX(), crafttarget.get(0).getY()+crafttarget.get(0).core.getY());
+			this.laserlist.get(0).setTarget(crafttarget.get(0).boundbox.center.x, crafttarget.get(0).boundbox.center.y);
 		
 		//Clock
 		if(cumulative >= 1000){

@@ -49,7 +49,7 @@ public class ArenaMap {
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 					vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
 					System.out.println(Math.sqrt(vec.distSQ(planet.boundbox.center)) + "  " + (radius+300+planet.boundbox.radius));
-					i=0;
+					i=-1;
 				}
 				System.out.println("AND ONE");
 			}
