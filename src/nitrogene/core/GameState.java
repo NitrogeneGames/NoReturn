@@ -18,6 +18,7 @@ import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
 import nitrogene.util.TickSystem;
+import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.WeaponTimer;
 import nitrogene.world.ArenaMap;
@@ -56,7 +57,8 @@ public class GameState extends BasicGameState{
 	private Animation animation;
 	private int mapwidth, mapheight;
 	private int offsetX, offsetY;
-	private int SCR_width, SCR_height;
+	private final int SCR_width, SCR_height;
+	private int zoomwidth, zoomheight;
 	private float pausemenux, pausemenuy;
 	private float camX, camY;
 	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
@@ -73,6 +75,9 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		timercontrol = new TickSystem();
+		Zoom.setZoom(ZoomEnum.MAP);
+		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
+		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
 		
 		//other variables
 				mapwidth = 5000;
@@ -103,6 +108,7 @@ public class GameState extends BasicGameState{
     	
     	map = new ArenaMap(4,offsetX,offsetY,mapwidth,mapheight,craft);
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
+    	//ADDRESS PROBLEM
     	
     	firetoggle = false;
     	
@@ -156,6 +162,9 @@ public class GameState extends BasicGameState{
 		if(!container.hasFocus()){
 			PAUSED = true;
 		}
+		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
+		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
+		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -248,8 +257,9 @@ public class GameState extends BasicGameState{
 			}
 		
 		
-		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
-    	camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
+		camX = (float) (craft.getX()+(craft.getImage().getWidth()/2) - (zoomwidth/2) + (SCR_width/4));
+    	camY = (float) (craft.getY()+(craft.getImage().getHeight()/2) - (zoomheight/2) + (SCR_height/4));
+    	System.out.println(zoomwidth + " " + SCR_width);
 		
 		}
 		else{
@@ -278,7 +288,6 @@ public class GameState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.translate(-camX, -camY);
-		g.scale(0.5f, 0.5f);
 		g.setBackground(Color.black);
 		
 		g.setColor(Color.red);
@@ -286,6 +295,8 @@ public class GameState extends BasicGameState{
 		g.setColor(Color.yellow);
 		g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(camX,camY);
+		
+		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
@@ -361,6 +372,7 @@ public class GameState extends BasicGameState{
 				}
 			 }
 		//gui
+		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);

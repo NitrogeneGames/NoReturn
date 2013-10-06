@@ -2,6 +2,8 @@ package nitrogene.util;
 
 import java.util.Random;
 
+import nitrogene.core.Zoom;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
