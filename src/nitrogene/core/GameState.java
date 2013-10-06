@@ -61,7 +61,6 @@ public class GameState extends BasicGameState{
 	private float camX, camY;
 	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
 	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
-	private ArrayList<Planet> planetlist = new ArrayList<Planet>();
 	private TickSystem timercontrol;
 	private boolean PAUSED = false;
 	Sound basicTestLaser,explosionSound;
@@ -98,12 +97,11 @@ public class GameState extends BasicGameState{
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
 		shockimage = new Image("res/shockwave_particle.png");
-		//planetlist.add(new Planet(1000,1000,sun, 1000, 4));
 		statis = new Image("res/klaarship4.png");
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
     	
-    	map = new ArenaMap(7,offsetX,offsetY,mapwidth,mapheight);
+    	map = new ArenaMap(4,offsetX,offsetY,mapwidth,mapheight,craft);
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	
     	firetoggle = false;
@@ -205,16 +203,16 @@ public class GameState extends BasicGameState{
 					craft.laserlist.get(m).slaserlist.remove(i);
 					System.gc();
 				}
-				for(int e = 0;e<planetlist.size();e++){
-					Planet mesh = planetlist.get(e);
+				for(int p = 0;p<map.getPlanets().size();p++){
+					Planet mesh = map.getPlanets().get(p);
 					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						craft.laserlist.get(m).slaserlist.remove(i);
+						mesh.damage(laser.getDamage(), map.getPlanets(), p);
+						explosionSound.play(1f,0.1f);
+						mesh.getShake().shakeObject(3, 1000);
 					//explode()
-					mesh.damage(laser.getDamage(), planetlist, circlemeshlist, e);
-					explosionSound.play(1f,0.1f);
-					mesh.getShake().shakeObject(3, 2000);
-					//damage mesh
+					
 					}
 					}
 				for(int e = 0;e<boxmeshlist.size();e++){
@@ -280,6 +278,7 @@ public class GameState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.translate(-camX, -camY);
+		g.scale(0.5f, 0.5f);
 		g.setBackground(Color.black);
 		
 		g.setColor(Color.red);
@@ -298,17 +297,12 @@ public class GameState extends BasicGameState{
 		craft.lifesupport.getImage().drawCentered(craft.lifesupport.getX()+craft.getX(),craft.lifesupport.getY()+craft.getY());
 		
 		for(int i = 0; i < map.getPlanets().size(); i ++){
-			map.getPlanets().get(i).meshImage.draw(map.getPlanets().get(i).getX(),map.getPlanets().get(i).getY(),map.getPlanets().get(i).getScaleFactor());
-		}
-		
-		for (int e = 0; e<planetlist.size();e++){
-			Planet mesh = planetlist.get(e);
+			Planet mesh = map.getPlanets().get(i);
 			if(mesh.getX()-mesh.getImage().getWidth()*mesh.getScaleFactor()>SCR_width+camX||mesh.getX()+mesh.getImage().getWidth()*mesh.getScaleFactor()<camX||mesh.getY()-mesh.getImage().getHeight()*
 					mesh.getScaleFactor()>SCR_height+camY||mesh.getY()+mesh.getImage().getHeight()*mesh.getScaleFactor()<camY){
 				mesh = null;
 				continue;
 			}
-			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),4);
 			if(mesh.getHp() < mesh.getMaxHp()){
 				if(mesh.getHp() <= 200) g.setColor(Color.red);
 				else if(mesh.getHp() <= 500) g.setColor(Color.orange);
@@ -317,8 +311,10 @@ public class GameState extends BasicGameState{
 				float ff = mesh.getMaxHp();
 				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.boundbox.radius*2), 20);
 			}
+			map.getPlanets().get(i).meshImage.draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScaleFactor());
 			mesh = null;
 		}
+		
 		part.render();
 		shockwave.render();
 		 
@@ -428,17 +424,17 @@ public class GameState extends BasicGameState{
 	}
 
 	public Object getTargetObject(float f, float g) {
-		for(int i = 0; i < this.planetlist.size(); i++) {
-			if(CollisionLibrary.testCirclePoint(this.planetlist.get(i).boundbox, f, g) == true) {
-				return this.planetlist.get(i);
-			}
-		}
 		for(int e = 0;e<boxmeshlist.size();e++){
 			AABB box = new AABB(1f,1f);
 			box.update(new Vector(f,g));
 			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox, box)){
 				return this.boxmeshlist.get(e);
 			}
+		}
+		for(int p = 0; p<map.getPlanets().size(); p++){
+				if(CollisionLibrary.testCirclePoint(map.getPlanets().get(p).boundbox, f, g) == true) {
+					return map.getPlanets().get(p);
+				}
 		}
 		return null;
 		

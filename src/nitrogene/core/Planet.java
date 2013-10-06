@@ -21,17 +21,17 @@ public class Planet extends CircleMesh{
 		shake = new Shake();
 	}
 	
-	public void damage(int damage, ArrayList<Planet> planet, ArrayList<CircleMesh> circle, int e) throws SlickException{
+	public void damage(int damage,ArrayList<Planet> arrayList, int e) throws SlickException{
 		hp -= damage;
-		if(hp <= 0){
+		if(hp < 0){
 			hp = 0;
 			//explode();
-			this.destroy(planet, circle, e);
+			this.destroy(arrayList, e);
 		}
 	}
-	public void destroy(ArrayList<Planet> planet, ArrayList<CircleMesh> circle, int e) throws SlickException {
-		im.destroy();
-		planet.remove(e);
+	public void destroy(ArrayList<Planet> arraylist, int e) throws SlickException {
+		im = null;
+		arraylist.remove(e);
 		
 	}
 	public int getHp(){
