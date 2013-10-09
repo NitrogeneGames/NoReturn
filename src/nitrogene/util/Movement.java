@@ -56,8 +56,6 @@ public class Movement {
 		double slowdowntime = diracceleration[4]/20;
 
 		float speed = (float) (diracceleration[4]*20*(delta/1000f));
-		System.out.println(slowdowntime);
-		System.out.println(secs);
 		
 		if(secs <= slowdowntime && diracceleration[4] != 0){
 			

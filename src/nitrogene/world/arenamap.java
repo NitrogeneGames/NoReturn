@@ -15,6 +15,7 @@ public class ArenaMap {
 	private Image star2;
 	private Image sun1;
 	private ArrayList<Planet> planetlist;
+	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
 	private Craft craft;
 	Random random;
@@ -29,6 +30,8 @@ public class ArenaMap {
 		//imagelist.add(star2);
 		imagelist.add(sun1);
 		this.craft = craft;
+		craftlist = new ArrayList<Craft>();
+		craftlist.add(craft);
 		generate(offsetx, offsety, mapwidth, mapheight, craft);
 	}
 	
@@ -62,7 +65,15 @@ public class ArenaMap {
 		planetlist.add(planet);
 	}
 	
+	public void addCraft(Craft craft){
+		craftlist.add(craft);
+	}
+	
 	public ArrayList<Planet> getPlanets(){
 		return planetlist;
+	}
+	
+	public ArrayList<Craft> getCrafts(){
+		return craftlist;
 	}
 }

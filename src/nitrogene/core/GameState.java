@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
+import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.util.Direction;
@@ -56,6 +57,7 @@ public class GameState extends BasicGameState{
 	Stars stars;
 	private Animation animation;
 	private int mapwidth, mapheight;
+	private Minimap minimap;
 	private int offsetX, offsetY;
 	private final int SCR_width, SCR_height;
 	private int zoomwidth, zoomheight;
@@ -75,7 +77,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		timercontrol = new TickSystem();
-		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoom(ZoomEnum.NORMAL);
 		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
 		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
 		
@@ -107,6 +109,7 @@ public class GameState extends BasicGameState{
 		GUI = new Image("res/GUIportrait.png");
     	
     	map = new ArenaMap(4,offsetX,offsetY,mapwidth,mapheight,craft);
+    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
     	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
     	//ADDRESS PROBLEM
     	
@@ -165,6 +168,9 @@ public class GameState extends BasicGameState{
 		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
 		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
 		
+		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
+		camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
+		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -177,6 +183,7 @@ public class GameState extends BasicGameState{
 			timercontrol.gameResume();
 		}
     	shockwave.update(delta);
+    	minimap.update(camX, camY);
     	craft.update(delta, camX, camY);
     	craft.move(20);
     	enemy.update(delta, camX, camY);
@@ -257,9 +264,9 @@ public class GameState extends BasicGameState{
 			}
 		
 		
-		camX = (float) (craft.getX()+(craft.getImage().getWidth()/2) - (zoomwidth/2) + (SCR_width/4));
-    	camY = (float) (craft.getY()+(craft.getImage().getHeight()/2) - (zoomheight/2) + (SCR_height/4));
-    	System.out.println(zoomwidth + " " + SCR_width);
+		//camX = (float) (craft.getX()+(craft.getImage().getWidth()/2) - (zoomwidth/2) + (SCR_width/4));
+    	//camY = (float) (craft.getY()+(craft.getImage().getHeight()/2) - (zoomheight/2) + (SCR_height/4));
+
 		
 		}
 		else{
@@ -374,6 +381,7 @@ public class GameState extends BasicGameState{
 		//gui
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
+		minimap.render(g);
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);
 	        g.setColor(trans);
