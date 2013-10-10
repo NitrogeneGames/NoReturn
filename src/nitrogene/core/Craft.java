@@ -91,7 +91,7 @@ public class Craft {
 	public void move(int thrust){
 		float mm = delta/1000f;
 		float gj = thrust*1f;
-		y += ((movement.getDy()*gj)*mm);
-		x += ((movement.getDx()*gj)*mm);
+		y += ((movement.getDy()*gj)*mm)*Zoom.getZoom().scale;
+		x += ((movement.getDx()*gj)*mm)*Zoom.getZoom().scale;
 	}
 }

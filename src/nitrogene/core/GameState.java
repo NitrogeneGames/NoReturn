@@ -166,7 +166,6 @@ public class GameState extends BasicGameState{
 		}
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
-		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -259,10 +258,15 @@ public class GameState extends BasicGameState{
 			}
 			}
 		
-		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
-		camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
-		//camX = (float) (craft.getX()+(craft.getImage().getWidth()/2) - (zoomwidth/2) + (SCR_width/4));
-    	//camY = (float) (craft.getY()+(craft.getImage().getHeight()/2) - (zoomheight/2) + (SCR_height/4));
+		//camX = (float) (craft.getX()*Zoom.getZoom().scale+(craft.getImage().getWidth()/2) - (SCR_width / 2));
+		//camY = (float) (craft.getY()*Zoom.getZoom().scale+(craft.getImage().getHeight()/2) - (SCR_height / 2));
+		int xv = ((Zoom.getZoomWidth()/4) - (SCR_width/4));
+		int yv = ((Zoom.getZoomHeight()/4) - (SCR_height/4));
+		float xv2 = (float) ((craft.getX())+((craft.getImage().getWidth())/2));
+		float yv2 = (float) ((craft.getY())+((craft.getImage().getHeight())/2));
+		
+		camX = (float) (xv2 - xv);
+    	camY = (float) (yv2 - yv);
 
 		
 		}
