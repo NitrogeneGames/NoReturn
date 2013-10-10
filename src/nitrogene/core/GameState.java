@@ -77,9 +77,8 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		timercontrol = new TickSystem();
-		Zoom.setZoom(ZoomEnum.NORMAL);
-		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
-		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
+		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		//other variables
 				mapwidth = 5000;
@@ -110,7 +109,7 @@ public class GameState extends BasicGameState{
     	
     	map = new ArenaMap(4,offsetX,offsetY,mapwidth,mapheight,craft);
     	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
-    	stars = new Stars(2,mapwidth,mapheight,SCR_width,SCR_height);
+    	stars = new Stars(2,mapwidth,mapheight);
     	//ADDRESS PROBLEM
     	
     	firetoggle = false;
@@ -165,11 +164,8 @@ public class GameState extends BasicGameState{
 		if(!container.hasFocus()){
 			PAUSED = true;
 		}
-		zoomwidth =(int) (Zoom.getZoom().inverse*SCR_width);
-		zoomheight =(int) (Zoom.getZoom().inverse*SCR_height);
+		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
-		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
-		camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
 		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
@@ -204,7 +200,7 @@ public class GameState extends BasicGameState{
 		if(input.isKeyPressed(Input.KEY_D)){  
 				craft.movement.Toggle(Direction.RIGHT);
 		}
-		if(input.isKeyDown(Input.KEY_SPACE)){
+		if(input.isKeyPressed(Input.KEY_SPACE)){
 			craft.movement.Break(delta);
 		}
 		
@@ -263,7 +259,8 @@ public class GameState extends BasicGameState{
 			}
 			}
 		
-		
+		camX = craft.getX()+(craft.getImage().getWidth()/2) - (SCR_width / 2);
+		camY = craft.getY()+(craft.getImage().getHeight()/2) - (SCR_height / 2);
 		//camX = (float) (craft.getX()+(craft.getImage().getWidth()/2) - (zoomwidth/2) + (SCR_width/4));
     	//camY = (float) (craft.getY()+(craft.getImage().getHeight()/2) - (zoomheight/2) + (SCR_height/4));
 
@@ -316,11 +313,15 @@ public class GameState extends BasicGameState{
 		
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
-			if(mesh.getX()-mesh.getImage().getWidth()*mesh.getScaleFactor()>SCR_width+camX||mesh.getX()+mesh.getImage().getWidth()*mesh.getScaleFactor()<camX||mesh.getY()-mesh.getImage().getHeight()*
-					mesh.getScaleFactor()>SCR_height+camY||mesh.getY()+mesh.getImage().getHeight()*mesh.getScaleFactor()<camY){
+			//image culling
+			if(mesh.getX()-mesh.getImage().getWidth()*mesh.getScaleFactor()>Zoom.getZoomWidth()+camX||
+					mesh.getX()+mesh.getImage().getWidth()*mesh.getScaleFactor()<camX||
+					mesh.getY()-mesh.getImage().getHeight()*mesh.getScaleFactor()>Zoom.getZoomHeight()+camY||
+					mesh.getY()+mesh.getImage().getHeight()*mesh.getScaleFactor()<camY){
 				mesh = null;
 				continue;
 			}
+			//label at top with health
 			if(mesh.getHp() < mesh.getMaxHp()){
 				if(mesh.getHp() <= 200) g.setColor(Color.red);
 				else if(mesh.getHp() <= 500) g.setColor(Color.orange);
@@ -329,6 +330,7 @@ public class GameState extends BasicGameState{
 				float ff = mesh.getMaxHp();
 				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.boundbox.radius*2), 20);
 			}
+			//drawing planet
 			map.getPlanets().get(i).meshImage.draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScaleFactor());
 			mesh = null;
 		}
@@ -370,7 +372,10 @@ public class GameState extends BasicGameState{
 							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
 							laser.getImage().rotate(laser.getAngle());
 						}
-						if(laser.location.getX()-laser.getImage().getWidth()>SCR_width+camX||laser.location.getX()+laser.getImage().getWidth()<camX||laser.location.getY()-laser.getImage().getHeight()>SCR_height+camY||laser.location.getY()+laser.getImage().getHeight()<camY){
+						if(laser.location.getX()-laser.getImage().getWidth()>Zoom.getZoomWidth()+camX||
+								laser.location.getX()+laser.getImage().getWidth()<camX||
+								laser.location.getY()-laser.getImage().getHeight()>Zoom.getZoomHeight()+camY||
+								laser.location.getY()+laser.getImage().getHeight()<camY){
 							laser = null;
 							continue;
 						}
@@ -398,6 +403,8 @@ public class GameState extends BasicGameState{
 	}
 
 	public void mousePressed(int button, int x, int y){
+		x *= Zoom.getZoom().inverse;
+		y *= Zoom.getZoom().inverse;
 		if(!PAUSED) {
 
 		if(button == 1) {
@@ -425,7 +432,8 @@ public class GameState extends BasicGameState{
 					craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
 				}
 			} else {
-			craft.laserlist.get(0).setTarget(x, y, camX, camY);
+			for(LaserLauncher a : craft.laserlist )
+			a.setTarget(x, y, camX, camY);
 			}
 			timercontrol.resume();
 

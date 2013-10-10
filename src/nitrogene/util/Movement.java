@@ -4,13 +4,13 @@ import nitrogene.collision.Vector;
 
 public class Movement {
 	private boolean[] toggle;
-	private double[] diracceleration;
+	private float[] diracceleration;
 	private int [] pixbounds;
 	private int downbound, leftbound, upbound, rightbound;
 	
 	public Movement(int upbound, int downbound, int leftbound, int rightbound){
 		toggle = new boolean[5];
-		diracceleration = new double[5];
+		diracceleration = new float[5];
 		pixbounds = new int[5];
 		
 		this.upbound = upbound;
@@ -62,29 +62,33 @@ public class Movement {
 			System.out.println("HERE");
 			BringBack(Direction.RIGHT, delta);
 		} else {
-			if(toggle[4] == true && diracceleration[4] < 20) diracceleration[4] += 0.05*delta/5f;
-			if(toggle[4] == false && diracceleration[4] > 0) diracceleration[4] -= 0.05*delta/5f;
+			if(toggle[4] == true && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
+			else if(toggle[4] == false && diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
+			else if(toggle[4] == false) diracceleration[4] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.LEFT, delta);
 		} else{
-			if(toggle[3] == true && diracceleration[3] < 20) diracceleration[3] += 0.05*delta/5f;
-			if(toggle[3] == false && diracceleration[3] > 0) diracceleration[3] -= 0.05*delta/5f;
+			if(toggle[3] == true && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
+			else if(toggle[3] == false && diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
+			else if(toggle[3] == false) diracceleration[3] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.DOWN, delta);
 		} else {
-			if(toggle[2] == true && diracceleration[2] < 20) diracceleration[2] += 0.05*delta/5f;
-			if(toggle[2] == false && diracceleration[2] > 0) diracceleration[2] -= 0.05*delta/5f;
+			if(toggle[2] == true && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
+			else if(toggle[2] == false && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
+			else if(toggle[2] == false) diracceleration[2] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.UP, delta);
 		} else{
-			if(toggle[1] == true && diracceleration[1] < 20) diracceleration[1] += 0.05*delta/5f;
-			if(toggle[1] == false && diracceleration[1] > 0) diracceleration[1] -= 0.05*delta/5f;
+			if(toggle[1] == true && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
+			else if(toggle[1] == false && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
+			else if(toggle[1] == false) diracceleration[1] = 0f;
 		}
 		
 	}
@@ -92,20 +96,20 @@ public class Movement {
 	public void BringBack(Direction direction, int delta){
 		switch(direction){
 		case UP: toggle[1] = false;
-			if(diracceleration[1] > 0) diracceleration[1] -= 0.1*delta/5f;
-			else if(diracceleration[1] < 0) diracceleration[1] = 0;
+			if(diracceleration[1] > 0f) diracceleration[1] -= 0.1f*delta/5f;
+			else if(diracceleration[1] < 0f) diracceleration[1] = 0f;
 			break;
 		case DOWN: toggle[2] = false;
-			if(diracceleration[2] > 0) diracceleration[2] -= 0.1*delta/5f;
-			else if(diracceleration[2] < 0) diracceleration[2] = 0;
+			if(diracceleration[2] > 0f) diracceleration[2] -= 0.1f*delta/5f;
+			else if(diracceleration[2] < 0f) diracceleration[2] = 0f;
 			break;
 		case LEFT: toggle[3] = false;
-			if(diracceleration[3] > 0) diracceleration[3] -= 0.1*delta/5f;
-			else if(diracceleration[3] < 0) diracceleration[3] = 0;
+			if(diracceleration[3] > 0f) diracceleration[3] -= 0.1f*delta/5f;
+			else if(diracceleration[3] < 0f) diracceleration[3] = 0f;
 			break;
 		case RIGHT: toggle[4] = false;
-			if(diracceleration[4] > 0) diracceleration[4] -= 0.1*delta/5f;
-			else if(diracceleration[4] < 0) diracceleration[4] = 0;
+			if(diracceleration[4] > 0f) diracceleration[4] -= 0.1f*delta/5f;
+			else if(diracceleration[4] < 0f) diracceleration[4] = 0f;
 			break;
 		}
 	}
@@ -115,19 +119,19 @@ public class Movement {
 		if(toggle[e] == true) {
 			toggle[e] = false;
 		}
-		if(diracceleration[e] > 0.00){
-			diracceleration[e] -= .1*delta/5f;
+		if(diracceleration[e] > 0f){
+			diracceleration[e] -= .1f*delta/5f;
 		}
-		if(diracceleration[e] <= 0.00) diracceleration[e] = 0;
+		if(diracceleration[e] <= 0f) diracceleration[e] = 0f;
 	}
 	}
 	
-	public double getDx(){
+	public float getDx(){
 		return diracceleration[4] - diracceleration[3];           
 	}
 	
 	
-	public double getDy(){
+	public float getDy(){
 		return diracceleration[2] - diracceleration[1];
 	}
 }
