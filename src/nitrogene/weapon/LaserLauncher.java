@@ -117,12 +117,13 @@ public class LaserLauncher {
 	}
 	
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser((float) ((x+craftX) * 1),(float) ((y+craftY)* 1), camX+desx, camY+desy, accuracy, speed, damage, size, proje));
+		slaserlist.add(new SLaser(x+craftX,y+craftY, (float) (camX*Zoom.getZoom().inverse)+desx, (float) (camY*Zoom.getZoom().inverse)+desy,
+				accuracy, speed, damage, size, proje));
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+camX - (x+craftX));
-			double mecY = (desy+camY - (y+craftY));
+			double mecX = (desx+(camX*Zoom.getZoom().inverse) - (x+craftX));
+			double mecY = (desy+(camY*Zoom.getZoom().inverse) - (y+craftY));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;

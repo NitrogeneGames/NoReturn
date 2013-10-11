@@ -258,22 +258,9 @@ public class GameState extends BasicGameState{
 			 //put stuff here
 			}
 			}
-		
-		//camX = (float) (craft.getX()*Zoom.getZoom().scale+(craft.getImage().getWidth()/2) - (SCR_width / 2));
-		//camY = (float) (craft.getY()*Zoom.getZoom().scale+(craft.getImage().getHeight()/2) - (SCR_height / 2));
-		//int xv = (((Zoom.getZoomWidth()/2)) - (SCR_width/2)); --shtoopid crap from nam
-		//int yv = ((Zoom.getZoomHeight()/2) - (SCR_height/2));
-		int xv = (SCR_width/2);
-		int yv = (SCR_height/2);
-		float xv2 = (float) ((craft.getX())+((craft.getImage().getWidth())/2));
-		xv2*=Zoom.getZoom().scale;
-		float yv2 = (float) ((craft.getY())+((craft.getImage().getHeight())/2));
-		yv2*=Zoom.getZoom().scale;
-		
-		camX = (float) ((float) (xv2 - xv));
-    	camY = (float) ((float) (yv2 - yv));
-    	System.out.println(xv2);
-    	System.out.println(yv2);
+		 
+		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
+		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
 		
 		}
 		else{
@@ -303,14 +290,14 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
+		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		
 		g.setColor(Color.red);
 		g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		g.drawRect(0,0, mapwidth-5, mapheight-5);
-		stars.render(camX,camY);
+		stars.render((float) (camX*Zoom.getZoom().inverse),(float) (camY*Zoom.getZoom().inverse));
 		
-		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
