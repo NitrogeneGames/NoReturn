@@ -1,0 +1,29 @@
+package nitrogene.npc;
+
+import org.newdawn.slick.SlickException;
+
+import nitrogene.core.Craft;
+
+public class NPCship extends Craft{
+	private Relation relation;
+	
+	public NPCship(float xpos, float ypos, Relation relation) throws SlickException{
+		super(xpos,ypos);
+		this.relation = relation;
+		this.laserlist.get(0).setTarget(craftX, desy)
+	}
+	
+	@Override
+	public void update(int delta, float camX, float camY){
+		this.delta = delta;
+		cumulative += delta;
+		
+		//Clock
+		if(cumulative >= 1000){
+			//1 second cumulative
+			lifesupport.tick();
+			cumulative = 0;
+		}
+		movement.Accelerate();
+	}
+}

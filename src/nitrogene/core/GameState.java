@@ -65,7 +65,7 @@ public class GameState extends BasicGameState{
 	private float camX, camY;
 	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
 	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
-	private TickSystem timercontrol;
+
 	private boolean PAUSED = false;
 	Sound basicTestLaser,explosionSound;
 
@@ -76,7 +76,7 @@ public class GameState extends BasicGameState{
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		timercontrol = new TickSystem();
+		
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
@@ -95,7 +95,7 @@ public class GameState extends BasicGameState{
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), offsetY, mapheight - offsetY, offsetX, mapwidth - offsetX);
-		timercontrol.addTimer(new WeaponTimer(craft.laserlist.get(0)));
+		TickSystem.addTimer(new WeaponTimer(craft.laserlist.get(0)));
 		enemy = new NPCship(1200,1200, offsetY, mapheight + offsetY, offsetX, offsetX + mapwidth, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.getImage().rotate(180);
@@ -174,8 +174,8 @@ public class GameState extends BasicGameState{
 			container.exit();
 		}
 		if(!PAUSED){
-		if(timercontrol.isPaused()) {
-			timercontrol.gameResume();
+		if(TickSystem.isPaused()) {
+			TickSystem.gameResume();
 		}
     	shockwave.update(delta);
     	minimap.update(camX, camY);
@@ -273,8 +273,8 @@ public class GameState extends BasicGameState{
 		else{
 		//pause menu here
 			//Button Controllers
-			if(!timercontrol.isPaused()) {
-				timercontrol.gamePause();
+			if(!TickSystem.isPaused()) {
+				TickSystem.gamePause();
 			}
 			resume.update(container);
 	    	restart.update(container);
@@ -417,12 +417,12 @@ public class GameState extends BasicGameState{
 				
 				//craft.laserlist.get(0).setTarget(x, y, camX, camY);
 				//startFire(timer1,craft.laserlist.get(0));
-				timercontrol.resume();
+				TickSystem.resume();
 				start = System.currentTimeMillis();
 			}
 			if (!firetoggle){
 
-				timercontrol.pause();
+				TickSystem.pause();
 			}
 		} else {
 			if(getTargetObject(camX + x,camY + y) != null) {
@@ -439,7 +439,7 @@ public class GameState extends BasicGameState{
 			for(LaserLauncher a : craft.laserlist )
 			a.setTarget(x, y, camX, camY);
 			}
-			timercontrol.resume();
+			TickSystem.resume();
 
 		}
 		}

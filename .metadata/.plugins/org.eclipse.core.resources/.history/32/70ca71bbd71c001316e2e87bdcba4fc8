@@ -1,0 +1,11 @@
+package nitrogene.npc;
+
+import nitrogene.core.Craft;
+
+public class NPCship extends Craft{
+	private Relation relation;
+	
+	public NPCship(){
+		this.relation = relation;
+	}
+}

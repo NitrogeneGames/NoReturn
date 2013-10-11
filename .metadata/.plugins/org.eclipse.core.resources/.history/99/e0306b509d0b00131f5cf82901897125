@@ -1,0 +1,260 @@
+package nitrogene.core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import nitrogene.collision.CollisionLibrary;
+import nitrogene.util.Direction;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.Particle;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
+
+
+public class GameState extends BasicGameState{
+	
+	Craft craft;
+	private ParticleSystem shockwave;
+	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI;
+	Graphics gtarget;
+	Particle part;
+	private int mapwidth, mapheight;
+	private int offsetMaxX, offsetMaxY, offsetMinX, offsetMinY;
+	private int SCR_width, SCR_height;
+	private float camX, camY;
+	private SpriteSheet mapback = null;
+	private ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
+	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
+	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
+
+	private boolean PAUSED = false;
+	Sound basicTestLaser;
+
+	public GameState(int width, int height) {
+		this.SCR_width = width;
+		this.SCR_height = height;
+	}
+
+	public void init(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		//load sounds here
+		basicTestLaser = new Sound("res/laser1final.ogg");
+		
+		//load images and objects here
+		craft = new Craft(500, 400);
+		sun = new Image("res/sun_1.png");
+		shockimage = new Image("res/shockwave_particle.png");
+		circlemeshlist.add(new CircleMesh(1000,1000,sun));
+		statis = new Image("res/klaarship4.png");
+		mapbackground = new Image("res/backgroundsprite.png");
+		slaserimage = new Image("res/LaserV2.png");
+		GUI = new Image("res/GUIportrait.png");
+		mapback = new SpriteSheet(mapbackground, 200, 200);
+		
+		//other variables
+		mapwidth = 5000;
+		mapheight = 2000;
+		offsetMaxX = mapwidth - 800;
+    	offsetMaxY = mapheight - 600;
+    	offsetMinX = 400;
+    	offsetMinY = 300;
+    	
+    	//particles
+    	shockwave = new ParticleSystem(shockimage,1500);
+    	File shockfile = new File("res/test_emitter.xml");
+
+    	try {
+			ConfigurableEmitter emitter = ParticleIO.loadEmitter(shockfile);
+			emitter.setPosition(500,500);
+
+			shockwave.addEmitter(emitter);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	shockwave.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
+		part = shockwave.getNewParticle(shockwave.getEmitter(0), 3000f);
+	}
+	
+	public void update(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException {
+		Input input = container.getInput();
+		if(input.isKeyPressed(Input.KEY_ESCAPE)){
+			PAUSED = !PAUSED;
+		}
+		if(input.isKeyPressed(Input.KEY_X)){
+			container.exit();
+		}
+		if(!PAUSED){
+    	shockwave.update(delta);
+    	craft.update(delta);
+
+    	part.update(delta);
+    	//Input Controllers
+		if(input.isKeyDown(Input.KEY_W)){
+			if(craft.getY() > offsetMinY){
+			craft.move(Direction.UP,20);
+			}
+		}
+		if(input.isKeyDown(Input.KEY_S)){
+			if(craft.getY() < offsetMaxY){
+				craft.move(Direction.DOWN,20);
+				}
+		}
+		if(input.isKeyDown(Input.KEY_A)){
+			if(craft.getX() > offsetMinX){
+				craft.move(Direction.LEFT,20);
+				}
+		}
+		if(input.isKeyDown(Input.KEY_D)){
+			if(craft.getX() < offsetMaxX){
+				craft.move(Direction.RIGHT,20);
+				}
+		}
+		
+		
+		//projectile control
+		for(int i = 0;i<slaserlist.size();i++){
+				SLaser laser = slaserlist.get(i);
+				laser.move();
+				if (laser.location.getX() > mapwidth - 20 || laser.location.getY() > mapheight - 30 || laser.location.getX() < 0 || laser.location.getY() < 0){
+					slaserlist.remove(i);
+					System.gc();
+				}
+				for(int e = 0;e<circlemeshlist.size();e++){
+					CircleMesh mesh = circlemeshlist.get(e);
+					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
+					slaserlist.remove(i);
+					System.gc();
+					//explode()
+					//damage mesh
+					}
+					}
+				for(int e = 0;e<boxmeshlist.size();e++){
+					if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,laser.boundbox)){
+					slaserlist.remove(i);
+					System.gc();
+					//explode()
+					//damage mesh
+					}
+					}
+				laser = null;
+			}
+		//collision control
+		
+		//update the center coords!
+		craft.updateAABB(craft.getX(), craft.getY());
+		
+		
+		//for: craft vs. circles
+		for(int e = 0;e<circlemeshlist.size();e++){
+			CircleMesh mesh = circlemeshlist.get(e);
+			
+			if(CollisionLibrary.testCircleAABB(mesh.boundbox,craft.boundbox)){
+			//put collision info here!
+			}
+			
+			}
+		//for: craft vs. boxes
+		for(int e = 0;e<boxmeshlist.size();e++){
+			if(CollisionLibrary.testboxbox(boxmeshlist.get(e).boundbox,craft.boundbox)){
+			 //put stuff here
+			}
+			}
+		
+		
+		camX = craft.getX() - 800 / 2;
+    	camY = craft.getY() - 600 / 2;
+		
+		}
+		}
+		
+		
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics g)
+			throws SlickException {
+		g.translate(-camX, -camY);
+		
+		Color ind = new Color(250f, 0f, 0f, 1f);
+		
+		mapback.startUse();
+		for(float x = 0; x < mapwidth; x+=200){
+			for(float y = 0; y < mapheight; y+=200){
+			mapback.getSubImage(0,0).drawEmbedded(x,y,200,200);
+			}
+		}
+		mapback.endUse();
+		
+		
+		craft.getImage().draw(craft.getX(), craft.getY());
+		craft.shield.getImage().draw(craft.getShieldX(),craft.getShieldY());
+		for (int e = 0; e<circlemeshlist.size();e++){
+			CircleMesh mesh = circlemeshlist.get(e);
+			mesh.getImage().draw(mesh.getX(),mesh.getY(),4);
+			g.setColor(ind);
+			//g.drawOval(mesh.getX(), mesh.getY(), mesh.boundbox.radius*2, mesh.boundbox.radius*2);
+		}
+		part.render();
+		shockwave.render();
+
+
+		
+		//bullet draw
+		for(int i = 0;i<slaserlist.size();i++){
+			SLaser laser = slaserlist.get(i);
+			
+			if (laser.isRotated == false){
+				laser.isRotated = true;
+				basicTestLaser.play(1f, 0.5f);
+				laser.getImage().rotate(laser.getAngle());
+			}
+			laser.getImage().draw(laser.location.getX(), laser.location.getY(), (float) 0.7);
+			laser = null;
+
+		}
+		
+		//gui
+		GUI.draw(camX,camY);
+				
+		if (PAUSED) {
+	        Color trans = new Color(0f,0f,0f,0.5f);
+	        g.setColor(trans);
+	        g.fillRect(camX,camY, SCR_width, SCR_height);
+	        
+	        g.setColor(Color.green);
+	        g.drawString("Resume Game", camX + (SCR_width/2), camY + (SCR_height/2));
+	   }
+	}
+
+	public void mousePressed(int button, int x, int y){
+		if(!PAUSED){
+			try {
+				addSLaser(x,y);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void addSLaser(float f,float g) throws SlickException{
+		slaserlist.add(new SLaser(craft.getX(),craft.getY(), f, g, camX, camY));
+	}
+
+
+	@Override
+	public int getID() {
+		return 2;
+	}
+
+}

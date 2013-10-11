@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import nitrogene.collision.AABB;
 import nitrogene.util.Direction;
 import nitrogene.util.Movement;
+import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
+import nitrogene.weapon.WeaponTimer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -44,7 +46,9 @@ public class Craft {
 		cumulative = 0;
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
+
 		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.BASIC);
+		TickSystem.addTimer(new WeaponTimer(primary1));
 		laserlist.add(primary1);
 	}
 	
@@ -73,10 +77,10 @@ public class Craft {
 		y = y1;
 	}
 	public float getX(){
-		return x;
+		return (float) (x*Zoom.getZoom().scale);
 	}
 	public float getY(){
-		return y;
+		return (float) (y*Zoom.getZoom().scale);
 	}
 	public Image getImage(){
 		return craftimage;
@@ -91,7 +95,7 @@ public class Craft {
 	public void move(int thrust){
 		float mm = delta/1000f;
 		float gj = thrust*1f;
-		y += ((movement.getDy()*gj)*mm)*Zoom.getZoom().scale;
-		x += ((movement.getDx()*gj)*mm)*Zoom.getZoom().scale;
+		y += ((movement.getDy()*gj)*mm);
+		x += ((movement.getDx()*gj)*mm);
 	}
 }

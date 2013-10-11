@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nitrogene.core.Craft;
 import nitrogene.core.SLaser;
+import nitrogene.util.TickSystem;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -136,6 +137,9 @@ public class LaserLauncher {
 	
 	public float getY(){
 		return y;
+	}
+	public WeaponTimer getTimer() {
+		return TickSystem.getTimer(this);
 	}
 
 }
