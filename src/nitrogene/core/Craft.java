@@ -77,10 +77,10 @@ public class Craft {
 		y = y1;
 	}
 	public float getX(){
-		return (float) (x*Zoom.getZoom().scale);
+		return (float) (x);
 	}
 	public float getY(){
-		return (float) (y*Zoom.getZoom().scale);
+		return (float) (y);
 	}
 	public Image getImage(){
 		return craftimage;

@@ -77,7 +77,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoom(ZoomEnum.LARGE);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		//other variables
@@ -260,14 +260,19 @@ public class GameState extends BasicGameState{
 		
 		//camX = (float) (craft.getX()*Zoom.getZoom().scale+(craft.getImage().getWidth()/2) - (SCR_width / 2));
 		//camY = (float) (craft.getY()*Zoom.getZoom().scale+(craft.getImage().getHeight()/2) - (SCR_height / 2));
-		int xv = ((Zoom.getZoomWidth()/4) - (SCR_width/4));
-		int yv = ((Zoom.getZoomHeight()/4) - (SCR_height/4));
+		//int xv = (((Zoom.getZoomWidth()/2)) - (SCR_width/2)); --shtoopid crap from nam
+		//int yv = ((Zoom.getZoomHeight()/2) - (SCR_height/2));
+		int xv = (SCR_width/2);
+		int yv = (SCR_height/2);
 		float xv2 = (float) ((craft.getX())+((craft.getImage().getWidth())/2));
+		xv2*=Zoom.getZoom().scale;
 		float yv2 = (float) ((craft.getY())+((craft.getImage().getHeight())/2));
+		yv2*=Zoom.getZoom().scale;
 		
-		camX = (float) (xv2 - xv);
-    	camY = (float) (yv2 - yv);
-
+		camX = (float) ((float) (xv2 - xv));
+    	camY = (float) ((float) (yv2 - yv));
+    	System.out.println(xv2);
+    	System.out.println(yv2);
 		
 		}
 		else{
