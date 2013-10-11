@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nitrogene.core.Craft;
 import nitrogene.core.SLaser;
+import nitrogene.core.Zoom;
 import nitrogene.util.TickSystem;
 
 import org.newdawn.slick.Image;
@@ -116,7 +117,7 @@ public class LaserLauncher {
 	}
 	
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser(x+craftX,y+craftY, camX+desx, camY+desy, accuracy, speed, damage, size, proje));
+		slaserlist.add(new SLaser((float) ((x+craftX) * 1),(float) ((y+craftY)* 1), camX+desx, camY+desy, accuracy, speed, damage, size, proje));
 	}
 	
 	public float getAngle(){

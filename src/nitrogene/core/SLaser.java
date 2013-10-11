@@ -12,13 +12,13 @@ import java.util.Random;
 public class SLaser {
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
-	Point location = new Point(0,0);
+	public Point location = new Point(0,0);
 	Image theimage; 
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
 	public AABB boundbox;
-	boolean isRotated = false, isPlaying = false;
+	public boolean isRotated = false, isPlaying = false;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size) throws SlickException{
 		theimage = new Image("res/LaserV2ro.png");
@@ -103,7 +103,7 @@ public class SLaser {
 	private int randomize(int distance) {
 		Random rand = new Random();
 		int  n = rand.nextInt(distance * 2) + 1;
-		return n - distance;
+		return (int) (n* Zoom.getZoom().scale - distance);
 		}
 	
 	public boolean isRotated(){
