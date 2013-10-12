@@ -9,6 +9,7 @@ import nitrogene.util.TickSystem;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class LaserLauncher {
 	private float desx, desy, x, y, camX, camY;
@@ -18,10 +19,11 @@ public class LaserLauncher {
 	private float mmangle, craftX, craftY, size, speed;
 	public boolean isRotating;
 	public Craft parent;
-	Image image;
-	private String proje;
+	private Image image;
+	private Image proje;
+	private Sound firesound;
 	
-	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, String proj){
+	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, Image proj) throws SlickException{
 		parent = w;
 		this.x = xpos;
 		this.y = ypos;
@@ -41,6 +43,7 @@ public class LaserLauncher {
 		this.damage = damage;
 		this.size = size;
 		proje = proj;
+		firesound = new Sound("res/sound/laser1final.ogg");
 	}
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size) throws SlickException{
 		parent = w;
@@ -61,7 +64,8 @@ public class LaserLauncher {
 		this.speed = speed;
 		this.damage = damage;
 		this.size = size;
-		proje = "res/LaserV2ro.png";
+		proje = new Image("res/LaserV2ro.png");
+		firesound = new Sound("res/sound/laser1final.ogg");
 	}
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat){
 		parent = w;
@@ -75,6 +79,8 @@ public class LaserLauncher {
 		this.maxtime = stat.time;
 		try {
 			this.image = new Image(stat.image);
+			this.proje = new Image(stat.laserimage);
+			this.firesound = new Sound(stat.firesound);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -86,7 +92,6 @@ public class LaserLauncher {
 		this.speed = stat.speed;
 		this.damage = stat.damage;
 		this.size = stat.size;
-		this.proje = stat.laserimage;
 	}
 	
 	public void setTarget(float desx, float desy){

@@ -18,7 +18,7 @@ public class SLaser {
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
 	public AABB boundbox;
-	public boolean isRotated = false, isPlaying = false;
+	private boolean isRotated = false, isPlaying = false;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size) throws SlickException{
 		theimage = new Image("res/LaserV2ro.png");
@@ -29,6 +29,7 @@ public class SLaser {
 		this.sdamage = damage;
 		this.sspeed = speed;
 		this.scalesize = size;
+		this.mmangle = 0;
 		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
@@ -38,8 +39,8 @@ public class SLaser {
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, String im) throws SlickException{
-		theimage = new Image(im);
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image im) throws SlickException{
+		theimage = im;
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;
@@ -47,6 +48,7 @@ public class SLaser {
 		this.sdamage = damage;
 		this.sspeed = speed;
 		this.scalesize = size;
+		this.mmangle = 0;
 		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
@@ -118,5 +120,7 @@ public class SLaser {
 	public float getSize(){
 		return scalesize;
 	}
-
+	public void setRotated(boolean rotate){
+		isRotated = rotate;
+	}
 }

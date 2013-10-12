@@ -21,6 +21,7 @@ public class Craft {
 	public Core core;
 	public Engine engine;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
+	protected double hull;
 	LaserLauncher primary1;
 
 	protected Image craftimage = null;
@@ -35,6 +36,7 @@ public class Craft {
 		x = xpos;
 		y = ypos;
 		
+		hull = 100;
 		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
 		updateAABB(x,y);
 		shield = new Shield(82,45,300,2,30,1000,1,50);
@@ -91,11 +93,33 @@ public class Craft {
 	public float getShieldY(){
 		return boundbox.center.y - shield.getShieldImage().getHeight()/2*1.2f;
 	}
+	public double getHull(){
+		return hull;
+	}
+	public void changeHull(double change){
+		hull += change;
+		if(hull<=0){
+			this.destroy();
+			//GAME OVER
+		}
+	}
+	public void setHull(double change){
+		hull = change;
+		if(hull<=0){
+			this.destroy();
+			//GAME OVER
+		}
+	}
 	//# is the constant
 	public void move(int thrust){
 		float mm = delta/1000f;
 		float gj = thrust*1f;
 		y += ((movement.getDy()*gj)*mm);
 		x += ((movement.getDx()*gj)*mm);
+	}
+	
+	private void destroy(){
+		craftimage = null;
+		//EXPLOSION!
 	}
 }

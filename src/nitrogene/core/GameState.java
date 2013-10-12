@@ -78,7 +78,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoom(ZoomEnum.NORMAL);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		//other variables
@@ -243,11 +243,11 @@ public class GameState extends BasicGameState{
 		
 		
 		//for: craft vs. circles
-		for(int e = 0;e<circlemeshlist.size();e++){
-			CircleMesh mesh = circlemeshlist.get(e);
+		for(int e = 0;e<map.getPlanets().size();e++){
+			CircleMesh mesh = map.getPlanets().get(e);
 			
 			if(CollisionLibrary.testCircleAABB(mesh.boundbox,craft.boundbox)){
-			//put collision info here!
+			craft.setHull(0d);
 			}
 			
 			}
@@ -360,10 +360,12 @@ public class GameState extends BasicGameState{
 			      for(int i = 0;i<craft.laserlist.get(p).slaserlist.size();i++){
 						SLaser laser = craft.laserlist.get(p).slaserlist.get(i);
 						if (!laser.isRotated()){
-							laser.isRotated = true;
-							//basicTestLaser.play(1f, 0.5f);
+							laser.getImage().setRotation(0);
+							laser.setRotated(true);
+							basicTestLaser.play(1f, 0.5f);
 							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
 							laser.getImage().rotate(laser.getAngle());
+							System.out.println(laser.getAngle());
 						}
 						if(laser.location.getX()-laser.getImage().getWidth()>Zoom.getZoomWidth()+camX||
 								laser.location.getX()+laser.getImage().getWidth()<camX||
