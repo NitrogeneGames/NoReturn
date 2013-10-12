@@ -229,10 +229,12 @@ public class GameState extends BasicGameState{
 					Planet mesh = map.getPlanets().get(p);
 					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
-						craft.laserlist.get(m).slaserlist.remove(i);
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
+						explosion.start();
+						explosion.
 						explosionSound.play(1f,0.1f);
 						mesh.getShake().shakeObject(3, 1000);
+						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
 					
 					}
