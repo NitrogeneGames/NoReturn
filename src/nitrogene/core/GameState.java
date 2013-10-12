@@ -33,6 +33,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.Particle;
 import org.newdawn.slick.particles.ParticleIO;
@@ -56,6 +57,8 @@ public class GameState extends BasicGameState{
 	Particle part;
 	ArenaMap map;
 	Stars stars;
+	SpriteSheet spriteex;
+	Animation explosion;
 	private Animation animation;
 	private int mapwidth, mapheight;
 	private Minimap minimap;
@@ -114,7 +117,14 @@ public class GameState extends BasicGameState{
     	
     	firetoggle = false;
     	
-    	//particles
+    	//particles + animations
+    	Image spriteex = new Image("res/explosion2.png");
+    	explosion = new Animation();
+         for (int row=0;row<3;row++) {
+            for(int col=0;col<6;col++){
+               explosion.addFrame(spriteex.getSubImage((int) (col*35.5f),row*49,35,45), 150);
+            }
+         }
     	shockwave = new ParticleSystem(shockimage,1500);
     	File shockfile = new File("res/test_emitter.xml");
 
@@ -156,7 +166,7 @@ public class GameState extends BasicGameState{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+    	explosion.start();
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta)
@@ -177,6 +187,7 @@ public class GameState extends BasicGameState{
 		if(TickSystem.isPaused()) {
 			TickSystem.gameResume();
 		}
+		explosion.update(delta);
     	shockwave.update(delta);
     	minimap.update(camX, camY);
     	craft.update(delta, camX, camY);
@@ -330,6 +341,8 @@ public class GameState extends BasicGameState{
 			map.getPlanets().get(i).meshImage.draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScaleFactor());
 			mesh = null;
 		}
+		
+		explosion.draw((float)(SCR_width/2-175),(float)(SCR_height/2-88.5),105,135);
 		
 		for(int p = 0; p<craft.laserlist.size(); p++){
 			   LaserLauncher cannon = craft.laserlist.get(p);

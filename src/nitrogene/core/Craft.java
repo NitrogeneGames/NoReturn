@@ -24,6 +24,7 @@ public class Craft {
 	protected double hull;
 	LaserLauncher primary1;
 
+	protected volatile boolean destroyed = true;
 	protected Image craftimage = null;
 	protected Movement movement;
 	protected int downbound, leftbound, upbound, rightbound;
@@ -119,7 +120,6 @@ public class Craft {
 	}
 	
 	private void destroy(){
-		craftimage = null;
 		//EXPLOSION!
 	}
 }
