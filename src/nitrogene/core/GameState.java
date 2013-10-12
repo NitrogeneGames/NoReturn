@@ -96,7 +96,6 @@ public class GameState extends BasicGameState{
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), offsetY, mapheight - offsetY, offsetX, mapwidth - offsetX);
-		TickSystem.addTimer(new WeaponTimer(craft.laserlist.get(0)));
 		enemy = new NPCship(1200,1200, offsetY, mapheight + offsetY, offsetX, offsetX + mapwidth, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.getImage().rotate(180);
@@ -332,10 +331,57 @@ public class GameState extends BasicGameState{
 			mesh = null;
 		}
 		
+		for(int p = 0; p<craft.laserlist.size(); p++){
+			   LaserLauncher cannon = craft.laserlist.get(p);
+			   cannon.update(craft.getX(), craft.getY());
+			      if(((cannon.getAngle()-cannon.getImage().getRotation()) != 0)) {
+			    	  float rota = Target.getRotation(cannon);
+			    	  float dist = Math.abs(rota);
+			    		  if(dist >= 100) {
+			    			  if(dist >= 200) {
+			    				  if(dist >= 300) {
+						       cannon.getImage().rotate(rota/50);
+						       
+						      } else {   //<300
+						       cannon.getImage().rotate(rota/40);
+						      }
+						      } else {  //<200
+						       cannon.getImage().rotate(rota/30);
+						      }
+						      } else { //<100
+						      cannon.getImage().rotate(rota/20);
+						      }
+			      } else {
+			          cannon.getImage().setRotation(cannon.getAngle());
+			      }
+			      cannon.getImage().draw(cannon.getX()+craft.getX(), cannon.getY()+craft.getY());
+			      
+			      //bullet draw
+			      for(int i = 0;i<craft.laserlist.get(p).slaserlist.size();i++){
+						SLaser laser = craft.laserlist.get(p).slaserlist.get(i);
+						if (!laser.isRotated()){
+							laser.isRotated = true;
+							//basicTestLaser.play(1f, 0.5f);
+							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
+							laser.getImage().rotate(laser.getAngle());
+						}
+						if(laser.location.getX()-laser.getImage().getWidth()>Zoom.getZoomWidth()+camX||
+								laser.location.getX()+laser.getImage().getWidth()<camX||
+								laser.location.getY()-laser.getImage().getHeight()>Zoom.getZoomHeight()+camY||
+								laser.location.getY()+laser.getImage().getHeight()<camY){
+							laser = null;
+							continue;
+						}
+						laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
+						laser = null;
+				}
+			
+		
+		}
+		
 		part.render();
 		shockwave.render();
 		 
-		Target.updateLasers(craft, camX, camY);
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
 		minimap.render(g);
@@ -392,16 +438,6 @@ public class GameState extends BasicGameState{
 		}
 		}
 	}
-	
-	public void tick(){
-		start = System.currentTimeMillis();
-		try {
-
-			craft.laserlist.get(0).fire();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public Object getTargetObject(float f, float g) {
 		for(int e = 0;e<boxmeshlist.size();e++){
@@ -412,7 +448,7 @@ public class GameState extends BasicGameState{
 			}
 		}
 		for(int p = 0; p<map.getPlanets().size(); p++){
-				if(CollisionLibrary.testCirclePoint(map.getPlanets().get(p).boundbox, f, g) == true) {
+				if(CollisionLibrary.testCirclePoint(map.getPlanets().get(p).boundbox, f, g)) {
 					return map.getPlanets().get(p);
 				}
 		}

@@ -1,9 +1,17 @@
 package nitrogene.util;
 
+import java.util.ArrayList;
+
+import nitrogene.collision.AABB;
+import nitrogene.collision.CollisionLibrary;
+import nitrogene.collision.Vector;
+import nitrogene.core.BoxMesh;
 import nitrogene.core.Craft;
+import nitrogene.core.Planet;
 import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
 import nitrogene.weapon.LaserLauncher;
+import nitrogene.world.ArenaMap;
 
 public class Target {
 	
@@ -40,54 +48,22 @@ public class Target {
 	  		}
 	  	  }
 		}
-	public static void updateLasers(Craft craft, float camX, float camY) {
-		for(int p = 0; p<craft.laserlist.size(); p++){
-			   LaserLauncher cannon = craft.laserlist.get(p);
-			   cannon.update((float) (craft.getX() ), (float) (craft.getY()));
-			      if(((cannon.getAngle()-cannon.getImage().getRotation()) != 0)) {
-			    	  float rota = Target.getRotation(cannon);
-			    	  float dist = Math.abs(rota);
-			    		  if(dist >= 100) {
-			    			  if(dist >= 200) {
-			    				  if(dist >= 300) {
-						       cannon.getImage().rotate(rota/50);
-						       
-						      } else {   //<300
-						       cannon.getImage().rotate(rota/40);
-						      }
-						      } else {  //<200
-						       cannon.getImage().rotate(rota/30);
-						      }
-						      } else { //<100
-						      cannon.getImage().rotate(rota/20);
-						      }
-			      } else {
-			          cannon.getImage().setRotation(cannon.getAngle());
-			      }
-			      cannon.getImage().draw(cannon.getX()+craft.getX(), cannon.getY()+craft.getY());
-			      
-			      //bullet draw
-			      for(int i = 0;i<craft.laserlist.get(p).slaserlist.size();i++){
-						SLaser laser = craft.laserlist.get(p).slaserlist.get(i);
-						if (laser.isRotated == false){
-							laser.isRotated = true;
-							//basicTestLaser.play(1f, 0.5f);
-							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
-							laser.getImage().rotate(laser.getAngle());
-						}
-						if(laser.location.getX()-laser.getImage().getWidth()>Zoom.getZoomWidth()+camX||
-								laser.location.getX()+laser.getImage().getWidth()<camX||
-								laser.location.getY()-laser.getImage().getHeight()>Zoom.getZoomHeight()+camY||
-								laser.location.getY()+laser.getImage().getHeight()<camY){
-							laser = null;
-							continue;
-						}
-						laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
-						laser = null;
-				}
+	
+	public Object getTargetObject(float f, float g, ArrayList<BoxMesh> boxmeshlist, ArenaMap map) {
+		for(BoxMesh box : boxmeshlist){
+			if(CollisionLibrary.testBoxPoint(box.boundbox, f, g)){
+				return box;
 			}
-		
 		}
+		for(Planet planet : map.getPlanets()){
+				if(CollisionLibrary.testCirclePoint(planet.boundbox, f, g)) {
+					return planet;
+				}
+		}
+		return null;
+		
+	}
+		
 	}
 
 

@@ -31,7 +31,7 @@ public class Shield extends ShipSystem{
 		if(shieldPercentage == 0){
 			damageInd = 2;
 		}
-		if(shieldPercentage < damage || shieldPercentage == damage){
+		if(shieldPercentage < damage || shieldPercentage == (float) damage){
 			damageInd = 1;
 			shieldPercentage = 0;
 		}

@@ -18,6 +18,11 @@ public class CollisionLibrary {
 			box.update(new Vector(x,y));
 			return testCircleAABB(c1, box);
 		}
+	public static boolean testBoxPoint(final AABB box, final float x, final float y){
+		 	AABB point = new AABB(1f,1f);
+		 	point.update(new Vector(x,y));
+		 	return testBoxBox(box,point);
+		}
 	public static float sqDistPointAABB(final Vector p, final AABB aabb) {
 		   float sqDist = 0.0f;
 		   float v;

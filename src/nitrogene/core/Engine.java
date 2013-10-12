@@ -51,7 +51,7 @@ public class Engine extends ShipSystem{
 		if(getHp() > maxhp){
 			setHp(maxhp);
 		}
-		if(getHp() > 0 && locked == false && unlock == true){
+		if(getHp() > 0 && !locked && unlock){
 			locked = true;
 		}
 	}

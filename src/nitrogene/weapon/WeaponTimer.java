@@ -62,7 +62,7 @@ public class WeaponTimer {
 	   Clock.stop();
    }
    public void gameResume() {
-	   if(isLocked != true) {
+	   if(!isLocked ) {
 			this.start();
 	   } 
 	   isPauseLocked = false;

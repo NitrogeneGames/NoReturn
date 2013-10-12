@@ -77,10 +77,10 @@ public class Craft {
 		y = y1;
 	}
 	public float getX(){
-		return (float) (x);
+		return x;
 	}
 	public float getY(){
-		return (float) (y);
+		return y;
 	}
 	public Image getImage(){
 		return craftimage;

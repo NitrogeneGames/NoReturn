@@ -34,11 +34,11 @@ public class Movement {
 		}
 		
 		//rules
-		if(toggle[2] == true && toggle[1] == true){ 
+		if(toggle[2] && toggle[1]){ 
 			toggle[2] = false;
 			toggle[1] = false;
 		}
-		if(toggle[3] == true && toggle[4] == true){ 
+		if(toggle[3]  && toggle[4]){ 
 			toggle[3] = false;
 			toggle[4] = false;
 		}
@@ -55,40 +55,40 @@ public class Movement {
 		double secs = distance/(20*average);
 		double slowdowntime = diracceleration[4]/20;
 
-		float speed = (float) (diracceleration[4]*20*(delta/1000f));
+		float speed = diracceleration[4]*20*(delta/1000f);
 		
 		if(secs <= slowdowntime && diracceleration[4] != 0){
 			
 			System.out.println("HERE");
 			BringBack(Direction.RIGHT, delta);
 		} else {
-			if(toggle[4] == true && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
-			else if(toggle[4] == false && diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
-			else if(toggle[4] == false) diracceleration[4] = 0f;
+			if(toggle[4] && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
+			else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
+			else if(!toggle[4]) diracceleration[4] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.LEFT, delta);
 		} else{
-			if(toggle[3] == true && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
-			else if(toggle[3] == false && diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
-			else if(toggle[3] == false) diracceleration[3] = 0f;
+			if(toggle[3] && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
+			else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
+			else if(!toggle[3]) diracceleration[3] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.DOWN, delta);
 		} else {
-			if(toggle[2] == true && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
-			else if(toggle[2] == false && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
-			else if(toggle[2] == false) diracceleration[2] = 0f;
+			if(toggle[2] && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
+			else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
+			else if(!toggle[2]) diracceleration[2] = 0f;
 		}
 		
 		if (false){
 			BringBack(Direction.UP, delta);
 		} else{
-			if(toggle[1] == true && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
-			else if(toggle[1] == false && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
-			else if(toggle[1] == false) diracceleration[1] = 0f;
+			if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
+			else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
+			else if(!toggle[1]) diracceleration[1] = 0f;
 		}
 		
 	}
@@ -116,7 +116,7 @@ public class Movement {
 	
 	public void Break(int delta){
 	for(int e = 1; e < 5; e++){
-		if(toggle[e] == true) {
+		if(toggle[e]) {
 			toggle[e] = false;
 		}
 		if(diracceleration[e] > 0f){

@@ -34,7 +34,7 @@ public class SLaser {
 		desX += randomize(accuracy);
 		desY += randomize(accuracy);
 		}
-		boundbox = new AABB((float) (theimage.getTextureWidth() * size), (float)(theimage.getTextureHeight() * size));
+		boundbox = new AABB(theimage.getTextureWidth() * size, theimage.getTextureHeight() * size);
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
@@ -52,7 +52,7 @@ public class SLaser {
 		desX += randomize(accuracy);
 		desY += randomize(accuracy);
 		}
-		boundbox = new AABB((float) (theimage.getTextureWidth() * size), (float)(theimage.getTextureHeight() * size));
+		boundbox = new AABB(theimage.getTextureWidth() * size, theimage.getTextureHeight() * size);
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
@@ -65,7 +65,7 @@ public class SLaser {
 	private void recalculateVector(float desX2, float desY2) {
 		float vec = (float)(Math.atan2(desX2 - startX, desY2 - startY));
 		//set speed
-		speed = (float) sspeed;
+		speed = sspeed;
 
 		this.dx = (float) Math.sin(vec) * speed;
         this.dy = (float) Math.cos(vec) * speed;
