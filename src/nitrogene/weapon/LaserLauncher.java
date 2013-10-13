@@ -18,11 +18,13 @@ public class LaserLauncher {
 	private double mangle;
 	private float mmangle, craftX, craftY, size, speed;
 	public boolean isRotating;
+	private int interburst, outerburst, burstnumber;
 	public Craft parent;
 	private Image image;
 	private Image proje;
 	private Sound firesound;
 	
+	@Deprecated
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, Image proj) throws SlickException{
 		parent = w;
 		this.x = xpos;
@@ -45,6 +47,8 @@ public class LaserLauncher {
 		proje = proj;
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
+	
+	@Deprecated
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size) throws SlickException{
 		parent = w;
 		this.x = xpos;
@@ -76,7 +80,9 @@ public class LaserLauncher {
 		this.accuracy = stat.accuracy;
 		mangle = 0;
 		mmangle = 0f;
-		this.maxtime = stat.time;
+		this.interburst = stat.interburst;
+		this.outerburst = stat.outerburst;
+		this.burstnumber = stat.burstnumber;
 		try {
 			this.image = new Image(stat.image);
 			this.proje = new Image(stat.laserimage);
@@ -148,5 +154,13 @@ public class LaserLauncher {
 	public WeaponTimer getTimer() {
 		return TickSystem.getTimer(this);
 	}
-
+	public int getBurstNumber(){
+		return burstnumber;
+	}
+	public int getInterburst(){
+		return interburst;
+	}
+	public int getOuterburst(){
+		return outerburst;
+	}
 }

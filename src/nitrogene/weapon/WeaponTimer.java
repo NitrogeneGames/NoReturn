@@ -12,6 +12,7 @@ public class WeaponTimer {
    public boolean isPauseLocked = false;
    public boolean isLocked = false;
    public int tickTime = 1000;
+   private int shot, maxshot;
    private long start;
    private long elapsed;
    private LaserLauncher w;
@@ -27,6 +28,13 @@ public class WeaponTimer {
     	Clock = t;
     }
    public void tick() {
+	   shot++;
+	   if(shot <= w.getBurstNumber()){
+		   Clock.setDelay(w.getInterburst());
+	   } else{
+		   Clock.setDelay(w.getOuterburst());
+		   shot = 1;
+	   }
 	   try {
 		w.fire();
 		start = System.currentTimeMillis();
@@ -42,18 +50,19 @@ public class WeaponTimer {
    }
    public WeaponTimer(int c, LaserLauncher d) {
 	   w = d; 
+	   shot = 1;
        Clock = new Timer(c, taskPerformer);
    }
    public WeaponTimer(LaserLauncher d) {
 	   w = d;
-       Clock = new Timer(1000, taskPerformer);
+	   shot = 1;
+       Clock = new Timer(d.getInterburst(), taskPerformer);
    }
    public void start() {   
 		this.start((int) (tickTime - elapsed));		
    }
    public void start(int delay) {   
 	    isLocked = false;
-		Clock.setInitialDelay(delay);
 		start = System.currentTimeMillis();
 		Clock.start();		
   }
@@ -65,6 +74,7 @@ public class WeaponTimer {
 	   if(!isLocked ) {
 			this.start();
 	   } 
+	   shot = 1;
 	   isPauseLocked = false;
    }
    public void gamePause() {

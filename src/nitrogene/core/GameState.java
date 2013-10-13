@@ -82,7 +82,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		Zoom.setZoom(ZoomEnum.NORMAL);
+		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		//other variables
