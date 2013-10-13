@@ -50,7 +50,7 @@ public class Craft {
 		
 		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
 
-		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.BASIC);
+		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.PULSAR);
 		TickSystem.addTimer(new WeaponTimer(primary1));
 		laserlist.add(primary1);
 	}

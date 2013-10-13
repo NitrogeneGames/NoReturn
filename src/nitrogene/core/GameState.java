@@ -110,7 +110,7 @@ public class GameState extends BasicGameState{
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
     	
-    	map = new ArenaMap(4,offsetX,offsetY,mapwidth,mapheight,craft);
+    	map = new ArenaMap(1,offsetX,offsetY,mapwidth,mapheight,craft);
     	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
     	stars = new Stars(2,mapwidth,mapheight);
     	//ADDRESS PROBLEM
@@ -313,10 +313,10 @@ public class GameState extends BasicGameState{
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			if(mesh.getX()-mesh.getImage().getWidth()*mesh.getScaleFactor()>Zoom.getZoomWidth()+camX||
-					mesh.getX()+mesh.getImage().getWidth()*mesh.getScaleFactor()<camX||
-					mesh.getY()-mesh.getImage().getHeight()*mesh.getScaleFactor()>Zoom.getZoomHeight()+camY||
-					mesh.getY()+mesh.getImage().getHeight()*mesh.getScaleFactor()<camY){
+			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScaleFactor())>Zoom.getZoomWidth()+camX||
+					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScaleFactor())<camX||
+					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScaleFactor())>Zoom.getZoomHeight()+camY||
+					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScaleFactor())<camY){
 				mesh = null;
 				continue;
 			}
@@ -370,12 +370,11 @@ public class GameState extends BasicGameState{
 							basicTestLaser.play(1f, 0.5f);
 							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
 							laser.getImage().rotate(laser.getAngle());
-							System.out.println(laser.getAngle());
 						}
-						if(laser.location.getX()-laser.getImage().getWidth()>Zoom.getZoomWidth()+camX||
-								laser.location.getX()+laser.getImage().getWidth()<camX||
-								laser.location.getY()-laser.getImage().getHeight()>Zoom.getZoomHeight()+camY||
-								laser.location.getY()+laser.getImage().getHeight()<camY){
+						if(laser.location.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
+								laser.location.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
+								laser.location.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
+								laser.location.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
 							laser = null;
 							continue;
 						}
@@ -413,19 +412,21 @@ public class GameState extends BasicGameState{
 		if(!PAUSED) {
 
 		if(button == 1) {
-			firetoggle = !firetoggle;
-			if(firetoggle){
+			//RIGHT CLICK: TURNS OFF FIRING MECHANISM
+			/*
+			if(!firetoggle){
 				
-				//craft.laserlist.get(0).setTarget(x, y, camX, camY);
-				//startFire(timer1,craft.laserlist.get(0));
 				TickSystem.resume();
 				start = System.currentTimeMillis();
 			}
-			if (!firetoggle){
+			else if (firetoggle){
 
 				TickSystem.pause();
 			}
-		} else {
+			*/
+			TickSystem.pause();
+			firetoggle = !firetoggle;
+		} else if (button == 0){
 			if(getTargetObject(camX + x,camY + y) != null) {
 				if(getTargetObject(camX + x,camY + y).getClass() == Planet.class) {
 					//Target Planet

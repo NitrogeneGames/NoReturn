@@ -5,8 +5,8 @@ import nitrogene.util.ZoomEnum;
 public class Zoom {
 	
 	private static ZoomEnum zoom;
-	private static int zoomwidth;
-	private static int zoomheight;
+	private static float zoomwidth;
+	private static float zoomheight;
 	
 	public Zoom(ZoomEnum z){
 		zoom = z;
@@ -22,14 +22,14 @@ public class Zoom {
 	}
 	
 	public static void setZoomWindow(int width, int height){
-		zoomwidth = (int) (zoom.inverse*width);
-		zoomheight = (int) (zoom.inverse*height);
+		zoomwidth = (float) (zoom.inverse*width);
+		zoomheight = (float) (zoom.inverse*height);
 	}
 	
-	public static int getZoomWidth(){
+	public static float getZoomWidth(){
 		return zoomwidth;
 	}
-	public static int getZoomHeight(){
+	public static float getZoomHeight(){
 		return zoomheight;
 	}
 }
