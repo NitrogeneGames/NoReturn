@@ -15,7 +15,9 @@ import nitrogene.collision.Vector;
 import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
+import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
+import nitrogene.util.Explosion;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
 import nitrogene.util.Target;
@@ -58,7 +60,6 @@ public class GameState extends BasicGameState{
 	ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
-	Animation explosion;
 	private Animation animation;
 	private int mapwidth, mapheight;
 	private Minimap minimap;
@@ -71,7 +72,7 @@ public class GameState extends BasicGameState{
 	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
 
 	private boolean PAUSED = false;
-	Sound basicTestLaser,explosionSound;
+	Sound basicTestLaser;
 
 	public GameState(int width, int height) {
 		this.SCR_width = width;
@@ -95,7 +96,6 @@ public class GameState extends BasicGameState{
 		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
 		//load sounds here
 		basicTestLaser = new Sound("res/sound/laser1final.ogg");
-		explosionSound = new Sound("res/sound/Explosionfinal.ogg");
 		
 		//load images and objects here
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), offsetY, mapheight - offsetY, offsetX, mapwidth - offsetX);
@@ -117,14 +117,6 @@ public class GameState extends BasicGameState{
     	
     	firetoggle = false;
     	
-    	//particles + animations
-    	Image spriteex = new Image("res/explosion2.png");
-    	explosion = new Animation();
-         for (int row=0;row<3;row++) {
-            for(int col=0;col<6;col++){
-               explosion.addFrame(spriteex.getSubImage((int) (col*35.5f),row*49,35,45), 150);
-            }
-         }
     	shockwave = new ParticleSystem(shockimage,1500);
     	File shockfile = new File("res/test_emitter.xml");
 
@@ -166,7 +158,6 @@ public class GameState extends BasicGameState{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	explosion.start();
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta)
@@ -187,7 +178,7 @@ public class GameState extends BasicGameState{
 		if(TickSystem.isPaused()) {
 			TickSystem.gameResume();
 		}
-		explosion.update(delta);
+		AnimationManager.updateAnimation(delta);
     	shockwave.update(delta);
     	minimap.update(camX, camY);
     	craft.update(delta, camX, camY);
@@ -230,9 +221,8 @@ public class GameState extends BasicGameState{
 					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
-						explosion.start();
-						explosion.
-						explosionSound.play(1f,0.1f);
+						Explosion something = new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 1.5f, 150);
+						AnimationManager.addAnimation(something);
 						mesh.getShake().shakeObject(3, 1000);
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
@@ -344,7 +334,7 @@ public class GameState extends BasicGameState{
 			mesh = null;
 		}
 		
-		explosion.draw((float)(SCR_width/2-175),(float)(SCR_height/2-88.5),105,135);
+		AnimationManager.renderAnimation();
 		
 		for(int p = 0; p<craft.laserlist.size(); p++){
 			   LaserLauncher cannon = craft.laserlist.get(p);
