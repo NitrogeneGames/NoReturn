@@ -82,7 +82,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoom(ZoomEnum.NORMAL);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		//other variables
@@ -221,8 +221,7 @@ public class GameState extends BasicGameState{
 					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
-						Explosion something = new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 1.5f, 150);
-						AnimationManager.addAnimation(something);
+						AnimationManager.addAnimation(new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 1.5f, 150));
 						mesh.getShake().shakeObject(3, 1000);
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
