@@ -3,6 +3,7 @@ package nitrogene.weapon;
 import java.util.ArrayList;
 
 import nitrogene.core.Craft;
+import nitrogene.core.CursorSystem;
 import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
 import nitrogene.util.TickSystem;
@@ -125,6 +126,9 @@ public class LaserLauncher {
 	public void update(float craftX,float craftY){
 		this.craftX = craftX;
 		this.craftY = craftY;
+		//if(this.getTimer().isPauseLocked){
+		//	CursorSystem.changeCursor("redfire");
+		//}else CursorSystem.changeCursor("greenfire");
 	}
 	
 	public void fire() throws SlickException{

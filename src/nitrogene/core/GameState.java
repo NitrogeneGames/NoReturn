@@ -82,6 +82,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
+		CursorSystem.init();
 		Zoom.setZoom(ZoomEnum.NORMAL);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
@@ -179,6 +180,7 @@ public class GameState extends BasicGameState{
 			TickSystem.gameResume();
 		}
 		AnimationManager.updateAnimation(delta);
+		CursorSystem.update(container);
     	shockwave.update(delta);
     	minimap.update(camX, camY);
     	craft.update(delta, camX, camY);

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import nitrogene.core.CursorSystem;
+
 import org.newdawn.slick.SlickException;
 
 public class WeaponTimer {
@@ -52,11 +54,13 @@ public class WeaponTimer {
 	   w = d; 
 	   shot = 1;
        Clock = new Timer(c, taskPerformer);
+       CursorSystem.changeCursor("greenfire");
    }
    public WeaponTimer(LaserLauncher d) {
 	   w = d;
 	   shot = 1;
        Clock = new Timer(d.getInterburst(), taskPerformer);
+       CursorSystem.changeCursor("greenfire");
    }
    public void start() {   
 		this.start((int) (tickTime - elapsed));		
@@ -75,10 +79,12 @@ public class WeaponTimer {
 			this.start();
 	   } 
 	   shot = 1;
+	   CursorSystem.changeCursor("greenfire");
 	   isPauseLocked = false;
    }
    public void gamePause() {
 	   this.pause();
+	   CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
    

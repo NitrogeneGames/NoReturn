@@ -8,9 +8,20 @@ import org.newdawn.slick.SlickException;
 public class CursorSystem {
 	private static String controller;
 	private static Image redfire, greenfire, yellowfire;
+	private static GameContainer cont;
 	
 	public static void changeCursor(String st){
 		controller = st;
+		try {
+			if(controller == "default") cont.setDefaultMouseCursor();
+			if (controller == "redfire") cont.setMouseCursor(redfire, redfire.getWidth()/2, redfire.getHeight()/2);
+			if (controller == "yellowfire")  cont.setMouseCursor(yellowfire, yellowfire.getWidth()/2, yellowfire.getHeight()/2);
+			//if (controller == "greenfire") cont.setMouseCursor(greenfire, 0, 0);
+			//else cont.setDefaultMouseCursor();
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
 	}
 	
 	public static void init() throws SlickException{
@@ -20,12 +31,7 @@ public class CursorSystem {
 		controller = "default";
 	}
 	
-	public static void update(GameContainer cont) throws SlickException{
-		switch(controller){
-		case "default": cont.setDefaultMouseCursor();
-		case "redfire": cont.setMouseCursor(redfire, redfire.getWidth()/2, redfire.getHeight()/2);
-		case "yellowfire": cont.setMouseCursor(yellowfire, yellowfire.getWidth()/2, yellowfire.getHeight()/2);
-		case "greenfire": cont.setMouseCursor(greenfire, greenfire.getWidth()/2, greenfire.getHeight()/2);
+	public static void update(GameContainer container) throws SlickException{
+		cont = container;
 		}
 	}
-}
