@@ -5,13 +5,11 @@ import nitrogene.collision.Vector;
 public class Movement {
 	private boolean[] toggle;
 	private float[] diracceleration;
-	private int [] pixbounds;
 	private int downbound, leftbound, upbound, rightbound;
 	
 	public Movement(int upbound, int downbound, int leftbound, int rightbound){
 		toggle = new boolean[5];
 		diracceleration = new float[5];
-		pixbounds = new int[5];
 		
 		this.upbound = upbound;
 		this.downbound = downbound;
@@ -47,14 +45,17 @@ public class Movement {
 	//linear acceleration: 0 to 5 in increments of 0.1
 
 	public void Accelerate(Vector location, int delta, int cc){
-		double distance = (rightbound - location.x);
 		float DELTACON = delta/1000f;
 		
-		float dot = (diracceleration[4] - diracceleration[3]) * 20 * (DELTACON * DELTACON);  
+		float time = this.getDx()/(0.1f*(delta/5f));
+		float speed = (this.getDx() * 20 * DELTACON);
+		float distance = (speed*time) + ((1/2) * (speed/time) * time * time);
 		
-		if(location.x > rightbound - cc - dot){
-			
-			System.out.println("HERE");
+		float ltime = this.getDy()/(0.1f*(delta/5f));
+		float lspeed = (this.getDy() * 20 * DELTACON);
+		float ldistance = (lspeed*ltime) + ((1/2) * (lspeed/ltime) * ltime * ltime);
+		
+		if(location.x > rightbound - distance){
 			BringBack(Direction.RIGHT, delta);
 		} else {
 			if(toggle[4] && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
@@ -62,7 +63,7 @@ public class Movement {
 			else if(!toggle[4]) diracceleration[4] = 0f;
 		}
 		
-		if (false){
+		if (location.x < leftbound + distance){
 			BringBack(Direction.LEFT, delta);
 		} else{
 			if(toggle[3] && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
@@ -70,7 +71,7 @@ public class Movement {
 			else if(!toggle[3]) diracceleration[3] = 0f;
 		}
 		
-		if (false){
+		if (location.y > downbound - ldistance){
 			BringBack(Direction.DOWN, delta);
 		} else {
 			if(toggle[2] && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
@@ -78,32 +79,32 @@ public class Movement {
 			else if(!toggle[2]) diracceleration[2] = 0f;
 		}
 		
-		if (false){
+		if (location.y < upbound + ldistance){
 			BringBack(Direction.UP, delta);
 		} else{
 			if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
 			else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
 			else if(!toggle[1]) diracceleration[1] = 0f;
 		}
-		
+		System.out.println(location.y);
 	}
 	
 	public void BringBack(Direction direction, int delta){
 		switch(direction){
 		case UP: toggle[1] = false;
-			if(diracceleration[1] > 0f) diracceleration[1] -= 0.1f*delta/5f;
+			if(diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
 			else if(diracceleration[1] < 0f) diracceleration[1] = 0f;
 			break;
 		case DOWN: toggle[2] = false;
-			if(diracceleration[2] > 0f) diracceleration[2] -= 0.1f*delta/5f;
+			if(diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
 			else if(diracceleration[2] < 0f) diracceleration[2] = 0f;
 			break;
 		case LEFT: toggle[3] = false;
-			if(diracceleration[3] > 0f) diracceleration[3] -= 0.1f*delta/5f;
+			if(diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
 			else if(diracceleration[3] < 0f) diracceleration[3] = 0f;
 			break;
 		case RIGHT: toggle[4] = false;
-			if(diracceleration[4] > 0f) diracceleration[4] -= 0.1f*delta/5f;
+			if(diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
 			else if(diracceleration[4] < 0f) diracceleration[4] = 0f;
 			break;
 		}
