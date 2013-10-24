@@ -48,16 +48,11 @@ public class Movement {
 
 	public void Accelerate(Vector location, int delta, int cc){
 		double distance = (rightbound - location.x);
-		float DELTACON = delta/5f;
-		double accpoints = diracceleration[4]/(0.1*delta/5f);
-
-		double average = ((diracceleration[4])/2);
-		double secs = distance/(20*average);
-		double slowdowntime = diracceleration[4]/20;
-
-		float speed = diracceleration[4]*20*(delta/1000f);
+		float DELTACON = delta/1000f;
 		
-		if(secs <= slowdowntime && diracceleration[4] != 0){
+		float dot = (diracceleration[4] - diracceleration[3]) * 20 * (DELTACON * DELTACON);  
+		
+		if(location.x > rightbound - cc - dot){
 			
 			System.out.println("HERE");
 			BringBack(Direction.RIGHT, delta);
