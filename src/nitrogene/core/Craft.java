@@ -48,9 +48,7 @@ public class Craft {
 		lifesupport = new LifeSupport(82,125,200,2,5,1000,50);
 		cumulative = 0;
 		
-		//starting xpos (-craftX), and ypos, image, accuracy, reload time, speed, damage
-
-		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.PULSAR);
+		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.BASIC);
 		TickSystem.addTimer(new WeaponTimer(primary1));
 		laserlist.add(primary1);
 	}

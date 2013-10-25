@@ -13,7 +13,7 @@ import nitrogene.core.Planet;
 public class ArenaMap {
 	private int planetnumber;
 	private Image star2;
-	private Image sun1;
+	private Image sun1, volcanicplanet;
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
@@ -26,9 +26,11 @@ public class ArenaMap {
 		imagelist = new ArrayList<Image>();
 		random = new Random();
 		//star2 = new Image("res/star2.png");
+		volcanicplanet = new Image("res/volcanicplanet2.png");
 		sun1 = new Image("res/sun_1.png");
 		//imagelist.add(star2);
 		imagelist.add(sun1);
+		imagelist.add(volcanicplanet);
 		this.craft = craft;
 		craftlist = new ArrayList<Craft>();
 		craftlist.add(craft);

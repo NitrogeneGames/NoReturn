@@ -111,7 +111,7 @@ public class GameState extends BasicGameState{
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
     	
-    	map = new ArenaMap(1,offsetX,offsetY,mapwidth,mapheight,craft);
+    	map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
     	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
     	stars = new Stars(2,mapwidth,mapheight);
     	//ADDRESS PROBLEM
@@ -223,7 +223,7 @@ public class GameState extends BasicGameState{
 					mesh.getShake().update(delta);
 					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
-						AnimationManager.addAnimation(new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 1.5f, 150));
+						AnimationManager.addAnimation(new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 2.5f, 100));
 						mesh.getShake().shakeObject(3, 1000);
 						craft.laserlist.get(m).slaserlist.remove(i);
 					//explode()
