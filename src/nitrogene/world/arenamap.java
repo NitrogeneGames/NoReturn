@@ -18,6 +18,7 @@ public class ArenaMap {
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
 	private Craft craft;
+	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	Random random;
 	
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight, Craft craft) throws SlickException{
@@ -34,6 +35,15 @@ public class ArenaMap {
 		this.craft = craft;
 		craftlist = new ArrayList<Craft>();
 		craftlist.add(craft);
+		
+		this.mapwidth = mapwidth;
+		this.mapheight = mapheight;
+		this.offsetx = offsetx;
+		this.offsety = offsety;
+		this.upbound = offsety;
+		this.downbound = mapheight - offsety;
+		this.leftbound = offsetx;
+		this.rightbound = mapwidth - offsetx;
 		generate(offsetx, offsety, mapwidth, mapheight, craft);
 	}
 	
@@ -78,5 +88,30 @@ public class ArenaMap {
 	
 	public ArrayList<Craft> getCrafts(){
 		return craftlist;
+	}
+	
+	public int getUpbound(){
+		return upbound;
+	}
+	public int getDownbound(){
+		return downbound;
+	}
+	public int getRightbound(){
+		return rightbound;
+	}
+	public int getLeftbound(){
+		return leftbound;
+	}
+	public int getMapWidth(){
+		return mapwidth;
+	}
+	public int getMapHeight(){
+		return mapheight;
+	}
+	public int getOffsetX(){
+		return offsetx;
+	}
+	public int getOffsetY(){
+		return offsety;
 	}
 }

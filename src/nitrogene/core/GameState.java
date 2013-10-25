@@ -1,13 +1,10 @@
 package nitrogene.core;
 
 import java.awt.FontFormatException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.Timer;
 
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
@@ -24,7 +21,6 @@ import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.LaserLauncher;
-import nitrogene.weapon.WeaponTimer;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Animation;
