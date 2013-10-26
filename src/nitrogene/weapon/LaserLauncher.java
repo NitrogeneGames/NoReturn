@@ -7,6 +7,7 @@ import nitrogene.core.CursorSystem;
 import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
 import nitrogene.util.TickSystem;
+import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -21,6 +22,7 @@ public class LaserLauncher {
 	public boolean isRotating;
 	private int interburst, outerburst, burstnumber;
 	public Craft parent;
+	private ArenaMap map;
 	private Image image;
 	private Image proje;
 	private Sound firesound;
@@ -72,10 +74,11 @@ public class LaserLauncher {
 		proje = new Image("res/LaserV2ro.png");
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
-	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat){
+	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat){
 		parent = w;
 		this.x = xpos;
 		this.y = ypos;
+		this.map = map;
 		desx = 0;
 		desy = 0;
 		this.accuracy = stat.accuracy;
@@ -133,7 +136,7 @@ public class LaserLauncher {
 	
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(x+craftX,y+craftY, (float) (camX*Zoom.getZoom().inverse)+desx, (float) (camY*Zoom.getZoom().inverse)+desy,
-				accuracy, speed, damage, size, proje));
+				accuracy, speed, damage, size, proje, map));
 	}
 	
 	public float getAngle(){

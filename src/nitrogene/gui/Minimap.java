@@ -42,7 +42,7 @@ public class Minimap {
         g.fillRect(locationx, locationy,width,height);
 		for(int i = 0; i < planetlist.size(); i++){
 			Planet mesh = planetlist.get(i);
-			mesh.getImage().draw((mesh.getX()*scalefactor)+locationx,(mesh.getY()*scalefactor)+locationy,mesh.getScaleFactor()*scalefactor);
+			mesh.getImage().draw((mesh.getX()*scalefactor)+locationx,(mesh.getY()*scalefactor)+locationy,mesh.getScale()*scalefactor);
 			//System.out.println(mesh.getY()*scalefactor*scalefactor+locationy);
 			//System.out.println(scalefactor);
 			mesh=null;

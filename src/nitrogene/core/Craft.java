@@ -3,17 +3,20 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.collision.AABB;
+import nitrogene.collision.Vector;
+import nitrogene.objecttree.RectangleObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.WeaponTimer;
+import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Craft {
+public class Craft extends RectangleObject{
 	
 	//systems
 	public Shield shield;
@@ -25,43 +28,29 @@ public class Craft {
 	LaserLauncher primary1;
 
 	protected volatile boolean destroyed = true;
-	protected Image craftimage = null;
-	protected Movement movement;
-	protected int downbound, leftbound, upbound, rightbound;
-	protected float x, y;
-	public AABB boundbox = null;
-	protected int delta, cumulative;
+	protected int cumulative;
 	
-	public Craft(float xpos, float ypos, int upbound, int downbound, int leftbound, int rightbound) throws SlickException{
-		craftimage = new Image("res/klaarship4.png");
-		x = xpos;
-		y = ypos;
-		
+	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
+		super(xpos, ypos, img.getWidth(), img.getHeight(), img, scale, map);
+
 		hull = 100;
-		boundbox = new AABB(craftimage.getWidth(), craftimage.getHeight());
-		updateAABB(x,y);
-		shield = new Shield(82,45,300,2,30,1000,1,50);
+		shield = new Shield(82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
 		delta = 0;
-		movement = new Movement(upbound, downbound, leftbound, rightbound);
-		engine = new Engine(48,77,200,2,20,1000,20,/*warpchage */ 100,50);
-		core = new Core(82,83,1000,5,100,2000,50); 
-		lifesupport = new LifeSupport(82,125,200,2,5,1000,50);
+		engine = new Engine(48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50);
+		core = new Core(82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50); 
+		lifesupport = new LifeSupport(82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
 		cumulative = 0;
 		
-		primary1 = new LaserLauncher(this, 135, 17, EnumWeapon.BASIC);
+		primary1 = new LaserLauncher(this, map, 135, 17, EnumWeapon.BASIC);
 		TickSystem.addTimer(new WeaponTimer(primary1));
 		laserlist.add(primary1);
 	}
 	
-	public void updateAABB(float xpos, float ypos){
-		boundbox.update(boundbox.getCenter(xpos,ypos));
-	}
-	
-	public void update(int delta, float camX, float camY)
+	@Override
+	public void update(int delta)
 	{
-		this.delta = delta;
 		cumulative += delta;
-		
+		this.delta = delta;
 		//Clock
 		if(cumulative >= 1000){
 			//1 second cumulative
@@ -69,28 +58,16 @@ public class Craft {
 			cumulative = 0;
 		}
 		
-		movement.Accelerate(boundbox.center,delta,craftimage.getWidth()/2);
+		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
+		move(20);
 	}
-	public void setX(float x1){
-		x = x1;
-	}
-	public void setY(float y1){
-		y = y1;
-	}
-	public float getX(){
-		return x;
-	}
-	public float getY(){
-		return y;
-	}
-	public Image getImage(){
-		return craftimage;
-	}
+	
+
 	public float getShieldX(){
-		return boundbox.center.x - shield.getShieldImage().getWidth()/2*1.2f;
+		return boundbox.getCenterX() - shield.getImage().getWidth()/2*1.2f;
 	}
 	public float getShieldY(){
-		return boundbox.center.y - shield.getShieldImage().getHeight()/2*1.2f;
+		return boundbox.getCenterY() - shield.getImage().getHeight()/2*1.2f;
 	}
 	public double getHull(){
 		return hull;
@@ -108,13 +85,6 @@ public class Craft {
 			this.destroy();
 			//GAME OVER
 		}
-	}
-	//# is the constant
-	public void move(int thrust){
-		float mm = delta/1000f;
-		float gj = thrust*1f;
-		y += ((movement.getDy()*gj)*mm);
-		x += ((movement.getDx()*gj)*mm);
 	}
 	
 	private void destroy(){

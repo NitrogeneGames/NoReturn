@@ -1,6 +1,8 @@
 package nitrogene.core;
 
 import nitrogene.collision.AABB;
+import nitrogene.objecttree.RectangleObject;
+import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -9,19 +11,18 @@ import org.newdawn.slick.geom.Point;
 import java.util.Random;
 
 
-public class SLaser {
+public class SLaser extends RectangleObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
 	public Point location = new Point(0,0);
-	Image theimage; 
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
 	public AABB boundbox;
 	private boolean isRotated = false, isPlaying = false;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size) throws SlickException{
-		theimage = new Image("res/LaserV2ro.png");
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image img, ArenaMap map) throws SlickException{
+		super(startX, startY, img.getWidth(), img.getHeight(), img, size, map);
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;
@@ -35,11 +36,12 @@ public class SLaser {
 		desX += randomize(accuracy);
 		desY += randomize(accuracy);
 		}
-		boundbox = new AABB(theimage.getTextureWidth() * size, theimage.getTextureHeight() * size);
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
+	/*
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image im) throws SlickException{
+		super(startX, startY, img.getWidth(), img.getHeight(), img, size, map);
 		theimage = im;
 		this.startX =startX;
 		this.startY =startY;
@@ -58,11 +60,7 @@ public class SLaser {
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
-	
-	
-	private void updateBounds(float x, float y){
-		boundbox.center = boundbox.getCenter(x, y);
-	}
+	*/
 	
 	private void recalculateVector(float desX2, float desY2) {
 		float vec = (float)(Math.atan2(desX2 - startX, desY2 - startY));
@@ -87,6 +85,8 @@ public class SLaser {
 	public float getAngle(){
 		return mmangle;
 	}
+	
+	@Override
 	public void move(int delta){
 		float x = location.getX();
 		float y = location.getY();
@@ -110,9 +110,6 @@ public class SLaser {
 	
 	public boolean isRotated(){
 		return isRotated;
-	}
-	public Image getImage(){
-		return theimage;
 	}
 	public int getDamage(){
 		return sdamage;

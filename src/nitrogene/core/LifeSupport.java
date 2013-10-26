@@ -1,17 +1,16 @@
 package nitrogene.core;
 
+import nitrogene.world.ArenaMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class LifeSupport extends ShipSystem{
 	private int percentoxygen;
 	private int maxhp;
-	private Image im;
 
-	public LifeSupport(float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
-		super(x, y, maxhp, durability, maxpower, capacity, damageradius);
-		im = new Image("res/icon/oxygensystem.png");
-		this.setImage(im);
+	public LifeSupport(float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
+		super(x, y, img, map, maxhp, durability, maxpower, capacity, damageradius);
 		this.maxhp = maxhp;
 	}
 	

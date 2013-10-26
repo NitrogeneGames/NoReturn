@@ -1,23 +1,20 @@
 package nitrogene.core;
 
+import nitrogene.world.ArenaMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Shield extends ShipSystem{
 	
-	private Image shieldimage;
 	private int damageInd;
 	public float shieldPercentage;
 	public int shieldQuality;
-	private Image im;
 	
-	public Shield(float x, float y, int maxhp, int durability, int maxpower, int capacity, int shieldQuality, int damageradius) throws SlickException{
-		super(x, y, maxhp, durability, maxpower, capacity, damageradius);
+	public Shield(float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int shieldQuality, int damageradius) throws SlickException{
+		super(x, y, img, map, maxhp, durability, maxpower, capacity, damageradius);
 		damageInd = 0;
 		shieldPercentage = 100;
-		shieldimage = new Image("res/shieldV2.png");
-		im = new Image("res/icon/shieldsystem.png");
-		this.setImage(im);
 		this.shieldQuality = shieldQuality;
 	}
 	
@@ -38,7 +35,7 @@ public class Shield extends ShipSystem{
 		if(shieldPercentage > damage){
 			shieldPercentage -= damage;
 		}
-		changeOpac();
+		changeOpac(shieldPercentage);
 		return damageInd;
 	}
 	
@@ -58,14 +55,8 @@ public class Shield extends ShipSystem{
 	 * Input a percentage to define the shield level.
 	 * Use public shieldPercentage * 10 to find the percentage of the sheilds in percent (0-100%)
 	 */
-	private void changeOpac(){
-		shieldimage.setImageColor(1f, 1f, 1f, shieldPercentage * 0.1f);
-	}
 	
 	public double shieldStrength(){
 		return shieldPercentage;
-	}
-	public Image getShieldImage(){
-		return shieldimage;
 	}
 }

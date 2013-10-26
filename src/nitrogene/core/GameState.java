@@ -12,6 +12,7 @@ import nitrogene.collision.Vector;
 import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
 import nitrogene.util.Explosion;
@@ -32,6 +33,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.Particle;
 import org.newdawn.slick.particles.ParticleIO;
@@ -49,7 +51,7 @@ public class GameState extends BasicGameState{
 	private ParticleSystem shockwave;
 	NPCship enemy;
 	PauseButton resume, restart, hangar, menu, options, exit;
-	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1;
+	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
 	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
 	Particle part;
@@ -58,14 +60,13 @@ public class GameState extends BasicGameState{
 	SpriteSheet spriteex;
 	private Animation animation;
 	private int mapwidth, mapheight;
-	private Minimap minimap;
+	//private Minimap minimap;
 	private int offsetX, offsetY;
 	private final int SCR_width, SCR_height;
 	private int zoomwidth, zoomheight;
 	private float pausemenux, pausemenuy;
 	private float camX, camY;
-	private ArrayList<BoxMesh> boxmeshlist = new ArrayList<BoxMesh>();
-	private ArrayList<CircleMesh> circlemeshlist = new ArrayList<CircleMesh>();
+	private ArrayList<PhysicalObject> objlist;
 
 	private boolean PAUSED = false;
 	Sound basicTestLaser;
@@ -81,6 +82,7 @@ public class GameState extends BasicGameState{
 		CursorSystem.init();
 		Zoom.setZoom(ZoomEnum.NORMAL);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
+		objlist = new ArrayList<PhysicalObject>();
 		
 		//other variables
 				mapwidth = 5000;
@@ -94,11 +96,20 @@ public class GameState extends BasicGameState{
 		//load sounds here
 		basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		
+		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
+		for(Planet pl : map.getPlanets()){
+			objlist.add(pl);
+		}
+		
 		//load images and objects here
-		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), offsetY, mapheight - offsetY, offsetX, mapwidth - offsetX);
-		enemy = new NPCship(1200,1200, offsetY, mapheight + offsetY, offsetX, offsetX + mapwidth, Relation.HOSTILE);
+		craftImage = new Image("res/klaarship4.png");
+		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
+		objlist.add(craft);
+		enemyImage = new Image("res/klaarship4.png");
+		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.getImage().rotate(180);
+		objlist.add(enemy);
 		
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
@@ -107,8 +118,7 @@ public class GameState extends BasicGameState{
 		slaserimage = new Image("res/LaserV2ro.png");
 		GUI = new Image("res/GUIportrait.png");
     	
-    	map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
+    	//minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
     	stars = new Stars(2,mapwidth,mapheight);
     	//ADDRESS PROBLEM
     	
@@ -178,29 +188,29 @@ public class GameState extends BasicGameState{
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
     	shockwave.update(delta);
-    	minimap.update(camX, camY);
-    	craft.update(delta, camX, camY);
-    	craft.move(20);
-    	enemy.update(delta, camX, camY);
+    	//minimap.update(camX, camY);
+    	for(PhysicalObject obj : objlist){
+    		obj.update(delta);
+    	}
     	part.update(delta);
     	
     	
     	//Input Controllers
     	
 		if(input.isKeyPressed(Input.KEY_W)){
-			craft.movement.Toggle(Direction.UP);
+			craft.getMovement().Toggle(Direction.UP);
 		}
 		if(input.isKeyPressed(Input.KEY_S)){
-				craft.movement.Toggle(Direction.DOWN);
+				craft.getMovement().Toggle(Direction.DOWN);
 		}
 		if(input.isKeyPressed(Input.KEY_A)){
-				craft.movement.Toggle(Direction.LEFT);
+				craft.getMovement().Toggle(Direction.LEFT);
 		}  
 		if(input.isKeyPressed(Input.KEY_D)){  
-				craft.movement.Toggle(Direction.RIGHT);
+				craft.getMovement().Toggle(Direction.RIGHT);
 		}
 		if(input.isKeyPressed(Input.KEY_SPACE)){
-			craft.movement.Break(delta);
+			craft.getMovement().Break(delta);
 		}
 		
 		//projectile control
@@ -217,20 +227,11 @@ public class GameState extends BasicGameState{
 				for(int p = 0;p<map.getPlanets().size();p++){
 					Planet mesh = map.getPlanets().get(p);
 					mesh.getShake().update(delta);
-					if(CollisionLibrary.testCircleAABB(mesh.boundbox,laser.boundbox)){
+					if(mesh.isColliding(laser)){
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
 						AnimationManager.addAnimation(new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 2.5f, 100));
 						mesh.getShake().shakeObject(3, 1000);
 						craft.laserlist.get(m).slaserlist.remove(i);
-					//explode()
-					
-					}
-					}
-				for(int e = 0;e<boxmeshlist.size();e++){
-					if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,laser.boundbox)){
-						craft.laserlist.get(m).slaserlist.remove(i);
-					//explode()
-					//damage mesh
 					}
 					}
 				laser = null;
@@ -238,26 +239,16 @@ public class GameState extends BasicGameState{
 		}
 		//collision control
 		
-		//update the center coords!
-		craft.updateAABB(craft.getX(), craft.getY());
-		
-		
 		//for: craft vs. circles
 		for(int e = 0;e<map.getPlanets().size();e++){
-			CircleMesh mesh = map.getPlanets().get(e);
+			Planet mesh = map.getPlanets().get(e);
 			
-			if(CollisionLibrary.testCircleAABB(mesh.boundbox,craft.boundbox)){
-			craft.setHull(0d);
+			if(mesh.isColliding(craft)){
+				craft.setHull(0d);
 			}
 			
 			}
-		//for: craft vs. boxes
-		for(int e = 0;e<boxmeshlist.size();e++){
-			if(CollisionLibrary.testBoxBox(boxmeshlist.get(e).boundbox,craft.boundbox)){
-			 //put stuff here
-			}
-			}
-		 
+		
 		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
 		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
 		
@@ -300,7 +291,7 @@ public class GameState extends BasicGameState{
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
-		craft.shield.getShieldImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
+		craft.shield.getImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
 		//systems
 		craft.core.getImage().drawCentered(craft.core.getX()+craft.getX(),craft.core.getY()+craft.getY());
 		craft.shield.getImage().drawCentered(craft.shield.getX()+craft.getX(),craft.shield.getY()+craft.getY());
@@ -310,10 +301,10 @@ public class GameState extends BasicGameState{
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScaleFactor())>Zoom.getZoomWidth()+camX||
-					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScaleFactor())<camX||
-					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScaleFactor())>Zoom.getZoomHeight()+camY||
-					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScaleFactor())<camY){
+			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
+					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
+					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScale())>Zoom.getZoomHeight()+camY||
+					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
 				mesh = null;
 				continue;
 			}
@@ -324,10 +315,10 @@ public class GameState extends BasicGameState{
 				else g.setColor(Color.green);
 				float gg = mesh.getHp();
 				float ff = mesh.getMaxHp();
-				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.boundbox.radius*2), 20);
+				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.getShape().getWidth()), 20);
 			}
 			//drawing planet
-			map.getPlanets().get(i).meshImage.draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScaleFactor());
+			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
 			mesh = null;
 		}
 		
@@ -387,7 +378,7 @@ public class GameState extends BasicGameState{
 		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
-		minimap.render(g);
+		//minimap.render(g);
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);
 	        g.setColor(trans);
@@ -428,11 +419,11 @@ public class GameState extends BasicGameState{
 				if(getTargetObject(camX + x,camY + y).getClass() == Planet.class) {
 					//Target Planet
 					Planet p = (Planet) getTargetObject(camX + x,camY + y);				
-					craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
+					craft.laserlist.get(0).setTarget(p.getCenterX(), p.getCenterY());
 				}else if(getTargetObject(camX + x,camY + y).getClass() == Craft.class) {
 					//Target Ship
 					Craft p = (Craft) getTargetObject(camX + x,camY + y);				
-					craft.laserlist.get(0).setTarget(p.boundbox.center.x, p.boundbox.center.y);
+					craft.laserlist.get(0).setTarget(p.getCenterX(), p.getCenterY());
 				}
 			} else {
 			for(LaserLauncher a : craft.laserlist )
@@ -445,6 +436,7 @@ public class GameState extends BasicGameState{
 	}
 
 	public Object getTargetObject(float f, float g) {
+		/*
 		for(int e = 0;e<boxmeshlist.size();e++){
 			AABB box = new AABB(1f,1f);
 			box.update(new Vector(f,g));
@@ -452,10 +444,11 @@ public class GameState extends BasicGameState{
 				return this.boxmeshlist.get(e);
 			}
 		}
-		for(int p = 0; p<map.getPlanets().size(); p++){
-				if(CollisionLibrary.testCirclePoint(map.getPlanets().get(p).boundbox, f, g)) {
-					return map.getPlanets().get(p);
-				}
+		*/
+		for(Planet pl : map.getPlanets()){
+			if(pl.isContaining(f,g)){
+				return pl;
+			}
 		}
 		return null;
 		

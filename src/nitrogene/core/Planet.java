@@ -2,19 +2,21 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
+import nitrogene.objecttree.CircleObject;
 import nitrogene.util.Shake;
+import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Planet extends CircleMesh{
+public class Planet extends CircleObject{
 	private int maxhp;
 	private int hp;
 	private Image im;
 	private Shake shake;
 
-	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor) {
-		super(centerx, centery, theimage, scalefactor);
+	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
+		super(centerx, centery, theimage.getWidth()/2, theimage, scalefactor, map);
 		this.maxhp = maxhp;
 		hp = maxhp;
 		im = theimage;

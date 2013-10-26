@@ -1,15 +1,7 @@
 package nitrogene.util;
 
-import java.util.ArrayList;
 
-import nitrogene.collision.AABB;
-import nitrogene.collision.CollisionLibrary;
-import nitrogene.collision.Vector;
-import nitrogene.core.BoxMesh;
-import nitrogene.core.Craft;
 import nitrogene.core.Planet;
-import nitrogene.core.SLaser;
-import nitrogene.core.Zoom;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.world.ArenaMap;
 
@@ -49,14 +41,16 @@ public class Target {
 	  	  }
 		}
 	
-	public Object getTargetObject(float f, float g, ArrayList<BoxMesh> boxmeshlist, ArenaMap map) {
+	public Object getTargetObject(float f, float g, ArenaMap map) {
+		/*
 		for(BoxMesh box : boxmeshlist){
 			if(CollisionLibrary.testBoxPoint(box.boundbox, f, g)){
 				return box;
 			}
 		}
+		*/
 		for(Planet planet : map.getPlanets()){
-				if(CollisionLibrary.testCirclePoint(planet.boundbox, f, g)) {
+				if(planet.isContaining(f,g)){
 					return planet;
 				}
 		}

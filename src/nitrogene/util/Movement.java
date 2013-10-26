@@ -44,7 +44,7 @@ public class Movement {
 	
 	//linear acceleration: 0 to 5 in increments of 0.1
 
-	public void Accelerate(Vector location, int delta, int cc){
+	public void Accelerate(Vector location, int delta){
 		float DELTACON = delta/1000f;
 		
 		float time = this.getDx()/(0.1f*(delta/5f));
