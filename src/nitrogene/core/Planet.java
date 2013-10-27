@@ -16,7 +16,7 @@ public class Planet extends CircleObject{
 	private Shake shake;
 
 	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
-		super(centerx, centery, theimage.getWidth()/2, theimage, scalefactor, map);
+		super(centerx, centery, (theimage.getWidth()/2)*scalefactor, theimage, scalefactor, map);
 		this.maxhp = maxhp;
 		hp = maxhp;
 		im = theimage;

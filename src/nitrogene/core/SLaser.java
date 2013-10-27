@@ -14,7 +14,6 @@ import java.util.Random;
 public class SLaser extends RectangleObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
-	public Point location = new Point(0,0);
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
@@ -31,7 +30,6 @@ public class SLaser extends RectangleObject{
 		this.sspeed = speed;
 		this.scalesize = size;
 		this.mmangle = 0;
-		location.setLocation(startX,startY);
 		if(accuracy!=0){
 		desX += randomize(accuracy);
 		desY += randomize(accuracy);
@@ -87,18 +85,9 @@ public class SLaser extends RectangleObject{
 	}
 	
 	@Override
-	public void move(int delta){
-		float x = location.getX();
-		float y = location.getY();
-		
-		x+=((dx*30f)*(delta/1000f));
-		y+=((dy*30f)*(delta/1000f));
-		
-		location.setLocation(x,y);
-		
-		
-		//update boundbox
-		updateBounds(x,y);
+	public void move(int delta){	
+		this.setX(this.getX()+((dx*30f)*(delta/1000f)));
+		this.setY(this.getY()+((dy*30f)*(delta/1000f)));
 	}
 	
 	

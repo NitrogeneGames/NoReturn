@@ -45,14 +45,15 @@ public class PhysicalObject {
 	}
 	
 	public boolean isColliding(PhysicalObject obj){
+		/*
 		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.boundbox.getCenterX() ||
 				this.boundbox.getCenterY() + height + this.movement.getDy() >= obj.boundbox.getCenterY() ||
 				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.boundbox.getCenterX() ||
 				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.boundbox.getCenterY()
-				){
+				){*/
 		return this.boundbox.intersects(obj.boundbox);
-		}
-		else return false;
+		//}
+		//else return false;
 	}
 	
 	public boolean isContaining(float x, float y){

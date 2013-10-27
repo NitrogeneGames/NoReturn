@@ -220,7 +220,7 @@ public class GameState extends BasicGameState{
 			for(int i = 0;i<craft.laserlist.get(m).slaserlist.size();i++){
 				SLaser laser = craft.laserlist.get(m).slaserlist.get(i);
 				laser.move(delta);
-				if (laser.location.getX() > mapwidth - 20 || laser.location.getY() > mapheight - 30 || laser.location.getX() < 0 || laser.location.getY() < 0){
+				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 					craft.laserlist.get(m).slaserlist.remove(i);
 					System.gc();
 				}
@@ -229,7 +229,7 @@ public class GameState extends BasicGameState{
 					mesh.getShake().update(delta);
 					if(mesh.isColliding(laser)){
 						mesh.damage(laser.getDamage(), map.getPlanets(), p);
-						AnimationManager.addAnimation(new Explosion(laser.location.getCenterX(), laser.location.getCenterY(), 2.5f, 100));
+						AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 						mesh.getShake().shakeObject(3, 1000);
 						craft.laserlist.get(m).slaserlist.remove(i);
 					}
@@ -359,14 +359,14 @@ public class GameState extends BasicGameState{
 							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
 							laser.getImage().rotate(laser.getAngle());
 						}
-						if(laser.location.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
-								laser.location.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
-								laser.location.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
-								laser.location.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
+						if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
+								laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
+								laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
+								laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
 							laser = null;
 							continue;
 						}
-						laser.getImage().draw(laser.location.getX(), laser.location.getY(),laser.getSize());
+						laser.getImage().draw(laser.getX(), laser.getY(),laser.getSize());
 						laser = null;
 				}
 			
