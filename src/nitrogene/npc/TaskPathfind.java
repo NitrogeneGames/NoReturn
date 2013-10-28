@@ -27,12 +27,12 @@ public class TaskPathfind extends Task {
 	}
 
 	@Override
-	public void activate(int delta, float camX, float camY) {
+	public void activate(int delta) {
 		
 	}
 
 	@Override
-	public void close(int delta, float camX, float camY) {
+	public void close(int delta) {
 		
 	}
 	

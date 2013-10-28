@@ -14,7 +14,7 @@ public class TaskFire extends Task {
 	}
 
 	@Override
-	public void activate(int delta, float camX, float camY) {
+	public void activate(int delta) {
 		System.out.println("FUS DO RAH");
 		ship.laserlist.get(weaponID).getTimer().isLocked = false;
 		ship.laserlist.get(weaponID).setTarget(target.getX(), target.getY());
@@ -28,7 +28,7 @@ public class TaskFire extends Task {
 	}
 
 	@Override
-	public void close(int delta, float camX, float camY) {
+	public void close(int delta) {
 		//ship.laserlist.get(weaponID).getTimer().isLocked = true;
 	}
 };

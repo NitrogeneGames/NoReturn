@@ -27,12 +27,13 @@ public class NPCship extends Craft{
 	}
 	@Override
 	public void update(int delta){
+		
 		this.delta = delta;
 		cumulative += delta;
 		
 		//Targetting
 		if(crafttarget.get(0)!=null)
-			this.laserlist.get(0).setTarget(crafttarget.get(0).getCenterX(), crafttarget.get(0).getCenterY());
+			//this.laserlist.get(0).setTarget(crafttarget.get(0).getCenterX(), crafttarget.get(0).getCenterY());
 		
 		//Clock
 		if(cumulative >= 1000){
@@ -42,6 +43,7 @@ public class NPCship extends Craft{
 		}
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
+		runTasks(delta);
 	}
 	
 	public void addCraftTarget(Craft craft){
@@ -50,7 +52,7 @@ public class NPCship extends Craft{
 	public void addPlanetTarget(Planet planet){
 		planettarget.add(planet);
 	}
-	public void runTasks(int delta, float camX, float camY) {
-		for (Task t: tasks) t.run(delta, camX, camY);		
+	public void runTasks(int delta) {
+		for (Task t: tasks) t.run(delta);		
 	}
 }
