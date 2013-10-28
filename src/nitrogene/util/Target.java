@@ -9,6 +9,8 @@ public class Target {
 	
 	//gui}
 	public static float getRotation(LaserLauncher laser) {
+		//return getRotationNew(laser);
+
 	  	  if((laser.getAngle() >= 0 && laser.getImage().getRotation() >= 0) || (laser.getAngle() <= 0 && laser.getImage().getRotation() <= 0))
 	  	  {
 	  		  return laser.getAngle()-laser.getImage().getRotation();
@@ -38,9 +40,34 @@ public class Target {
 	  		} else {
 	  			return 0;
 	  		}
+
 	  	  }
+	  	  	 
 		}
-	
+	public static float getRotationNew(LaserLauncher laser) {
+			float news = (laser.getAngle());
+			float old = (laser.getImage().getRotation());
+			if (news < 0) news += 360;
+			if (old < 0) old += 360;
+			float dist1 = Math.abs(news - old); //DISTANCE WHEN GOING CLOCKWISE
+			float enddist;
+			boolean nbo = false;
+			if (news >= old) nbo = true;
+			if(dist1 < 180) {
+				//SHORTEST DISTANCE IS SMALLER TO LARGER WHEN GOING CLOCKWISE
+				enddist = dist1;
+				if(!nbo) {
+					enddist = -enddist;
+				}
+			} else {
+				//SHORTEST DISTANCE IS LARGER TO SMALLER WHEN GOING CLOCKWISE
+				enddist = Math.abs(180 - dist1);
+				if(!nbo) {
+					enddist = -enddist;
+				}
+			}
+			return enddist;
+	}
 	public Object getTargetObject(float f, float g, ArenaMap map) {
 		/*
 		for(BoxMesh box : boxmeshlist){
