@@ -12,6 +12,7 @@ import nitrogene.collision.Vector;
 import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
+import nitrogene.npc.TaskFire;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
@@ -108,6 +109,7 @@ public class GameState extends BasicGameState{
 		enemyImage = new Image("res/klaarship4.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
+		enemy.addTask(new TaskFire(enemy, craft, 0));
 		enemy.getImage().rotate(180);
 		objlist.add(enemy);
 		

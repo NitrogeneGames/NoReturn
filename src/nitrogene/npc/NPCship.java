@@ -14,6 +14,7 @@ public class NPCship extends Craft{
 	private Relation relation;
 	private ArrayList<Craft> crafttarget;
 	private ArrayList<Planet> planettarget;
+	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
 	public NPCship(float xpos, float ypos, Image img, float scale, ArenaMap map, Relation relation) throws SlickException{
 		super(xpos, ypos, img, scale, map);
@@ -21,7 +22,9 @@ public class NPCship extends Craft{
 		crafttarget = new ArrayList<Craft>();
 		planettarget = new ArrayList<Planet>();
 	}
-	
+	public void addTask(Task t) {
+		tasks.add(t);
+	}
 	@Override
 	public void update(int delta){
 		this.delta = delta;
@@ -46,5 +49,8 @@ public class NPCship extends Craft{
 	}
 	public void addPlanetTarget(Planet planet){
 		planettarget.add(planet);
+	}
+	public void runTasks(int delta, float camX, float camY) {
+		for (Task t: tasks) t.run(delta, camX, camY);		
 	}
 }

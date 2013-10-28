@@ -2,12 +2,13 @@ package nitrogene.npc;
 
 import org.newdawn.slick.geom.Line;
 
-public class TaskPathfind {
+public class TaskPathfind extends Task {
 	private int desx, desy, cx, cy;
 	private Line line1;
 	private Line line2;
 	
-	public TaskPathfind(int desx, int desy, int cx, int cy){
+	public TaskPathfind(NPCship s, int desx, int desy, int cx, int cy){
+		super(s);
 		this.desx = desx;
 		this.desy = desy;
 		this.cx = cx;
@@ -22,6 +23,16 @@ public class TaskPathfind {
 	}
 	
 	private void findobstruction(){
+		
+	}
+
+	@Override
+	public void activate(int delta, float camX, float camY) {
+		
+	}
+
+	@Override
+	public void close(int delta, float camX, float camY) {
 		
 	}
 	
