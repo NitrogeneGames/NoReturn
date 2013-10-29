@@ -170,4 +170,12 @@ public class LaserLauncher {
 	public int getOuterburst(){
 		return outerburst;
 	}
+	public void toggleFire(){
+		if(this.getTimer().getClock().isRunning()){
+			this.getTimer().pause();
+		}
+		else{
+			this.getTimer().start();
+		}
+	}
 }
