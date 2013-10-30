@@ -45,15 +45,15 @@ public class PhysicalObject {
 	}
 	
 	public boolean isColliding(PhysicalObject obj){
-		/*
+		
 		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.boundbox.getCenterX() ||
 				this.boundbox.getCenterY() + height + this.movement.getDy() >= obj.boundbox.getCenterY() ||
 				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.boundbox.getCenterX() ||
 				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.boundbox.getCenterY()
-				){*/
+				){
 		return this.boundbox.intersects(obj.boundbox);
-		//}
-		//else return false;
+		}
+		else return false;
 	}
 	
 	public boolean isContaining(float x, float y){
@@ -62,7 +62,7 @@ public class PhysicalObject {
 				this.boundbox.getCenterX() - width - this.movement.getDx() <= x ||
 				this.boundbox.getCenterY() - height - this.movement.getDy() <= y
 				){
-		return this.boundbox.includes(x, y);
+		return this.boundbox.contains(x, y);
 		}
 		else return false;
 	}

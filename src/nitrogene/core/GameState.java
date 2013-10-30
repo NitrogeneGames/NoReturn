@@ -45,10 +45,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class GameState extends BasicGameState{
-	private long start;
-	private long elapsed;
 	Craft craft;
-	private boolean firetoggle;
 	private ParticleSystem shockwave;
 	NPCship enemy;
 	PauseButton resume, restart, hangar, menu, options, exit;
@@ -124,7 +121,6 @@ public class GameState extends BasicGameState{
     	stars = new Stars(2,mapwidth,mapheight);
     	//ADDRESS PROBLEM
     	
-    	firetoggle = false;
     	
     	shockwave = new ParticleSystem(shockimage,1500);
     	File shockfile = new File("res/test_emitter.xml");
@@ -218,9 +214,18 @@ public class GameState extends BasicGameState{
 		//projectile control
 		for(int m = 0; m<craft.laserlist.size();m++){
 			LaserLauncher laserlauncher = craft.laserlist.get(m);
-
+			 laserlauncher.update(craft.getX(), craft.getY());
+			
 			for(int i = 0;i<craft.laserlist.get(m).slaserlist.size();i++){
 				SLaser laser = craft.laserlist.get(m).slaserlist.get(i);
+				
+				if (!laser.isRotated()){
+					laser.getImage().setRotation(0);
+					laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
+					laser.getImage().rotate(laser.getAngle());
+					basicTestLaser.play(1f, 0.5f);
+					laser.setRotated(true);
+				}
 				laser.move(delta);
 				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 					craft.laserlist.get(m).slaserlist.remove(i);
@@ -326,53 +331,8 @@ public class GameState extends BasicGameState{
 		
 		AnimationManager.renderAnimation();
 		
-		for(int p = 0; p<craft.laserlist.size(); p++){
-			   LaserLauncher cannon = craft.laserlist.get(p);
-			   cannon.update(craft.getX(), craft.getY());
-			      if(((cannon.getAngle()-cannon.getImage().getRotation()) != 0)) {
-			    	  float rota = Target.getRotation(cannon);
-			    	  float dist = Math.abs(rota);
-			    		  if(dist >= 100) {
-			    			  if(dist >= 200) {
-			    				  if(dist >= 300) {
-						       cannon.getImage().rotate(rota/50);
-						       
-						      } else {   //<300
-						       cannon.getImage().rotate(rota/40);
-						      }
-						      } else {  //<200
-						       cannon.getImage().rotate(rota/30);
-						      }
-						      } else { //<100
-						      cannon.getImage().rotate(rota/20);
-						      }
-			      } else {
-			          cannon.getImage().setRotation(cannon.getAngle());
-			      }
-			      cannon.getImage().draw(cannon.getX()+craft.getX(), cannon.getY()+craft.getY());
-			      
-			      //bullet draw
-			      for(int i = 0;i<craft.laserlist.get(p).slaserlist.size();i++){
-						SLaser laser = craft.laserlist.get(p).slaserlist.get(i);
-						if (!laser.isRotated()){
-							laser.getImage().setRotation(0);
-							laser.setRotated(true);
-							basicTestLaser.play(1f, 0.5f);
-							laser.getImage().setCenterOfRotation(cannon.getImage().getWidth()/2,cannon.getImage().getHeight()/2);
-							laser.getImage().rotate(laser.getAngle());
-						}
-						if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
-								laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
-								laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
-								laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
-							laser = null;
-							continue;
-						}
-						laser.getImage().draw(laser.getX(), laser.getY(),laser.getSize());
-						laser = null;
-				}
-			
-		
+		for(LaserLauncher cannon : craft.laserlist){
+			cannon.render(g);
 		}
 		
 		part.render();
@@ -400,40 +360,13 @@ public class GameState extends BasicGameState{
 		x *= Zoom.getZoom().inverse;
 		y *= Zoom.getZoom().inverse;
 		if(!PAUSED) {
-
-		if(button == 1) {
-			//RIGHT CLICK: TURNS OFF FIRING MECHANISM
-			/*
-			if(!firetoggle){
-				
-				TickSystem.resume();
-				start = System.currentTimeMillis();
-			}
-			else if (firetoggle){
-
+			if(button == 1) {
 				TickSystem.pause();
-			}
-			*/
-			TickSystem.pause();
-			firetoggle = !firetoggle;
-		} else if (button == 0){
-			if(getTargetObject(camX + x,camY + y) != null) {
-				if(getTargetObject(camX + x,camY + y).getClass() == Planet.class) {
-					//Target Planet
-					Planet p = (Planet) getTargetObject(camX + x,camY + y);				
-					craft.laserlist.get(0).setTarget(p.getCenterX(), p.getCenterY());
-				}else if(getTargetObject(camX + x,camY + y).getClass() == Craft.class) {
-					//Target Ship
-					Craft p = (Craft) getTargetObject(camX + x,camY + y);				
-					craft.laserlist.get(0).setTarget(p.getCenterX(), p.getCenterY());
+			} else if (button == 0){
+				for(LaserLauncher cannon : craft.laserlist){
+					cannon.toggleFire(x,y,camX,camY);
 				}
-			} else {
-			for(LaserLauncher a : craft.laserlist )
-			a.setTarget(x, y, camX, camY);
 			}
-			TickSystem.resume();
-
-		}
 		}
 	}
 

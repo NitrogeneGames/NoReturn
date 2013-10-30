@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import nitrogene.core.Craft;
 import nitrogene.core.CursorSystem;
+import nitrogene.core.Planet;
 import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
+import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.world.ArenaMap;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -134,6 +137,41 @@ public class LaserLauncher {
 		//}else CursorSystem.changeCursor("greenfire");
 	}
 	
+	public void render(Graphics g){
+	      if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
+	    	  float rota = Target.getRotation(this);
+	    	  float dist = Math.abs(rota);
+	    		  if(dist >= 100) {
+	    			  if(dist >= 200) {
+	    				  if(dist >= 300) {
+				       this.getImage().rotate(rota/50);
+				       
+				      } else {   //<300
+				       this.getImage().rotate(rota/40);
+				      }
+				      } else {  //<200
+				       this.getImage().rotate(rota/30);
+				      }
+				      } else { //<100
+				      this.getImage().rotate(rota/20);
+				      }
+	      } else {
+	          this.getImage().setRotation(this.getAngle());
+	      }
+	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY);
+	      
+	      for(SLaser laser : this.slaserlist){
+	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
+						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
+						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
+						laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
+					laser = null;
+					continue;
+				}
+				laser.getImage().draw(laser.getX(), laser.getY(),laser.getSize());
+				laser = null;
+	      }
+	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(x+craftX,y+craftY, (float) (camX*Zoom.getZoom().inverse)+desx, (float) (camY*Zoom.getZoom().inverse)+desy,
 				accuracy, speed, damage, size, proje, map));
@@ -170,12 +208,26 @@ public class LaserLauncher {
 	public int getOuterburst(){
 		return outerburst;
 	}
-	public void toggleFire(){
-		if(this.getTimer().getClock().isRunning()){
-			this.getTimer().pause();
-		}
-		else{
-			this.getTimer().start();
-		}
+	public void toggleFire(int x, int y, float camX, float camY){
+		//if(this.getTimer().getClock().isRunning()){
+		//	this.getTimer().pause();
+		//}
+		//else{
+			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
+				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
+					//Target Planet
+					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
+					this.setTarget(p.getCenterX(), p.getCenterY());
+				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class) {
+					//Target Ship
+					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
+					this.setTarget(p.getCenterX(), p.getCenterY());
+				}
+			} else {
+			this.setTarget(x + camX, y + camY);
+			}
+			TickSystem.resume();
+
+		//}
 	}
 }

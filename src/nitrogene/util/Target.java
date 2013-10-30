@@ -68,7 +68,7 @@ public class Target {
 			}
 			return enddist;
 	}
-	public Object getTargetObject(float f, float g, ArenaMap map) {
+	public static Object getTargetObject(float f, float g, ArenaMap map) {
 		/*
 		for(BoxMesh box : boxmeshlist){
 			if(CollisionLibrary.testBoxPoint(box.boundbox, f, g)){
