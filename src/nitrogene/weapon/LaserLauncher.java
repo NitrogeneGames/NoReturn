@@ -174,7 +174,7 @@ public class LaserLauncher {
 	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(x+craftX,y+craftY, (float) (camX*Zoom.getZoom().inverse)+desx, (float) (camY*Zoom.getZoom().inverse)+desy,
-				accuracy, speed, damage, size, proje, map));
+				accuracy, speed, damage, size, this.getAngle(), proje, map));
 	}
 	
 	public float getAngle(){

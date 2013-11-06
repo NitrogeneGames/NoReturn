@@ -3,6 +3,7 @@ package nitrogene.objecttree;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import nitrogene.collision.Vector;
 import nitrogene.util.Movement;
@@ -15,11 +16,23 @@ public class PhysicalObject {
 	protected Image mainimg;
 	protected float scalefactor;
 	protected int delta;
+	protected float rotation;
 	protected float width, height;
 
 	public PhysicalObject(float width, float height, Image img, float scalefactor, ArenaMap map){
 		width = 0;
 		height = 0;
+		this.map = map;
+		this.mainimg = img;
+		this.scalefactor = scalefactor;
+		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+	}
+	
+	public PhysicalObject(float width, float height, float rotate, Image img, float scalefactor, ArenaMap map){
+		width = 0;
+		height = 0;
+		this.rotate(rotate);
+		this.rotation = rotate;
 		this.map = map;
 		this.mainimg = img;
 		this.scalefactor = scalefactor;
@@ -65,6 +78,17 @@ public class PhysicalObject {
 		return this.boundbox.contains(x, y);
 		}
 		else return false;
+	}
+	
+	public void rotate(float rotate){
+		boundbox.transform(Transform.createRotateTransform(rotate, boundbox.getCenterY(), boundbox.getCenterY()));
+		rotation += rotate;
+	}
+	public void setRotate(float setting){
+		boundbox.transform(Transform.createRotateTransform((setting - rotation), boundbox.getCenterY(), boundbox.getCenterY()));
+	}
+	public float getRotation(){
+		return rotation;
 	}
 	
 	public Image getImage(){

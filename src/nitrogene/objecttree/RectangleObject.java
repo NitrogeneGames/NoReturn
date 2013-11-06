@@ -25,4 +25,10 @@ public class RectangleObject extends PhysicalObject{
 		init(boundbox.getWidth(), boundbox.getHeight());
 	}
 	
+	public RectangleObject(float x, float y, float width, float height, float rotation, Image img, float scale, ArenaMap map){
+		super(x,y,rotation,img, scale, map);
+		boundbox = new Rectangle(x,y,width,height);
+		init(boundbox.getWidth(), boundbox.getHeight());
+	}
+	
 }

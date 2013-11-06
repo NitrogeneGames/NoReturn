@@ -20,8 +20,8 @@ public class SLaser extends RectangleObject{
 	public AABB boundbox;
 	private boolean isRotated = false, isPlaying = false;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image img, ArenaMap map) throws SlickException{
-		super(startX, startY, img.getWidth(), img.getHeight(), img, size, map);
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, float rotation, Image img, ArenaMap map) throws SlickException{
+		super(startX, startY, img.getWidth(), img.getHeight(), rotation, img, size, map);
 		this.startX =startX;
 		this.startY =startY;
 		this.desX = destinX;
@@ -37,6 +37,7 @@ public class SLaser extends RectangleObject{
 		recalculateVector(desX, desY);
 		recalculateAngle(desX, desY);
 	}
+	
 	/*
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image im) throws SlickException{
 		super(startX, startY, img.getWidth(), img.getHeight(), img, size, map);
