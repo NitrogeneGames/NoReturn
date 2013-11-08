@@ -137,7 +137,7 @@ public class LaserLauncher {
 		//}else CursorSystem.changeCursor("greenfire");
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g, float camX, float camY){
 	      if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
 	    	  float rota = Target.getRotation(this);
 	    	  float dist = Math.abs(rota);

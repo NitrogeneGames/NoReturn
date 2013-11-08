@@ -4,6 +4,7 @@ import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 
 public class RectangleObject extends PhysicalObject{
 	
@@ -26,9 +27,17 @@ public class RectangleObject extends PhysicalObject{
 	}
 	
 	public RectangleObject(float x, float y, float width, float height, float rotation, Image img, float scale, ArenaMap map){
-		super(x,y,rotation,img, scale, map);
+		super(x,y,img, scale, map);
 		boundbox = new Rectangle(x,y,width,height);
 		init(boundbox.getWidth(), boundbox.getHeight());
+		rotate(rotation);
 	}
 	
+	public void rotate(float rotate){
+		boundbox.transform(Transform.createRotateTransform((float) Math.toRadians((double)rotate)));
+		rotation += rotate;
+	}
+	public void setRotate(float setting){
+		boundbox.transform(Transform.createRotateTransform((setting - rotation), boundbox.getCenterY(), boundbox.getCenterY()));
+	}
 }

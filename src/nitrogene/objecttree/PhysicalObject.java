@@ -28,17 +28,6 @@ public class PhysicalObject {
 		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 	}
 	
-	public PhysicalObject(float width, float height, float rotate, Image img, float scalefactor, ArenaMap map){
-		width = 0;
-		height = 0;
-		this.rotate(rotate);
-		this.rotation = rotate;
-		this.map = map;
-		this.mainimg = img;
-		this.scalefactor = scalefactor;
-		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
-	}
-	
 	protected void init(float width, float height){
 		this.width = width;
 		this.height = height;
@@ -80,13 +69,6 @@ public class PhysicalObject {
 		else return false;
 	}
 	
-	public void rotate(float rotate){
-		boundbox.transform(Transform.createRotateTransform(rotate, boundbox.getCenterY(), boundbox.getCenterY()));
-		rotation += rotate;
-	}
-	public void setRotate(float setting){
-		boundbox.transform(Transform.createRotateTransform((setting - rotation), boundbox.getCenterY(), boundbox.getCenterY()));
-	}
 	public float getRotation(){
 		return rotation;
 	}

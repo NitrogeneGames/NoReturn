@@ -332,7 +332,7 @@ public class GameState extends BasicGameState{
 		AnimationManager.renderAnimation();
 		
 		for(LaserLauncher cannon : craft.laserlist){
-			cannon.render(g);
+			cannon.render(g,camX,camY);
 		}
 		
 		part.render();
