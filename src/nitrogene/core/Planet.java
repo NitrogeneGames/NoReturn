@@ -31,10 +31,21 @@ public class Planet extends CircleObject{
 			this.destroy(arrayList, e);
 		}
 	}
+	public void damage(int damage,ArrayList<Planet> arrayList) throws SlickException{
+		hp -= damage;
+		if(hp < 0){
+			hp = 0;
+			//explode();
+			this.destroy(arrayList, this);
+		}
+	}
 	public void destroy(ArrayList<Planet> arraylist, int e) throws SlickException {
 		im = null;
 		arraylist.remove(e);
-		
+	}
+	public void destroy(ArrayList<Planet> arraylist, Planet planet) throws SlickException {
+		im = null;
+		arraylist.remove(planet);
 	}
 	public int getHp(){
 		return hp;

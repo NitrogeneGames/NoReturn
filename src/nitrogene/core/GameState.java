@@ -188,9 +188,6 @@ public class GameState extends BasicGameState{
 		CursorSystem.update(container);
     	shockwave.update(delta);
     	//minimap.update(camX, camY);
-    	for(PhysicalObject obj : objlist){
-    		obj.update(delta);
-    	}
     	part.update(delta);
     	
     	
@@ -212,74 +209,80 @@ public class GameState extends BasicGameState{
 			craft.getMovement().Break(delta);
 		}
 		
-		//projectile control
-		enemy.update(delta);
-		for(int m = 0; m<enemy.laserlist.size(); m++) {
-			LaserLauncher laserlauncher = enemy.laserlist.get(m);
-			 laserlauncher.update(enemy.getX(), enemy.getY());
-			
-			for(int i = 0;i<enemy.laserlist.get(m).slaserlist.size();i++){
-				SLaser laser = enemy.laserlist.get(m).slaserlist.get(i);
-				
-				if (!laser.isRotated()){
-					laser.getImage().setRotation(0);
-					laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
-					laser.getImage().rotate(laser.getAngle());
-					basicTestLaser.play(1f, 0.5f);
-					laser.setRotated(true);
+		for(PhysicalObject obj : objlist){
+			obj.update(delta);
+			if(obj.getClass() == Craft.class){
+				for(int m = 0; m<craft.laserlist.size(); m++) {
+					LaserLauncher laserlauncher = craft.laserlist.get(m);
+					 laserlauncher.update(craft.getX(), craft.getY());
+					
+					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
+						SLaser laser = laserlauncher.slaserlist.get(i);
+						if (!laser.isRotated()){
+							laser.getImage().setRotation(0);
+							laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
+							laser.getImage().rotate(laser.getAngle());
+							basicTestLaser.play(1f, 0.5f);
+							laser.setRotated(true);
+						}
+						laser.move(delta);
+						for(Planet mesh : map.getPlanets()){
+							mesh.getShake().update(delta);
+							if(mesh.isColliding(laser)){
+								mesh.damage(laser.getDamage(), map.getPlanets());
+								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								mesh.getShake().shakeObject(3, 1000);
+								laserlauncher.slaserlist.remove(laser);
+							}
+							}
+						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
+							laserlauncher.slaserlist.remove(laser);
+						}
+						laser = null;
+					}
+					laserlauncher = null;
 				}
-				laser.move(delta);
-				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
-					enemy.laserlist.get(m).slaserlist.remove(i);
-
-					System.gc();
+			} else if (obj.getClass() == NPCship.class){
+				for(int m = 0; m<enemy.laserlist.size(); m++) {
+					LaserLauncher laserlauncher = enemy.laserlist.get(m);
+					laserlauncher.update(enemy.getX(), enemy.getY());
+					
+					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
+						SLaser laser = laserlauncher.slaserlist.get(i);
+						if (!laser.isRotated()){
+							laser.getImage().setRotation(0);
+							laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
+							laser.getImage().rotate(laser.getAngle());
+							basicTestLaser.play(1f, 0.5f);
+							laser.setRotated(true);
+						}
+						laser.move(delta);
+						for(Planet mesh : map.getPlanets()){
+							mesh.getShake().update(delta);
+							if(mesh.isColliding(laser)){
+								mesh.damage(laser.getDamage(), map.getPlanets());
+								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								mesh.getShake().shakeObject(3, 1000);
+								laserlauncher.slaserlist.remove(laser);
+							}
+							}
+						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
+							laserlauncher.slaserlist.remove(laser);
+						}
+						laser = null;
+					}
+					laserlauncher = null;
 				}
+			} else if (obj.getClass() == Planet.class){
+				for(Planet mesh : map.getPlanets()){
+					if(mesh.isColliding(craft)){
+						craft.setHull(0d);
+					}
+				}
+			} else{
+				System.out.println("ERROR! Fix update in GameState");
 			}
 		}
-		for(int m = 0; m<craft.laserlist.size();m++){
-			LaserLauncher laserlauncher = craft.laserlist.get(m);
-			 laserlauncher.update(craft.getX(), craft.getY());
-			
-			for(int i = 0;i<craft.laserlist.get(m).slaserlist.size();i++){
-				SLaser laser = craft.laserlist.get(m).slaserlist.get(i);
-				
-				if (!laser.isRotated()){
-					laser.getImage().setRotation(0);
-					laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
-					laser.getImage().rotate(laser.getAngle());
-					basicTestLaser.play(1f, 0.5f);
-					laser.setRotated(true);
-				}
-				laser.move(delta);
-				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
-					craft.laserlist.get(m).slaserlist.remove(i);
-
-					System.gc();
-				}
-				for(int p = 0;p<map.getPlanets().size();p++){
-					Planet mesh = map.getPlanets().get(p);
-					mesh.getShake().update(delta);
-					if(mesh.isColliding(laser)){
-						mesh.damage(laser.getDamage(), map.getPlanets(), p);
-						AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
-						mesh.getShake().shakeObject(3, 1000);
-						craft.laserlist.get(m).slaserlist.remove(i);
-					}
-					}
-				laser = null;
-			}
-		}
-		//collision control
-		
-		//for: craft vs. circles
-		for(int e = 0;e<map.getPlanets().size();e++){
-			Planet mesh = map.getPlanets().get(e);
-			
-			if(mesh.isColliding(craft)){
-				craft.setHull(0d);
-			}
-			
-			}
 		
 		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
 		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
@@ -388,12 +391,12 @@ public class GameState extends BasicGameState{
 		x *= Zoom.getZoom().inverse;
 		y *= Zoom.getZoom().inverse;
 		if(!PAUSED) {
-			if(button == 1) {
-				TickSystem.pause();
-			} else if (button == 0){
-				for(LaserLauncher cannon : craft.laserlist){
+			for(LaserLauncher cannon : craft.laserlist){
+				if(button == 1) {
+					cannon.getTimer().pause();
+				} else if (button == 0){
 					cannon.toggleFire(x,y,(float) (camX*Zoom.getZoom().inverse),(float) (camY*Zoom.getZoom().inverse));
-				}
+			}
 			}
 		}
 	}

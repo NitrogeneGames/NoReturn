@@ -7,6 +7,7 @@ import nitrogene.core.CursorSystem;
 import nitrogene.core.Planet;
 import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
+import nitrogene.npc.NPCship;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.world.ArenaMap;
@@ -218,7 +219,8 @@ public class LaserLauncher {
 					//Target Planet
 					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
 					this.setTarget(p.getCenterX(), p.getCenterY());
-				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class) {
+				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
+						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
 					//Target Ship
 					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
 					this.setTarget(p.getCenterX(), p.getCenterY());
