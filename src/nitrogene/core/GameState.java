@@ -78,7 +78,7 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		
 		CursorSystem.init();
-		Zoom.setZoom(ZoomEnum.NORMAL);
+		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		objlist = new ArrayList<PhysicalObject>();
 		
@@ -170,6 +170,7 @@ public class GameState extends BasicGameState{
 		if(!container.hasFocus()){
 			PAUSED = true;
 		}
+
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		
 		Input input = container.getInput();
@@ -212,6 +213,29 @@ public class GameState extends BasicGameState{
 		}
 		
 		//projectile control
+		enemy.update(delta);
+		for(int m = 0; m<enemy.laserlist.size(); m++) {
+			LaserLauncher laserlauncher = enemy.laserlist.get(m);
+			 laserlauncher.update(enemy.getX(), enemy.getY());
+			
+			for(int i = 0;i<enemy.laserlist.get(m).slaserlist.size();i++){
+				SLaser laser = enemy.laserlist.get(m).slaserlist.get(i);
+				
+				if (!laser.isRotated()){
+					laser.getImage().setRotation(0);
+					laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
+					laser.getImage().rotate(laser.getAngle());
+					basicTestLaser.play(1f, 0.5f);
+					laser.setRotated(true);
+				}
+				laser.move(delta);
+				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
+					enemy.laserlist.get(m).slaserlist.remove(i);
+
+					System.gc();
+				}
+			}
+		}
 		for(int m = 0; m<craft.laserlist.size();m++){
 			LaserLauncher laserlauncher = craft.laserlist.get(m);
 			 laserlauncher.update(craft.getX(), craft.getY());
@@ -229,6 +253,7 @@ public class GameState extends BasicGameState{
 				laser.move(delta);
 				if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 					craft.laserlist.get(m).slaserlist.remove(i);
+
 					System.gc();
 				}
 				for(int p = 0;p<map.getPlanets().size();p++){
@@ -334,6 +359,9 @@ public class GameState extends BasicGameState{
 		for(LaserLauncher cannon : craft.laserlist){
 			cannon.render(g,camX,camY);
 		}
+		for(LaserLauncher cannon : enemy.laserlist){
+			cannon.render(g,camX,camY);
+		}
 		
 		part.render();
 		shockwave.render();
@@ -364,7 +392,7 @@ public class GameState extends BasicGameState{
 				TickSystem.pause();
 			} else if (button == 0){
 				for(LaserLauncher cannon : craft.laserlist){
-					cannon.toggleFire(x,y,camX,camY);
+					cannon.toggleFire(x,y,(float) (camX*Zoom.getZoom().inverse),(float) (camY*Zoom.getZoom().inverse));
 				}
 			}
 		}

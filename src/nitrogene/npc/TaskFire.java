@@ -3,11 +3,13 @@ package nitrogene.npc;
 import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
+import nitrogene.core.Zoom;
 import nitrogene.weapon.WeaponTimer;
 
 public class TaskFire extends Task {
 	public Craft target;
 	public int weaponID;
+	private boolean once = false;
 	public TaskFire(NPCship s, Craft t, int wid){
 		super(s);
 		target = t;
@@ -16,9 +18,13 @@ public class TaskFire extends Task {
 
 	@Override
 	public void activate(int delta) {
-		System.out.println("FUS RO DAH");
+		ship.laserlist.get(weaponID).setTarget((float) (target.getX()), (float) (target.getY()));
+		if(!once) {
+			ship.laserlist.get(weaponID).getTimer().start();
+		}
+		
 
-		ship.laserlist.get(weaponID).setTarget(target.getX(), target.getY());
+	
 		
 		//WeaponTimer t = ship.laserlist.get(weaponID).getTimer();
 		
