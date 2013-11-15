@@ -25,8 +25,8 @@ public class NPCship extends Craft{
 	public void addTask(Task t) {
 		tasks.add(t);
 	}
-	@Override
-	public void update(int delta){
+
+	public void update(int delta, float camX, float camY){
 		
 		this.delta = delta;
 		cumulative += delta;
@@ -43,7 +43,7 @@ public class NPCship extends Craft{
 		}
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
-		runTasks(delta);
+		runTasks(delta, camX, camY);
 	}
 	
 	public void addCraftTarget(Craft craft){
@@ -52,7 +52,7 @@ public class NPCship extends Craft{
 	public void addPlanetTarget(Planet planet){
 		planettarget.add(planet);
 	}
-	public void runTasks(int delta) {
-		for (Task t: tasks) t.run(delta);		
+	public void runTasks(int delta, float camX, float camY) {
+		for (Task t: tasks) t.run(delta, camX, camY);		
 	}
 }

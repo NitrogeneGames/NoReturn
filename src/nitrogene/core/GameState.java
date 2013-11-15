@@ -78,7 +78,7 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		
 		CursorSystem.init();
-		Zoom.setZoom(ZoomEnum.MAP);
+		Zoom.setZoom(ZoomEnum.NORMAL);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		objlist = new ArrayList<PhysicalObject>();
 		
@@ -210,8 +210,8 @@ public class GameState extends BasicGameState{
 		}
 		
 		for(PhysicalObject obj : objlist){
-			obj.update(delta);
 			if(obj.getClass() == Craft.class){
+				obj.update(delta);
 				for(int m = 0; m<craft.laserlist.size(); m++) {
 					LaserLauncher laserlauncher = craft.laserlist.get(m);
 					 laserlauncher.update(craft.getX(), craft.getY());
@@ -243,6 +243,8 @@ public class GameState extends BasicGameState{
 					laserlauncher = null;
 				}
 			} else if (obj.getClass() == NPCship.class){
+				NPCship temp = (NPCship) obj;
+				temp.update(delta,camX,camY);
 				for(int m = 0; m<enemy.laserlist.size(); m++) {
 					LaserLauncher laserlauncher = enemy.laserlist.get(m);
 					laserlauncher.update(enemy.getX(), enemy.getY());

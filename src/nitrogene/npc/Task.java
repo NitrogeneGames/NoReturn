@@ -25,9 +25,9 @@ public abstract class Task {
 	public void disable() {
 		enabled = false;
 	}
-	public void run(int delta) {
-		if (enabled) activate(delta);
+	public void run(int delta, float camX, float camY) {
+		if (enabled) activate(delta, camX, camY);
 	}
-	public abstract void activate(int delta);
+	public abstract void activate(int delta, float camX, float camY);
 	public abstract void close(int delta); //RUN THIS WHEN TASK IS DELETED OR ELSE BAD THINGS WILL HAPPEN
 }

@@ -179,8 +179,8 @@ public class LaserLauncher {
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+(camX*Zoom.getZoom().inverse) - (x+craftX));
-			double mecY = (desy+(camY*Zoom.getZoom().inverse) - (y+craftY));
+			double mecX = (desx+(camX*Zoom.getZoom().inverse) - (x - xdeviation));
+			double mecY = (desy+(camY*Zoom.getZoom().inverse) - (y - ydeviation));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;
