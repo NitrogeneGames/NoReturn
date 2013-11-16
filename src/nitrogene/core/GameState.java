@@ -219,11 +219,13 @@ public class GameState extends BasicGameState{
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
 						if (!laser.isRotated()){
+							
 							laser.getImage().setRotation(0);
 							laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
 							laser.getImage().rotate(laser.getAngle());
 							basicTestLaser.play(1f, 0.5f);
 							laser.setRotated(true);
+							System.out.println("HERE");
 						}
 						laser.move(delta);
 						for(Planet mesh : map.getPlanets()){
@@ -237,7 +239,7 @@ public class GameState extends BasicGameState{
 							}
 						for(PhysicalObject temp : objlist){
 							if(!temp.equals(obj) && laser.isColliding(temp)){
-								AnimationManager.addAnimation(new Explosion(PhysicalObject.getIntersectionPoints(laser.boundbox, temp.getBoundbox()), laser.getCenterY(), 2.5f, 100));
+								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 							}
 						}

@@ -119,4 +119,7 @@ public class PhysicalObject {
 	public float getScale(){
 		return this.scalefactor;
 	}
+	public Shape getBoundbox(){
+		return boundbox;
+	}
 }

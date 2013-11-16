@@ -1,13 +1,10 @@
 package nitrogene.core;
 
-import nitrogene.collision.AABB;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
-
 import java.util.Random;
 
 
@@ -17,8 +14,7 @@ public class SLaser extends RectangleObject{
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
-	public AABB boundbox;
-	private boolean isRotated = false, isPlaying = false;
+	private boolean isRotated = false;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, float rotation, Image img, ArenaMap map) throws SlickException{
 		super(startX, startY, img.getWidth(), img.getHeight(), rotation, img, size, map);
@@ -87,8 +83,8 @@ public class SLaser extends RectangleObject{
 	
 	@Override
 	public void move(int delta){	
-		this.setX(this.getX()+((dx*30f)*(delta/1000f)));
-		this.setY(this.getY()+((dy*30f)*(delta/1000f)));
+		this.setX(this.getX()+((dx*2f)*(delta/1000f)));
+		this.setY(this.getY()+((dy*2f)*(delta/1000f)));
 	}
 	
 	
