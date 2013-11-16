@@ -4,6 +4,7 @@ public abstract class Task {
 	protected NPCship ship;
 	public boolean isComplete;
 	public boolean enabled;
+	protected float craftX, craftY;
 	public Task(NPCship s) {
 		ship = s;
 		isComplete = false;
@@ -27,6 +28,10 @@ public abstract class Task {
 	}
 	public void run(int delta, float camX, float camY) {
 		if (enabled) activate(delta, camX, camY);
+	}
+	public void updateCraftPosition(float craftX, float craftY){
+		this.craftX = craftX;
+		this.craftY = craftY;
 	}
 	public abstract void activate(int delta, float camX, float camY);
 	public abstract void close(int delta); //RUN THIS WHEN TASK IS DELETED OR ELSE BAD THINGS WILL HAPPEN

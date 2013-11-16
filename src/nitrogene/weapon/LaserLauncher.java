@@ -138,6 +138,13 @@ public class LaserLauncher {
 		//}else CursorSystem.changeCursor("greenfire");
 	}
 	
+	public void update(float craftX, float craftY, float camX, float camY){
+		this.craftX = craftX;
+		this.craftY = craftY;
+		this.camX = camX;
+		this.camY = camY;
+	}
+	
 	public void render(Graphics g, float camX, float camY){
 	      if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
 	    	  float rota = Target.getRotation(this);
@@ -179,8 +186,8 @@ public class LaserLauncher {
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+(camX*Zoom.getZoom().inverse) - (x - xdeviation));
-			double mecY = (desy+(camY*Zoom.getZoom().inverse) - (y - ydeviation));
+			double mecX = (desx+(camX*Zoom.getZoom().inverse) - (x+craftX));
+			double mecY = (desy+(camY*Zoom.getZoom().inverse) - (y+craftY));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;

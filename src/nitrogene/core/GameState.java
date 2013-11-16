@@ -235,6 +235,12 @@ public class GameState extends BasicGameState{
 								laserlauncher.slaserlist.remove(laser);
 							}
 							}
+						for(PhysicalObject temp : objlist){
+							if(!temp.equals(obj) && laser.isColliding(temp)){
+								AnimationManager.addAnimation(new Explosion(PhysicalObject.getIntersectionPoints(laser.boundbox, temp.getBoundbox()), laser.getCenterY(), 2.5f, 100));
+								laserlauncher.slaserlist.remove(laser);
+							}
+						}
 						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 							laserlauncher.slaserlist.remove(laser);
 						}
@@ -267,7 +273,13 @@ public class GameState extends BasicGameState{
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 							}
+						}
+						for(PhysicalObject temp2 : objlist){
+							if(!temp2.equals(obj) && laser.isColliding(temp2)){
+								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								laserlauncher.slaserlist.remove(laser);
 							}
+						}
 						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 							laserlauncher.slaserlist.remove(laser);
 						}
