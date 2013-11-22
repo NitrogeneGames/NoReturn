@@ -61,11 +61,8 @@ public class NPCship extends Craft{
 		planettarget.add(planet);
 	}
 	public void runTasks(int delta, float camX, float camY) {
-		for (Task t: tasks){ 
-			t.run(delta, camX, camY);
-			if(t.getClass() == TaskFire.class){
-				
-			}
+		for (int i = 0; i < tasks.size(); i++){ //I KNOW YOU HATE THIS, I WAS TRYING TO FIX THE ERROR
+				tasks.get(i).run(delta, camY, camY);
 		}
 	}
 	public void removeTask(Task t2) {

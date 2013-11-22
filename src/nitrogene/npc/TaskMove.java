@@ -26,7 +26,18 @@ public class TaskMove extends Task {
 
 	@Override
 	public void activate(int delta, float camX, float camY) {
-		if(this.ship.getX() != desx) {
+		if(this.ship.getX() != desx && this.ship.getY() != desy) {
+			if(desx > this.ship.getX()) {
+				this.ship.setX(this.ship.getX() + 3);
+			} else {
+				this.ship.setX(this.ship.getX() - 3);
+			}
+			if(desy > this.ship.getY()) {
+				this.ship.setY(this.ship.getY() + 3);
+			} else {
+				this.ship.setY(this.ship.getY() - 3);
+			}
+		} else if(this.ship.getX() != desx) {
 			if(desx > this.ship.getX()) {
 				this.ship.setX(this.ship.getX() + 5);
 			} else {
@@ -40,7 +51,7 @@ public class TaskMove extends Task {
 			}
 		} else {
 			this.close(delta);
-			//ship.removeTask(this); --THIS ERRORS FOR SOME REASON
+			ship.removeTask(this); 
 		}
 	}
 
