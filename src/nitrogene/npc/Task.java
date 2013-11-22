@@ -34,5 +34,6 @@ public abstract class Task {
 		this.craftY = craftY;
 	}
 	public abstract void activate(int delta, float camX, float camY);
+	public abstract int getTaskID();
 	public abstract void close(int delta); //RUN THIS WHEN TASK IS DELETED OR ELSE BAD THINGS WILL HAPPEN
 }

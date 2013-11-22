@@ -13,6 +13,7 @@ import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.npc.TaskFire;
+import nitrogene.npc.TaskMove;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
@@ -107,6 +108,7 @@ public class GameState extends BasicGameState{
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.addCraftTarget(craft);
 		enemy.addTask(new TaskFire(enemy, craft, 0));
+		enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 		enemy.getImage().rotate(180);
 		objlist.add(enemy);
 		

@@ -9,6 +9,7 @@ import nitrogene.weapon.WeaponTimer;
 public class TaskFire extends Task {
 	public Craft target;
 	public int weaponID;
+	public int taskID = 0;
 	public TaskFire(NPCship s, Craft t, int wid){
 		super(s);
 		target = t;
@@ -28,5 +29,11 @@ public class TaskFire extends Task {
 	@Override
 	public void close(int delta) {
 		//ship.laserlist.get(weaponID).getTimer().isLocked = true;
+	}
+
+	@Override
+	public int getTaskID() {
+		// TODO Auto-generated method stub
+		return taskID;
 	}
 };
