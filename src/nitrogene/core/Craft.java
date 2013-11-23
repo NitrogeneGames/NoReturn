@@ -49,8 +49,6 @@ public class Craft extends RectangleObject{
 	@Override
 	public void update(int delta)
 	{
-		cumulative += delta;
-		this.delta = delta;
 		//Clock
 		if(cumulative >= 1000){
 			//1 second cumulative
@@ -58,8 +56,7 @@ public class Craft extends RectangleObject{
 			cumulative = 0;
 		}
 		
-		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
-		move(20);
+		move(20, delta);
 	}
 	
 

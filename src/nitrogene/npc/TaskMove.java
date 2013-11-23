@@ -1,5 +1,7 @@
 package nitrogene.npc;
 
+import nitrogene.util.Direction;
+
 import org.newdawn.slick.geom.Line;
 
 public class TaskMove extends Task {
@@ -26,33 +28,24 @@ public class TaskMove extends Task {
 
 	@Override
 	public void activate(int delta, float camX, float camY) {
-		if(this.ship.getX() != desx && this.ship.getY() != desy) {
+		if(this.ship.getX() != desx) {
 			if(desx > this.ship.getX()) {
-				this.ship.setX(this.ship.getX() + 3);
+				if(!ship.getMovement().getToggle(Direction.RIGHT)) ship.getMovement().Toggle(Direction.RIGHT);
 			} else {
-				this.ship.setX(this.ship.getX() - 3);
+				if(!ship.getMovement().getToggle(Direction.LEFT)) this.ship.getMovement().Toggle(Direction.LEFT);
 			}
+		}
+		if(this.ship.getY() != desy) {
 			if(desy > this.ship.getY()) {
-				this.ship.setY(this.ship.getY() + 3);
+				if(!ship.getMovement().getToggle(Direction.UP)) this.ship.getMovement().Toggle(Direction.UP);
 			} else {
-				this.ship.setY(this.ship.getY() - 3);
-			}
-		} else if(this.ship.getX() != desx) {
-			if(desx > this.ship.getX()) {
-				this.ship.setX(this.ship.getX() + 5);
-			} else {
-				this.ship.setX(this.ship.getX() - 5);
-			}
-		} else if(this.ship.getY() != desy) {
-			if(desy > this.ship.getY()) {
-				this.ship.setY(this.ship.getY() + 5);
-			} else {
-				this.ship.setY(this.ship.getY() - 5);
+				if(!ship.getMovement().getToggle(Direction.DOWN)) this.ship.getMovement().Toggle(Direction.DOWN);
 			}
 		} else {
 			this.close(delta);
 			ship.removeTask(this); 
 		}
+		this.ship.move(20,delta);
 	}
 
 	@Override

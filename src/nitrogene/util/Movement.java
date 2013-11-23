@@ -130,4 +130,21 @@ public class Movement {
 	public float getDy(){
 		return diracceleration[2] - diracceleration[1];
 	}
+	
+	public boolean getToggle(Direction direction)
+	{
+		if(direction == Direction.UP){
+			return toggle[1];
+		}
+		if(direction == Direction.DOWN){
+			return toggle[2];
+		}
+		if(direction == Direction.LEFT){
+			return toggle[3];
+		}
+		if(direction == Direction.RIGHT){
+			return toggle[4];
+		}
+		return false;
+	}
 }

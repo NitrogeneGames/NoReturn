@@ -81,7 +81,6 @@ public class SLaser extends RectangleObject{
 		return mmangle;
 	}
 	
-	@Override
 	public void move(int delta){	
 		this.setX(this.getX()+((dx*2f)*(delta/1000f)));
 		this.setY(this.getY()+((dy*2f)*(delta/1000f)));

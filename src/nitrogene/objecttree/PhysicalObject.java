@@ -33,13 +33,8 @@ public class PhysicalObject {
 		this.height = height;
 	}
 	
-	public void update(int delta){
-		this.delta = delta;
+	public void move(int thrust, int delta){
 		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
-		move(3);
-	}
-	
-	protected void move(int thrust){
 		float mm = delta/1000f;
 		float gj = thrust*1f;
 		boundbox.setX(boundbox.getX()+((movement.getDx()*gj)*mm));
@@ -121,5 +116,8 @@ public class PhysicalObject {
 	}
 	public Shape getBoundbox(){
 		return boundbox;
+	}
+
+	public void update(int delta) {
 	}
 }

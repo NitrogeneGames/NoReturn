@@ -52,6 +52,7 @@ public class NPCship extends Craft{
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
 		runTasks(delta, camX, camY);
+		
 	}
 	
 	public void addCraftTarget(Craft craft){
