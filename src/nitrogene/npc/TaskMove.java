@@ -22,29 +22,70 @@ public class TaskMove extends Task {
 		//Line line2 = new Line(cy, desy);
 	}
 	
+	private Line findDirectLine(){
+		Line line;
+		return line = new Line(ship.getX(),ship.getY(),desx,desy);
+	}
+	
+	private Line[] transformLine(Line startline){
+		Line slopeline = new Line(0,0);
+		Line straightline = new Line(0,0);
+		double legy = Math.abs(desy - ship.getY());
+		double legx = Math.abs(desx - ship.getX());
+		double hyp = Math.sqrt(Math.pow(legx, 2) + Math.pow(legy, 2));
+		double anglex = Math.toDegrees((Math.acos(legx/hyp)));
+		double angley = Math.toDegrees((Math.acos(legy/hyp)));
+		anglex = Math.round(anglex);
+		angley = Math.round(angley);
+		
+		float pointx, pointy;
+		if(!(anglex==angley)){
+			if(anglex>45){
+				pointx = desx;
+				pointy = (float) (desy + (legy-legx));
+				slopeline.set(ship.getX(),ship.getY(),pointx,pointy);
+				straightline.set(pointx,pointy,desx,desy);
+			} if (anglex < 45){
+				pointx = (float) (desx - (legx - legy));
+				pointy = desy;
+				slopeline.set(ship.getX(),ship.getY(),pointx,pointy);
+				straightline.set(pointx,pointy,desx,desy);
+			}
+		}
+		
+		Line[] arrayline = new Line[2];
+		arrayline[1] = slopeline;
+		arrayline[2] = straightline;
+		return arrayline;
+	}
+	
 	private void findobstruction(){
 		
 	}
 
 	@Override
 	public void activate(int delta, float camX, float camY) {
-		if(this.ship.getX() != desx) {
-			if(desx > this.ship.getX()) {
-				if(!ship.getMovement().getToggle(Direction.RIGHT)) ship.getMovement().Toggle(Direction.RIGHT);
-			} else {
-				if(!ship.getMovement().getToggle(Direction.LEFT)) this.ship.getMovement().Toggle(Direction.LEFT);
+		if(ship.getX()!=desx||ship.getY()!=desy){
+			if(this.ship.getX() != desx) {
+				if(desx > this.ship.getX()) {
+					if(!ship.getMovement().getToggle(Direction.RIGHT)) ship.getMovement().Toggle(Direction.RIGHT);
+				} else {
+					if(!ship.getMovement().getToggle(Direction.LEFT)) this.ship.getMovement().Toggle(Direction.LEFT);
+				}
+			}
+			if(this.ship.getY() != desy) {
+				if(desy > this.ship.getY()) {
+					if(!ship.getMovement().getToggle(Direction.UP)) this.ship.getMovement().Toggle(Direction.UP);
+				} else {
+					if(!ship.getMovement().getToggle(Direction.DOWN)) this.ship.getMovement().Toggle(Direction.DOWN);
+				}
 			}
 		}
-		if(this.ship.getY() != desy) {
-			if(desy > this.ship.getY()) {
-				if(!ship.getMovement().getToggle(Direction.UP)) this.ship.getMovement().Toggle(Direction.UP);
-			} else {
-				if(!ship.getMovement().getToggle(Direction.DOWN)) this.ship.getMovement().Toggle(Direction.DOWN);
-			}
-		} else {
+		else{
 			this.close(delta);
-			ship.removeTask(this); 
+			ship.removeTask(this);
 		}
+		transformLine(findDirectLine());
 		this.ship.move(20,delta);
 	}
 
