@@ -31,7 +31,7 @@ public class Craft extends RectangleObject{
 	protected int cumulative;
 	
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
-		super(xpos, ypos, img.getWidth(), img.getHeight(), img, scale, map);
+		super(xpos, ypos, img.getWidth(), img.getHeight(), img.copy(), scale, map);
 
 		hull = 100;
 		shield = new Shield(82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);

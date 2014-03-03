@@ -3,7 +3,7 @@ package nitrogene.weapon;
 import org.newdawn.slick.Sound;
 
 public enum EnumWeapon{
-	BASIC ("res/Laser1.png", 3, 100F, 10, 0.7F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 1000, 1),
+	BASIC ("res/Laser1.png", 3, 300F, 10, 0.7F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 1000, 1),
     OP ("res/Laser1.png", 0, 100F, 1000, 3F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 100, 1),
 	PULSAR ("res/klaar_pulsar_2.png", 0, 70f, 5, 0.7f, "res/pulsar_bolt.png", "res/sound/laser1final.ogg", 200, 1500, 3);
 	

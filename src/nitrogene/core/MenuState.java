@@ -48,6 +48,9 @@ public class MenuState extends BasicGameState{
 		if(quickPlay.isClicked()){
 			game.enterState(2);
 		}
+		if(hangar.isClicked()){
+			game.enterState(3);
+		}
 		if(quitgame.isClicked()){
 			container.exit();
 		}
