@@ -154,14 +154,15 @@ public class LaserLauncher {
 				       this.getImage().rotate(rota/50);
 				       
 				      } else {   //<300
-				       this.getImage().rotate(rota/40);
+				       this.getImage().rotate(rota/25);
 				      }
 				      } else {  //<200
-				       this.getImage().rotate(rota/30);
+				       this.getImage().rotate(rota/10);
 				      }
 				      } else { //<100
-				      this.getImage().rotate(rota/20);
+				      this.getImage().rotate(rota/5);
 				      }
+	    		  //50,40,30,20
 	      } else {
 	          this.getImage().setRotation(this.getAngle());
 	      }
@@ -175,7 +176,7 @@ public class LaserLauncher {
 					laser = null;
 					continue;
 				}
-				laser.getImage().draw(laser.getX(), laser.getY(),laser.getSize());
+				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getSize());
 				laser = null;
 	      }
 	}

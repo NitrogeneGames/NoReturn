@@ -42,6 +42,30 @@ public class Movement {
 		}
 	}
 	
+	public void changeAccelerator(Direction direction, boolean b){
+		if(direction == Direction.UP){
+			toggle[1] = b;
+		}
+		if(direction == Direction.DOWN){
+			toggle[2] = b;
+		}
+		if(direction == Direction.LEFT){
+			toggle[3] = b;
+		}
+		if(direction == Direction.RIGHT){
+			toggle[4] = b;
+		}
+		
+		if(toggle[2] && toggle[1]){ 
+			toggle[2] = false;
+			toggle[1] = false;
+		}
+		if(toggle[3]  && toggle[4]){ 
+			toggle[3] = false;
+			toggle[4] = false;
+		}
+	}
+	
 	//linear acceleration: 0 to 5 in increments of 0.1
 
 	public void Accelerate(Vector location, int delta){

@@ -194,23 +194,39 @@ public class GameState extends BasicGameState{
     	
     	
     	//Input Controllers
-    	
-		if(input.isKeyPressed(Input.KEY_W)){
-			craft.getMovement().Toggle(Direction.UP);
-		}
-		if(input.isKeyPressed(Input.KEY_S)){
-				craft.getMovement().Toggle(Direction.DOWN);
-		}
-		if(input.isKeyPressed(Input.KEY_A)){
-				craft.getMovement().Toggle(Direction.LEFT);
-		}  
-		if(input.isKeyPressed(Input.KEY_D)){  
-				craft.getMovement().Toggle(Direction.RIGHT);
-		}
-		if(input.isKeyPressed(Input.KEY_SPACE)){
+    	if(input.isKeyPressed(Input.KEY_E)){
 			craft.getMovement().Break(delta);
+		} else{
+			if(input.isKeyDown(Input.KEY_W)){
+				if(!craft.getMovement().getToggle(Direction.UP)){
+				craft.getMovement().changeAccelerator(Direction.UP, true);}
+			} else{
+				if(craft.getMovement().getToggle(Direction.UP)){
+				craft.getMovement().changeAccelerator(Direction.UP, false);}
+			}
+			if(input.isKeyDown(Input.KEY_S)){
+				if(!craft.getMovement().getToggle(Direction.DOWN)){
+				craft.getMovement().changeAccelerator(Direction.DOWN, true);}
+			} else{
+				if(craft.getMovement().getToggle(Direction.DOWN)){
+				craft.getMovement().changeAccelerator(Direction.DOWN, false);}
+			}
+			if(input.isKeyDown(Input.KEY_A)){
+				if(!craft.getMovement().getToggle(Direction.LEFT)){
+				craft.getMovement().changeAccelerator(Direction.LEFT, true);}
+			} else{
+				if(craft.getMovement().getToggle(Direction.LEFT)){
+				craft.getMovement().changeAccelerator(Direction.LEFT, false);}
+			}
+			if(input.isKeyDown(Input.KEY_D)){
+				if(!craft.getMovement().getToggle(Direction.RIGHT)){
+				craft.getMovement().changeAccelerator(Direction.RIGHT, true);}
+			} else{
+				if(craft.getMovement().getToggle(Direction.RIGHT)){
+				craft.getMovement().changeAccelerator(Direction.RIGHT, false);}
+			}
 		}
-		
+    	
 		for(PhysicalObject obj : objlist){
 			if(obj.getClass() == Craft.class){
 				obj.update(delta);
@@ -220,7 +236,7 @@ public class GameState extends BasicGameState{
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
-						laser.move(delta);
+						laser.move(10,delta);
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
@@ -252,7 +268,7 @@ public class GameState extends BasicGameState{
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
-						laser.move(delta);
+						laser.move(10,delta);
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){

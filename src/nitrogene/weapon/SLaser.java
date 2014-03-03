@@ -1,5 +1,6 @@
 package nitrogene.weapon;
 
+import nitrogene.collision.Vector;
 import nitrogene.core.Zoom;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
@@ -81,15 +82,17 @@ public class SLaser extends RectangleObject{
 		recalculateVector(desX, desY);
 	}
 	
+	@Override
+	public void move(int thrust, int delta){
+		float mm = delta/1000f;
+		float gj = thrust;
+		boundbox.setX(boundbox.getX()+(gj*mm*dx));
+		boundbox.setY(boundbox.getY()+(gj*mm*dy));
+	}
+	
 	public float getAngle(){
 		return mmangle;
 	}
-	
-	public void move(int delta){	
-		this.setX(this.getX()+((dx)*(delta/1000f)));
-		this.setY(this.getY()+((dy)*(delta/1000f)));
-	}
-	
 	
 	private int randomize(int distance) {
 		Random rand = new Random();
