@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -24,6 +25,7 @@ import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.LaserLauncher;
+import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Animation;
@@ -68,7 +70,6 @@ public class GameState extends BasicGameState{
 	private ArrayList<PhysicalObject> objlist;
 
 	private boolean PAUSED = false;
-	Sound basicTestLaser;
 
 	public GameState(int width, int height) {
 		this.SCR_width = width;
@@ -93,7 +94,6 @@ public class GameState extends BasicGameState{
 
 		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
 		//load sounds here
-		basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 		for(Planet pl : map.getPlanets()){
@@ -220,15 +220,6 @@ public class GameState extends BasicGameState{
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
-						if (!laser.isRotated()){
-							
-							laser.getImage().setRotation(0);
-							laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
-							laser.getImage().rotate(laser.getAngle());
-							basicTestLaser.play(1f, 0.5f);
-							laser.setRotated(true);
-							System.out.println("HERE");
-						}
 						laser.move(delta);
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);
@@ -261,13 +252,6 @@ public class GameState extends BasicGameState{
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
-						if (!laser.isRotated()){
-							laser.getImage().setRotation(0);
-							laser.getImage().setCenterOfRotation(laserlauncher.getImage().getWidth()/2,laserlauncher.getImage().getHeight()/2);
-							laser.getImage().rotate(laser.getAngle());
-							basicTestLaser.play(1f, 0.5f);
-							laser.setRotated(true);
-						}
 						laser.move(delta);
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);

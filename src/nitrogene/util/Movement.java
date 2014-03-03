@@ -86,7 +86,6 @@ public class Movement {
 			else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
 			else if(!toggle[1]) diracceleration[1] = 0f;
 		}
-		System.out.println(location.y);
 	}
 	
 	public void BringBack(Direction direction, int delta){

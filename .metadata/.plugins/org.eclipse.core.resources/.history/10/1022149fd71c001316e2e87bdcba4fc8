@@ -1,9 +1,0 @@
-package nitrogene.npc;
-
-public class NPCship {
-	private int relation;
-	
-	public NPCship(int relation){
-		
-	}
-}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import nitrogene.core.Craft;
 import nitrogene.core.CursorSystem;
 import nitrogene.core.Planet;
-import nitrogene.core.SLaser;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.util.Target;
@@ -182,7 +181,7 @@ public class LaserLauncher {
 	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(x+craftX,y+craftY, (float) (camX*Zoom.getZoom().inverse)+desx, (float) (camY*Zoom.getZoom().inverse)+desy,
-				accuracy, speed, damage, size, this.getAngle(), proje, map));
+				accuracy, speed, damage, size, this.getAngle(), proje, map, this));
 	}
 	
 	public float getAngle(){

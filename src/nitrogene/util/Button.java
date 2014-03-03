@@ -56,6 +56,43 @@ public class Button
         uniFont.getEffects().add(a);
         uniFont.loadGlyphs();
     }
+    
+    public Button (String text, float x, float y, float width, float height, Image normalimage, Image hoverimage, Image pressedimage, Sound mouseover) throws FontFormatException, IOException, SlickException
+    {
+        this.text = text;
+        this.width = width;
+        this.height = height;
+        this.position = new Vector2f(x, y);
+        this.button = new Rectangle(position.x, position.y, width, height);
+        this.renderImage = normalimage;
+        this.mouseover = mouseover;
+        
+        this.normalimage = normalimage;
+        this.hoverimage = hoverimage;
+        this.pressedimage = pressedimage;
+        renderImage = normalimage;
+        
+        if(normalimage!=null){
+        this.normalimage.setFilter(Image.FILTER_NEAREST);
+        }
+        if(hoverimage!=null){
+        this.hoverimage.setFilter(Image.FILTER_NEAREST);
+        }
+        if(hoverimage!=null){
+        this.pressedimage.setFilter(Image.FILTER_NEAREST);
+        }
+        this.renderImage.setFilter(Image.FILTER_NEAREST);
+        
+        //font init
+        mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
+        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 25.f);
+        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
+        uniFont.addAsciiGlyphs();
+        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
+        a.setColor(Color.white);
+        uniFont.getEffects().add(a);
+        uniFont.loadGlyphs();
+    }
 
     public void update (GameContainer gc)
     {
@@ -69,8 +106,10 @@ public class Button
             if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             {
                 buttonDown = true;
+                if(pressedimage != null){
                 renderImage = pressedimage;
-              
+                renderImage.setFilter(Image.FILTER_NEAREST);
+                }
             }
             else
             {
@@ -79,18 +118,25 @@ public class Button
                     buttonDown = false;
                     buttonReleased = true;
                 }
+                if(hoverimage != null){
                 renderImage = hoverimage;
+                renderImage.setFilter(Image.FILTER_NEAREST);
+                }
                 if (i==1) i=2;
                 if (i==0) i=1;
                 if (i==1) {
+                	if(mouseover != null){
                 	mouseover.play();
+                	}
                 }
             }
         }
         else
         {
             buttonDown = false;
+            if(normalimage != null){
             renderImage = normalimage;
+            }
             i=0;
         }
         
@@ -98,7 +144,7 @@ public class Button
 
     public void render (Graphics gr)
     {
-        renderImage.draw(position.x,position.y);
+        renderImage.draw(position.x,position.y,width,height);
 
         int margin = ((int) width - getTextWidth(text, uniFont)) / 2;
 

@@ -54,8 +54,8 @@ public class TaskMove extends Task {
 		}
 		
 		Line[] arrayline = new Line[2];
-		arrayline[1] = slopeline;
-		arrayline[2] = straightline;
+		arrayline[0] = slopeline;
+		arrayline[1] = straightline;
 		return arrayline;
 	}
 	

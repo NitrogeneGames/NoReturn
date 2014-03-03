@@ -28,7 +28,9 @@ public class ArenaMap {
 		random = new Random();
 		//star2 = new Image("res/star2.png");
 		volcanicplanet = new Image("res/volcanicplanet2.png");
+		volcanicplanet.setFilter(Image.FILTER_NEAREST);
 		sun1 = new Image("res/sun_1.png");
+		sun1.setFilter(Image.FILTER_NEAREST);
 		//imagelist.add(star2);
 		imagelist.add(sun1);
 		imagelist.add(volcanicplanet);
@@ -70,7 +72,6 @@ public class ArenaMap {
 				}
 			}
 			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,(radius*2)/imagelist.get(imagenum).getWidth());
-			System.out.println(planetlist.size());
 		}
 	}
 	
