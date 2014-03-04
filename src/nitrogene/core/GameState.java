@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -44,6 +45,7 @@ import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.pathfinding.PathFinder;
 
 
 
@@ -80,8 +82,8 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		
 		CursorSystem.init();
-		Zoom.setZoom(ZoomEnum.NORMAL);
-		Zoom.setZoomWindow(SCR_width, SCR_height);
+		Nitrogene.setZoom(ZoomEnum.NORMAL);
+		Nitrogene.setZoomWindow(SCR_width, SCR_height);
 		objlist = new ArrayList<PhysicalObject>();
 		
 		//other variables
@@ -173,7 +175,7 @@ public class GameState extends BasicGameState{
 			PAUSED = true;
 		}
 
-		Zoom.setZoomWindow(SCR_width, SCR_height);
+		Nitrogene.setZoomWindow(SCR_width, SCR_height);
 		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
@@ -302,8 +304,8 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
-		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
-		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
+		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Nitrogene.getZoom().scale) - (SCR_width/2);	 
+		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Nitrogene.getZoom().scale) - (SCR_height/2);
 		
 		}
 		else{
@@ -333,13 +335,13 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
-		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
+		g.scale((float)Nitrogene.getZoom().scale,(float)Nitrogene.getZoom().scale);
 		
 		g.setColor(Color.red);
 		g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		g.drawRect(0,0, mapwidth-5, mapheight-5);
-		stars.render((float) (camX*Zoom.getZoom().inverse),(float) (camY*Zoom.getZoom().inverse));
+		stars.render(Nitrogene.scale(camX),Nitrogene.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
@@ -354,9 +356,9 @@ public class GameState extends BasicGameState{
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
+			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Nitrogene.getZoomWidth()+camX||
 					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
-					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScale())>Zoom.getZoomHeight()+camY||
+					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScale())>Nitrogene.getZoomHeight()+camY||
 					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
 				mesh = null;
 				continue;
@@ -387,7 +389,7 @@ public class GameState extends BasicGameState{
 		part.render();
 		shockwave.render();
 		 
-		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
+		g.scale((float)Nitrogene.getZoom().inverse,(float)Nitrogene.getZoom().inverse);
 		GUI.draw(camX,camY);
 		//minimap.render(g);
 		if (PAUSED) {
@@ -406,14 +408,14 @@ public class GameState extends BasicGameState{
 	}
 
 	public void mousePressed(int button, int x, int y){
-		x *= Zoom.getZoom().inverse;
-		y *= Zoom.getZoom().inverse;
+		x=Nitrogene.scale(x);
+		y=Nitrogene.scale(y);
 		if(!PAUSED) {
 			for(LaserLauncher cannon : craft.laserlist){
 				if(button == 1) {
 					cannon.getTimer().pause();
 				} else if (button == 0){
-					cannon.toggleFire(x,y,(float) (camX*Zoom.getZoom().inverse),(float) (camY*Zoom.getZoom().inverse));
+					cannon.toggleFire(x,y,Nitrogene.scale(camX),Nitrogene.scale(camY));
 			}
 			}
 		}

@@ -1,18 +1,16 @@
 package nitrogene.core;
 
+import org.newdawn.slick.state.StateBasedGame;
+
 import nitrogene.util.ZoomEnum;
 
-public class Zoom {
+public class Nitrogene {
 	
 	private static ZoomEnum zoom;
 	private static float zoomwidth;
 	private static float zoomheight;
+	private static StateBasedGame instance;
 	
-	public Zoom(ZoomEnum z){
-		zoom = z;
-		zoomwidth = 0;
-		zoomheight = 0;
-	}
 	
 	public static void setZoom(ZoomEnum z){
 		zoom = z;
@@ -31,5 +29,17 @@ public class Zoom {
 	}
 	public static float getZoomHeight(){
 		return zoomheight;
+	}
+	public static float scale(float i) {
+		return (float) (i*getZoom().inverse);
+	}
+	public static int scale(int i) {
+		return (int) (i*getZoom().inverse);
+	}
+	public static StateBasedGame getInstance() {
+		return instance;
+	}
+	public static void loadInstace(StateBasedGame s) {
+		instance = s;
 	}
 }

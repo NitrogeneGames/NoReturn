@@ -1,7 +1,7 @@
 package nitrogene.weapon;
 
 import nitrogene.collision.Vector;
-import nitrogene.core.Zoom;
+import nitrogene.core.Nitrogene;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
 
@@ -21,7 +21,7 @@ public class SLaser extends RectangleObject{
 	private boolean isRotated;
 	Sound basicTestLaser;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
 		super(startX, startY, img.getWidth(), img.getHeight(), rotation, img.copy(), size, map);
 		isRotated = false;
 		this.startX =startX;
@@ -38,11 +38,14 @@ public class SLaser extends RectangleObject{
 		}
 		recalculateVector(desX, desY);
 		
-		basicTestLaser = new Sound("res/sound/laser1final.ogg");
+
 		this.getImage().setRotation(0);
 		this.getImage().setCenterOfRotation(l.getImage().getWidth()/2,l.getImage().getHeight()/2);
 		this.getImage().rotate(mmangle);
+		if(playsound) {
+		basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		basicTestLaser.play(1f, 0.5f);
+		}
 		//recalculateAngle(desX, desY);
 	}
 	
@@ -97,7 +100,7 @@ public class SLaser extends RectangleObject{
 	private int randomize(int distance) {
 		Random rand = new Random();
 		int  n = rand.nextInt(distance * 2) + 1;
-		return (int) (n* Zoom.getZoom().scale - distance);
+		return (int) (n* Nitrogene.getZoom().scale - distance);
 		}
 	
 	public int getDamage(){
