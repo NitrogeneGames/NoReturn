@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quickplay>
+	<weapons>
+		<basiclaser>
+			<damage>20</damage>
+			<shots>1</shots>
+			<chargetime>2</chargetime>
+			<cost>20</cost>
+			<accuracy>80</accuracy>
+			<special>none</special>
+		</basiclaser>
+	</weapons>
+<quickplay>
