@@ -89,8 +89,8 @@ public class SLaser extends RectangleObject{
 	public void move(int thrust, int delta){
 		float mm = delta/1000f;
 		float gj = thrust;
-		boundbox.setX(boundbox.getX()+(gj*mm*dx));
-		boundbox.setY(boundbox.getY()+(gj*mm*dy));
+		setX(getX()+(gj*mm*dx));
+		setY(getY()+(gj*mm*dy));
 	}
 	
 	public float getAngle(){

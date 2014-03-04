@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nitrogene.collision.AABB;
 import nitrogene.collision.Vector;
+import nitrogene.objecttree.ImageObject;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Movement;
@@ -16,7 +17,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Craft extends RectangleObject{
+public class Craft extends ImageObject{
 	
 	//systems
 	public Shield shield;
@@ -31,7 +32,7 @@ public class Craft extends RectangleObject{
 	protected int cumulative;
 	
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
-		super(xpos, ypos, img.getWidth(), img.getHeight(), img.copy(), scale, map);
+		super(img.getWidth(), img.getHeight(), img.copy(), scale, map);
 
 		hull = 100;
 		shield = new Shield(82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
@@ -61,10 +62,10 @@ public class Craft extends RectangleObject{
 	
 
 	public float getShieldX(){
-		return boundbox.getCenterX() - shield.getImage().getWidth()/2*1.2f;
+		return getCenterX() - shield.getImage().getWidth()/2*1.2f;
 	}
 	public float getShieldY(){
-		return boundbox.getCenterY() - shield.getImage().getHeight()/2*1.2f;
+		return getCenterY() - shield.getImage().getHeight()/2*1.2f;
 	}
 	public double getHull(){
 		return hull;

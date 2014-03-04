@@ -196,7 +196,7 @@ public class GameState extends BasicGameState{
     	
     	
     	//Input Controllers
-    	if(input.isKeyPressed(Input.KEY_E)){
+    	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
 			craft.getMovement().Break(delta);
 		} else{
 			if(input.isKeyDown(Input.KEY_W)){

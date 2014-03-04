@@ -23,7 +23,7 @@ public class PhysicalObject {
 		width = 0;
 		height = 0;
 		this.map = map;
-		this.mainimg = img;
+		this.mainimg = img.copy();
 		this.scalefactor = scalefactor;
 		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 	}
@@ -117,7 +117,6 @@ public class PhysicalObject {
 	public Shape getBoundbox(){
 		return boundbox;
 	}
-
 	public void update(int delta) {
 	}
 }

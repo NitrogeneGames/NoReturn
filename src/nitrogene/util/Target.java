@@ -8,6 +8,7 @@ import nitrogene.world.ArenaMap;
 public class Target {
 	
 	//gui}
+	
 	public static float getRotation(LaserLauncher laser) {
 		//return getRotationNew(laser);
 
@@ -44,30 +45,23 @@ public class Target {
 	  	  }
 	  	  	 
 		}
-	public static float getRotationNew(LaserLauncher laser) {
-			float news = (laser.getAngle());
-			float old = (laser.getImage().getRotation());
-			if (news < 0) news += 360;
-			if (old < 0) old += 360;
-			float dist1 = Math.abs(news - old); //DISTANCE WHEN GOING CLOCKWISE
-			float enddist;
-			boolean nbo = false;
-			if (news >= old) nbo = true;
-			if(dist1 < 180) {
-				//SHORTEST DISTANCE IS SMALLER TO LARGER WHEN GOING CLOCKWISE
-				enddist = dist1;
-				if(!nbo) {
-					enddist = -enddist;
-				}
+		
+	/*
+	public static float getRotation(LaserLauncher laser) {
+			float a = (laser.getAngle());
+			float a1 = (laser.getImage().getRotation());
+
+			float rotation = Math.abs(a1-a);
+			if(rotation <=180) {
+				System.out.println(Math.toDegrees(a1-a));
+					return a1-a;
 			} else {
-				//SHORTEST DISTANCE IS LARGER TO SMALLER WHEN GOING CLOCKWISE
-				enddist = Math.abs(180 - dist1);
-				if(!nbo) {
-					enddist = -enddist;
-				}
+				a = 360-a;
+				a1=360-a1;
+				System.out.println(Math.toDegrees(a-a1));
+				return a-a1;
 			}
-			return enddist;
-	}
+	} */
 	public static Object getTargetObject(float f, float g, ArenaMap map) {
 		/*
 		for(BoxMesh box : boxmeshlist){
