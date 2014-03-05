@@ -7,7 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 public class ImageBase {
-	private static HashMap<Image, ArrayList<int[]>> c;
+	private static HashMap<Image, ArrayList<int[]>> c= new HashMap<Image, ArrayList<int[]>>();
 	
 	private static ArrayList<int[]> pixelize(Image s) {
 		ArrayList<int[]> pixels = new ArrayList<int[]>();
@@ -27,7 +27,6 @@ public class ImageBase {
 		return pixels;
 	}
 	public static void registerImage(Image i) {
-		c= new HashMap<Image, ArrayList<int[]>>();
 		c.put(i, pixelize(i));
 	}
 	public static ArrayList<int[]> getPixels(Image s) {

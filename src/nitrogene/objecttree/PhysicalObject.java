@@ -33,7 +33,6 @@ public class PhysicalObject {
 		this.width = width;
 		this.height = height;
 	}
-	
 	public void move(int thrust, int delta){
 		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		float mm = delta/1000f;
