@@ -45,7 +45,7 @@ public class ImageObject extends PhysicalObject{
 						System.out.println("FIRST");
 						ArrayList<int[]> pixels = ImageBase.getPixels(this.mainimg);
 						for(int i = 0; i < pixels.size(); i++) {
-							if(obj.isContaining(pixels.get(i)[0] + this.getX(), pixels.get(i)[1] + this.getY())) {
+							if(obj.isContaining((mainimg.getWidth() - pixels.get(i)[0]) + this.getX(), (mainimg.getHeight() - pixels.get(i)[1]) + this.getY())) {
 								System.out.println("YAY");
 								return true;
 								
