@@ -82,12 +82,12 @@ public class ImageObject extends PhysicalObject{
 	
 	@Override
 	public float getCenterX(){
-		return centerx;
+		return getX() + mainimg.getWidth()/2;
 	}
 	
 	@Override
 	public float getCenterY(){
-		return centery;
+		return getY() + mainimg.getHeight()/2;
 	}
 	
 	@Override
