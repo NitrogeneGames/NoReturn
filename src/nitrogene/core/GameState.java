@@ -249,7 +249,7 @@ public class GameState extends BasicGameState{
 							}
 							}
 						for(PhysicalObject temp : objlist){
-							if(!temp.equals(obj) && laser.isColliding(temp)){
+							if(!temp.equals(obj) && temp.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 							}
@@ -281,7 +281,8 @@ public class GameState extends BasicGameState{
 							}
 						}
 						for(PhysicalObject temp2 : objlist){
-							if(!temp2.equals(obj) && laser.isColliding(temp2)){
+							if(!temp2.equals(obj) && temp2.isColliding(laser)){
+								
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 							}
@@ -295,7 +296,7 @@ public class GameState extends BasicGameState{
 				}
 			} else if (obj.getClass() == Planet.class){
 				for(Planet mesh : map.getPlanets()){
-					if(mesh.isColliding(craft)){
+					if(craft.isColliding(mesh)){
 						craft.setHull(0d);
 					}
 				}
@@ -398,6 +399,7 @@ public class GameState extends BasicGameState{
 	        g.fillRect(camX,camY, SCR_width, SCR_height);
 	        
 	        pausemenu.draw(pausemenux+camX,pausemenuy+camY);
+	        pausemenu.setFilter(Image.FILTER_NEAREST);
 	        resume.render(g,camX,camY);
 	        restart.render(g,camX,camY);
 	        options.render(g,camX,camY);

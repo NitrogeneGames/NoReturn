@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.collision.Vector;
+import nitrogene.util.ImageBase;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
@@ -23,7 +24,7 @@ public class PhysicalObject {
 		width = 0;
 		height = 0;
 		this.map = map;
-		this.mainimg = img.copy();
+		this.mainimg = img;
 		this.scalefactor = scalefactor;
 		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 	}
@@ -43,12 +44,15 @@ public class PhysicalObject {
 	
 	public boolean isColliding(PhysicalObject obj){
 		
-		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.boundbox.getCenterX() ||
-				this.boundbox.getCenterY() + height + this.movement.getDy() >= obj.boundbox.getCenterY() ||
-				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.boundbox.getCenterX() ||
-				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.boundbox.getCenterY()
-				){
-		return this.boundbox.intersects(obj.boundbox);
+		/*if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.getCenterX() ||
+				this.boundbox.getCenterY() + height + this.movement.getDy() >= obj.getCenterY() ||
+				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.getCenterX() ||
+				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.getY()
+				){*/
+		double dist = Math.sqrt((boundbox.getCenterX()-obj.getCenterX())*(boundbox.getCenterX()-obj.getCenterX()) + (boundbox.getCenterY()-obj.getCenterY())*(boundbox.getCenterY()-obj.getCenterY()));
+		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= dist || 
+			this.boundbox.getCenterY() + width + this.movement.getDy() >= dist){
+					return this.boundbox.intersects(obj.boundbox);
 		}
 		else return false;
 	}

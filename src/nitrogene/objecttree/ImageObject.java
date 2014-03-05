@@ -15,14 +15,6 @@ import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
 public class ImageObject extends PhysicalObject{
-	//protected Movement movement;
-	//protected ArenaMap map;
-	//protected Image boundbox;
-	//protected Image mainimg;
-	//protected float scalefactor;
-	//protected int delta;
-	//protected float rotation;
-	//protected float width, height;
 	private float x;
 	private float y;
 	private float centerx;
@@ -30,38 +22,43 @@ public class ImageObject extends PhysicalObject{
 
 	public ImageObject(float width, float height, Image img, float scalefactor, ArenaMap map){
 		super(width, height, img, scalefactor, map);
-		ImageBase.registerImage(img);
+		ImageBase.registerImage(this.mainimg);
 	}
 	
+	@Override
 	public void move(int thrust, int delta){
 		movement.Accelerate(new Vector(getCenterX(),getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
-		//mainimg.
 		setX(getX()+((movement.getDx()*gj)*mm));
 		setY(getY()+((movement.getDy()*gj)*mm));
 	}
 	
+	@Override
 	public boolean isColliding(PhysicalObject obj){
-		
-		if(getCenterX() + width + this.movement.getDx() >= obj.getCenterX() ||
-				getCenterY() + height + this.movement.getDy() >= obj.getCenterY() ||
-				getCenterX() - width - this.movement.getDx() <= obj.getCenterX() ||
-				getCenterY() - height - this.movement.getDy() <= obj.getCenterY()
-				){
-			if(ImageBase.contains(this.mainimg)) {
-				ArrayList<int[]> pixels = ImageBase.getPixels(this.mainimg);
-				for(int i = 0; i < pixels.size(); i++) {
-					if(obj.isContaining(pixels.get(i)[0], pixels.get(i)[1])) {
-						return true;
-					}
-				}
-			} 
-		}
+		/*
+		double dist = Math.sqrt((this.getCenterX()-obj.getCenterX())*(this.getCenterX()-obj.getCenterX()) + (this.getCenterY()-obj.getCenterY())*(this.getCenterY()-obj.getCenterY()));
+		if(this.getCenterX() + width + this.movement.getDx() >= dist || 
+			this.getCenterY() + width + this.movement.getDy() >= dist){
+			*/
+					if(ImageBase.contains(this.mainimg)) {
+						System.out.println("FIRST");
+						ArrayList<int[]> pixels = ImageBase.getPixels(this.mainimg);
+						for(int i = 0; i < pixels.size(); i++) {
+							if(obj.isContaining(pixels.get(i)[0] + this.getX(), pixels.get(i)[1] + this.getY())) {
+								System.out.println("YAY");
+								return true;
+								
+							}
+						}
+					} 
+				//}
 		
 		return false;
+		
 	}
 	
+	@Override
 	public boolean isContaining(float x, float y){
 		if(getCenterX() + width + this.movement.getDx() >= x ||
 				getCenterY() + height + this.movement.getDy() >= y ||
@@ -73,34 +70,42 @@ public class ImageObject extends PhysicalObject{
 		else return false;
 	}
 	
-	public float getRotation(){
-		return rotation;
-	}
-	
-	public Image getImage(){
-		return mainimg;
-	}
+	@Override
 	public float getX(){
 		return this.x;
 	}
+	
+	@Override
 	public float getY(){
 		return this.y;
 	}
+	
+	@Override
 	public float getCenterX(){
 		return centerx;
 	}
+	
+	@Override
 	public float getCenterY(){
 		return centery;
 	}
+	
+	@Override
 	public void setX(float x){
 		this.x = x;
 	}
+	
+	@Override
 	public void setY(float y){
 		this.y = y;
 	}
+	
+	@Override
 	public void setCenterX(float x){
 		this.centerx = x;
 	}
+	
+	@Override
 	public void setCenterY(float y){
 		this.centery = y;
 	}

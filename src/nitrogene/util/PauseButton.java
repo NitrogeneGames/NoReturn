@@ -48,7 +48,7 @@ public class PauseButton {
             {
                 buttonDown = true;
                 renderImage = hoverimage;
-              
+                renderImage.setFilter(Image.FILTER_NEAREST);
             }
             else
             {
@@ -58,6 +58,7 @@ public class PauseButton {
                     buttonReleased = true;
                 }
                 renderImage = hoverimage;
+                renderImage.setFilter(Image.FILTER_NEAREST);
                 if (i==1) i=2;
                 if (i==0) i=1;
                 if (i==1) {
@@ -69,6 +70,7 @@ public class PauseButton {
         {
             buttonDown = false;
             renderImage = normalimage;
+            renderImage.setFilter(Image.FILTER_NEAREST);
             i=0;
         }
         

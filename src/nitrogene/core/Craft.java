@@ -33,7 +33,8 @@ public class Craft extends ImageObject{
 	
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
 		super(img.getWidth(), img.getHeight(), img.copy(), scale, map);
-
+		this.setX(700);
+		this.setY(700);
 		hull = 100;
 		shield = new Shield(82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
 		delta = 0;
