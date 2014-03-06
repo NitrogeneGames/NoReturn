@@ -31,7 +31,6 @@ public class SpaceGame extends StateBasedGame{
 		this.addState(new GameState(SCRwidth,SCRheight)); //2
 		this.addState(new OptionState(SCRwidth,SCRheight)); //4
 		this.addState(new HangarState(SCRwidth,SCRheight)); //3
-		Nitrogene.loadInstace(this);
 		this.enterState(1);
 	}
 

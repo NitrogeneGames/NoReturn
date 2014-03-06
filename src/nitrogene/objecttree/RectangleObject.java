@@ -1,7 +1,10 @@
 package nitrogene.objecttree;
 
+import java.util.ArrayList;
+
 import nitrogene.world.ArenaMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;

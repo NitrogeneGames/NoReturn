@@ -4,7 +4,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import nitrogene.util.ZoomEnum;
 
-public class Nitrogene {
+public class Zoom {
 	
 	private static ZoomEnum zoom;
 	private static float zoomwidth;
@@ -35,11 +35,5 @@ public class Nitrogene {
 	}
 	public static int scale(int i) {
 		return (int) (i*getZoom().inverse);
-	}
-	public static StateBasedGame getInstance() {
-		return instance;
-	}
-	public static void loadInstace(StateBasedGame s) {
-		instance = s;
 	}
 }

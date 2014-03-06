@@ -1,7 +1,7 @@
 package nitrogene.weapon;
 
 import nitrogene.collision.Vector;
-import nitrogene.core.Nitrogene;
+import nitrogene.core.Zoom;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
 
@@ -100,7 +100,7 @@ public class SLaser extends RectangleObject{
 	private int randomize(int distance) {
 		Random rand = new Random();
 		int  n = rand.nextInt(distance * 2) + 1;
-		return (int) (n* Nitrogene.getZoom().scale - distance);
+		return (int) (n* Zoom.getZoom().scale - distance);
 		}
 	
 	public int getDamage(){

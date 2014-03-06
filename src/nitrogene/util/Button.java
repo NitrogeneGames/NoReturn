@@ -10,15 +10,15 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class Button
 {
-    private Rectangle button;
-    private boolean buttonDown = false;
-    private boolean buttonReleased = false;
-    private int i = 0;
+    protected Rectangle button;
+    protected boolean buttonDown = false;
+    protected boolean buttonReleased = false;
+    protected int i = 0;
     
-    private Image normalimage;
-    private Image hoverimage;
-    private Image pressedimage;
-    private Image renderImage;
+    protected Image normalimage;
+    protected Image hoverimage;
+    protected Image pressedimage;
+    protected Image renderImage;
     
     Sound mouseover;
     private String text;
@@ -144,6 +144,7 @@ public class Button
 
     public void render (Graphics gr)
     {
+    	renderImage.setFilter(Image.FILTER_NEAREST);
         renderImage.draw(position.x,position.y,width,height);
 
         int margin = ((int) width - getTextWidth(text, uniFont)) / 2;

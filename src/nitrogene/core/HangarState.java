@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import nitrogene.util.Button;
+import nitrogene.util.Tab;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -42,8 +43,12 @@ public class HangarState extends BasicGameState{
 		
 		Image normalimg = new Image("res/hangar/unpressedtab.png");
 		Image pressedimg = new Image("res/hangar/pressedtab.png");
+		
+		//Image buybuttonnormal = new Image("res/hangar/")
+		
 		try {
-			weapontab = new Button("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, normalimg, null, pressedimg, null);
+			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, normalimg, null, pressedimg, null);
+			basiclaserbutton = new Button("Basic Laser", obserx, obsery, );
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}

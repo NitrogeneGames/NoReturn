@@ -20,8 +20,13 @@ public class ImageObject extends PhysicalObject{
 	private float x;
 	private float y;
 	public ImageObject(float width, float height, Image img, float scalefactor, ArenaMap map){
+		this(width, height, img, scalefactor, map, true);
+	}
+	public ImageObject(float width, float height, Image img, float scalefactor, ArenaMap map, boolean register){
 		super(width, height, img, scalefactor, map);
-		ImageBase.registerImage(this.mainimg);
+		if(register) {
+			ImageBase.registerImage(this.mainimg);
+		}
 	}
 	
 	@Override
@@ -116,4 +121,4 @@ public class ImageObject extends PhysicalObject{
 		Color c = mainimg.getColor((int) (x-getX()), (int)(y-getY()));
 		return c.a == 0f;
 	}
-}
+} 

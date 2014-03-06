@@ -2,7 +2,7 @@ package nitrogene.util;
 
 import java.util.Random;
 
-import nitrogene.core.Nitrogene;
+import nitrogene.core.Zoom;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -29,10 +29,10 @@ public class Stars {
 	
 	public void render(float camX, float camY){
 		for(int g1 = 0; g1 < n; g1++){
-			if(starx[g1]-biggeststarsize>Nitrogene.getZoomWidth()+camX||starx[g1]+biggeststarsize<camX){
+			if(starx[g1]-biggeststarsize>Zoom.getZoomWidth()+camX||starx[g1]+biggeststarsize<camX){
 				continue;
 			}
-			if(stary[g1]-biggeststarsize>Nitrogene.getZoomHeight()+camY||stary[g1]+biggeststarsize<camY){
+			if(stary[g1]-biggeststarsize>Zoom.getZoomHeight()+camY||stary[g1]+biggeststarsize<camY){
 				continue;
 			}
 			twopixelstar.draw(starx[g1],stary[g1]);

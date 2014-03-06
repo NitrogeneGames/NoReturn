@@ -2,12 +2,7 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
-import nitrogene.collision.AABB;
-import nitrogene.collision.Vector;
-import nitrogene.objecttree.ImageObject;
 import nitrogene.objecttree.RectangleObject;
-import nitrogene.util.Direction;
-import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
@@ -17,7 +12,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Craft extends ImageObject{
+public class Craft extends RectangleObject{
 	
 	//systems
 	public Shield shield;

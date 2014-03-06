@@ -1,5 +1,8 @@
 package nitrogene.objecttree;
 
+import java.util.ArrayList;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
@@ -40,7 +43,54 @@ public class PhysicalObject {
 		boundbox.setX(boundbox.getX()+((movement.getDx()*gj)*mm));
 		boundbox.setY(boundbox.getY()+((movement.getDy()*gj)*mm));
 	}
-	
+	/*
+public boolean isColliding(PhysicalObject obj){
+		
+
+		double dist = Math.sqrt((boundbox.getCenterX()-obj.getCenterX())*(boundbox.getCenterX()-obj.getCenterX()) + (boundbox.getCenterY()-obj.getCenterY())*(boundbox.getCenterY()-obj.getCenterY()));
+		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= dist || 
+			this.boundbox.getCenterY() + width + this.movement.getDy() >= dist){
+			if(obj instanceof ImageObject) {
+				return obj.isColliding(obj);
+			} else {	    
+				if(this.boundbox.intersects(obj.boundbox)) {
+					ArrayList<int[]> points = getCollidingPoints(this, obj);
+						boolean flag = false;
+						for(int i = 0; i < points.size(); i++) {
+
+							boolean flag1 = false;
+							boolean flag2 = false;
+							int x = (int) (points.get(i)[0]-getX());
+							int y = (int) (points.get(i)[1]-getY());
+							int x1 = (int) (points.get(i)[0]-obj.getX());
+							int y1 = (int) (points.get(i)[1]-obj.getY());
+						
+							if(x < 0 || x >= this.mainimg.getWidth() || y < 0 || y >= this.mainimg.getHeight()) {
+								flag1 = false;
+							} else {
+								Color c = mainimg.getColor((int) (x), (int)(y));
+								flag1 = ( c.a == 0f );
+							}				
+							
+							if(x1 < 0 || x1 >= obj.mainimg.getWidth() || y1 < 0 || y1 >= obj.mainimg.getHeight()) {
+								flag2 = false;
+							} else {
+								Color c = mainimg.getColor((int) (x1), (int)(y1));
+								flag2 = ( c.a == 0f );
+							}
+							if(flag1 == true && flag2 == true) {
+								System.out.println("FLAG 3");
+								return true;
+							}
+							
+						}
+						return flag;
+				}
+			}
+		}
+		return false;
+	}
+	 */
 	public boolean isColliding(PhysicalObject obj){
 		
 		/*if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.getCenterX() ||
@@ -53,11 +103,15 @@ public class PhysicalObject {
 			this.boundbox.getCenterY() + width + this.movement.getDy() >= dist){
 			if(obj instanceof ImageObject) {
 				return obj.isColliding(obj);
-			} else {
-					return this.boundbox.intersects(obj.boundbox);
+			} else {	    
+				if(this.boundbox.intersects(obj.boundbox)) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
-		else return false;
+		return false;
 	}
 	
 	public boolean isContaining(float x, float y){
@@ -126,4 +180,14 @@ public class PhysicalObject {
 	}
 	public void update(int delta) {
 	}
+	public static ArrayList<int[]> getCollidingPoints(PhysicalObject a, PhysicalObject a1) {
+		ArrayList<int[]> list = new ArrayList<int[]>();
+		for(int i = 0; i < a.boundbox.getPointCount(); i++) {
+			if(a1.isContaining(a.boundbox.getPoint(i)[0], a.boundbox.getPoint(i)[1])) {
+				list.add(new int[]{(int) a.boundbox.getPoint(i)[0], (int) a.boundbox.getPoint(i)[1]});
+			}
+		}
+		return list;
+	}
+	
 }

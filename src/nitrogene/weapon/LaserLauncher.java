@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import nitrogene.core.Craft;
 import nitrogene.core.CursorSystem;
 import nitrogene.core.Planet;
-import nitrogene.core.Nitrogene;
+import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
@@ -169,9 +169,9 @@ public class LaserLauncher {
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY);
 	      
 	      for(SLaser laser : this.slaserlist){
-	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Nitrogene.getZoomWidth()+camX||
+	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
 						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
-						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Nitrogene.getZoomHeight()+camY||
+						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
 						laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
 					laser = null;
 					continue;
@@ -181,13 +181,13 @@ public class LaserLauncher {
 	      }
 	}
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser(x+craftX,y+craftY, Nitrogene.scale(camX)+desx, Nitrogene.scale(camY)+desy,
+		slaserlist.add(new SLaser(x+craftX,y+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
 				accuracy, speed, damage, size, this.getAngle(), proje, map, this, true));
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+Nitrogene.scale(camX) - (x+craftX));
-			double mecY = (desy+Nitrogene.scale(camY) - (y+craftY));
+			double mecX = (desx+Zoom.scale(camX) - (x+craftX));
+			double mecY = (desy+Zoom.scale(camY) - (y+craftY));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;
