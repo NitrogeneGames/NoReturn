@@ -77,11 +77,10 @@ public class LaserLauncher {
 		proje = new Image("res/LaserV2ro.png");
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
-	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat){
+	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat){
 		parent = w;
 		this.x = xpos;
 		this.y = ypos;
-		this.map = map;
 		desx = 0;
 		desy = 0;
 		this.accuracy = stat.accuracy;
@@ -105,6 +104,10 @@ public class LaserLauncher {
 		this.speed = stat.speed;
 		this.damage = stat.damage;
 		this.size = stat.size;
+	}
+	
+	public void registerMovement(ArenaMap map){
+		this.map = map;
 	}
 	
 	public void setTarget(float desx, float desy){

@@ -23,7 +23,8 @@ public class ImageObject extends PhysicalObject{
 		this(width, height, img, scalefactor, map, true);
 	}
 	public ImageObject(float width, float height, Image img, float scalefactor, ArenaMap map, boolean register){
-		super(width, height, img, scalefactor, map);
+		super(width, height, img, scalefactor);
+		registerMovement(map);
 		if(register) {
 			ImageBase.registerImage(this.mainimg);
 		}
