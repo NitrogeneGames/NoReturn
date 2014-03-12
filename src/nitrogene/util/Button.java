@@ -21,14 +21,14 @@ public class Button
     protected Image renderImage;
     
     Sound mouseover;
-    private String text;
+    protected String text;
     java.awt.Font mainFont;
     org.newdawn.slick.UnicodeFont uniFont;
     
-    private float width;
+    protected float width;
     @SuppressWarnings("unused")
-	private float height;
-    private Vector2f position;
+	protected float height;
+    protected Vector2f position;
 
     @SuppressWarnings("unchecked")
 	public Button (String text, float x, float y, float width, float height) throws FontFormatException, IOException, SlickException
@@ -152,6 +152,8 @@ public class Button
         gr.setFont(uniFont);
         gr.drawString(text, button.getMinX() + margin, button.getMinY() + 13);
     }
+    
+    public void render(Graphics g, int scalefactor){}
 
     public boolean isClicked()
     {
@@ -163,7 +165,7 @@ public class Button
         return false;
     }
 
-    private int getTextWidth (String text, Font font)
+    protected int getTextWidth (String text, Font font)
     {
         int width = 0;
 

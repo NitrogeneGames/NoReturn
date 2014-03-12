@@ -75,15 +75,16 @@ public class GameState extends BasicGameState{
 
 	private boolean PAUSED = false;
 
+	
 	public GameState(int width, int height) {
 
 		this.SCR_width = width;
 		this.SCR_height = height;
 	}
 
+
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-
 		CursorSystem.init();
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
@@ -111,9 +112,6 @@ public class GameState extends BasicGameState{
 		objlist.add(craft);
 		enemyImage = new Image("res/klaarship4.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
-		enemy.addCraftTarget(craft);
-		enemy.addTask(new TaskFire(enemy, craft, 0));
-		enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 		enemy.getImage().rotate(180);
 		objlist.add(enemy);
 		
@@ -170,6 +168,24 @@ public class GameState extends BasicGameState{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.PAUSED = true;
+	}
+	
+	@Override
+	   public void enter(GameContainer container, StateBasedGame game)
+	         throws SlickException {
+	      super.enter(container, game);
+	      enemy.addCraftTarget(craft);
+	      enemy.addTask(new TaskFire(enemy, craft, 0));
+	      enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
+	      this.PAUSED = false;
+	   }
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
+		super.leave(container, game);
+		this.PAUSED = true;
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta)
