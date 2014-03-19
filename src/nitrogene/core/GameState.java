@@ -99,8 +99,13 @@ public class GameState extends BasicGameState{
 		    	camY = 0;
 
 		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
-		//load sounds here	
-		    	
+		//load sounds here
+		
+		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
+		for(Planet pl : map.getPlanets()){
+			objlist.add(pl);
+		}
+		
 		//load images and objects here
 		craftImage = new Image("res/klaarship4.png");
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
@@ -109,30 +114,6 @@ public class GameState extends BasicGameState{
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
 		objlist.add(enemy);
-		
-		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-		for(Planet pl : map.getPlanets()){
-			objlist.add(pl);
-		}    
-		
-		craft.registerMovement(map);
-		craft.shield.registerMovement(map);
-		craft.engine.registerMovement(map);
-		craft.core.registerMovement(map);
-		craft.lifesupport.registerMovement(map);
-		enemy.registerMovement(map);
-		enemy.shield.registerMovement(map);
-		enemy.engine.registerMovement(map);
-		enemy.core.registerMovement(map);
-		enemy.lifesupport.registerMovement(map);
-		for(int l = 0; l < craft.laserlist.size(); l++){
-			LaserLauncher laser = craft.laserlist.get(l);
-			laser.registerMovement(map);
-		}
-		for(int i = 0; i < enemy.laserlist.size(); i++){
-			LaserLauncher laser = craft.laserlist.get(i);
-			laser.registerMovement(map);
-		}
 		
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");

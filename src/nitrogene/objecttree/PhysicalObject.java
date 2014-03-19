@@ -23,15 +23,12 @@ public class PhysicalObject {
 	protected float rotation;
 	protected float width, height;
 
-	public PhysicalObject(float width, float height, Image img, float scalefactor){
+	public PhysicalObject(float width, float height, Image img, float scalefactor, ArenaMap map){
 		width = 0;
 		height = 0;
+		this.map = map;
 		this.mainimg = img;
 		this.scalefactor = scalefactor;
-	}
-	
-	public void registerMovement(ArenaMap map){
-		this.map = map;
 		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 	}
 	
