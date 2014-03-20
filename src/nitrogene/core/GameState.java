@@ -63,6 +63,7 @@ public class GameState extends BasicGameState{
 	ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
+	private int mousewheelposition;
 	private Animation animation;
 	private int mapwidth, mapheight;
 	//private Minimap minimap;
@@ -86,6 +87,8 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		CursorSystem.init();
+		mousewheelposition = -1;
+		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
 		objlist = new ArrayList<PhysicalObject>();
@@ -123,7 +126,9 @@ public class GameState extends BasicGameState{
 		GUI = new Image("res/GUIportrait.png");
     	
     	//minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
-    	stars = new Stars(2,mapwidth,mapheight);
+		int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
+		int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
+    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
     	//ADDRESS PROBLEM
     	
     	
@@ -193,8 +198,17 @@ public class GameState extends BasicGameState{
 		if(!container.hasFocus()){
 			PAUSED = true;
 		}
-
+		
 		Zoom.setZoomWindow(SCR_width, SCR_height);
+		if(mousewheelposition == -1){
+			Zoom.setZoom(ZoomEnum.NORMAL);
+		} else if(mousewheelposition == 0){
+		    Zoom.setZoom(ZoomEnum.LARGE);
+		} else if (mousewheelposition == 1){
+			Zoom.setZoom(ZoomEnum.MAP);
+		} else{
+			System.out.println("ERROR! in beginning of update method, scroll zoom controls!");
+		}
 		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
@@ -439,6 +453,14 @@ public class GameState extends BasicGameState{
 					cannon.toggleFire(x,y,Zoom.scale(camX),Zoom.scale(camY));
 			}
 			}
+		}
+	}
+	
+	public void mouseWheelMoved(int change){
+		if(change <= -120 && mousewheelposition < 1){
+			mousewheelposition += 1;
+		} else if(change >= 120 && mousewheelposition > -1){
+			mousewheelposition -= 1;
 		}
 	}
 

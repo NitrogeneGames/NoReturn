@@ -50,9 +50,9 @@ public class HangarState extends BasicGameState{
 		obserx = (width/2)-(observatory.getWidth()*scalefactor/2);
 		obsery = (height/2)-(observatory.getHeight()*scalefactor/2);
 		
-		Image normalimgtab = new Image("res/hangar/unpressedtab.png");
-		Image pressedimgtab = new Image("res/hangar/pressedtab.png");
-		Image normalimgbuybutton = new Image("res/button/logomenubutton2.png");
+		Image normalimgtab = new Image("res/hangar/tab2.png");
+		Image pressedimgtab = new Image("res/hangar/tabhighlighted2.png");
+		Image normalimgbuybutton = new Image("res/hangar/button2.png");
 		
 		//Image buybuttonnormal = new Image("res/hangar/")
 		

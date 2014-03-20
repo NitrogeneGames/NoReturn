@@ -12,16 +12,16 @@ public class Stars {
 	private int[] starx, stary;
 	private Image twopixelstar;
 	
-	public Stars(int biggeststarsize, int mapwidth, int mapheight) throws SlickException{
+	public Stars(int biggeststarsize, int mapwidth, int mapheight, int startx, int starty, int frequency) throws SlickException{
     	Random rand = new Random();
-    	n = rand.nextInt(10) + 510;
+    	n = rand.nextInt(10) + 1100;
     	starx = new int[n];
     	stary = new int[n];
     	for(int i = 0; i < n; i++) {
     	Random randomx = new Random();
-    	starx[i] = randomx.nextInt(mapwidth - biggeststarsize) + 1;
+    	starx[i] = randomx.nextInt(mapwidth+startx - biggeststarsize) + 1;
     	Random randomy = new Random();
-    	stary[i] = randomy.nextInt(mapheight - biggeststarsize) + 1;
+    	stary[i] = randomy.nextInt(mapheight+starty - biggeststarsize) + 1;
     	}
     	this.biggeststarsize = biggeststarsize;
     	twopixelstar = new Image("res/star2.png");
