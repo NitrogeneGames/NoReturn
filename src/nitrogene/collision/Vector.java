@@ -19,6 +19,6 @@ public class Vector {
 	      float distX = x - vec.x;
 	      float distY = y - vec.y;
 	      
-	      return distX * distX + distY * distY;
+	      return (distX * distX) + (distY * distY);
 	   }
 	}
