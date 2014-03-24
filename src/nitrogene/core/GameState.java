@@ -105,9 +105,6 @@ public class GameState extends BasicGameState{
 		//load sounds here
 		
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-		for(Planet pl : map.getPlanets()){
-			objlist.add(pl);
-		}
 		
 		//load images and objects here
 		craftImage = new Image("res/klaarship4.png");
@@ -117,6 +114,11 @@ public class GameState extends BasicGameState{
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
 		objlist.add(enemy);
+		
+		map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
+		for(Planet pl : map.getPlanets()){
+			objlist.add(pl);
+		}
 		
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");

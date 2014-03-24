@@ -46,10 +46,9 @@ public class ArenaMap {
 		this.downbound = mapheight - offsety;
 		this.leftbound = offsetx;
 		this.rightbound = mapwidth - offsetx;
-		generate(offsetx, offsety, mapwidth, mapheight, craft);
 	}
 	
-	private void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft craft){
+	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft craft){
 		for(int e = 0; e < planetnumber; e++){
 			Vector vec = new Vector();
 			vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
@@ -62,8 +61,8 @@ public class ArenaMap {
 			for(int i = 0; i < planetlist.size(); i++){
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
-				if(Math.sqrt(vec.distSQ(new Vector(planet.getCenterX(),planet.getCenterY()))) <= radius + 500 + planet.getShape().getWidth()/2) //||
-				   //Math.sqrt(vec.distSQ(new Vector(craft.getCenterX(),craft.getCenterY()))) <= craft.shield.getImage().getWidth() + radius + 300)
+				if(Math.sqrt(vec.distSQ(new Vector(planet.getCenterX(),planet.getCenterY()))) <= radius + 500 + (planet.getShape().getWidth()/2) ||
+				   Math.sqrt(vec.distSQ(new Vector(craft.getCenterX(),craft.getCenterY()))) <= (craft.shield.getImage().getWidth()/2) + radius + 300)
 						{
 					radius = random.nextInt(200)+200;
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
