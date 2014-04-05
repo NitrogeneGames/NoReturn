@@ -25,11 +25,12 @@ public class HangarState extends BasicGameState{
 	
 	//tabs
 	private ArrayList<Tab> tablist;
+	private ArrayList<BuyButton> buttonlist;
 	private ArrayList<EnumWeapon> weapons;
 	private Tab weapontab;
 	
 	//buttons for purchasing systems
-	private BuyButton basiclaserbutton;
+	private BuyButton basiclaserbutton, splitlaserbutton, splitlaser2button, pulsarbutton, pulsar2button;
 	private Button startbutton;
 	
 	public HangarState(int width, int height){
@@ -41,6 +42,7 @@ public class HangarState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		tablist = new ArrayList<Tab>();
+		buttonlist = new ArrayList<BuyButton>();
 		weapons = new ArrayList<EnumWeapon>();
 		
 		backgroundimg = new Image("res/hangar/background.png");
@@ -66,7 +68,18 @@ public class HangarState extends BasicGameState{
 			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, normalimgtab, null, pressedimgtab, null);
 			tablist.add(weapontab);
 			
+			//Add +7+2 (+11) to y coordinate every button down
 			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			splitlaserbutton = new BuyButton("Split Laser", 50, obserx+(14*scalefactor), obsery+(68*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			splitlaser2button = new BuyButton("Split Laser Mk.2", 80, obserx+(14*scalefactor), obsery+(79*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			pulsarbutton = new BuyButton("Pulsar", 80, obserx+(14*scalefactor), obsery+(90*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			pulsar2button = new BuyButton("Pulsar Mk.2", 150, obserx+(14*scalefactor), obsery+(101*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+
+			buttonlist.add(basiclaserbutton);
+			buttonlist.add(splitlaserbutton);
+			buttonlist.add(splitlaser2button);
+			buttonlist.add(pulsarbutton);
+			buttonlist.add(pulsar2button);
 			
 			startbutton = new Button("Start", 500, 500, 100, 50, standardbutton, null, null, null);
 		} catch (FontFormatException | IOException e) {
@@ -90,6 +103,10 @@ public class HangarState extends BasicGameState{
 		
 		if(weapontab.getButtonDown()){
 			basiclaserbutton.update(container, weapons, EnumWeapon.BASIC);
+			splitlaserbutton.update(container, weapons, EnumWeapon.SPLIT);
+			splitlaser2button.update(container, weapons, EnumWeapon.SPLIT2);
+			pulsarbutton.update(container, weapons, EnumWeapon.PULSAR);
+			pulsar2button.update(container, weapons, EnumWeapon.PULSAR2);
 		}
 		
 	}
@@ -110,7 +127,9 @@ public class HangarState extends BasicGameState{
 		startbutton.render(g);
 		
 		if(weapontab.getButtonDown()){
-			basiclaserbutton.render(g, scalefactor);
+			for(Button b : buttonlist){
+				b.render(g, scalefactor);
+			}
 		}
 	}
 	

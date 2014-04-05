@@ -45,7 +45,6 @@ public class BuyButton extends Button
         {
         	
             if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            	System.out.println("HELLO!");
             	if(finalrender == pressedimage){
             		finalrender = renderImage;
             		weapons.remove(enumwep);

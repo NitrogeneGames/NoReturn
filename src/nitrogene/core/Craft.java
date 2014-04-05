@@ -21,7 +21,7 @@ public class Craft extends RectangleObject{
 	public Engine engine;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	protected double hull;
-	LaserLauncher primary1;
+	LaserLauncher primary1, primary2, primary3, primary4, primary5, primary6;
 
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
@@ -42,13 +42,38 @@ public class Craft extends RectangleObject{
 	
 	public void loadSystems(ArrayList<EnumWeapon> weapons){
 		if(weapons != null){
-			System.out.println("NOT NULL FOR ARRAYLIST");
 			if(weapons.get(0) != null){
-				System.out.println("NOT NULL FOR WEAPON 1");
 				primary1 = new LaserLauncher(this, map, 135, 17, weapons.get(0));
 				TickSystem.addTimer(new WeaponTimer(primary1));
 				laserlist.add(primary1);
 			}
+			/*
+			if(weapons.get(1) != null){
+				primary2 = new LaserLauncher(this, map, 135, 17, weapons.get(1));
+				TickSystem.addTimer(new WeaponTimer(primary2));
+				laserlist.add(primary2);
+			}
+			if(weapons.get(2) != null){
+				primary3 = new LaserLauncher(this, map, 135, 17, weapons.get(2));
+				TickSystem.addTimer(new WeaponTimer(primary3));
+				laserlist.add(primary3);
+			}
+			if(weapons.get(3) != null){
+				primary4 = new LaserLauncher(this, map, 135, 17, weapons.get(3));
+				TickSystem.addTimer(new WeaponTimer(primary4));
+				laserlist.add(primary4);
+			}
+			if(weapons.get(4) != null){
+				primary5 = new LaserLauncher(this, map, 135, 17, weapons.get(4));
+				TickSystem.addTimer(new WeaponTimer(primary5));
+				laserlist.add(primary5);
+			}
+			if(weapons.get(5) != null){
+				primary6 = new LaserLauncher(this, map, 135, 17, weapons.get(5));
+				TickSystem.addTimer(new WeaponTimer(primary6));
+				laserlist.add(primary6);
+			}
+			*/
 		}
 	}
 	
