@@ -38,9 +38,18 @@ public class Craft extends RectangleObject{
 		lifesupport = new LifeSupport(82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
 		cumulative = 0;
 		
-		primary1 = new LaserLauncher(this, map, 135, 17, EnumWeapon.BASIC);
-		TickSystem.addTimer(new WeaponTimer(primary1));
-		laserlist.add(primary1);
+	}
+	
+	public void loadSystems(ArrayList<EnumWeapon> weapons){
+		if(weapons != null){
+			System.out.println("NOT NULL FOR ARRAYLIST");
+			if(weapons.get(0) != null){
+				System.out.println("NOT NULL FOR WEAPON 1");
+				primary1 = new LaserLauncher(this, map, 135, 17, weapons.get(0));
+				TickSystem.addTimer(new WeaponTimer(primary1));
+				laserlist.add(primary1);
+			}
+		}
 	}
 	
 	@Override

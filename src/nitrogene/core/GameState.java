@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -27,6 +28,7 @@ import nitrogene.util.Stars;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
+import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
@@ -184,8 +186,10 @@ public class GameState extends BasicGameState{
 	         throws SlickException {
 	      super.enter(container, game);
 	      enemy.addCraftTarget(craft);
-	      enemy.addTask(new TaskFire(enemy, craft, 0));
-	      enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
+	      craft.loadSystems(GlobalInformation.getStartingWeapons());
+	      enemy.loadSystems(GlobalInformation.getStartingWeapons());
+	      //enemy.addTask(new TaskFire(enemy, craft, 0));
+	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      this.PAUSED = false;
 	   }
 	

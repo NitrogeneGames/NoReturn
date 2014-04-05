@@ -2,6 +2,9 @@ package nitrogene.util;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import nitrogene.weapon.EnumWeapon;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,6 +19,8 @@ public class BuyButton extends Button
 {
 	private int cost;
 	private Image coins;
+	private Image finalrender;
+	private boolean selected;
 
 	public BuyButton(String name, int cost, float x, float y, float width, float height,
 			Image normalimage, Image pressedimage,
@@ -24,23 +29,44 @@ public class BuyButton extends Button
 		super(name, x, y, width, height, normalimage, null, pressedimage,
 				mouseover);
 		this.cost = cost;
+		finalrender = renderImage;
+		selected = false;
 		coins = new Image("res/hangar/twocoins.png");
 		coins.setFilter(Image.FILTER_NEAREST);
 	}
 
 	@Override
-	 public void update (GameContainer gc)
-    {
+	public void update (GameContainer gc, ArrayList<EnumWeapon> weapons, EnumWeapon enumwep)
+     {
     	
         buttonReleased = false;
         
-
+        if (button.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
+        {
+        	
+            if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            	System.out.println("HELLO!");
+            	if(finalrender == pressedimage){
+            		finalrender = renderImage;
+            		weapons.remove(enumwep);
+            		buttonDown = false;
+            		return;
+            	}
+            	if(finalrender == renderImage){
+            		finalrender = pressedimage;
+            		weapons.add(enumwep);
+            		buttonDown = true;
+            	}
+            }
+        }
+        /*
         if (button.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
         {
         	
             if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             {
                 buttonDown = true;
+                System.out.println("CALLED");
                 if(pressedimage != null){
                 renderImage = pressedimage;
                 renderImage.setFilter(Image.FILTER_NEAREST);
@@ -74,13 +100,13 @@ public class BuyButton extends Button
             }
             i=0;
         }
-        
+        */
     }
 	
 	@Override
 	public void render(Graphics g, int scalefactor){
-		renderImage.setFilter(Image.FILTER_NEAREST);
-        renderImage.draw(position.x,position.y,width,height);
+		finalrender.setFilter(Image.FILTER_NEAREST);
+        finalrender.draw(position.x,position.y,width,height);
 
         g.setFont(uniFont);
         
@@ -91,5 +117,5 @@ public class BuyButton extends Button
         g.drawString(String.valueOf(cost), button.getMinX()+ (100*scalefactor) - margin - (12*scalefactor), button.getMinY() + (1*scalefactor));
         coins.draw(button.getMinX() + (100*scalefactor) - (11.5f*scalefactor), button.getMinY() + (2*scalefactor), scalefactor/4);
 	}
-	
+
 }

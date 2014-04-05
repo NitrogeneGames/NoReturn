@@ -3,6 +3,9 @@ package nitrogene.util;
 import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import nitrogene.weapon.EnumWeapon;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
@@ -78,7 +81,7 @@ public class Button
         if(hoverimage!=null){
         this.hoverimage.setFilter(Image.FILTER_NEAREST);
         }
-        if(hoverimage!=null){
+        if(pressedimage!=null){
         this.pressedimage.setFilter(Image.FILTER_NEAREST);
         }
         this.renderImage.setFilter(Image.FILTER_NEAREST);
@@ -177,4 +180,12 @@ public class Button
 
         return (int) (width * 1.14);
     }
+ 
+    public boolean buttonDown(){
+    	return buttonDown;
+    }
+
+	public void update(GameContainer container, ArrayList<EnumWeapon> weapons,
+			EnumWeapon basic) {		
+	}
 }

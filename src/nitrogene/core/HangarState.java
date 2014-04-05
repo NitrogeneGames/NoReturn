@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import nitrogene.util.Button;
 import nitrogene.util.BuyButton;
 import nitrogene.util.Tab;
+import nitrogene.weapon.EnumWeapon;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -24,10 +25,12 @@ public class HangarState extends BasicGameState{
 	
 	//tabs
 	private ArrayList<Tab> tablist;
+	private ArrayList<EnumWeapon> weapons;
 	private Tab weapontab;
 	
 	//buttons for purchasing systems
-	private Button basiclaserbutton;
+	private BuyButton basiclaserbutton;
+	private Button startbutton;
 	
 	public HangarState(int width, int height){
 		this.width = width;
@@ -38,6 +41,7 @@ public class HangarState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		tablist = new ArrayList<Tab>();
+		weapons = new ArrayList<EnumWeapon>();
 		
 		backgroundimg = new Image("res/hangar/background.png");
 		observatory = new Image("res/hangar/observatory1.png");
@@ -53,6 +57,8 @@ public class HangarState extends BasicGameState{
 		Image normalimgtab = new Image("res/hangar/tab2.png");
 		Image pressedimgtab = new Image("res/hangar/tabhighlighted2.png");
 		Image normalimgbuybutton = new Image("res/hangar/button2.png");
+		Image pressedimgbuybutton = new Image("res/hangar/buttonhighlighted2.png");
+		Image standardbutton = new Image("res/button/logomenubutton2.png");
 		
 		//Image buybuttonnormal = new Image("res/hangar/")
 		
@@ -60,7 +66,9 @@ public class HangarState extends BasicGameState{
 			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, normalimgtab, null, pressedimgtab, null);
 			tablist.add(weapontab);
 			
-			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, normalimgbuybutton, null);
+			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			
+			startbutton = new Button("Start", 500, 500, 100, 50, standardbutton, null, null, null);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
@@ -70,10 +78,20 @@ public class HangarState extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		weapontab.update(container);
+		startbutton.update(container);
+		
+		if(startbutton.isClicked()){
+			GlobalInformation.setStartingWeapons(weapons);
+			if(weapons.isEmpty()){
+				System.out.println("CHECKPOINT 1 FAILURE");
+			}
+			game.enterState(2);
+		}
 		
 		if(weapontab.getButtonDown()){
-			basiclaserbutton.update(container);
+			basiclaserbutton.update(container, weapons, EnumWeapon.BASIC);
 		}
+		
 	}
 
 	@Override
@@ -89,6 +107,7 @@ public class HangarState extends BasicGameState{
 		observatory.draw(obserx, obsery, scalefactor);
 		
 		weapontab.render(g);
+		startbutton.render(g);
 		
 		if(weapontab.getButtonDown()){
 			basiclaserbutton.render(g, scalefactor);

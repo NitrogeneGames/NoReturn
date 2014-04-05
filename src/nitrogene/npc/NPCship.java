@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import nitrogene.collision.Vector;
 import nitrogene.core.Craft;
 import nitrogene.core.Planet;
+import nitrogene.weapon.EnumWeapon;
 import nitrogene.world.ArenaMap;
 
 public class NPCship extends Craft{
