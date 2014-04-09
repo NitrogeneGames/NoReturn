@@ -82,7 +82,9 @@ public class HangarState extends BasicGameState{
 			buttonlist.add(pulsar2button);
 			
 			startbutton = new Button("Start", 500, 500, 100, 50, standardbutton, null, null, null);
-		} catch (FontFormatException | IOException e) {
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}

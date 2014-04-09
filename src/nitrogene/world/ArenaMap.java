@@ -87,6 +87,14 @@ public class ArenaMap {
 		return planetlist;
 	}
 	
+	public void removePlanet(Planet planet){
+		this.planetlist.remove(planet);
+	}
+	
+	public void removePlanet(int i){
+		this.planetlist.remove(i);
+	}
+	
 	public ArrayList<Craft> getCrafts(){
 		return craftlist;
 	}

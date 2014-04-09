@@ -278,10 +278,12 @@ public class GameState extends BasicGameState{
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
 						laser.move(10,delta);
-						for(Planet mesh : map.getPlanets()){
+						ArrayList<Planet> planetlist = new ArrayList<Planet>();
+						planetlist = map.getPlanets();
+						for(Planet mesh : planetlist){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
-								mesh.damage(laser.getDamage(), map.getPlanets());
+								mesh.damage(laser.getDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
@@ -313,7 +315,7 @@ public class GameState extends BasicGameState{
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
-								mesh.damage(laser.getDamage(), map.getPlanets());
+								mesh.damage(laser.getDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);

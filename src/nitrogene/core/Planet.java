@@ -23,29 +23,29 @@ public class Planet extends CircleObject{
 		shake = new Shake();
 	}
 	
-	public void damage(int damage,ArrayList<Planet> arrayList, int e) throws SlickException{
+	public void damage(int damage, ArenaMap map, int e) throws SlickException{
 		hp -= damage;
-		if(hp < 0){
+		if(hp <= 0){
 			hp = 0;
 			//explode();
-			this.destroy(arrayList, e);
+			this.destroy(map, e);
 		}
 	}
-	public void damage(int damage,ArrayList<Planet> arrayList) throws SlickException{
+	public void damage(int damage, ArenaMap map) throws SlickException{
 		hp -= damage;
-		if(hp < 0){
+		if(hp <= 0){
 			hp = 0;
 			//explode();
-			this.destroy(arrayList, this);
+			this.destroy(map, this);
 		}
 	}
-	public void destroy(ArrayList<Planet> arraylist, int e) throws SlickException {
+	public void destroy(ArenaMap map, int e) throws SlickException {
 		im = null;
-		arraylist.remove(e);
+		map.removePlanet(e);
 	}
-	public void destroy(ArrayList<Planet> arraylist, Planet planet) throws SlickException {
+	public void destroy(ArenaMap map, Planet planet) throws SlickException {
 		im = null;
-		arraylist.remove(planet);
+		map.removePlanet(planet);
 	}
 	public int getHp(){
 		return hp;
