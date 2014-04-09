@@ -283,12 +283,13 @@ public class GameState extends BasicGameState{
 						for(Planet mesh : planetlist){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
-								mesh.damage(laser.getDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
+								mesh.damage(laser.getPlanetDamage(), map);
 							}
 							}
+						map.setPlanets(planetlist);
 						for(PhysicalObject temp : objlist){
 							if(!temp.equals(obj) && temp.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
@@ -315,7 +316,7 @@ public class GameState extends BasicGameState{
 						for(Planet mesh : map.getPlanets()){
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
-								mesh.damage(laser.getDamage(), map);
+								mesh.damage(laser.getPlanetDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);

@@ -19,7 +19,7 @@ import org.newdawn.slick.Sound;
 public class LaserLauncher {
 	private float desx, desy, x, y, camX, camY;
 	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
-	public int accuracy, timer, maxtime,  damage;
+	public int accuracy, timer, maxtime,  damage, planetdamage;
 	private double mangle;
 	private float mmangle, craftX, craftY, size, speed;
 	public boolean isRotating;
@@ -87,6 +87,7 @@ public class LaserLauncher {
 		this.accuracy = stat.accuracy;
 		mangle = 0;
 		mmangle = 0f;
+		this.planetdamage = stat.planetdamage;
 		this.interburst = stat.interburst;
 		this.outerburst = stat.outerburst;
 		this.burstnumber = stat.burstnumber;
@@ -182,7 +183,7 @@ public class LaserLauncher {
 	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(x+craftX,y+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
-				accuracy, speed, damage, size, this.getAngle(), proje, map, this, true));
+				accuracy, speed, damage, planetdamage, size, this.getAngle(), proje, map, this, true));
 	}
 	
 	public float getAngle(){

@@ -91,6 +91,10 @@ public class ArenaMap {
 		this.planetlist.remove(planet);
 	}
 	
+	public void setPlanets(ArrayList<Planet> planets){
+		this.planetlist = planets;
+	}
+	
 	public void removePlanet(int i){
 		this.planetlist.remove(i);
 	}

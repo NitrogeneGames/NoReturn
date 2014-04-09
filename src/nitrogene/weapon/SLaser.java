@@ -21,7 +21,7 @@ public class SLaser extends RectangleObject{
 	private boolean isRotated;
 	Sound basicTestLaser;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
 		super(startX, startY, img.getWidth(), img.getHeight(), rotation, img.copy(), size, map);
 		isRotated = false;
 		this.startX =startX;
@@ -108,5 +108,9 @@ public class SLaser extends RectangleObject{
 	}
 	public float getSize(){
 		return scalesize;
+	}
+
+	public int getPlanetDamage() {
+		return 0;
 	}
 }
