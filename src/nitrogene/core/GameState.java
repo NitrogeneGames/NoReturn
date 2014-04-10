@@ -109,7 +109,8 @@ public class GameState extends BasicGameState{
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 		
 		//load images and objects here
-		craftImage = new Image("res/klaarship4.png");
+		craftImage = new Image("res/klaarship6.png");
+		//craftImage.setFilter(Image.FILTER_NEAREST);
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
 		objlist.add(craft);
 		enemyImage = new Image("res/klaarship4.png");
