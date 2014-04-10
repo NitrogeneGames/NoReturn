@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import nitrogene.weapon.EnumWeapon;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -87,6 +88,8 @@ public class Button
         this.renderImage.setFilter(Image.FILTER_NEAREST);
         
         //font init
+       // GL11.glEnable(GL11.GL_BLEND);
+        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
         mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 25.f);
         uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
@@ -97,6 +100,46 @@ public class Button
         uniFont.loadGlyphs();
     }
 
+    
+    public Button (String text, float x, float y, float width, float height, Image normalimage, Image hoverimage, Image pressedimage, Sound mouseover, float fontsize) throws FontFormatException, IOException, SlickException
+    {
+        this.text = text;
+        this.width = width;
+        this.height = height;
+        this.position = new Vector2f(x, y);
+        this.button = new Rectangle(position.x, position.y, width, height);
+        this.renderImage = normalimage;
+        this.mouseover = mouseover;
+        
+        this.normalimage = normalimage;
+        this.hoverimage = hoverimage;
+        this.pressedimage = pressedimage;
+        renderImage = normalimage;
+        
+        if(normalimage!=null){
+        this.normalimage.setFilter(Image.FILTER_NEAREST);
+        }
+        if(hoverimage!=null){
+        this.hoverimage.setFilter(Image.FILTER_NEAREST);
+        }
+        if(pressedimage!=null){
+        this.pressedimage.setFilter(Image.FILTER_NEAREST);
+        }
+        this.renderImage.setFilter(Image.FILTER_NEAREST);
+        
+        //font init
+       // GL11.glEnable(GL11.GL_BLEND);
+        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
+        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, fontsize);
+        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
+        uniFont.addAsciiGlyphs();
+        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
+        a.setColor(Color.white);
+        uniFont.getEffects().add(a);
+        uniFont.loadGlyphs();
+    }
+    
     public void update (GameContainer gc)
     {
     	
@@ -150,10 +193,11 @@ public class Button
     	renderImage.setFilter(Image.FILTER_NEAREST);
         renderImage.draw(position.x,position.y,width,height);
 
-        int margin = ((int) width - getTextWidth(text, uniFont)) / 2;
+        int marginx = (int) (width - (getTextWidth(text, uniFont))) / 2;
+        int marginy = (int) (height - (getTextHeight(text, uniFont))) / 2;
 
         gr.setFont(uniFont);
-        gr.drawString(text, button.getMinX() + margin, button.getMinY() + 13);
+        gr.drawString(text, button.getMinX() + marginx, button.getMinY() + marginy);
     }
     
     public void render(Graphics g, int scalefactor){}
@@ -168,17 +212,33 @@ public class Button
         return false;
     }
 
-    protected int getTextWidth (String text, Font font)
+    protected float getTextWidth (String text, Font font)
     {
-        int width = 0;
+        float width = 0;
 
         for (char ch : text.toCharArray())
             if (ch == ' ')
-                width += 2;
+                width += 8f;
             else
                 width += font.getWidth(String.valueOf(ch));
 
-        return (int) (width * 1.14);
+        return(width * 1.08f);
+    }
+    
+    protected float getTextHeight (String text, Font font){
+    	int height = 0;
+    	int charcount =0;
+
+        for (char ch : text.toCharArray()){
+        	charcount++;
+            height += font.getHeight(String.valueOf(ch));
+        }
+
+        if(charcount==0){
+        	return 0;
+        }
+        
+        return (height/charcount*1.32f);
     }
  
     public boolean buttonDown(){

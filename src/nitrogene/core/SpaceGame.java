@@ -11,8 +11,8 @@ public class SpaceGame extends StateBasedGame{
 	private static int SCRheight;
 	public SpaceGame(String title) {
 		super("No Return");
-		SCRwidth = 1366;
-		SCRheight = 768;
+		SCRwidth = 800;
+		SCRheight = 600;
 	}
 
 	public static void main(String[] args) throws SlickException{

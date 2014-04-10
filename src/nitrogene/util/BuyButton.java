@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import nitrogene.core.HangarState;
 import nitrogene.weapon.EnumWeapon;
 
 import org.newdawn.slick.GameContainer;
@@ -46,60 +47,23 @@ public class BuyButton extends Button
         	
             if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
             	if(finalrender == pressedimage){
+            		HangarState.changeMoney(cost * 1);
             		finalrender = renderImage;
             		weapons.remove(enumwep);
             		buttonDown = false;
             		return;
             	}
             	if(finalrender == renderImage){
+            		if(HangarState.getMoney() - cost < 0){
+            			return;
+            		}
             		finalrender = pressedimage;
+            		HangarState.changeMoney(cost * -1);
             		weapons.add(enumwep);
             		buttonDown = true;
             	}
             }
         }
-        /*
-        if (button.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
-        {
-        	
-            if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
-            {
-                buttonDown = true;
-                System.out.println("CALLED");
-                if(pressedimage != null){
-                renderImage = pressedimage;
-                renderImage.setFilter(Image.FILTER_NEAREST);
-                }
-            }
-            else
-            {
-                if (buttonDown)
-                {
-                    buttonDown = false;
-                    buttonReleased = true;
-                }
-                if(hoverimage != null){
-                renderImage = hoverimage;
-                renderImage.setFilter(Image.FILTER_NEAREST);
-                }
-                if (i==1) i=2;
-                if (i==0) i=1;
-                if (i==1) {
-                	if(mouseover != null){
-                	mouseover.play();
-                	}
-                }
-            }
-        }
-        else
-        {
-            buttonDown = false;
-            if(normalimage != null){
-            renderImage = normalimage;
-            }
-            i=0;
-        }
-        */
     }
 	
 	@Override
@@ -112,7 +76,7 @@ public class BuyButton extends Button
         //draw the name of the item
         g.drawString(text, button.getMinX() + (9*scalefactor), button.getMinY() + (1*scalefactor));
         
-        int margin = this.getTextWidth(String.valueOf(cost), uniFont);
+        float margin = this.getTextWidth(String.valueOf(cost), uniFont);
         g.drawString(String.valueOf(cost), button.getMinX()+ (100*scalefactor) - margin - (12*scalefactor), button.getMinY() + (1*scalefactor));
         coins.draw(button.getMinX() + (100*scalefactor) - (11.5f*scalefactor), button.getMinY() + (2*scalefactor), scalefactor/4);
 	}
