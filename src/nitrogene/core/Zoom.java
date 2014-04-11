@@ -7,9 +7,8 @@ import nitrogene.util.ZoomEnum;
 public class Zoom {
 	
 	private static ZoomEnum zoom;
-	private static float zoomwidth;
-	private static float zoomheight;
-	private static StateBasedGame instance;
+	private static float width;
+	private static float height;
 	
 	
 	public static void setZoom(ZoomEnum z){
@@ -20,15 +19,15 @@ public class Zoom {
 	}
 	
 	public static void setZoomWindow(int width, int height){
-		zoomwidth = (float) (zoom.inverse*width);
-		zoomheight = (float) (zoom.inverse*height);
+		Zoom.width = (float)(width);
+		Zoom.height = (float)(height);
 	}
 	
 	public static float getZoomWidth(){
-		return zoomwidth;
+		return Zoom.width*(Zoom.zoom.inverse);
 	}
 	public static float getZoomHeight(){
-		return zoomheight;
+		return Zoom.height*(Zoom.zoom.inverse);
 	}
 	public static float scale(float i) {
 		return (float) (i*getZoom().inverse);

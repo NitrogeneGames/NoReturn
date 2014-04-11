@@ -400,13 +400,23 @@ public class GameState extends BasicGameState{
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
+			System.out.println(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale()) + "   and   " + Zoom.getZoomWidth()/2+craft.getCenterX());
+			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getCenterX())||
+					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
+					mesh.getY()>Zoom.getZoomHeight()+camY||
+					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
+				mesh = null;
+				continue;
+			}
+			/*
+			 * if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
 					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
 					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScale())>Zoom.getZoomHeight()+camY||
 					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
 				mesh = null;
 				continue;
 			}
+			 */
 			//label at top with health
 			if(mesh.getHp() < mesh.getMaxHp()){
 				if(mesh.getHp() <= 200) g.setColor(Color.red);
