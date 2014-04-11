@@ -1,20 +1,21 @@
 package nitrogene.world;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import nitrogene.objecttree.ImageObject;
 
 public class DroppedItem extends ImageObject{
-	private EnumDrop[] drop;
-	private int[] quantity;
+	private ArrayList<Item> droplist;
 
-	public DroppedItem(float width, float height, Image img, float scalefactor, ArenaMap map, EnumDrop[] drop, int[] quantity){
-		super(width, height, img, scalefactor, map);
-		this.drop = drop;
-		this.quantity = quantity;
+	public DroppedItem(float scalefactor, ArenaMap map, ArrayList<Item> droplist) throws SlickException{
+		super(50, 15, new Image("res/LaserV2ro.png"), scalefactor, map);
+		this.droplist = droplist;
 	}
 	
-	
-	
-	
+	public ArrayList<Item> getItemsInDrop(){
+		return droplist;
+	}
 }

@@ -2,12 +2,14 @@ package nitrogene.world;
 
 public enum EnumDrop {
 
-	IRON (1);
+	IRON (1, 100);
 	
 	//Tier used to classify drop rate
 	public int tier;
-	EnumDrop(int tier){
+	public int maxstack;
+	EnumDrop(int tier, int maxstack){
 		this.tier = tier;
+		this.maxstack = maxstack;
 	}
 	
 }

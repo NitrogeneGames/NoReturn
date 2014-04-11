@@ -8,6 +8,7 @@ import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.WeaponTimer;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -23,11 +24,13 @@ public class Craft extends RectangleObject{
 	protected double hull;
 	LaserLauncher primary1, primary2, primary3, primary4, primary5, primary6;
 
+	private ArrayList<Item> inventory;
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
 	
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
 		super(img.getWidth(), img.getHeight(), img.copy(), scale, map);
+		inventory = new ArrayList<Item>();
 		this.setX(700);
 		this.setY(700);
 		hull = 100;
@@ -117,5 +120,11 @@ public class Craft extends RectangleObject{
 	
 	private void destroy(){
 		//EXPLOSION!
+	}
+	
+	public void addToInventory(ArrayList<Item> itemlist){
+		for(Item item: itemlist){
+			inventory.add(item);
+		}
 	}
 }

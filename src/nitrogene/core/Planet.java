@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import nitrogene.objecttree.CircleObject;
 import nitrogene.util.Shake;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.EnumDrop;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tests.xml.Item;
 
 public class Planet extends CircleObject{
 	private int maxhp;
@@ -41,11 +43,19 @@ public class Planet extends CircleObject{
 	}
 	public void destroy(ArenaMap map, int e) throws SlickException {
 		im = null;
+		spawnItem(map);
 		map.removePlanet(e);
 	}
 	public void destroy(ArenaMap map, Planet planet) throws SlickException {
 		im = null;
+		spawnItem(map);
 		map.removePlanet(planet);
+	}
+	private void spawnItem(ArenaMap map){
+		ArrayList<Item> list = new ArrayList<Item>();
+		Item item = new Item();
+		list.add(item);
+		//map.addDroppedItem(list);
 	}
 	public int getHp(){
 		return hp;

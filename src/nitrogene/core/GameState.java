@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -32,6 +33,7 @@ import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.DroppedItem;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -348,6 +350,13 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		for(DroppedItem di : map.getDroppedItem()){
+			di.update(delta);
+			if(this.craft.isColliding(di)){
+				craft.addToInventory(di.getItemsInDrop());
+			}
+		}
+		
 		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
 		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
 		
@@ -400,7 +409,6 @@ public class GameState extends BasicGameState{
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			System.out.println(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale()) + "   and   " + Zoom.getZoomWidth()/2+craft.getCenterX());
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getCenterX())||
 					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
 					mesh.getY()>Zoom.getZoomHeight()+camY||
@@ -429,6 +437,10 @@ public class GameState extends BasicGameState{
 			//drawing planet
 			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
 			mesh = null;
+		}
+		
+		for(DroppedItem mesh : map.getDroppedItem()){
+			mesh.getImage().draw(mesh.getX(), mesh.getY());
 		}
 		
 		AnimationManager.renderAnimation();
