@@ -17,7 +17,7 @@ public enum EnumWeapon{
 	PRECISION ("res/Laser1.png", 3, 130F, 3, 3, 0.4F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 500, 1),
 	PDI ("res/Laser1.png", 2, 200F, 2, 1, 0.3F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 150, 1),
     TESTING ("res/Laser1.png", 0, 100F, 1000, 1000, 3F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 100, 1),
-	MINING ("res/Laser1.png", 0, 100F, 10, 100, 0.9F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 100, 1);
+	MINING ("res/Laser1.png", 0, 100F, 10, 100, 0.9F, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 2000, 1);
 	
 	public int accuracy; //Accuracy
 	public float speed; //Laser Speed

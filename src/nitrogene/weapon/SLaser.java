@@ -18,6 +18,7 @@ public class SLaser extends RectangleObject{
 	double mangle = 0;
 	private float mmangle, scalesize, sspeed;
 	private int sdamage;
+	private int planetdamage;
 	private boolean isRotated;
 	Sound basicTestLaser;
 	
@@ -31,6 +32,7 @@ public class SLaser extends RectangleObject{
 		this.sdamage = damage;
 		this.sspeed = speed;
 		this.scalesize = size;
+		this.planetdamage = planetdamage;
 		this.mmangle = rotation;
 		if(accuracy!=0){
 		desX += randomize(accuracy);
@@ -111,6 +113,6 @@ public class SLaser extends RectangleObject{
 	}
 
 	public int getPlanetDamage() {
-		return 0;
+		return this.planetdamage;
 	}
 }

@@ -10,8 +10,8 @@ import nitrogene.objecttree.ImageObject;
 public class DroppedItem extends ImageObject{
 	private ArrayList<Item> droplist;
 
-	public DroppedItem(float scalefactor, ArenaMap map, ArrayList<Item> droplist) throws SlickException{
-		super(50, 15, new Image("res/LaserV2ro.png"), scalefactor, map);
+	public DroppedItem(ArenaMap map, ArrayList<Item> droplist) throws SlickException{
+		super(50, 15, new Image("res/LaserV2ro.png"), 1, map);
 		this.droplist = droplist;
 	}
 	

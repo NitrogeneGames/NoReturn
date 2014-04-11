@@ -292,7 +292,7 @@ public class GameState extends BasicGameState{
 								mesh.damage(laser.getPlanetDamage(), map);
 							}
 							}
-						map.setPlanets(planetlist);
+						//map.setPlanets(planetlist);
 						for(PhysicalObject temp : objlist){
 							if(!temp.equals(obj) && temp.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
@@ -410,9 +410,9 @@ public class GameState extends BasicGameState{
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getCenterX())||
-					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
-					mesh.getY()>Zoom.getZoomHeight()+camY||
-					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
+					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<craft.getCenterX()-(Zoom.getZoomWidth()/2)||
+					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getCenterY())||
+					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY-(Zoom.getZoomHeight()/2)){
 				mesh = null;
 				continue;
 			}
