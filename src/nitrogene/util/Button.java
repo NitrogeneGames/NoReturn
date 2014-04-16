@@ -34,7 +34,6 @@ public class Button
 	protected float height;
     protected Vector2f position;
 
-    @SuppressWarnings("unchecked")
 	public Button (String text, float x, float y, float width, float height) throws FontFormatException, IOException, SlickException
     {
         this.text = text;
@@ -46,19 +45,15 @@ public class Button
         mouseover = new Sound("res/sound/rollover_2.ogg");
         
         normalimage = new Image("res/button/logomenbutton21.png");
+        normalimage.setFilter(Image.FILTER_NEAREST);
         hoverimage = new Image("res/button/logomenubutton2hover.png");
+        hoverimage.setFilter(Image.FILTER_NEAREST);
         pressedimage = new Image("res/button/logomenubutton2hover.png");
+        pressedimage.setFilter(Image.FILTER_NEAREST);
         renderImage = normalimage;
         
         //font init
-        mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
-        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 25.f);
-        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
-        uniFont.addAsciiGlyphs();
-        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
-        a.setColor(Color.white);
-        uniFont.getEffects().add(a);
-        uniFont.loadGlyphs();
+        enter(25);
     }
     
     public Button (String text, float x, float y, float width, float height, Image normalimage, Image hoverimage, Image pressedimage, Sound mouseover) throws FontFormatException, IOException, SlickException
@@ -90,14 +85,7 @@ public class Button
         //font init
        // GL11.glEnable(GL11.GL_BLEND);
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
-        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 25.f);
-        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
-        uniFont.addAsciiGlyphs();
-        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
-        a.setColor(Color.white);
-        uniFont.getEffects().add(a);
-        uniFont.loadGlyphs();
+        enter(25);
     }
 
     
@@ -130,7 +118,11 @@ public class Button
         //font init
        // GL11.glEnable(GL11.GL_BLEND);
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
+        enter(fontsize);
+    }
+    
+    public void enter(float fontsize) throws FontFormatException, IOException, SlickException{
+    	mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
         mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, fontsize);
         uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
         uniFont.addAsciiGlyphs();
@@ -138,6 +130,7 @@ public class Button
         a.setColor(Color.white);
         uniFont.getEffects().add(a);
         uniFont.loadGlyphs();
+        buttonDown = false;
     }
     
     public void update (GameContainer gc)
@@ -196,8 +189,9 @@ public class Button
         int marginx = (int) (width - (getTextWidth(text, uniFont))) / 2;
         int marginy = (int) (height - (getTextHeight(text, uniFont))) / 2;
 
-        gr.setFont(uniFont);
-        gr.drawString(text, button.getMinX() + marginx, button.getMinY() + marginy);
+        //gr.setFont(uniFont);
+        System.out.println(marginx + "   " + marginy);
+        uniFont.drawString(button.getMinX() + marginx, button.getMinY() + marginy, text);
     }
     
     public void render(Graphics g, int scalefactor){}

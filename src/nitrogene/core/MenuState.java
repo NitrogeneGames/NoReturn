@@ -18,7 +18,7 @@ public class MenuState extends BasicGameState{
 
 	private int width,height;
 	private Image backgroundimg;
-	Button quickPlay, campaign, options, hangar, quitgame;
+	private Button quickPlay, campaign, options, hangar, quitgame;
 	
 	public MenuState(int width,int height){
 		this.width = width;
@@ -41,9 +41,31 @@ public class MenuState extends BasicGameState{
 			e.printStackTrace();
 		}
 	}
-@Override
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		try {
+			quickPlay.enter(25);
+			campaign.enter(25);
+			hangar.enter(25);
+			options.enter(25);
+			quitgame.enter(25);
+		} catch (FontFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("REENTRY");
+	}
+	
+	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		
+		quickPlay.update(container);
+		campaign.update(container);
+		quitgame.update(container);
+		hangar.update(container);
+		options.update(container);
 		
 		if(quickPlay.isClicked()){
 			game.enterState(2);
@@ -54,12 +76,6 @@ public class MenuState extends BasicGameState{
 		if(quitgame.isClicked()){
 			container.exit();
 		}
-		
-		quickPlay.update(container);
-		campaign.update(container);
-		quitgame.update(container);
-		hangar.update(container);
-		options.update(container);
 	}
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
