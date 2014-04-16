@@ -22,8 +22,8 @@ public class Craft extends RectangleObject{
 	public Engine engine;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	protected double hull;
-	LaserLauncher primary1, primary2, primary3, primary4, primary5, primary6;
-
+	public int maxWeapons;
+	public ArrayList<int[]> weaponSlots = new ArrayList<int[]>();
 	private ArrayList<Item> inventory;
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
@@ -40,23 +40,14 @@ public class Craft extends RectangleObject{
 		core = new Core(82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50); 
 		lifesupport = new LifeSupport(82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
 		cumulative = 0;
-		
+		maxWeapons = 6;
 	}
-	
 	public void loadSystems(ArrayList<EnumWeapon> weapons){
 		if(weapons != null){
-			if(weapons.size() >= 1){
-				primary1 = new LaserLauncher(this, map, 135, 17, weapons.get(0));
-				TickSystem.addTimer(new WeaponTimer(primary1));
-				laserlist.add(primary1);
-				System.out.println("ACTED 1");
-			}
-			
-			if(weapons.size() >= 2){
-				primary2 = new LaserLauncher(this, map, 135, 17, weapons.get(1));
-				TickSystem.addTimer(new WeaponTimer(primary2));
-				laserlist.add(primary2);
-				System.out.println("ACTED 2");
+			for(int i = 0; i < weapons.size(); i++) {
+				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(0), i);
+				TickSystem.addTimer(new WeaponTimer(temp));
+				laserlist.add(temp);
 			}
 			/*
 			if(weapons.size() >){
