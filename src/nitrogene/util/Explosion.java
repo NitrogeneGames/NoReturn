@@ -34,7 +34,7 @@ public class Explosion extends Animation{
 	
 	@Override
 	public void draw(){
-		draw(x,y,getWidth()*scale,getHeight()*scale);
+		draw(x-(16*scale),y-(16*scale),getWidth()*scale,getHeight()*scale);
 	}
 	
 	public float getX(){
