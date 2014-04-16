@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import nitrogene.collision.Vector;
 import nitrogene.core.Craft;
 import nitrogene.core.Planet;
+import nitrogene.objecttree.PhysicalObject;
 
 public class ArenaMap {
 	private int planetnumber;
@@ -18,12 +19,14 @@ public class ArenaMap {
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
 	private Craft craft;
+	private ArrayList<PhysicalObject> objlist;
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	Random random;
 	
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight, Craft craft) throws SlickException{
 		this.planetnumber = planetnumber;
+		objlist = new ArrayList<PhysicalObject>();
 		itemlist = new ArrayList<DroppedItem>();
 		planetlist = new ArrayList<Planet>();
 		imagelist = new ArrayList<Image>();
@@ -38,7 +41,6 @@ public class ArenaMap {
 		imagelist.add(volcanicplanet);
 		this.craft = craft;
 		craftlist = new ArrayList<Craft>();
-		craftlist.add(craft);
 		
 		this.mapwidth = mapwidth;
 		this.mapheight = mapheight;
@@ -78,6 +80,7 @@ public class ArenaMap {
 	
 	private void addPlanet(int centerx, int centery, Image image, int maxhp, int scalefactor){
 		Planet planet = new Planet(centerx, centery, image, maxhp, scalefactor, this);
+		objlist.add(planet);
 		planetlist.add(planet);
 	}
 	
@@ -134,5 +137,17 @@ public class ArenaMap {
 	}
 	public ArrayList<DroppedItem> getDroppedItem(){
 		return itemlist;
+	}
+	
+	//any new item categories are added into the general list HERE!
+	public ArrayList<PhysicalObject> getObjList(){
+		ArrayList<PhysicalObject> objs = new ArrayList<PhysicalObject>();
+		for(Planet mesh : planetlist){
+			objs.add(mesh);
+		}
+		for(Craft craft : craftlist){
+			objs.add(craft);
+		}
+		return objs;
 	}
 }

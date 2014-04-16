@@ -38,19 +38,20 @@ public class Planet extends CircleObject{
 		hp -= damage;
 		if(hp <= 0){
 			hp = 0;
-			//explode();
+			//explode(); 
 			this.destroy(map, this);
-			System.out.println("HERE");
 		}
 	}
 	public void destroy(ArenaMap map, int e) throws SlickException {
 		im = null;
 		spawnItem(map);
 		map.removePlanet(e);
+		map.getObjList().remove(e);
 	}
 	public void destroy(ArenaMap map, Planet planet) throws SlickException {
 		im = null;
 		spawnItem(map);
+		map.getObjList().remove(planet);
 		map.removePlanet(planet);
 	}
 	private void spawnItem(ArenaMap map) throws SlickException{
@@ -58,7 +59,7 @@ public class Planet extends CircleObject{
 		Item item = new Item(EnumDrop.IRON);
 		item.addStack(10);
 		list.add(item);
-		DroppedItem drop = new DroppedItem(map, list);
+		DroppedItem drop = new DroppedItem(map, list, this.getCenterX(), this.getCenterY());
 		map.addDroppedItem(drop);
 	}
 	public int getHp(){

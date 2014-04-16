@@ -76,7 +76,6 @@ public class GameState extends BasicGameState{
 	private int zoomwidth, zoomheight;
 	private float pausemenux, pausemenuy;
 	private float camX, camY;
-	private ArrayList<PhysicalObject> objlist;
 
 	private boolean PAUSED = false;
 
@@ -95,7 +94,6 @@ public class GameState extends BasicGameState{
 		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
-		objlist = new ArrayList<PhysicalObject>();
 		
 		//other variables
 				mapwidth = 5000;
@@ -114,16 +112,13 @@ public class GameState extends BasicGameState{
 		craftImage = new Image("res/klaarship6.png");
 		//craftImage.setFilter(Image.FILTER_NEAREST);
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
-		objlist.add(craft);
+		map.addCraft(craft);
 		enemyImage = new Image("res/klaarship4.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
-		objlist.add(enemy);
+		map.addCraft(enemy);
 		
 		map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
-		for(Planet pl : map.getPlanets()){
-			objlist.add(pl);
-		}
 		
 		sun = new Image("res/sun_1.png");
 		pausemenu = new Image("res/button/pauseback.png");
@@ -271,7 +266,8 @@ public class GameState extends BasicGameState{
 			}
 		}
     	
-		for(PhysicalObject obj : objlist){
+		for(int n = 0; n < map.getObjList().size(); n++){
+			PhysicalObject obj = map.getObjList().get(n);
 			if(obj.getClass() == Craft.class){
 				obj.update(delta);
 				for(int m = 0; m<craft.laserlist.size(); m++) {
@@ -281,24 +277,34 @@ public class GameState extends BasicGameState{
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
 						laser.move(10,delta);
-						ArrayList<Planet> planetlist = new ArrayList<Planet>();
-						planetlist = map.getPlanets();
-						for(Planet mesh : planetlist){
+						for(int e = 0; e < map.getPlanets().size(); e++){
+							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
+								System.out.println("FOOBAR");
 							}
 							}
+						for(int r = 0; r < map.getCrafts().size(); r++){
+							Craft craft = map.getCrafts().get(r);
+							if(craft.isColliding(laser) && !craft.equals(obj)){
+								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								laserlauncher.slaserlist.remove(laser);
+								//Damage crafts here!
+							}
+						}
 						//map.setPlanets(planetlist);
-						for(PhysicalObject temp : objlist){
+						/*
+						for(PhysicalObject temp : map.getObjList()){
 							if(!temp.equals(obj) && temp.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 							}
 						}
+						*/
 						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
 							laserlauncher.slaserlist.remove(laser);
 						}
@@ -316,7 +322,8 @@ public class GameState extends BasicGameState{
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
 						laser.move(10,delta);
-						for(Planet mesh : map.getPlanets()){
+						for(int e = 0; e < map.getPlanets().size(); e++){
+							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
 								mesh.damage(laser.getPlanetDamage(), map);
@@ -325,7 +332,7 @@ public class GameState extends BasicGameState{
 								laserlauncher.slaserlist.remove(laser);
 							}
 						}
-						for(PhysicalObject temp2 : objlist){
+						for(PhysicalObject temp2 : map.getObjList()){
 							if(!temp2.equals(obj) && temp2.isColliding(laser)){
 								
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
@@ -350,10 +357,13 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
-		for(DroppedItem di : map.getDroppedItem()){
+		for(int d = 0; d < map.getDroppedItem().size(); d++){
+			DroppedItem di = map.getDroppedItem().get(d);
 			di.update(delta);
 			if(this.craft.isColliding(di)){
+				System.out.println("DESTROYING");
 				craft.addToInventory(di.getItemsInDrop());
+				di.destroy(map);
 			}
 		}
 		
