@@ -59,6 +59,7 @@ public class GameState extends BasicGameState{
 	Craft craft;
 	private ParticleSystem shockwave;
 	NPCship enemy;
+	public Hotbar guihotbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
@@ -94,7 +95,7 @@ public class GameState extends BasicGameState{
 		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
-		
+
 		//other variables
 				mapwidth = 5000;
 				mapheight = 2000;
@@ -113,6 +114,7 @@ public class GameState extends BasicGameState{
 		//craftImage.setFilter(Image.FILTER_NEAREST);
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
 		map.addCraft(craft);
+		guihotbar = new Hotbar(craft);
 		enemyImage = new Image("res/klaarship4.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
@@ -194,6 +196,7 @@ public class GameState extends BasicGameState{
 	      //enemy.addTask(new TaskFire(enemy, craft, 0));
 	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      this.PAUSED = false;
+			
 	   }
 	
 	@Override
@@ -399,6 +402,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
@@ -470,6 +474,7 @@ public class GameState extends BasicGameState{
 		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
+		guihotbar.loadWeapons(camX,camY);
 		//minimap.render(g);
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);

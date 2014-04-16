@@ -41,11 +41,20 @@ public class Craft extends RectangleObject{
 		lifesupport = new LifeSupport(82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
 		cumulative = 0;
 		maxWeapons = 6;
+		addSlot(135, 17);
+		addSlot(135, 17);
+		addSlot(135, 17);
+		addSlot(135, 17);
+		addSlot(135, 17);
+		addSlot(135, 17);
+	}
+	public void addSlot(int x, int y) {
+		weaponSlots.add(new int[] {x, y});
 	}
 	public void loadSystems(ArrayList<EnumWeapon> weapons){
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
-				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(0), i);
+				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).name());
 				TickSystem.addTimer(new WeaponTimer(temp));
 				laserlist.add(temp);
 			}
