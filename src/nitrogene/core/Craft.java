@@ -45,18 +45,21 @@ public class Craft extends RectangleObject{
 	
 	public void loadSystems(ArrayList<EnumWeapon> weapons){
 		if(weapons != null){
-			if(weapons.get(0) != null){
+			if(weapons.size() >= 1){
 				primary1 = new LaserLauncher(this, map, 135, 17, weapons.get(0));
 				TickSystem.addTimer(new WeaponTimer(primary1));
 				laserlist.add(primary1);
+				System.out.println("ACTED 1");
 			}
-			/*
-			if(weapons.get(1) != null){
+			
+			if(weapons.size() >= 2){
 				primary2 = new LaserLauncher(this, map, 135, 17, weapons.get(1));
 				TickSystem.addTimer(new WeaponTimer(primary2));
 				laserlist.add(primary2);
+				System.out.println("ACTED 2");
 			}
-			if(weapons.get(2) != null){
+			/*
+			if(weapons.size() >){
 				primary3 = new LaserLauncher(this, map, 135, 17, weapons.get(2));
 				TickSystem.addTimer(new WeaponTimer(primary3));
 				laserlist.add(primary3);
@@ -77,6 +80,7 @@ public class Craft extends RectangleObject{
 				laserlist.add(primary6);
 			}
 			*/
+			
 		}
 	}
 	

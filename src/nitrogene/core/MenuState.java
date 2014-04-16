@@ -54,7 +54,6 @@ public class MenuState extends BasicGameState{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("REENTRY");
 	}
 	
 	@Override

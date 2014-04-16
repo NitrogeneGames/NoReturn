@@ -114,7 +114,7 @@ public class Button
         this.pressedimage.setFilter(Image.FILTER_NEAREST);
         }
         this.renderImage.setFilter(Image.FILTER_NEAREST);
-        
+         
         //font init
        // GL11.glEnable(GL11.GL_BLEND);
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -190,7 +190,6 @@ public class Button
         int marginy = (int) (height - (getTextHeight(text, uniFont))) / 2;
 
         //gr.setFont(uniFont);
-        System.out.println(marginx + "   " + marginy);
         uniFont.drawString(button.getMinX() + marginx, button.getMinY() + marginy, text);
     }
     

@@ -183,6 +183,11 @@ public class GameState extends BasicGameState{
 	   public void enter(GameContainer container, StateBasedGame game)
 	         throws SlickException {
 	      super.enter(container, game);
+	      /*
+	      for(LaserLauncher l : craft.laserlist){
+	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
+	      }
+	      */
 	      enemy.addCraftTarget(craft);
 	      craft.loadSystems(GlobalInformation.getStartingWeapons());
 	      enemy.loadSystems(GlobalInformation.getStartingWeapons());
@@ -285,7 +290,6 @@ public class GameState extends BasicGameState{
 								mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
-								System.out.println("FOOBAR");
 							}
 							}
 						for(int r = 0; r < map.getCrafts().size(); r++){
@@ -361,7 +365,6 @@ public class GameState extends BasicGameState{
 			DroppedItem di = map.getDroppedItem().get(d);
 			di.update(delta);
 			if(this.craft.isColliding(di)){
-				System.out.println("DESTROYING");
 				craft.addToInventory(di.getItemsInDrop());
 				di.destroy(map);
 			}
