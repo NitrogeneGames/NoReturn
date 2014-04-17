@@ -404,7 +404,6 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 
 		g.translate(-camX, -camY);
-		
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		
@@ -474,7 +473,6 @@ public class GameState extends BasicGameState{
 		shockwave.render();
 		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
-		
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(camX,camY);
 		//minimap.render(g);
