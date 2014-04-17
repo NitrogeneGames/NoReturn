@@ -29,6 +29,8 @@ public class LaserLauncher {
 	private Image image;
 	private Image proje;
 	private Sound firesound;
+	public int laserId;
+	public String name;
 	
 	@Deprecated
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, Image proj) throws SlickException{
@@ -77,8 +79,9 @@ public class LaserLauncher {
 		proje = new Image("res/LaserV2ro.png");
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
-	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat){
+	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n){
 		parent = w;
+		name = n;
 		this.x = xpos;
 		this.y = ypos;
 		this.map = map;
@@ -87,6 +90,7 @@ public class LaserLauncher {
 		this.accuracy = stat.accuracy;
 		mangle = 0;
 		mmangle = 0f;
+		laserId = id;
 		this.planetdamage = stat.planetdamage;
 		this.interburst = stat.interburst;
 		this.outerburst = stat.outerburst;
