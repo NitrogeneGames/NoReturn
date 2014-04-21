@@ -1,4 +1,4 @@
-package nitrogene.core;
+package nitrogene.gui;
 
 import java.awt.Color;
 import java.awt.FontFormatException;
@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 
+import nitrogene.core.Craft;
 import nitrogene.util.Button;
 import nitrogene.weapon.LaserLauncher;
 
@@ -48,6 +49,7 @@ public class Hotbar {
 		for(int i = 0; i < ship.laserlist.size(); i++) {
 			LaserLauncher launcher = ship.laserlist.get(i);
 			Image rend = launcher.getImage().copy();
+			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}
 	}

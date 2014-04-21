@@ -12,9 +12,12 @@ import java.util.ArrayList;
 
 
 
+
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
+import nitrogene.gui.Hotbar;
 import nitrogene.gui.Minimap;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
@@ -35,6 +38,7 @@ import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.DroppedItem;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -77,6 +81,8 @@ public class GameState extends BasicGameState{
 	private int zoomwidth, zoomheight;
 	private float pausemenux, pausemenuy;
 	private float camX, camY;
+	private boolean isRotated = false;
+	private short selected = 0;
 
 	private boolean PAUSED = false;
 
@@ -196,7 +202,7 @@ public class GameState extends BasicGameState{
 	      //enemy.addTask(new TaskFire(enemy, craft, 0));
 	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      this.PAUSED = false;
-			
+	     
 	   }
 	
 	@Override
@@ -273,6 +279,20 @@ public class GameState extends BasicGameState{
 				craft.getMovement().changeAccelerator(Direction.RIGHT, false);}
 			}
 		}
+    	
+    	if(craft.laserlist.size() > 0 && input.isKeyPressed(Input.KEY_1)){
+    		selected = 0;
+    	} else if(craft.laserlist.size() > 1 && input.isKeyPressed(Input.KEY_2)){
+    		selected = 1;
+    	} else if(craft.laserlist.size() > 2 && input.isKeyPressed(Input.KEY_3)){
+    		selected = 2;
+    	} else if(craft.laserlist.size() > 3 && input.isKeyPressed(Input.KEY_4)){
+    		selected = 3;
+    	} else if(craft.laserlist.size() > 4 && input.isKeyPressed(Input.KEY_5)){
+    		selected = 4;
+    	} else if(craft.laserlist.size() > 5 && input.isKeyPressed(Input.KEY_6)){
+    		selected = 5;
+    	} 
     	
 		for(int n = 0; n < map.getObjList().size(); n++){
 			PhysicalObject obj = map.getObjList().get(n);
@@ -402,7 +422,6 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
@@ -496,12 +515,10 @@ public class GameState extends BasicGameState{
 		x=Zoom.scale(x);
 		y=Zoom.scale(y);
 		if(!PAUSED) {
-			for(LaserLauncher cannon : craft.laserlist){
-				if(button == 1) {
-					cannon.getTimer().pause();
-				} else if (button == 0){
-					cannon.toggleFire(x,y,Zoom.scale(camX),Zoom.scale(camY));
-			}
+			if(button == 1) {
+				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
+			} else if (button == 0){
+				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
 			}
 		}
 	}

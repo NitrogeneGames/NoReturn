@@ -171,7 +171,7 @@ public class LaserLauncher {
 	      } else {
 	          this.getImage().setRotation(this.getAngle());
 	      }
-	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY);
+	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
 	      for(SLaser laser : this.slaserlist){
 	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
@@ -221,11 +221,13 @@ public class LaserLauncher {
 	public int getOuterburst(){
 		return outerburst;
 	}
-	public void toggleFire(int x, int y, float camX, float camY){
-		//if(this.getTimer().getClock().isRunning()){
-		//	this.getTimer().pause();
-		//}
-		//else{
+	
+	public void setFire(int x, int y, float camX, float camY, boolean b){
+		if(!b){
+			if(this.getTimer().getClock().isRunning()){
+				this.getTimer().pause();
+			}
+		} else{
 			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
 				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
 					//Target Planet
@@ -242,6 +244,30 @@ public class LaserLauncher {
 			}
 			TickSystem.resume();
 
-		//}
+		}
+	}
+	
+	public void toggleFire(int x, int y, float camX, float camY){
+		if(this.getTimer().getClock().isRunning()){
+			this.getTimer().pause();
+		}
+		else{
+			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
+				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
+					//Target Planet
+					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
+					this.setTarget(p.getCenterX(), p.getCenterY());
+				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
+						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
+					//Target Ship
+					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
+					this.setTarget(p.getCenterX(), p.getCenterY());
+				}
+			} else {
+			this.setTarget(x + camX, y + camY);
+			}
+			TickSystem.resume();
+
+		}
 	}
 }
