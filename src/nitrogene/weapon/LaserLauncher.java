@@ -31,6 +31,7 @@ public class LaserLauncher {
 	private Sound firesound;
 	public int laserId;
 	public String name;
+	private volatile int delta;
 	
 	@Deprecated
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, Image proj) throws SlickException{
@@ -134,19 +135,21 @@ public class LaserLauncher {
 		return desy;
 	}
 	
-	public void update(float craftX,float craftY){
+	public void update(float craftX,float craftY,int delta){
 		this.craftX = craftX;
 		this.craftY = craftY;
 		//if(this.getTimer().isPauseLocked){
 		//	CursorSystem.changeCursor("redfire");
 		//}else CursorSystem.changeCursor("greenfire");
+		this.delta = delta;
 	}
 	
-	public void update(float craftX, float craftY, float camX, float camY){
+	public void update(float craftX, float craftY, float camX, float camY, int delta){
 		this.craftX = craftX;
 		this.craftY = craftY;
 		this.camX = camX;
 		this.camY = camY;
+		this.delta = delta;
 	}
 	
 	public void render(Graphics g, float camX, float camY){

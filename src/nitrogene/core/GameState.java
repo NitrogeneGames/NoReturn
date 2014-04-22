@@ -300,7 +300,7 @@ public class GameState extends BasicGameState{
 				obj.update(delta);
 				for(int m = 0; m<craft.laserlist.size(); m++) {
 					LaserLauncher laserlauncher = craft.laserlist.get(m);
-					 laserlauncher.update(craft.getX(), craft.getY());
+					 laserlauncher.update(craft.getX(), craft.getY(),delta);
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
@@ -344,7 +344,7 @@ public class GameState extends BasicGameState{
 				temp.update(delta,camX,camY);
 				for(int m = 0; m<enemy.laserlist.size(); m++) {
 					LaserLauncher laserlauncher = enemy.laserlist.get(m);
-					laserlauncher.update(enemy.getX(), enemy.getY());
+					laserlauncher.update(enemy.getX(), enemy.getY(),delta);
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						SLaser laser = laserlauncher.slaserlist.get(i);
