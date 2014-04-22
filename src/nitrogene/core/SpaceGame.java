@@ -18,10 +18,7 @@ public class SpaceGame extends StateBasedGame{
 	public static void main(String[] args) throws SlickException{
 		AppGameContainer app = new AppGameContainer(new SpaceGame("Space Game"));
 		app.setDisplayMode(SCRwidth, SCRheight, false);
-		app.setVSync(true);
 		app.start();
-
-		
 	}
 
  
