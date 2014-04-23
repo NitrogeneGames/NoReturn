@@ -251,32 +251,32 @@ public class GameState extends BasicGameState{
 			craft.getMovement().Break(delta);
 		} else{
 			if(input.isKeyDown(Input.KEY_W)){
-				if(!craft.getMovement().getToggle(Direction.UP)){
-				craft.getMovement().changeAccelerator(Direction.UP, true);}
+				if(!craft.getMovement().getToggle(Direction.FORWARD)){
+				craft.getMovement().changeAccelerator(Direction.FORWARD, true);}
 			} else{
-				if(craft.getMovement().getToggle(Direction.UP)){
-				craft.getMovement().changeAccelerator(Direction.UP, false);}
+				if(craft.getMovement().getToggle(Direction.FORWARD)){
+				craft.getMovement().changeAccelerator(Direction.FORWARD, false);}
 			}
 			if(input.isKeyDown(Input.KEY_S)){
-				if(!craft.getMovement().getToggle(Direction.DOWN)){
-				craft.getMovement().changeAccelerator(Direction.DOWN, true);}
+				if(!craft.getMovement().getToggle(Direction.BACKWARD)){
+				craft.getMovement().changeAccelerator(Direction.BACKWARD, true);}
 			} else{
-				if(craft.getMovement().getToggle(Direction.DOWN)){
-				craft.getMovement().changeAccelerator(Direction.DOWN, false);}
+				if(craft.getMovement().getToggle(Direction.BACKWARD)){
+				craft.getMovement().changeAccelerator(Direction.BACKWARD, false);}
 			}
 			if(input.isKeyDown(Input.KEY_A)){
-				if(!craft.getMovement().getToggle(Direction.LEFT)){
-				craft.getMovement().changeAccelerator(Direction.LEFT, true);}
+				if(!craft.getMovement().getToggle(Direction.UPPERANGLE)){
+				craft.getMovement().changeAccelerator(Direction.UPPERANGLE, true);}
 			} else{
-				if(craft.getMovement().getToggle(Direction.LEFT)){
-				craft.getMovement().changeAccelerator(Direction.LEFT, false);}
+				if(craft.getMovement().getToggle(Direction.UPPERANGLE)){
+				craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);}
 			}
 			if(input.isKeyDown(Input.KEY_D)){
-				if(!craft.getMovement().getToggle(Direction.RIGHT)){
-				craft.getMovement().changeAccelerator(Direction.RIGHT, true);}
+				if(!craft.getMovement().getToggle(Direction.UNDERANGLE)){
+				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, true);}
 			} else{
-				if(craft.getMovement().getToggle(Direction.RIGHT)){
-				craft.getMovement().changeAccelerator(Direction.RIGHT, false);}
+				if(craft.getMovement().getToggle(Direction.UNDERANGLE)){
+				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);}
 			}
 		}
     	

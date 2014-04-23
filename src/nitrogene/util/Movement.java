@@ -6,6 +6,20 @@ public class Movement {
 	private boolean[] toggle;
 	private float[] diracceleration;
 	private int downbound, leftbound, upbound, rightbound;
+	private float rotangle = 1;
+	private int rotspeed = 3;
+	
+	public Movement(int upbound, int downbound, int leftbound, int rightbound, float startangle, int rotspeed){
+		toggle = new boolean[5];
+		diracceleration = new float[5];
+		
+		this.upbound = upbound;
+		this.downbound = downbound;
+		this.leftbound = leftbound;
+		this.rightbound = rightbound;
+		this.rotangle = startangle;
+		this.rotspeed = rotspeed;
+	}
 	
 	public Movement(int upbound, int downbound, int leftbound, int rightbound){
 		toggle = new boolean[5];
@@ -15,19 +29,20 @@ public class Movement {
 		this.downbound = downbound;
 		this.leftbound = leftbound;
 		this.rightbound = rightbound;
+		this.rotangle = 1;
 	}
 	
 	public void Toggle(Direction direction){
-		if(direction == Direction.UP){
+		if(direction == Direction.FORWARD){
 			toggle[1] = !toggle[1];
 		}
-		if(direction == Direction.DOWN){
+		if(direction == Direction.BACKWARD){
 			toggle[2] = !toggle[2];
 		}
-		if(direction == Direction.LEFT){
+		if(direction == Direction.UPPERANGLE){
 			toggle[3] = !toggle[3];
 		}
-		if(direction == Direction.RIGHT){
+		if(direction == Direction.UNDERANGLE){
 			toggle[4] = !toggle[4];
 		}
 		
@@ -43,20 +58,20 @@ public class Movement {
 	}
 	
 	public void changeAccelerator(Direction direction, boolean b){
-		if(direction == Direction.UP){
+		if(direction == Direction.FORWARD){
 			toggle[1] = b;
 		}
-		if(direction == Direction.DOWN){
+		if(direction == Direction.BACKWARD){
 			toggle[2] = b;
 		}
-		if(direction == Direction.LEFT){
+		if(direction == Direction.UPPERANGLE){
 			toggle[3] = b;
 		}
-		if(direction == Direction.RIGHT){
+		if(direction == Direction.UNDERANGLE){
 			toggle[4] = b;
 		}
 		
-		if(toggle[2] && toggle[1]){ 
+		if(toggle[2] && toggle[1]){
 			toggle[2] = false;
 			toggle[1] = false;
 		}
@@ -79,56 +94,42 @@ public class Movement {
 		float lspeed = (this.getDy() * 20 * DELTACON);
 		float ldistance = (lspeed*ltime) + ((1/2) * (lspeed/ltime) * ltime * ltime);
 		
-		if(location.x > rightbound - distance){
-			BringBack(Direction.RIGHT, delta);
+		if(toggle[4] && diracceleration[4] < 0.5f) diracceleration[4] += 0.003f*delta/5f;
+		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.003f*delta/5f;
+		else if(!toggle[4]) diracceleration[4] = 0f;
+		
+		if(toggle[3] && diracceleration[3] < 0.5f) diracceleration[3] += 0.003f*delta/5f;
+		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= 0.003f*delta/5f;
+		else if(!toggle[3]) diracceleration[3] = 0f;
+		
+		if (location.x > rightbound - distance){
+			//BringBack(Direction.BACKWARD, delta);
 		} else {
-			if(toggle[4] && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
-			else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
-			else if(!toggle[4]) diracceleration[4] = 0f;
+			if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
+			else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
+			else if(!toggle[1]) diracceleration[1] = 0f;
 		}
 		
 		if (location.x < leftbound + distance){
-			BringBack(Direction.LEFT, delta);
+			//BringBack(Direction.FORWARD, delta);
 		} else{
-			if(toggle[3] && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
-			else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
-			else if(!toggle[3]) diracceleration[3] = 0f;
-		}
-		
-		if (location.y > downbound - ldistance){
-			BringBack(Direction.DOWN, delta);
-		} else {
 			if(toggle[2] && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
 			else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
 			else if(!toggle[2]) diracceleration[2] = 0f;
 		}
 		
-		if (location.y < upbound + ldistance){
-			BringBack(Direction.UP, delta);
-		} else{
-			if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
-			else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
-			else if(!toggle[1]) diracceleration[1] = 0f;
-		}
+		rotangle += ((diracceleration[4] - diracceleration[3])*rotspeed*0.02f);
 	}
 	
 	public void BringBack(Direction direction, int delta){
 		switch(direction){
-		case UP: toggle[1] = false;
+		case FORWARD: toggle[1] = false;
 			if(diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
 			else if(diracceleration[1] < 0f) diracceleration[1] = 0f;
 			break;
-		case DOWN: toggle[2] = false;
+		case BACKWARD: toggle[2] = false;
 			if(diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
 			else if(diracceleration[2] < 0f) diracceleration[2] = 0f;
-			break;
-		case LEFT: toggle[3] = false;
-			if(diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
-			else if(diracceleration[3] < 0f) diracceleration[3] = 0f;
-			break;
-		case RIGHT: toggle[4] = false;
-			if(diracceleration[4] > 0f) diracceleration[4] -= 0.05f*delta/5f;
-			else if(diracceleration[4] < 0f) diracceleration[4] = 0f;
 			break;
 		}
 	}
@@ -136,7 +137,7 @@ public class Movement {
 	public void Break(int delta){
 	for(int e = 1; e < 5; e++){
 		if(toggle[e]) {
-			toggle[e] = false;
+			//toggle[e] = false;
 		}
 		if(diracceleration[e] > 0f){
 			diracceleration[e] -= .1f*delta/5f;
@@ -146,28 +147,32 @@ public class Movement {
 	}
 	
 	public float getDx(){
-		return diracceleration[4] - diracceleration[3];           
+		return diracceleration[1] - diracceleration[2]; 
 	}
 	
 	
 	public float getDy(){
-		return diracceleration[2] - diracceleration[1];
+		return (float) (Math.tan(Math.toRadians(rotangle))*this.getDx());
 	}
 	
 	public boolean getToggle(Direction direction)
 	{
-		if(direction == Direction.UP){
+		if(direction == Direction.FORWARD){
 			return toggle[1];
 		}
-		if(direction == Direction.DOWN){
+		if(direction == Direction.BACKWARD){
 			return toggle[2];
 		}
-		if(direction == Direction.LEFT){
+		if(direction == Direction.UPPERANGLE){
 			return toggle[3];
 		}
-		if(direction == Direction.RIGHT){
+		if(direction == Direction.UNDERANGLE){
 			return toggle[4];
 		}
 		return false;
+	}
+	
+	public float getRotationAngle(){
+		return rotangle;
 	}
 }

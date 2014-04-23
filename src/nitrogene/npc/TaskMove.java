@@ -68,16 +68,16 @@ public class TaskMove extends Task {
 		if(ship.getX()!=desx||ship.getY()!=desy){
 			if(this.ship.getX() != desx) {
 				if(desx > this.ship.getX()) {
-					if(!ship.getMovement().getToggle(Direction.RIGHT)) ship.getMovement().Toggle(Direction.RIGHT);
+					if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) ship.getMovement().Toggle(Direction.UNDERANGLE);
 				} else {
-					if(!ship.getMovement().getToggle(Direction.LEFT)) this.ship.getMovement().Toggle(Direction.LEFT);
+					if(!ship.getMovement().getToggle(Direction.UPPERANGLE)) this.ship.getMovement().Toggle(Direction.UPPERANGLE);
 				}
 			}
 			if(this.ship.getY() != desy) {
 				if(desy > this.ship.getY()) {
-					if(!ship.getMovement().getToggle(Direction.UP)) this.ship.getMovement().Toggle(Direction.UP);
+					if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 				} else {
-					if(!ship.getMovement().getToggle(Direction.DOWN)) this.ship.getMovement().Toggle(Direction.DOWN);
+					if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
 				}
 			}
 		}

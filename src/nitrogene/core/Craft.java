@@ -94,6 +94,8 @@ public class Craft extends RectangleObject{
 			cumulative = 0;
 		}
 		
+		this.mainimg.setRotation(0);
+		this.mainimg.rotate(this.movement.getRotationAngle());
 		move(20, delta);
 	}
 	
