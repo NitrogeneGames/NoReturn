@@ -49,6 +49,10 @@ public class Hotbar {
 		for(int i = 0; i < ship.laserlist.size(); i++) {
 			LaserLauncher launcher = ship.laserlist.get(i);
 			Image rend = launcher.getImage().copy();
+			Image statusicon;
+			//switch(launcher.getStatus()){
+			//
+			//}
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}

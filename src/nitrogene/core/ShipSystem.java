@@ -4,12 +4,14 @@ import nitrogene.collision.Circle;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.objecttree.CircleObject;
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.util.EnumStatus;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 
 public class ShipSystem extends CircleObject{
 	private int hp, durability, maxpower, capacity;
+	private EnumStatus status;
 	
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
@@ -42,5 +44,11 @@ public class ShipSystem extends CircleObject{
 	}
 	public int getCapacity(){
 		return capacity;
+	}
+	public void setStatus(EnumStatus status){
+		this.status = status;
+	}
+	public EnumStatus getStatus(){
+		return status;
 	}
 }

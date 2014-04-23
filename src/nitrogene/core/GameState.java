@@ -292,7 +292,9 @@ public class GameState extends BasicGameState{
     		selected = 4;
     	} else if(craft.laserlist.size() > 5 && input.isKeyPressed(Input.KEY_6)){
     		selected = 5;
-    	} 
+    	} else{
+    		selected = -1;
+    	}
     	
 		for(int n = 0; n < map.getObjList().size(); n++){
 			PhysicalObject obj = map.getObjList().get(n);
@@ -426,6 +428,9 @@ public class GameState extends BasicGameState{
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		
+		//Change the third paramater to control the camera's view
+		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
+		
 		g.setColor(Color.red);
 		g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
@@ -488,6 +493,8 @@ public class GameState extends BasicGameState{
 			cannon.render(g,camX,camY);
 		}
 		
+		//Type inverse of third paramater here to counteract (for GUI components)
+		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		part.render();
 		shockwave.render();
 		 
@@ -514,7 +521,7 @@ public class GameState extends BasicGameState{
 	public void mousePressed(int button, int x, int y){
 		x=Zoom.scale(x);
 		y=Zoom.scale(y);
-		if(!PAUSED) {
+		if(!PAUSED && selected > -1) {
 			if(button == 1) {
 				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
 			} else if (button == 0){

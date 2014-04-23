@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import nitrogene.core.Craft;
 import nitrogene.core.CursorSystem;
 import nitrogene.core.Planet;
+import nitrogene.core.ShipSystem;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.util.Target;
@@ -16,7 +17,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-public class LaserLauncher {
+public class LaserLauncher{
 	private float desx, desy, x, y, camX, camY;
 	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
 	public int accuracy, timer, maxtime,  damage, planetdamage;

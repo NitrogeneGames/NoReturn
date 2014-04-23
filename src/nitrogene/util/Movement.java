@@ -131,6 +131,8 @@ public class Movement {
 			if(diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
 			else if(diracceleration[2] < 0f) diracceleration[2] = 0f;
 			break;
+		default:
+			break;
 		}
 	}
 	
