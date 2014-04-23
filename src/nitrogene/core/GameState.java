@@ -440,12 +440,7 @@ public class GameState extends BasicGameState{
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
-		craft.shield.getImage().draw(craft.getShieldX(),craft.getShieldY(),1.2f);
-		//systems
-		craft.core.getImage().drawCentered(craft.core.getX()+craft.getX(),craft.core.getY()+craft.getY());
-		craft.shield.getImage().drawCentered(craft.shield.getX()+craft.getX(),craft.shield.getY()+craft.getY());
-		craft.engine.getImage().drawCentered(craft.engine.getX()+craft.getX(),craft.engine.getY()+craft.getY());
-		craft.lifesupport.getImage().drawCentered(craft.lifesupport.getX()+craft.getX(),craft.lifesupport.getY()+craft.getY());
+		craft.renderSystems();
 		
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
@@ -495,6 +490,7 @@ public class GameState extends BasicGameState{
 		
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
+		
 		part.render();
 		shockwave.render();
 		 
