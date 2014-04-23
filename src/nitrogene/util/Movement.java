@@ -149,12 +149,16 @@ public class Movement {
 	}
 	
 	public float getDx(){
-		return diracceleration[1] - diracceleration[2]; 
+		//return diracceleration[1] - diracceleration[2]; //DIS WAS THE HYPOTENUSE SILLY
+		return (float) (Math.cos(Math.toRadians(rotangle))*getHypotenuse());
 	}
 	
-	
+	public float getHypotenuse() {
+		return diracceleration[1] - diracceleration[2];
+	}
 	public float getDy(){
-		return (float) (Math.tan(Math.toRadians(rotangle))*this.getDx());
+		//return (float) (Math.tan(Math.toRadians(rotangle))*this.getDx()); STILL WORKS AFTER UPDATING getDx
+		return (float) (Math.sin(Math.toRadians(rotangle))*getHypotenuse()); //WAY CLEANER
 	}
 	
 	public boolean getToggle(Direction direction)
