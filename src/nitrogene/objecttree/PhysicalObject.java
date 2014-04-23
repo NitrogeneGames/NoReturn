@@ -40,6 +40,7 @@ public class PhysicalObject {
 		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
+		
 		boundbox.setX(boundbox.getX()+((movement.getDx()*gj)*mm));
 		boundbox.setY(boundbox.getY()+((movement.getDy()*gj)*mm));
 	}
