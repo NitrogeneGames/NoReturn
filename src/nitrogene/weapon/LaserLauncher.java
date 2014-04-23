@@ -173,8 +173,11 @@ public class LaserLauncher{
 				      }
 	    		  //50,40,30,20
 	      } else {
+	    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
 	          this.getImage().setRotation(this.getAngle());
 	      }
+	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
+	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
 	      for(SLaser laser : this.slaserlist){

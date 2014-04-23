@@ -292,7 +292,7 @@ public class GameState extends BasicGameState{
     		selected = 4;
     	} else if(craft.laserlist.size() > 5 && input.isKeyPressed(Input.KEY_6)){
     		selected = 5;
-    	} else{
+    	} else if(craft.laserlist.size() == 0){
     		selected = -1;
     	}
     	
