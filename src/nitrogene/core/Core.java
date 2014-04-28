@@ -9,8 +9,8 @@ public class Core extends ShipSystem{
 	private int maxpower;
 	private int maxhp;
 
-	public Core(float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
-		super(x,y,img, map, maxhp, durability, maxpower, capacity, damageradius);
+	public Core(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius) throws SlickException {
+		super(c,x,y,img, map, maxhp, durability, maxpower, capacity, damageradius);
 		this.maxpower = maxpower;
 	}
 	

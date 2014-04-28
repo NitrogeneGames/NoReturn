@@ -83,7 +83,7 @@ public class LaserLauncher extends ShipSystem{
 	*/
 	
 	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n) throws SlickException{
-		super(xpos, ypos, new Image(stat.image), map, stat.hp, 0, 100, 1000, 10);
+		super(w,xpos, ypos, new Image(stat.image), map, stat.hp, 0, 100, 1000, 10);
 		parent = w;
 		name = n;
 		desx = 0;

@@ -6,7 +6,7 @@ public class Movement {
 	private boolean[] toggle;
 	private float[] diracceleration;
 	private int downbound, leftbound, upbound, rightbound;
-	private float rotangle = 1;
+	private float rotangle = 0;
 	private int rotspeed = 3;
 	
 	public Movement(int upbound, int downbound, int leftbound, int rightbound, float startangle, int rotspeed){
@@ -29,7 +29,7 @@ public class Movement {
 		this.downbound = downbound;
 		this.leftbound = leftbound;
 		this.rightbound = rightbound;
-		this.rotangle = 1;
+		this.rotangle = 0;
 	}
 	
 	public void Toggle(Direction direction){

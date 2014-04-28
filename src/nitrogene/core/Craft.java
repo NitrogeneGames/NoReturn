@@ -34,11 +34,11 @@ public class Craft extends RectangleObject{
 		this.setX(700);
 		this.setY(700);
 		hull = 100;
-		shield = new Shield(82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
+		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
 		delta = 0;
-		engine = new Engine(48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50);
-		core = new Core(82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50); 
-		lifesupport = new LifeSupport(82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
+		engine = new Engine(this,48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50);
+		core = new Core(this,82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50); 
+		lifesupport = new LifeSupport(this,82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
 		cumulative = 0;
 		maxWeapons = 6;
 		addSlot((int)(250*scale), (int)(30*scale));
@@ -95,7 +95,7 @@ public class Craft extends RectangleObject{
 		}
 		
 		this.mainimg.setRotation(0);
-		this.mainimg.rotate(this.movement.getRotationAngle());
+		this.mainimg.setRotation(this.movement.getRotationAngle());
 		move(20, delta);
 	}
 	
@@ -118,17 +118,23 @@ public class Craft extends RectangleObject{
 	
 	}
 	public void rotateSystem(ShipSystem s) {
+		if(s.rotation != this.getMovement().getRotationAngle()) {
 		s.getImage().setRotation(this.mainimg.getRotation());
 		float x1 = (s.getCenterX() - this.getCenterX());
 		float y1 = (s.getCenterY() - this.getCenterY());
-		float mangle = (float) Math.atan(y1/x1);
-		//System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
-		float radius = (float) Math.sqrt(x1*x1 + y1*y1);
-		//System.out.println(radius + " RADIUS");
-		float x2 = (float) (radius * Math.cos(-mangle + this.mainimg.getRotation()));
-		float y2 = (float) (radius * Math.sin(-mangle + this.mainimg.getRotation())); 
-		s.setCenterX(x2);
-		s.setCenterY(y2);
+		double mangle = (double) Math.atan(y1/x1);
+		System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
+		double radius = (double) Math.sqrt(x1*x1 + y1*y1);
+		System.out.println(radius + " RADIUS");
+		//float mangle = s.getRelations()[0];
+		//float radius = s.getRelations()[1];
+		double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
+		double y2 = (double) (radius * Math.sin(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
+		s.rotation = this.getMovement().getRotationAngle();
+		s.setCenterX((float) x2);
+		s.setCenterY((float) y2);
+		}
+
 	}
 	public float getShieldX(){
 		return getCenterX() - shield.getImage().getWidth()/2*1.2f;

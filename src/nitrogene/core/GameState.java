@@ -441,7 +441,7 @@ public class GameState extends BasicGameState{
 		
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
-		
+		enemy.renderSystems();
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
