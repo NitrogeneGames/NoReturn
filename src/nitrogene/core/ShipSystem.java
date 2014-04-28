@@ -10,7 +10,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 
 public class ShipSystem extends CircleObject{
-	private int hp, durability, maxpower, capacity;
+	private int hp, durability, maxpower, capacity, maxhp;
 	private EnumStatus status;
 	
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
@@ -18,9 +18,17 @@ public class ShipSystem extends CircleObject{
 	public ShipSystem(float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius){
 		super(x,y, damageradius, img, 1, map);
 		this.hp = maxhp;
+		this.maxhp = maxhp;
 		this.durability = durability;
 		this.maxpower = maxpower;
 		this.capacity = capacity;
+	}
+	
+	@Override
+	public void update(int delta){
+		if(hp <= 0){
+			this.setStatus(EnumStatus.DESTROYED);
+		}
 	}
 	
 	public int getHp(){

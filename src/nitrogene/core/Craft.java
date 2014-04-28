@@ -51,7 +51,7 @@ public class Craft extends RectangleObject{
 	public void addSlot(int x, int y) {
 		weaponSlots.add(new int[] {x, y});
 	}
-	public void loadSystems(ArrayList<EnumWeapon> weapons){
+	public void loadSystems(ArrayList<EnumWeapon> weapons) throws SlickException{
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
 				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname);

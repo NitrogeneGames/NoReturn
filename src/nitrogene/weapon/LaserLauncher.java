@@ -17,8 +17,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-public class LaserLauncher{
-	private float desx, desy, x, y, camX, camY;
+public class LaserLauncher extends ShipSystem{
+	private float desx, desy, camX, camY;
 	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
 	public int accuracy, timer, maxtime,  damage, planetdamage;
 	private double mangle;
@@ -26,14 +26,13 @@ public class LaserLauncher{
 	public boolean isRotating;
 	private int interburst, outerburst, burstnumber;
 	public Craft parent;
-	private ArenaMap map;
-	private Image image;
 	private Image proje;
 	private Sound firesound;
 	public int laserId;
 	public String name;
 	private volatile int delta;
 	
+	/*
 	@Deprecated
 	public LaserLauncher(Craft w, float xpos, float ypos, Image image, int accuracy, int time, float speed, int damage, float size, Image proj) throws SlickException{
 		parent = w;
@@ -81,12 +80,12 @@ public class LaserLauncher{
 		proje = new Image("res/LaserV2ro.png");
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
-	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n){
+	*/
+	
+	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n) throws SlickException{
+		super(xpos, ypos, new Image(stat.image), map, stat.hp, 0, 100, 1000, 10);
 		parent = w;
 		name = n;
-		this.x = xpos;
-		this.y = ypos;
-		this.map = map;
 		desx = 0;
 		desy = 0;
 		this.accuracy = stat.accuracy;
@@ -98,7 +97,6 @@ public class LaserLauncher{
 		this.outerburst = stat.outerburst;
 		this.burstnumber = stat.burstnumber;
 		try {
-			this.image = new Image(stat.image);
 			this.proje = new Image(stat.laserimage);
 			this.firesound = new Sound(stat.firesound);
 		} catch (SlickException e) {
@@ -193,29 +191,18 @@ public class LaserLauncher{
 	      }
 	}
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser(x+craftX,y+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
+		slaserlist.add(new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
 				accuracy, speed, damage, planetdamage, size, this.getAngle(), proje, map, this, true));
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+Zoom.scale(camX) - (x+craftX));
-			double mecY = (desy+Zoom.scale(camY) - (y+craftY));
+			double mecX = (desx+Zoom.scale(camX) - (this.getX()+craftX));
+			double mecY = (desy+Zoom.scale(camY) - (this.getY()+craftY));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;
 	}
 	
-	public Image getImage(){
-		return image;
-	}
-	
-	public float getX(){
-		return x;
-	}
-	
-	public float getY(){
-		return y;
-	}
 	public WeaponTimer getTimer() {
 		return TickSystem.getTimer(this);
 	}
