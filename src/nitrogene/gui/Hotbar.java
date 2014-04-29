@@ -11,6 +11,7 @@ import org.newdawn.slick.UnicodeFont;
 
 import nitrogene.core.Craft;
 import nitrogene.util.Button;
+import nitrogene.util.EnumStatus;
 import nitrogene.weapon.LaserLauncher;
 
 public class Hotbar {
@@ -45,14 +46,18 @@ public class Hotbar {
 	public void setTab(int i) {
 		
 	}
-	public void loadWeapons(float camX, float camY) {
+	public void loadWeapons(float camX, float camY) throws SlickException {
 		for(int i = 0; i < ship.laserlist.size(); i++) {
 			LaserLauncher launcher = ship.laserlist.get(i);
 			Image rend = launcher.getImage().copy();
 			Image statusicon;
-			//switch(launcher.getStatus()){
-			//
-			//}
+			if(launcher.getStatus() == EnumStatus.READY){
+				statusicon = new Image("res/gui/status_ready.png");
+			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
+				statusicon = new Image("res/gui/status_firing.png");
+			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
+				statusicon = new Image("res/gui/status_ready.png");
+			}
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}

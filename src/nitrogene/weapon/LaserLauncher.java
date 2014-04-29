@@ -138,7 +138,7 @@ public class LaserLauncher extends ShipSystem{
 		this.craftX = craftX;
 		this.craftY = craftY;
 		//if(this.getTimer().isPauseLocked){
-		//	CursorSystem.changeCursor("redfire");
+		//	Curso8gugurSystem.changeCursor("redfire");
 		//}else CursorSystem.changeCursor("greenfire");
 		this.delta = delta;
 	}
