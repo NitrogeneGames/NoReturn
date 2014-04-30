@@ -496,7 +496,7 @@ public class GameState extends BasicGameState{
 		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		GUI.draw(camX,camY);
-		guihotbar.loadWeapons(camX,camY);
+		guihotbar.loadWeapons(g,craft,camX,camY);
 		//minimap.render(g);
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);

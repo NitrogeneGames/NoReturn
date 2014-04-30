@@ -1,14 +1,17 @@
 package nitrogene.gui;
 
-import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Rectangle;
 
 import nitrogene.core.Craft;
 import nitrogene.util.Button;
@@ -34,7 +37,7 @@ public class Hotbar {
         uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
         uniFont.addAsciiGlyphs();
         org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
-        a.setColor(Color.white);
+        a.setColor(java.awt.Color.white);
         uniFont.getEffects().add(a);
 		try {
 			uniFont.loadGlyphs();
@@ -47,9 +50,10 @@ public class Hotbar {
 	public void setTab(int i) {
 		
 	}
-	public void loadWeapons(float camX, float camY) throws SlickException {
-		for(int i = 0; i < ship.laserlist.size(); i++) {
-			LaserLauncher launcher = ship.laserlist.get(i);
+	public void loadWeapons(Graphics g, Craft craft, float camX, float camY) throws SlickException {
+		for(int i = 0; i < craft.laserlist.size(); i++) {
+			LaserLauncher launcher = craft.laserlist.get(i);
+			
 			Image rend = launcher.getImage().copy();
 			Image statusicon;
 			if(launcher.getStatus() == EnumStatus.READY){
@@ -65,7 +69,10 @@ public class Hotbar {
 			} else{
 				statusicon = new Image("res/gui/status_ready.png");
 			}
+			statusicon.setFilter(Image.FILTER_NEAREST);
 			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
+			renderChargeBar(g, getSlot(launcher.laserId), (double)(launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime()),
+					camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}
@@ -79,9 +86,14 @@ public class Hotbar {
 		icon.draw(slot[2] + 24 + camX, slot[3] -46 + camY);
 	}
 	
-	private void renderChargeBar(Graphics g, int[] slot, int progress, int camX, int camY){
-		//g.setColor(Color.blue);
-		//g.drawRect(slot[2] + camX, slot[3] + camY)
+	private void renderChargeBar(Graphics g, int[] slot, double progress, float camX, float camY){
+		//g.setColor(Color.green);
+		//g.drawRect(slot[2] + camX, slot[3] + camY, camY, camY);
+		//Rectangle chargeRect = new Rectangle(slot[2] + camX, slot[3] + camY, 90, 12);
+		//ShapeFill chargeFill = new GradientFill(slot[2] + camX, slot[3] + camY, Color.blue, slot[2] + camX + (progress*90), slot[3] + camY + 12, Color.blue);
+		g.setColor(Color.blue);
+		System.out.println(progress);
+		g.fillRect(slot[2] + camX, slot[3] + camY, (int)progress*90, 12);
 	}
 	
 	public int[] getSlot(int id) {

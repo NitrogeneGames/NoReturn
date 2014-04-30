@@ -54,13 +54,13 @@ public class WeaponTimer {
 	   w = d; 
 	   shot = 1;
        Clock = new Timer(c, taskPerformer);
-       CursorSystem.changeCursor("greenfire");
+       //CursorSystem.changeCursor("greenfire");
    }
    public WeaponTimer(LaserLauncher d) {
 	   w = d;
 	   shot = 1;
        Clock = new Timer(d.getInterburst(), taskPerformer);
-       CursorSystem.changeCursor("greenfire");
+       //CursorSystem.changeCursor("greenfire");
    }
    public void start() {   
 		this.start((int) (tickTime - elapsed));		
@@ -87,5 +87,15 @@ public class WeaponTimer {
 	   CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
-   
+   public long getMaxChargeTime(){
+	   System.out.println("MAX CHARGE" + Clock.getDelay() + "F   " + elapsed);
+	   if(Clock.getDelay() == 0){
+		   return System.currentTimeMillis() - start;
+	   } else{
+		   return Clock.getDelay();
+	   }
+   }
+   public long getCurrentChargeTime(){
+	   return System.currentTimeMillis() - start;
+   }
 }
