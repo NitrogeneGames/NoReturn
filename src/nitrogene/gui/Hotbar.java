@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.Font;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
@@ -70,13 +71,17 @@ public class Hotbar {
 		}
 	}
 	public void renderWeapon(Image icon, int[] slot, String n, float camX, float camY) {
-		icon.draw(slot[2] - icon.getWidth() + camX, slot[3] - icon.getHeight() + camY, 2F);
-	        uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX, slot[3] - 40 + camY, n);
-
+		icon.draw(slot[2] - icon.getWidth() + camX, slot[3] - icon.getHeight() +8 + camY, 2F);
+	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX, slot[3] - 22 + camY, n);
 	}
 	
 	private void renderStatus(Image icon, int[] slot, float camX, float camY){
-		icon.draw(slot[2] - icon.getWidth() + camX, slot[3] - icon.getHeight() + camY);
+		icon.draw(slot[2] + 24 + camX, slot[3] -46 + camY);
+	}
+	
+	private void renderChargeBar(Graphics g, int[] slot, int progress, int camX, int camY){
+		//g.setColor(Color.blue);
+		//g.drawRect(slot[2] + camX, slot[3] + camY)
 	}
 	
 	public int[] getSlot(int id) {

@@ -53,6 +53,9 @@ public class ShipSystem extends CircleObject{
 	public void setHp(int hp){
 		this.hp = hp;
 	}
+	public int getMaxHp(){
+		return this.maxhp;
+	}
 	public void registerHit(float x, float y, int damage){
 		//call when ship boundbox is hit by projectile
 		//register explosion elsewhere (this just registers the damage to the system)
