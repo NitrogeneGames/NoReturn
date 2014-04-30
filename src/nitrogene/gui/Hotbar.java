@@ -57,7 +57,14 @@ public class Hotbar {
 				statusicon = new Image("res/gui/status_firing.png");
 			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
 				statusicon = new Image("res/gui/status_ready.png");
+			} else if(launcher.getStatus() == EnumStatus.POWER){
+				statusicon = new Image("res/gui/status_needpower.png");
+			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
+				statusicon = new Image("res/gui/status_destroyed.png");
+			} else{
+				statusicon = new Image("res/gui/status_ready.png");
 			}
+			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}
@@ -67,6 +74,11 @@ public class Hotbar {
 	        uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX, slot[3] - 40 + camY, n);
 
 	}
+	
+	private void renderStatus(Image icon, int[] slot, float camX, float camY){
+		icon.draw(slot[2] - icon.getWidth() + camX, slot[3] - icon.getHeight() + camY);
+	}
+	
 	public int[] getSlot(int id) {
 		return new int[] {333 + 117*id, 661, 333 + 117*id + 58, 661 + 51};
 	}

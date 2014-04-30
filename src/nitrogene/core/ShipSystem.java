@@ -37,10 +37,13 @@ public class ShipSystem extends CircleObject{
 		r = (float) Math.sqrt(x1*x1 + y1*y1);
 	}
 	public float rotation = 0;
+	
 	@Override
 	public void update(int delta){
 		if(hp <= 0){
 			this.setStatus(EnumStatus.DESTROYED);
+		} else{
+			this.setStatus(EnumStatus.READY);
 		}
 	}
 	

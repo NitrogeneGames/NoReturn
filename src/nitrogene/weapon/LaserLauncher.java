@@ -8,6 +8,7 @@ import nitrogene.core.Planet;
 import nitrogene.core.ShipSystem;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
+import nitrogene.util.EnumStatus;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.world.ArenaMap;
@@ -141,6 +142,9 @@ public class LaserLauncher extends ShipSystem{
 		//	Curso8gugurSystem.changeCursor("redfire");
 		//}else CursorSystem.changeCursor("greenfire");
 		this.delta = delta;
+		if(this.getTimer().getClock().isRunning()){
+			this.setStatus(EnumStatus.ENGAGED);
+		}
 	}
 	
 	public void update(float craftX, float craftY, float camX, float camY, int delta){
