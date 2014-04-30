@@ -30,9 +30,15 @@ public class ShipSystem extends CircleObject{
 		this.maxpower = maxpower;
 		this.capacity = capacity;
 		this.craft = c;
-		x1 = -(craft.getCenterX() - this.getCenterX());
-		y1 = -(craft.getCenterY() - this.getCenterY());
-		m = (float) Math.atan(y1/x1);
+		x1 = x;
+		y1 = y;
+		//x1 = -(craft.getX()+(craft.getBoundbox().getWidth()*craft.getScale()) - (x+img.getWidth()*this.getScale()));
+		//y1 = -(craft.getY()+(craft.getBoundbox().getHeight()*craft.getScale()) - (y+img.getHeight()*this.getScale()));
+		if(y1 <= 0) {
+			m = (float) Math.atan2((double) y1,(double) x1);
+		} else {
+			m = (float) Math.atan2((double) y1, (double) x1) + (float) Math.PI;
+		}
 		//System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
 		r = (float) Math.sqrt(x1*x1 + y1*y1);
 	}
@@ -68,6 +74,18 @@ public class ShipSystem extends CircleObject{
 	}
 	public int getMaxpower(){
 		return maxpower;
+	}
+	public float getX1(){
+		return x1;
+	}
+	public float getY1(){
+		return y1;
+	}
+	public float getShipAngle(){
+		return m;
+	}
+	public float getShipRadius() {
+		return r;
 	}
 	public int getCapacity(){
 		return capacity;

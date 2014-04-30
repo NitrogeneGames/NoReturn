@@ -120,19 +120,17 @@ public class Craft extends RectangleObject{
 	public void rotateSystem(ShipSystem s) {
 		if(s.rotation != this.getMovement().getRotationAngle()) {
 		s.getImage().setRotation(this.mainimg.getRotation());
-		float x1 = (s.getCenterX() - this.getCenterX());
-		float y1 = (s.getCenterY() - this.getCenterY());
-		double mangle = (double) Math.atan(y1/x1);
-		System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
-		double radius = (double) Math.sqrt(x1*x1 + y1*y1);
-		System.out.println(radius + " RADIUS");
+		double mangle = (double) s.getShipAngle();
+		double radius = (double) s.getShipRadius();
+		System.out.println("center: " + this.getCenterX() + ", " + this.getCenterY());
+		System.out.println("imagecenter: " + this.getImage().getCenterOfRotationX() + ", " + this.getImage().getCenterOfRotationY());
 		//float mangle = s.getRelations()[0];
 		//float radius = s.getRelations()[1];
 		double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
 		double y2 = (double) (radius * Math.sin(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
-		s.rotation = this.getMovement().getRotationAngle();
-		s.setCenterX((float) x2);
-		s.setCenterY((float) y2);
+		//s.rotation = this.getMovement().getRotationAngle();
+		s.setCenterX((float)(this.getImage().getCenterOfRotationX() + x2));
+		s.setCenterY((float)(this.getImage().getCenterOfRotationY() + y2));
 		}
 
 	}
