@@ -312,7 +312,7 @@ public class GameState extends BasicGameState{
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
-								mesh.getShake().shakeObject(3, 1000);
+								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
 							}
@@ -357,7 +357,7 @@ public class GameState extends BasicGameState{
 							if(mesh.isColliding(laser)){
 								mesh.damage(laser.getPlanetDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
-								mesh.getShake().shakeObject(3, 1000);
+								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 							}
 						}
@@ -521,6 +521,7 @@ public class GameState extends BasicGameState{
 			if(button == 1) {
 				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
 			} else if (button == 0){
+				System.out.println("HELLO!");
 				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
 			}
 		}

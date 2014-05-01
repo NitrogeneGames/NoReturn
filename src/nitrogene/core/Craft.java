@@ -58,29 +58,6 @@ public class Craft extends RectangleObject{
 				TickSystem.addTimer(new WeaponTimer(temp));
 				laserlist.add(temp);
 			}
-			/*
-			if(weapons.size() >){
-				primary3 = new LaserLauncher(this, map, 135, 17, weapons.get(2));
-				TickSystem.addTimer(new WeaponTimer(primary3));
-				laserlist.add(primary3);
-			}
-			if(weapons.get(3) != null){
-				primary4 = new LaserLauncher(this, map, 135, 17, weapons.get(3));
-				TickSystem.addTimer(new WeaponTimer(primary4));
-				laserlist.add(primary4);
-			}
-			if(weapons.get(4) != null){
-				primary5 = new LaserLauncher(this, map, 135, 17, weapons.get(4));
-				TickSystem.addTimer(new WeaponTimer(primary5));
-				laserlist.add(primary5);
-			}
-			if(weapons.get(5) != null){
-				primary6 = new LaserLauncher(this, map, 135, 17, weapons.get(5));
-				TickSystem.addTimer(new WeaponTimer(primary6));
-				laserlist.add(primary6);
-			}
-			*/
-			
 		}
 	}
 	

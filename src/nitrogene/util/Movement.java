@@ -118,7 +118,7 @@ public class Movement {
 			else if(!toggle[2]) diracceleration[2] = 0f;
 		}
 		
-		rotangle += ((diracceleration[4] - diracceleration[3])*rotspeed*0.02f);
+		rotangle += ((diracceleration[4] - diracceleration[3])*rotspeed*0.07f)*(delta/5f);
 	}
 	
 	public void BringBack(Direction direction, int delta){
