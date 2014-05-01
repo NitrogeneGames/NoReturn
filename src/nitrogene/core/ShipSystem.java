@@ -13,23 +13,27 @@ public class ShipSystem extends CircleObject{
 	private int hp, durability, maxpower, capacity, maxhp;
 	private EnumStatus status;
 	public Craft craft;
+	private long powerstorage;
 	private float x1;
 	private float y1;
 	private float m;
 	private float r;
+	private short priority;
 	public float[] getRelations() {
 		return new float[]{m,r};
 	}
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
-	public ShipSystem(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius){
+	public ShipSystem(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority){
 		super(x,y, damageradius, img, 1, map);
 		this.hp = maxhp;
+		this.powerstorage = 0;
 		this.maxhp = maxhp;
 		this.durability = durability;
 		this.maxpower = maxpower;
 		this.capacity = capacity;
 		this.craft = c;
+		this.priority = priority;
 		x1 = x;
 		y1 = y;
 		//x1 = -(craft.getX()+(craft.getBoundbox().getWidth()*craft.getScale()) - (x+img.getWidth()*this.getScale()));
@@ -46,6 +50,7 @@ public class ShipSystem extends CircleObject{
 	
 	@Override
 	public void update(int delta){
+		
 		if(hp <= 0){
 			this.setStatus(EnumStatus.DESTROYED);
 		} else{
@@ -53,6 +58,15 @@ public class ShipSystem extends CircleObject{
 		}
 	}
 	
+	//THIS FUNCTION IS REQUIRED (EVEN IF AMOUNT IS 0) -> ALL SYSTEMS MUST RECEIVE POWER
+	public void sendPower(int amount){
+		if(capacity+amount <= capacity && maxpower <= amount){
+			powerstorage += amount;
+		} else if(maxpower > amount){
+			this.hp-=1;
+			//Damage the system for providing too much power
+		}
+	}
 	public int getHp(){
 		return hp;
 	}
@@ -72,7 +86,7 @@ public class ShipSystem extends CircleObject{
 	public int getDurability(){
 		return durability;
 	}
-	public int getMaxpower(){
+	public int getMaxPower(){
 		return maxpower;
 	}
 	public float getX1(){
@@ -95,5 +109,16 @@ public class ShipSystem extends CircleObject{
 	}
 	public EnumStatus getStatus(){
 		return status;
+	}
+	public long getPowerStorage(){
+		return powerstorage;
+	}
+	public boolean acquirePower(int amount) {
+		if(this.capacity>=amount){
+			this.capacity -= amount;
+			return true;
+		} else{
+			return false;
+		}
 	}
 }

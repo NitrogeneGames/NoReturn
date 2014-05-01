@@ -521,7 +521,6 @@ public class GameState extends BasicGameState{
 			if(button == 1) {
 				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
 			} else if (button == 0){
-				System.out.println("HELLO!");
 				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
 			}
 		}

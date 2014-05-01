@@ -23,9 +23,11 @@ public class Hotbar {
 	public Craft ship;
 	UnicodeFont uniFont;
 	java.awt.Font mainFont;
-	private Image heart;
+	private Image heart, bolt;
+	
 	public Hotbar(Craft s) throws SlickException {
 		heart = new Image("res/gui/heart.png");
+		bolt = new Image("res/gui/lightningbolt.png");
 		try {
 			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
 		} catch (FontFormatException e1) {
@@ -80,35 +82,43 @@ public class Hotbar {
 						camX, camY);
 			}
 			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
+			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerStorage()/launcher.getCapacity(), camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}
 	}
 	public void renderWeapon(Image icon, int[] slot, String n, float camX, float camY) {
 		icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, slot[3] + 78 + camY, 2F);
-	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 32 + camY, n);
+	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 26 + camY, n);
 	}
 	
 	private void renderStatus(Image icon, int[] slot, float camX, float camY){
-		icon.draw(slot[2] + camX + 82, slot[3] + camY + 3);
+		icon.draw(slot[2] + camX + 82, slot[3] + camY + 2);
 	}
 	
 	private void renderChargeBar(Graphics g, int[] slot, float progress, float camX, float camY){
 		g.setColor(Color.white);
-		g.drawRect(slot[2] + camX + 4, slot[3] + camY + 7, 74, 18);
+		g.drawRect(slot[2] + camX + 4, slot[3] + camY + 6, 74, 18);
 		g.setColor(Color.blue);
-		g.fillRect(slot[2] + camX + 5, slot[3] + camY + 8, (int)(progress*73), 17);
+		g.fillRect(slot[2] + camX + 5, slot[3] + camY + 7, (int)(progress*73), 17);
 	}
 	
 	private void renderHealthBar(Graphics g, int[] slot, float progress, float camX, float camY){
-		heart.draw(slot[2] + camX + 3, slot[3] + camY + 48);
-		g.setColor(new Color(255f, 209f, 212f));
+		heart.draw(slot[2] + camX + 3, slot[3] + camY + 45);
 		
 		g.setColor(Color.white);
-		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 48, 89, 11);
-		g.setColor(new Color(255f, 209f, 212f));
+		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 45, 89, 11);
 		g.setColor(Color.red);
-		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 49, (int)(progress*88), 10);
+		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 46, (int)(progress*88), 10);
+	}
+	
+	private void renderPowerBar(Graphics g, int[] slot, float progress, float camX, float camY){
+		bolt.draw(slot[2] + camX + 7, slot[3] + camY + 62);
+		
+		g.setColor(Color.white);
+		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 61, 89, 11);
+		g.setColor(Color.yellow);
+		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 62, (int)(progress*88), 10);
 	}
 	
 	private void renderTransparentBackground(Graphics g, int[] slot, float camX, float camY, int selected, LaserLauncher launcher){

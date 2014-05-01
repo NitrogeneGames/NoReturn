@@ -34,11 +34,11 @@ public class Craft extends RectangleObject{
 		this.setX(700);
 		this.setY(700);
 		hull = 100;
-		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50);
+		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50,(short)1);
 		delta = 0;
-		engine = new Engine(this,48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50);
-		core = new Core(this,82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50); 
-		lifesupport = new LifeSupport(this,82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50);
+		engine = new Engine(this,48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50,(short)2);
+		core = new Core(this,82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50,50); 
+		lifesupport = new LifeSupport(this,82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50,(short)3);
 		cumulative = 0;
 		maxWeapons = 6;
 		addSlot((int)(250*scale), (int)(30*scale));
@@ -54,7 +54,7 @@ public class Craft extends RectangleObject{
 	public void loadSystems(ArrayList<EnumWeapon> weapons) throws SlickException{
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
-				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname);
+				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+4));
 				TickSystem.addTimer(new WeaponTimer(temp));
 				laserlist.add(temp);
 			}
@@ -64,6 +64,8 @@ public class Craft extends RectangleObject{
 	@Override
 	public void update(int delta)
 	{
+		//Send power to systems based on priorities
+		
 		//Clock
 		if(cumulative >= 1000){
 			//1 second cumulative
