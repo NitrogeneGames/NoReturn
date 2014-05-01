@@ -87,15 +87,10 @@ public class WeaponTimer {
 	   CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
-   public long getMaxChargeTime(){
-	   System.out.println("MAX CHARGE" + Clock.getDelay() + "F   " + elapsed);
-	   if(Clock.getDelay() == 0){
-		   return System.currentTimeMillis() - start;
-	   } else{
-		   return Clock.getDelay();
-	   }
+   public float getMaxChargeTime(){  
+		return w.getOuterburst();
    }
-   public long getCurrentChargeTime(){
+   public float getCurrentChargeTime(){
 	   return System.currentTimeMillis() - start;
    }
 }

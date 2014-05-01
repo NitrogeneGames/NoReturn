@@ -246,8 +246,9 @@ public class LaserLauncher extends ShipSystem{
 			} else {
 			this.setTarget(x + camX, y + camY);
 			}
-			TickSystem.resume();
-
+			if(!this.getTimer().isLocked) {
+				this.getTimer().start();
+			}
 		}
 	}
 	

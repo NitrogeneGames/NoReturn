@@ -23,7 +23,9 @@ public class Hotbar {
 	public Craft ship;
 	UnicodeFont uniFont;
 	java.awt.Font mainFont;
-	public Hotbar(Craft s) {
+	private Image heart;
+	public Hotbar(Craft s) throws SlickException {
+		heart = new Image("res/gui/heart.png");
 		try {
 			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
 		} catch (FontFormatException e1) {
@@ -50,7 +52,7 @@ public class Hotbar {
 	public void setTab(int i) {
 		
 	}
-	public void loadWeapons(Graphics g, Craft craft, float camX, float camY) throws SlickException {
+	public void loadWeapons(Graphics g, Craft craft, float camX, float camY, int selected) throws SlickException {
 		for(int i = 0; i < craft.laserlist.size(); i++) {
 			LaserLauncher launcher = craft.laserlist.get(i);
 			
@@ -70,33 +72,55 @@ public class Hotbar {
 				statusicon = new Image("res/gui/status_ready.png");
 			}
 			statusicon.setFilter(Image.FILTER_NEAREST);
+			
+			renderTransparentBackground(g, getSlot(launcher.laserId), camX, camY, selected, launcher);
 			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
-			renderChargeBar(g, getSlot(launcher.laserId), (double)(launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime()),
-					camX, camY);
+			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().getClock().isRunning()){
+				renderChargeBar(g, getSlot(launcher.laserId), launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
+						camX, camY);
+			}
+			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}
 	}
 	public void renderWeapon(Image icon, int[] slot, String n, float camX, float camY) {
-		icon.draw(slot[2] - icon.getWidth() + camX, slot[3] - icon.getHeight() +8 + camY, 2F);
-	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX, slot[3] - 22 + camY, n);
+		icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, slot[3] + 78 + camY, 2F);
+	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 32 + camY, n);
 	}
 	
 	private void renderStatus(Image icon, int[] slot, float camX, float camY){
-		icon.draw(slot[2] + 24 + camX, slot[3] -46 + camY);
+		icon.draw(slot[2] + camX + 82, slot[3] + camY + 3);
 	}
 	
-	private void renderChargeBar(Graphics g, int[] slot, double progress, float camX, float camY){
-		//g.setColor(Color.green);
-		//g.drawRect(slot[2] + camX, slot[3] + camY, camY, camY);
-		//Rectangle chargeRect = new Rectangle(slot[2] + camX, slot[3] + camY, 90, 12);
-		//ShapeFill chargeFill = new GradientFill(slot[2] + camX, slot[3] + camY, Color.blue, slot[2] + camX + (progress*90), slot[3] + camY + 12, Color.blue);
+	private void renderChargeBar(Graphics g, int[] slot, float progress, float camX, float camY){
+		g.setColor(Color.white);
+		g.drawRect(slot[2] + camX + 4, slot[3] + camY + 7, 74, 18);
 		g.setColor(Color.blue);
-		System.out.println(progress);
-		g.fillRect(slot[2] + camX, slot[3] + camY, (int)progress*90, 12);
+		g.fillRect(slot[2] + camX + 5, slot[3] + camY + 8, (int)(progress*73), 17);
+	}
+	
+	private void renderHealthBar(Graphics g, int[] slot, float progress, float camX, float camY){
+		heart.draw(slot[2] + camX + 3, slot[3] + camY + 48);
+		g.setColor(new Color(255f, 209f, 212f));
+		
+		g.setColor(Color.white);
+		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 48, 89, 11);
+		g.setColor(new Color(255f, 209f, 212f));
+		g.setColor(Color.red);
+		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 49, (int)(progress*88), 10);
+	}
+	
+	private void renderTransparentBackground(Graphics g, int[] slot, float camX, float camY, int selected, LaserLauncher launcher){
+		if(launcher.laserId == selected){
+			g.setColor(new Color(0f, 204f, 0f, 0.3f));
+		} else{
+			g.setColor(new Color(0f, 0f, 0f, 0.3f));
+		}
+		g.fillRect(slot[2]+camX, slot[3]+camY, 111, 104);
 	}
 	
 	public int[] getSlot(int id) {
-		return new int[] {333 + 117*id, 661, 333 + 117*id + 58, 661 + 51};
+		return new int[] {333 + 117*id, 661, 333 + 117*id, 661};
 	}
 }
