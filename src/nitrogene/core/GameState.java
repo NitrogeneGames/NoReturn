@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -37,6 +38,7 @@ import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.DroppedItem;
+import nitrogene.world.Item;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
@@ -390,6 +392,9 @@ public class GameState extends BasicGameState{
 			DroppedItem di = map.getDroppedItem().get(d);
 			di.update(delta);
 			if(this.craft.isColliding(di)){
+				for(Item e : di.getItemsInDrop()){
+					e.changeParent(craft.getInventory());
+				}
 				craft.addToInventory(di.getItemsInDrop());
 				di.destroy(map);
 			}

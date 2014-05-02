@@ -3,6 +3,11 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.objecttree.RectangleObject;
+import nitrogene.system.Core;
+import nitrogene.system.Engine;
+import nitrogene.system.LifeSupport;
+import nitrogene.system.Shield;
+import nitrogene.system.ShipSystem;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
@@ -145,5 +150,9 @@ public class Craft extends RectangleObject{
 		for(Item item: itemlist){
 			inventory.add(item);
 		}
+	}
+	
+	public ArrayList<Item> getInventory(){
+		return this.inventory;
 	}
 }

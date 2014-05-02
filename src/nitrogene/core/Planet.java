@@ -56,7 +56,7 @@ public class Planet extends CircleObject{
 	}
 	private void spawnItem(ArenaMap map) throws SlickException{
 		ArrayList<Item> list = new ArrayList<Item>();
-		Item item = new Item(EnumDrop.IRON);
+		Item item = new Item(EnumDrop.IRON, list);
 		item.addStack(10);
 		list.add(item);
 		DroppedItem drop = new DroppedItem(map, list, this.getCenterX(), this.getCenterY());
