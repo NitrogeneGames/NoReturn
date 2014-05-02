@@ -168,16 +168,16 @@ public class LaserLauncher extends ShipSystem{
 	    		  if(dist >= 100) {
 	    			  if(dist >= 200) {
 	    				  if(dist >= 300) {
-				       this.getImage().rotate(rota/50);
+				       this.getImage().rotate(rota/50*(delta/25f));
 				       
 				      } else {   //<300
-				       this.getImage().rotate(rota/25);
+				       this.getImage().rotate(rota/25*(delta/25f));
 				      }
 				      } else {  //<200
-				       this.getImage().rotate(rota/10);
+				       this.getImage().rotate(rota/10*(delta/25f));
 				      }
 				      } else { //<100
-				      this.getImage().rotate(rota/5);
+				      this.getImage().rotate(rota/5*(delta/25f));
 				      }
 	    		  //50,40,30,20
 	      } else {
