@@ -1,5 +1,9 @@
 package nitrogene.core;
 
+import java.io.File;
+
+import nitrogene.util.AppData;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -13,6 +17,7 @@ public class SpaceGame extends StateBasedGame{
 		super("No Return");
 		SCRwidth = 1366;
 		SCRheight = 768;
+		AppData.runInit();
 	}
 
 	public static void main(String[] args) throws SlickException{
@@ -20,7 +25,7 @@ public class SpaceGame extends StateBasedGame{
 		app.setDisplayMode(SCRwidth, SCRheight, false);
 		app.start();
 	}
-
+ 
  
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
