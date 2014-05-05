@@ -147,11 +147,11 @@ public class HangarState extends BasicGameState{
 		downpage.update(container);
 		
 		if(startbutton.isClicked()){
-			GlobalInformation.setStartingWeapons(weapons);
+			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test"));
 			if(weapons.isEmpty()){
 				System.out.println("CHECKPOINT 1 FAILURE");
 			}
-			game.enterState(2);
+			game.enterState(1);
 		}
 		if(uppage.isClicked() && tabpagenumber < maxpagenumber && weapontab.buttonDown()){
 			tabpagenumber++;

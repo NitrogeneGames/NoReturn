@@ -67,7 +67,7 @@ public class MenuState extends BasicGameState{
 		options.update(container);
 		
 		if(quickPlay.isClicked()){
-			game.enterState(2);
+			game.enterState(5);
 		}
 		if(hangar.isClicked()){
 			game.enterState(3);

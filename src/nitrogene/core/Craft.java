@@ -32,7 +32,7 @@ public class Craft extends RectangleObject{
 	private ArrayList<Item> inventory;
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
-	
+	public String name = "";
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
 		super(img.getWidth(), img.getHeight(), img.copy(), scale, map);
 		inventory = new ArrayList<Item>();
@@ -56,7 +56,7 @@ public class Craft extends RectangleObject{
 	public void addSlot(int x, int y) {
 		weaponSlots.add(new int[] {x, y});
 	}
-	public void loadSystems(ArrayList<EnumWeapon> weapons) throws SlickException{
+	public void loadWeapons(ArrayList<EnumWeapon> weapons) throws SlickException{
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
 				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+4));

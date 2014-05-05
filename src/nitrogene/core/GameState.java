@@ -199,8 +199,8 @@ public class GameState extends BasicGameState{
 	      }
 	      */
 	      enemy.addCraftTarget(craft);
-	      craft.loadSystems(GlobalInformation.getStartingWeapons());
-	      enemy.loadSystems(GlobalInformation.getStartingWeapons());
+	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
+	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
 	      //enemy.addTask(new TaskFire(enemy, craft, 0));
 	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      this.PAUSED = false;
@@ -443,7 +443,6 @@ public class GameState extends BasicGameState{
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
