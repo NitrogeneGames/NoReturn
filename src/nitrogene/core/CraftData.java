@@ -11,4 +11,5 @@ public class CraftData {
 		weapons = a;
 		name = n;
 	}
+	
 }

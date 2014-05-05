@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import nitrogene.util.AppData;
 import nitrogene.util.Button;
 import nitrogene.util.BuyButton;
 import nitrogene.util.Tab;
@@ -148,6 +149,7 @@ public class HangarState extends BasicGameState{
 		
 		if(startbutton.isClicked()){
 			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test"));
+			AppData.saveShipFile();
 			if(weapons.isEmpty()){
 				System.out.println("CHECKPOINT 1 FAILURE");
 			}

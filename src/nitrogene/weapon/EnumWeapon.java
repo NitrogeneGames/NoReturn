@@ -49,5 +49,14 @@ public enum EnumWeapon{
 		this.outerburst = outerburst;
 		this.burstnumber = burstnumber;
 	}
+	public static EnumWeapon getWeaponFromFormalName(String fname) {
+		for(int i = 0; i<(EnumWeapon.values().length); i++) {
+			EnumWeapon e = EnumWeapon.values()[i];
+			if(e.formalname == fname) {
+				return e;
+			}
+		}
+		return null;
+	}
     
 }

@@ -8,6 +8,7 @@ public class GlobalInformation {
 		
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
+	public static boolean shipsLoaded = true;
 	public GlobalInformation(){
 		
 	}
