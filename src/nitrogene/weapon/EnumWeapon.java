@@ -52,7 +52,7 @@ public enum EnumWeapon{
 	public static EnumWeapon getWeaponFromFormalName(String fname) {
 		for(int i = 0; i<(EnumWeapon.values().length); i++) {
 			EnumWeapon e = EnumWeapon.values()[i];
-			if(e.formalname == fname) {
+			if(e.formalname.equals(fname)) {
 				return e;
 			}
 		}

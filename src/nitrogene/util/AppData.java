@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.Node;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
  
+
 
 
 
@@ -27,6 +27,7 @@ import nitrogene.weapon.EnumWeapon;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
@@ -56,15 +57,15 @@ public class AppData {
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
 		if(doc.getDocumentElement().getNodeName() == "shipslist") {
-			System.out.println("ERROR: CORRUPTRED SHIP FILE");
+			System.out.println("ERROR: CORRUPTRED SHIP FILE CP 1");
 			return;
 		}
 		NodeList nList = doc.getElementsByTagName("ship");
 		for(int i = 0; i < nList.getLength(); i++) {
 			CraftData nNodeShip;
-			String name;
+			String name = "";
 			ArrayList<EnumWeapon> weps = new ArrayList<EnumWeapon>();
-			Node nNode = (Node) nList.item(i);
+			Node nNode =  nList.item(i);
 			//if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eNode = (Element) nNode;
 				name = eNode.getAttribute("name");
@@ -83,7 +84,8 @@ public class AppData {
 		}
 		GlobalInformation.setCraftDataOverride(lships);
 		 } catch (Exception e) {
-			 System.out.println("ERROR: CORRUPTED SHIP FILE");
+			 System.out.println("ERROR: CORRUPTED SHIP FILE CP 2");
+			 e.printStackTrace();
 		  }
 	}
 	public static void saveShipFile() {
