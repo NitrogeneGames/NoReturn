@@ -25,6 +25,7 @@ public class ShipState extends BasicGameState{
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
 	
 	private Image shipButtonImage;
+	private Image shipButtonImage2;
 	private Button startButton, hangarButton, menuButton, minusButton, plusButton;
 	
 	public ShipState(int width,int height){
@@ -48,6 +49,7 @@ public class ShipState extends BasicGameState{
 		Image minusButtonImage = new Image("res/hangar/minusbutton.png");
 		Image plusButtonImage = new Image("res/hangar/plusbutton.png");
 		shipButtonImage = new Image("res/hangar/button2.png");
+		shipButtonImage2 = new Image("res/hangar/buttonhighlighted2.png");
 		
 		try {
 			startButton = new Button("Start", obserx+(120*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, startButtonImage, null, null, null);
@@ -65,7 +67,7 @@ public class ShipState extends BasicGameState{
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		try {
 			for(int i = 0; i < GlobalInformation.getCraftData().size(); i++) {
-				buttonList.add(new Button(GlobalInformation.getCraftData().get(i).name, this.width/2-150, 100+i*30, 300, 60, shipButtonImage, null, null, null));
+				buttonList.add(new Button(GlobalInformation.getCraftData().get(i).name, this.width/2-150, 150+i*80, 300, 60, shipButtonImage, shipButtonImage2, null, null));
 			}
 		} catch (FontFormatException e) {
 			e.printStackTrace();
@@ -95,6 +97,7 @@ public class ShipState extends BasicGameState{
 			if(buttonList.get(i).isClicked()){
 				GlobalInformation.setStartingWeapons(GlobalInformation.getCraftData().get(i).weapons);
 				game.enterState(2);
+				//GlobalInformation.getCraftData().get(i).renderShip().draw(0, 0);
 			}
 		}
 		

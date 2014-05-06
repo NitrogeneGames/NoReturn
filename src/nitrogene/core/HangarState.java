@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import nitrogene.util.AppData;
 import nitrogene.util.Button;
 import nitrogene.util.BuyButton;
+import nitrogene.util.EnumHull;
 import nitrogene.util.Tab;
 import nitrogene.weapon.EnumWeapon;
 
@@ -148,7 +149,7 @@ public class HangarState extends BasicGameState{
 		downpage.update(container);
 		
 		if(startbutton.isClicked()){
-			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test"));
+			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test", EnumHull.NORMAL));
 			AppData.saveShipFile();
 			if(weapons.isEmpty()){
 				System.out.println("CHECKPOINT 1 FAILURE");

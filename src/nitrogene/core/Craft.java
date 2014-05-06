@@ -8,6 +8,7 @@ import nitrogene.system.Engine;
 import nitrogene.system.LifeSupport;
 import nitrogene.system.Shield;
 import nitrogene.system.ShipSystem;
+import nitrogene.util.EnumHull;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
@@ -24,6 +25,7 @@ public class Craft extends RectangleObject{
 	public Shield shield;
 	public LifeSupport lifesupport;
 	public Core core;
+	public EnumHull hulltype = EnumHull.NORMAL;
 	public Engine engine;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	protected double hull;
@@ -52,6 +54,13 @@ public class Craft extends RectangleObject{
 		addSlot((int)(250*scale), (int)(136*scale));
 		addSlot((int)(174*scale), (int)(136*scale));
 		addSlot((int)(105*scale), (int)(136*scale));
+	}
+	public CraftData formData() {
+		ArrayList<EnumWeapon> enums = new ArrayList<EnumWeapon>();
+		for(int i = 0; i<laserlist.size(); i++) {
+			enums.add(laserlist.get(i).enumtype);
+		}
+		return new CraftData(enums, this.name, hulltype);
 	}
 	public void addSlot(int x, int y) {
 		weaponSlots.add(new int[] {x, y});

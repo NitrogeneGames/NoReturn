@@ -32,6 +32,7 @@ public class LaserLauncher extends ShipSystem{
 	public int laserId;
 	public String name;
 	private volatile int delta;
+	public EnumWeapon enumtype;
 	
 	/*
 	@Deprecated
@@ -86,6 +87,7 @@ public class LaserLauncher extends ShipSystem{
 	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
 		super(w,xpos, ypos, new Image(stat.image), map, stat.hp, 0, 100, 1000, 10, priority);
 		parent = w;
+		enumtype = stat;
 		name = n;
 		desx = 0;
 		desy = 0;

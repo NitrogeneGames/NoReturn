@@ -79,7 +79,7 @@ public class AppData {
 					}
 				}
 			//}
-				nNodeShip = new CraftData(weps, name);
+				nNodeShip = new CraftData(weps, name, EnumHull.NORMAL);
 				lships.add(nNodeShip);
 		}
 		GlobalInformation.setCraftDataOverride(lships);
