@@ -102,15 +102,15 @@ public boolean isColliding(PhysicalObject obj){
 		double dist = Math.sqrt((boundbox.getCenterX()-obj.getCenterX())*(boundbox.getCenterX()-obj.getCenterX()) + (boundbox.getCenterY()-obj.getCenterY())*(boundbox.getCenterY()-obj.getCenterY()));
 		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= dist || 
 			this.boundbox.getCenterY() + width + this.movement.getDy() >= dist){
-			if(obj instanceof ImageObject) {
-				return obj.isColliding(obj);
-			} else {	    
+			//if(obj instanceof ImageObject) {
+			//	return obj.isColliding(obj);
+			//} else {	    
 				if(this.boundbox.intersects(obj.boundbox)) {
 					return true;
 				} else {
 					return false;
 				}
-			}
+			//}
 		}
 		return false;
 	}

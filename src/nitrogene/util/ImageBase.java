@@ -7,10 +7,10 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 public class ImageBase {
-	private static HashMap<Image, ArrayList<int[]>> c= new HashMap<Image, ArrayList<int[]>>();
+	private static HashMap<Image, ArrayList<float[]>> c= new HashMap<Image, ArrayList<float[]>>();
 	
-	private static ArrayList<int[]> pixelize(Image s) {
-		ArrayList<int[]> pixels = new ArrayList<int[]>();
+	public static ArrayList<float[]> pixelize(Image s) {
+		ArrayList<float[]> pixels = new ArrayList<float[]>();
 		for(int x = 0; x < s.getWidth(); x++) {
 			for(int y = 0; y < s.getHeight(); y++) {
 				/*
@@ -20,19 +20,10 @@ public class ImageBase {
 				}
 				*/
 				if(s.getColor(x, y).getAlpha() != 0.00f){
-					pixels.add(new int[]{x,y});	
+					pixels.add(new float[]{x,y});	
 				}
 			}
 		}
 		return pixels;
-	}
-	public static void registerImage(Image i) {
-		c.put(i, pixelize(i));
-	}
-	public static ArrayList<int[]> getPixels(Image s) {
-		return c.get(s);
-	}
-	public static boolean contains(Image s) {
-		return c.containsKey(s);
 	}
 }

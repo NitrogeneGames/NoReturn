@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import nitrogene.objecttree.ImageObject;
 import nitrogene.objecttree.RectangleObject;
 
 public class DroppedItem extends RectangleObject{

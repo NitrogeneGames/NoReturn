@@ -2,6 +2,7 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
+import nitrogene.objecttree.PolygonObject;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.system.Core;
 import nitrogene.system.Engine;
@@ -19,7 +20,7 @@ import nitrogene.world.Item;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Craft extends RectangleObject{
+public class Craft extends PolygonObject{
 	
 	//systems
 	public Shield shield;

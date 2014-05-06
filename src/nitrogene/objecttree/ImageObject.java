@@ -1,3 +1,4 @@
+/*
 package nitrogene.objecttree;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class ImageObject extends PhysicalObject{
 									return true;								
 								}
 							} else {
-								if(obj.isContaining((/*mainimg.getWidth() - */pixels.get(i)[0]) + this.getX(), (/*mainimg.getHeight() -*/ pixels.get(i)[1]) + this.getY())) {
+								if(obj.isContaining((pixels.get(i)[0]) + this.getX(), (pixels.get(i)[1]) + this.getY())) {
 									return true;								
 								}
 							}
@@ -122,3 +123,4 @@ public class ImageObject extends PhysicalObject{
 		return c.a == 0f;
 	}
 } 
+*/

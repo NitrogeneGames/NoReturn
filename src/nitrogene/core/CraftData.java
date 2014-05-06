@@ -26,7 +26,7 @@ public class CraftData {
 		int[][] slots = new int[][]{new int[]{250,30}, new int[]{174,30},new int[]{105,17},new int[]{250,136},new int[]{174,136},new int[]{105,136}};
 		Image a = hull.getImage();
 		Graphics g;
-		/*try {
+		try {
 			g = a.getGraphics();
 			for(int i = 0; i<weapons.size(); i++) {
 				int x = slots[i][0];
@@ -36,7 +36,7 @@ public class CraftData {
 			}
 		} catch (SlickException e) {
 			
-		} */
+		} 
 		return a;
 	}
 	
