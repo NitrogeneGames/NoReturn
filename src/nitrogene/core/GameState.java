@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 
 
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -50,6 +51,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.Particle;
@@ -123,7 +125,7 @@ public class GameState extends BasicGameState{
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
 		map.addCraft(craft);
 		guihotbar = new Hotbar(craft);
-		enemyImage = new Image("res/klaarship4.png");
+		enemyImage = new Image("res/klaarship6.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
 		map.addCraft(enemy);
@@ -444,6 +446,8 @@ public class GameState extends BasicGameState{
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		craft.getImage().draw(craft.getX(), craft.getY());
+		g.draw(craft.getBoundbox());
+		//g.draw(new Circle(0,0,100));
 		craft.renderSystems();
 		enemy.renderSystems();
 		for(int i = 0; i < map.getPlanets().size(); i ++){

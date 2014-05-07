@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.collision.Vector;
+import nitrogene.core.GlobalInformation;
 import nitrogene.util.ImageBase;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
@@ -17,19 +18,29 @@ import nitrogene.world.ArenaMap;
 public class PhysicalObject {
 	protected Movement movement;
 	protected ArenaMap map;
-	protected Polygon boundbox;
+	protected Shape boundbox;
 	protected Image mainimg;
 	protected float scalefactor;
 	protected int delta;
 	protected float rotation;
 	protected float width, height;
 
-	public PhysicalObject(float width, float height, Image img, float scalefactor, ArenaMap map){
+	public PhysicalObject(float x, float y, Image img, float scalefactor, ArenaMap map){
 		width = 0;
 		height = 0;
 		this.map = map;
 		this.mainimg = img;
 		this.scalefactor = scalefactor;
+		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		if(boundbox == null){
+			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			float[] m = {0,0,1,1,2,2};
+			boundbox = new Polygon(m);
+		}
+		this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
+		init(boundbox.getWidth(), boundbox.getHeight());
+		this.setX(x);
+		this.setY(y);
 		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 	}
 	
@@ -44,6 +55,9 @@ public class PhysicalObject {
 		
 		boundbox.setX(boundbox.getX()+((movement.getDx()*gj)*mm));
 		boundbox.setY(boundbox.getY()+((movement.getDy()*gj)*mm));
+		
+		this.rotation = movement.getRotationAngle();
+		System.out.println((float) Math.toRadians(rotation));
 	}
 	/*
 public boolean isColliding(PhysicalObject obj){
@@ -181,6 +195,9 @@ public boolean isColliding(PhysicalObject obj){
 		return boundbox;
 	}
 	public void update(int delta) {
+	}
+	public void setRotation(float rotation){
+		this.rotation = rotation;
 	}
 	public static ArrayList<int[]> getCollidingPoints(PhysicalObject a, PhysicalObject a1) {
 		ArrayList<int[]> list = new ArrayList<int[]>();

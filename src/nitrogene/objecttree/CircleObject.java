@@ -5,6 +5,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+@Deprecated
 public class CircleObject extends PhysicalObject{
 
 	public CircleObject(float x, float y, float radius, Image img, float scale, ArenaMap map) {

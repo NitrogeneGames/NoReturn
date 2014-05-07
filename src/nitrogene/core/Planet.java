@@ -3,6 +3,7 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.objecttree.CircleObject;
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Shake;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.DroppedItem;
@@ -12,14 +13,14 @@ import nitrogene.world.Item;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Planet extends CircleObject{
+public class Planet extends PhysicalObject{
 	private int maxhp;
 	private int hp;
 	private Image im;
 	private Shake shake;
 
 	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
-		super(centerx, centery, (theimage.getWidth()/2)*scalefactor, theimage, scalefactor, map);
+		super(centerx-(theimage.getWidth()/2), centery-(theimage.getWidth()/2), theimage, scalefactor, map);
 		this.maxhp = maxhp;
 		hp = maxhp;
 		im = theimage;

@@ -8,7 +8,9 @@ import java.util.HashMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 
 import nitrogene.weapon.EnumWeapon;
 
@@ -16,7 +18,7 @@ public class GlobalInformation {
 	
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
-	private static HashMap<String, Polygon> imagedata = new HashMap<String, Polygon>();
+	private static HashMap<String, Shape> imagedata = new HashMap<String, Shape>();
 	public static boolean shipsLoaded = true;
 	public GlobalInformation(){
 		
@@ -62,7 +64,22 @@ public class GlobalInformation {
 	}
 	
 	public static void initHitboxData(){
-		float[] craftData = {0,0,0,0,0,0,0};
+		float[] craftData = {6,52,37,52,53,36,99,10,131,0,245,0,245,5,312,5,312,31,
+				317,36,328,41,332,46,343,57,343,62,328,67,322,72,94,72,94,93,322,93,
+				328,98,343,103,343,109,338,114,328,124,317,124,317,145,307,150,291,150,
+				291,161,317,161,317,155,333,145,343,140,348,140,348,155,343,161,317,176,
+				276,176,260,161,245,161,245,166,131,166,110,161,98,154,94,150,84,145,63,135,
+				53,129,48,119,37,114,6,114,6,109,11,109,11,57,5,57};
 		imagedata.put("res/klaarship6.png", new Polygon(craftData));
+		imagedata.put("res/volcanicplanet2.png", new Circle(0,0,64));
+		imagedata.put("res/sun_1.png", new Circle(0,0,50));
+		imagedata.put("res/icon/shieldsystem.png", new Circle(0,0,20));
+		imagedata.put("res/icon/enginesystem.png", new Circle(0,0,20));
+		imagedata.put("res/icon/coresystem.png", new Circle(0,0,20));
+		imagedata.put("res/icon/oxygensystem.png", new Circle(0,0,20));
+	}
+	
+	public static HashMap<String, Shape> getImageData(){
+		return imagedata;
 	}
 }

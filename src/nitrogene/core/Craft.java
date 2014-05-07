@@ -2,6 +2,7 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.objecttree.PolygonObject;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.system.Core;
@@ -19,8 +20,9 @@ import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Transform;
 
-public class Craft extends PolygonObject{
+public class Craft extends PhysicalObject{
 	
 	//systems
 	public Shield shield;
@@ -37,10 +39,8 @@ public class Craft extends PolygonObject{
 	protected int cumulative;
 	public String name = "";
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
-		super(img.getWidth(), img.getHeight(), img.copy(), scale, map);
+		super(700, 700, img.copy(), scale, map);
 		inventory = new ArrayList<Item>();
-		this.setX(700);
-		this.setY(700);
 		hull = 100;
 		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50,(short)1);
 		delta = 0;
@@ -90,6 +90,8 @@ public class Craft extends PolygonObject{
 		
 		this.mainimg.setRotation(0);
 		this.mainimg.setRotation(this.movement.getRotationAngle());
+		//TO ROTATE:
+		//this.boundbox = boundbox.transform(Transform.createRotateTransform((float) Math.toRadians(this.movement.getRotationAngle()),178, 88));
 		move(20, delta);
 	}
 	

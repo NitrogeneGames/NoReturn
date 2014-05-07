@@ -29,6 +29,7 @@ public class SpaceGame extends StateBasedGame{
  
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
+		GlobalInformation.initHitboxData();
 		this.addState(new MenuState(SCRwidth,SCRheight)); //1
 		this.addState(new GameState(SCRwidth,SCRheight)); //2
 		this.addState(new HangarState(SCRwidth,SCRheight)); //3

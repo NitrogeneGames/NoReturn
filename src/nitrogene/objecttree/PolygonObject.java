@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 
+@Deprecated
 public class PolygonObject extends PhysicalObject{
 
 	public PolygonObject(float x, float y, Image img, float scale, ArenaMap map) {
