@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
@@ -16,7 +17,7 @@ import nitrogene.world.ArenaMap;
 public class PhysicalObject {
 	protected Movement movement;
 	protected ArenaMap map;
-	protected Shape boundbox;
+	protected Polygon boundbox;
 	protected Image mainimg;
 	protected float scalefactor;
 	protected int delta;

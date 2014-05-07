@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Polygon;
 
 import nitrogene.weapon.EnumWeapon;
 
@@ -13,6 +16,7 @@ public class GlobalInformation {
 	
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
+	private static HashMap<String, Polygon> imagedata = new HashMap<String, Polygon>();
 	public static boolean shipsLoaded = true;
 	public GlobalInformation(){
 		
@@ -55,5 +59,10 @@ public class GlobalInformation {
 	
 	public static ArrayList<EnumWeapon> getStartingWeapons(){
 		return startingweapons;
+	}
+	
+	public static void initHitboxData(){
+		float[] craftData = {0,0,0,0,0,0,0};
+		imagedata.put("res/klaarship6.png", new Polygon(craftData));
 	}
 }
