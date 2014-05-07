@@ -31,7 +31,7 @@ public class Craft extends PhysicalObject{
 	public EnumHull hulltype = EnumHull.NORMAL;
 	public Engine engine;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
-	protected double hull;
+	protected double hull, maxhull;
 	public int maxWeapons;
 	public ArrayList<int[]> weaponSlots = new ArrayList<int[]>();
 	private ArrayList<Item> inventory;
@@ -42,6 +42,7 @@ public class Craft extends PhysicalObject{
 		super(700, 700, img.copy(), scale, map);
 		inventory = new ArrayList<Item>();
 		hull = 100;
+		maxhull = 100;
 		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50,(short)1);
 		delta = 0;
 		engine = new Engine(this,48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50,(short)2);
@@ -138,6 +139,9 @@ public class Craft extends PhysicalObject{
 	}
 	public double getHull(){
 		return hull;
+	}
+	public double getMaxHull(){
+		return maxhull;
 	}
 	public void changeHull(double change){
 		hull += change;

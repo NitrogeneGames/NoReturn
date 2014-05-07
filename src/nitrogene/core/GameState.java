@@ -16,11 +16,15 @@ import java.util.ArrayList;
 
 
 
+
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
 import nitrogene.gui.Hotbar;
+import nitrogene.gui.HullBar;
 import nitrogene.gui.Minimap;
+import nitrogene.gui.ShieldBar;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.npc.TaskFire;
@@ -68,6 +72,8 @@ public class GameState extends BasicGameState{
 	private ParticleSystem shockwave;
 	NPCship enemy;
 	public Hotbar guihotbar;
+	private ShieldBar shieldbar;
+	private HullBar hullbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
@@ -145,6 +151,8 @@ public class GameState extends BasicGameState{
     	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
     	//ADDRESS PROBLEM
     	
+    	shieldbar = new ShieldBar(4);
+    	hullbar = new HullBar(4);
     	
     	shockwave = new ParticleSystem(shockimage,1500);
     	File shockfile = new File("res/test_emitter.xml");
@@ -503,6 +511,8 @@ public class GameState extends BasicGameState{
 		shockwave.render();
 		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
+		shieldbar.render(camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
+		hullbar.render(camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
 		//minimap.render(g);
