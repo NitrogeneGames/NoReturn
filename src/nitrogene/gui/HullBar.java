@@ -18,6 +18,6 @@ public class HullBar {
 	
 	public void render(float camX, float camY, float progress){
 		hullBackground.draw(camX + 25, camY + 20 + (62*scalefactor), scalefactor);
-		hullFill.draw(camX+25, camY+20 + (62*scalefactor), 62*progress*scalefactor, 14*scalefactor);
+		hullFill.draw(camX+26, camY+21 + (62*scalefactor), 62*progress*scalefactor, 14*scalefactor);
 	}
 }

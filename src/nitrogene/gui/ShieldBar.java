@@ -18,7 +18,7 @@ public class ShieldBar {
 	
 	public void render(float camX, float camY, float progress){
 		shieldBackground.draw(camX + 25, camY + 20, scalefactor);
-		shieldFill.draw(camX+25, camY+20, 62*progress*scalefactor, 14*scalefactor);
+		shieldFill.draw(camX+26, camY+21, 62*progress*scalefactor, 14*scalefactor);
 	}
 	
 }
