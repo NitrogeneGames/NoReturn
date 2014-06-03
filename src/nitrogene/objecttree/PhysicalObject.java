@@ -194,7 +194,10 @@ public boolean isColliding(PhysicalObject obj){
 	public Shape getBoundbox(){
 		return boundbox;
 	}
-	public void update(int delta) {
+	protected void setBoundbox(Shape boundbox){
+		this.boundbox = boundbox;
+	}
+	public void update(int delta, float camX, float camY) {
 	}
 	public void setRotation(float rotation){
 		this.rotation = rotation;

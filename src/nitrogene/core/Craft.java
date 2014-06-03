@@ -20,6 +20,7 @@ import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 public class Craft extends PhysicalObject{
@@ -78,7 +79,7 @@ public class Craft extends PhysicalObject{
 	}
 	
 	@Override
-	public void update(int delta)
+	public void update(int delta, float camX, float camY)
 	{
 		//Send power to systems based on priorities
 		
@@ -91,9 +92,15 @@ public class Craft extends PhysicalObject{
 		
 		this.mainimg.setRotation(0);
 		this.mainimg.setRotation(this.movement.getRotationAngle());
-		//TO ROTATE:
-		//this.boundbox = boundbox.transform(Transform.createRotateTransform((float) Math.toRadians(this.movement.getRotationAngle()),178, 88));
+		
+		System.out.println("PROBLEM   " + boundbox.getCenterX());
 		move(20, delta);
+		
+		float carryx = this.getX();
+		float carryy = this.getY();
+		this.setBoundbox(this.getBoundbox().transform(Transform.createRotateTransform((float) Math.toRadians(90d))));
+		this.setX(carryx);
+		this.setY(carryy);
 	}
 	
 	public void renderSystems() {

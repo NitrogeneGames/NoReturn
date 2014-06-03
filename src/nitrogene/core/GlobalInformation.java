@@ -24,7 +24,7 @@ public class GlobalInformation {
 		
 	}
 	
-	public org.newdawn.slick.UnicodeFont getFont(Float size) throws SlickException{
+	public org.newdawn.slick.UnicodeFont getMenuFont(Float size) throws SlickException{
 		try {
 			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
 			mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, size);
@@ -42,6 +42,25 @@ public class GlobalInformation {
 		}
 		return null;
 	}
+	
+	public org.newdawn.slick.UnicodeFont getPixelFont(Float size) throws SlickException{
+		try {
+			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("visitor1.ttf"));
+			mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, size);
+			org.newdawn.slick.UnicodeFont uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
+			uniFont.addAsciiGlyphs();
+	        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
+	        a.setColor(Color.white);
+	        uniFont.getEffects().add(a);
+	        uniFont.loadGlyphs();
+	        return uniFont;
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return null;
+	} 
 	
 	public static void setCraftDataOverride(ArrayList<CraftData> start){
 		craftdata = start;

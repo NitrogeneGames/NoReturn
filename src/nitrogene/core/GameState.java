@@ -311,7 +311,7 @@ public class GameState extends BasicGameState{
 		for(int n = 0; n < map.getObjList().size(); n++){
 			PhysicalObject obj = map.getObjList().get(n);
 			if(obj.getClass() == Craft.class){
-				obj.update(delta);
+				obj.update(delta,camX,camY);
 				for(int m = 0; m<craft.laserlist.size(); m++) {
 					LaserLauncher laserlauncher = craft.laserlist.get(m);
 					 laserlauncher.update(craft.getX(), craft.getY(),delta);
@@ -400,7 +400,7 @@ public class GameState extends BasicGameState{
 		
 		for(int d = 0; d < map.getDroppedItem().size(); d++){
 			DroppedItem di = map.getDroppedItem().get(d);
-			di.update(delta);
+			di.update(delta,camX,camY);
 			if(this.craft.isColliding(di)){
 				for(Item e : di.getItemsInDrop()){
 					e.changeParent(craft.getInventory());

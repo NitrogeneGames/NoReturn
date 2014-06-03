@@ -50,7 +50,7 @@ public class ShipSystem extends CircleObject{
 	public float rotation = 0;
 	
 	@Override
-	public void update(int delta){
+	public void update(int delta, float camX, float camY){
 		
 		if(hp <= 0){
 			this.setStatus(EnumStatus.DESTROYED);
