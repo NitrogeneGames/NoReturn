@@ -18,6 +18,11 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
+
 import nitrogene.collision.AABB;
 import nitrogene.collision.CollisionLibrary;
 import nitrogene.collision.Vector;
@@ -42,8 +47,10 @@ import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.Asteroid;
 import nitrogene.world.DroppedItem;
 import nitrogene.world.Item;
+import nitrogene.world.Planet;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
@@ -57,6 +64,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.Particle;
 import org.newdawn.slick.particles.ParticleIO;
@@ -106,8 +115,30 @@ public class GameState extends BasicGameState{
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		craftImage = new Image("res/klaarship6.png");
+		enemyImage = new Image("res/klaarship6.png");
+		sun = new Image("res/sun_1.png");
+		pausemenu = new Image("res/button/pauseback.png");
+		shockimage = new Image("res/shockwave_particle.png");
+		statis = new Image("res/klaarship4.png");
+		slaserimage = new Image("res/LaserV2ro.png");
+		GUI = new Image("res/GUIportrait.png");
+		pauseexitdown = new Image("res/button/pauseexitdown.png");
+		pauseexitup = new Image("res/button/pauseexitup.png");
+		pausehangardown = new Image("res/button/pausehangardown.png");
+		pausehangarup = new Image("res/button/pausehangarup.png");
+		pausemenudown = new Image("res/button/pausemenudown.png");
+		pausemenuup = new Image("res/button/pausemenuup.png");
+		pauseoptionsdown = new Image("res/button/pauseoptionsdown.png");
+		pauseoptionsup = new Image("res/button/pauseoptionsup.png");
+		pauserestartdown = new Image("res/button/pauserestartdown.png");
+		pauserestartup = new Image("res/button/pauserestartup.png");
+		pauseresumedown = new Image("res/button/pauseresumedown.png");
+		pauseresumeup = new Image("res/button/pauseresumeup.png");
+		
+		LoadingList.setDeferredLoading(false);
 		CursorSystem.init();
-		mousewheelposition = -1;
+		mousewheelposition = 1;
 		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
@@ -120,30 +151,20 @@ public class GameState extends BasicGameState{
 		    	camX = 0;
 		    	camY = 0;
 
-		//timercontrol.addTimer(new WeaponTimer(Craft.laserlist.get(0)));
-		//load sounds here
+		//load all resources here
+		
 		
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 		
-		//load images and objects here
-		craftImage = new Image("res/klaarship6.png");
 		//craftImage.setFilter(Image.FILTER_NEAREST);
 		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
 		map.addCraft(craft);
 		guihotbar = new Hotbar(craft);
-		enemyImage = new Image("res/klaarship6.png");
 		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
 		map.addCraft(enemy);
 		
 		map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
-		
-		sun = new Image("res/sun_1.png");
-		pausemenu = new Image("res/button/pauseback.png");
-		shockimage = new Image("res/shockwave_particle.png");
-		statis = new Image("res/klaarship4.png");
-		slaserimage = new Image("res/LaserV2ro.png");
-		GUI = new Image("res/GUIportrait.png");
     	
     	//minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
 		int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
@@ -154,6 +175,7 @@ public class GameState extends BasicGameState{
     	shieldbar = new ShieldBar(4);
     	hullbar = new HullBar(4);
     	
+    	/*
     	shockwave = new ParticleSystem(shockimage,1500);
     	File shockfile = new File("res/test_emitter.xml");
 
@@ -167,22 +189,10 @@ public class GameState extends BasicGameState{
 		}
     	shockwave.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
 		part = shockwave.getNewParticle(shockwave.getEmitter(0), 3000f);
-		
+		*/
 		//buttons
 		pausemenux = (SCR_width/2) - 52;
 		pausemenuy = (SCR_height/2) - 102.5f;
-		pauseexitdown = new Image("res/button/pauseexitdown.png");
-		pauseexitup = new Image("res/button/pauseexitup.png");
-		pausehangardown = new Image("res/button/pausehangardown.png");
-		pausehangarup = new Image("res/button/pausehangarup.png");
-		pausemenudown = new Image("res/button/pausemenudown.png");
-		pausemenuup = new Image("res/button/pausemenuup.png");
-		pauseoptionsdown = new Image("res/button/pauseoptionsdown.png");
-		pauseoptionsup = new Image("res/button/pauseoptionsup.png");
-		pauserestartdown = new Image("res/button/pauserestartdown.png");
-		pauserestartup = new Image("res/button/pauserestartup.png");
-		pauseresumedown = new Image("res/button/pauseresumedown.png");
-		pauseresumeup = new Image("res/button/pauseresumeup.png");
 		try {
 			resume = new PauseButton(pausemenux + 6, pausemenuy + 6, pauseresumeup, pauseresumedown);
 			menu = new PauseButton(pausemenux + 6, pausemenuy + 105, pausemenuup, pausemenudown);
@@ -213,8 +223,14 @@ public class GameState extends BasicGameState{
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
 	      //enemy.addTask(new TaskFire(enemy, craft, 0));
 	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
+	      
+	      /*
+	      if(!map.asteroidtimer.isRunning()){
+	    	  map.asteroidtimer.start();
+	      }
+	      */
+	      
 	      this.PAUSED = false;
-	     
 	   }
 	
 	@Override
@@ -253,9 +269,7 @@ public class GameState extends BasicGameState{
 		}
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
-    	shockwave.update(delta);
     	//minimap.update(camX, camY);
-    	part.update(delta);
     	
     	
     	//Input Controllers
@@ -398,6 +412,11 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		for(int f = 0; f < map.getAsteroids().size(); f++){
+			Asteroid as = map.getAsteroids().get(f);
+			as.update(delta);
+		}
+		
 		for(int d = 0; d < map.getDroppedItem().size(); d++){
 			DroppedItem di = map.getDroppedItem().get(d);
 			di.update(delta,camX,camY);
@@ -453,21 +472,27 @@ public class GameState extends BasicGameState{
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		craft.getImage().draw(craft.getX(), craft.getY());
 		g.draw(craft.getBoundbox());
-		//g.draw(new Circle(0,0,100));
+		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
+		for(int e = 0; e < map.getAsteroids().size(); e++){
+			Asteroid as = map.getAsteroids().get(e);
+			as.getImage().draw(as.getX(),as.getY());
+			as.setRotation(as.getRotation());
+		}
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
-			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getCenterX())||
-					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<craft.getCenterX()-(Zoom.getZoomWidth()/2)||
-					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getCenterY())||
+			
+			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
+					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
+					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
 					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY-(Zoom.getZoomHeight()/2)){
 				mesh = null;
 				continue;
 			}
+			
 			/*
 			 * if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
 					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
@@ -507,9 +532,6 @@ public class GameState extends BasicGameState{
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		
-		part.render();
-		shockwave.render();
-		 
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		shieldbar.render(camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
 		hullbar.render(camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
@@ -529,7 +551,7 @@ public class GameState extends BasicGameState{
 	        hangar.render(g,camX,camY);
 	        menu.render(g,camX,camY);
 	        exit.render(g,camX,camY);
-	   }
+		}
 	}
 
 	public void mousePressed(int button, int x, int y){

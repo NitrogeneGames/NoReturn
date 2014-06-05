@@ -30,7 +30,6 @@ public class Button
     org.newdawn.slick.UnicodeFont uniFont;
     
     protected float width;
-    @SuppressWarnings("unused")
 	protected float height;
     protected Vector2f position;
 

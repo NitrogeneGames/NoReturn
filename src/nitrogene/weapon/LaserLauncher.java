@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import nitrogene.core.Craft;
 import nitrogene.core.CursorSystem;
-import nitrogene.core.Planet;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.system.ShipSystem;
@@ -12,6 +11,7 @@ import nitrogene.util.EnumStatus;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.Planet;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -190,12 +190,14 @@ public class LaserLauncher extends ShipSystem{
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
-	      for(SLaser laser : this.slaserlist){
+	      ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
+	      slaserlistcopy = slaserlist;
+	      for(SLaser laser : slaserlistcopy){
 	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
 						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
 						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
 						laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
-					laser = null;
+	    		  	laser=null;
 					continue;
 				}
 				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getSize());

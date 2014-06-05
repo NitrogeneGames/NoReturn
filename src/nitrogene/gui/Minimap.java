@@ -7,7 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import nitrogene.core.Craft;
-import nitrogene.core.Planet;
+import nitrogene.world.Planet;
 
 public class Minimap {
 	private ArrayList<Planet> planetlist;

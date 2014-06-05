@@ -1,14 +1,10 @@
-package nitrogene.core;
+package nitrogene.world;
 
 import java.util.ArrayList;
 
 import nitrogene.objecttree.CircleObject;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Shake;
-import nitrogene.world.ArenaMap;
-import nitrogene.world.DroppedItem;
-import nitrogene.world.EnumDrop;
-import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

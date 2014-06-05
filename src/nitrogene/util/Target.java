@@ -1,9 +1,9 @@
 package nitrogene.util;
 
 
-import nitrogene.core.Planet;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.world.ArenaMap;
+import nitrogene.world.Planet;
 
 public class Target {
 	

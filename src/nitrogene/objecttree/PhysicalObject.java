@@ -12,13 +12,16 @@ import org.newdawn.slick.geom.Transform;
 import nitrogene.collision.Vector;
 import nitrogene.core.GlobalInformation;
 import nitrogene.util.ImageBase;
+import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
 public class PhysicalObject {
+	protected AngledMovement angledmovement;
+	protected float rotationalconstant;
 	protected Movement movement;
 	protected ArenaMap map;
-	protected Shape boundbox;
+	protected Shape boundbox, newboundbox;
 	protected Image mainimg;
 	protected float scalefactor;
 	protected int delta;
@@ -39,25 +42,39 @@ public class PhysicalObject {
 		}
 		this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
 		init(boundbox.getWidth(), boundbox.getHeight());
+		newboundbox = new Polygon();
+		newboundbox = boundbox;
 		this.setX(x);
 		this.setY(y);
-		movement = new Movement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		rotationalconstant=0;
+		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		movement = new Movement();
 	}
 	
 	protected void init(float width, float height){
 		this.width = width;
 		this.height = height;
 	}
-	public void move(int thrust, int delta){
-		movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
+	public void moveAngled(int thrust, int delta){
+		angledmovement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
 		
-		boundbox.setX(boundbox.getX()+((movement.getDx()*gj)*mm));
-		boundbox.setY(boundbox.getY()+((movement.getDy()*gj)*mm));
+		this.setX(this.getBoundbox().getX()+((angledmovement.getDx()*gj)*mm));
+		this.setY(this.getBoundbox().getY()+((angledmovement.getDy()*gj)*mm));
 		
-		this.rotation = movement.getRotationAngle();
-		System.out.println((float) Math.toRadians(rotation));
+		this.rotation = angledmovement.getRotationAngle();
+	}
+	
+	public void move(int thrust, int delta){
+		movement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
+		float mm = delta/1000f;
+		float gj = thrust*1f;
+		
+		this.setX(this.getBoundbox().getX()+((movement.getDx()*gj)*mm));
+		this.setY(this.getBoundbox().getY()+((movement.getDy()*gj)*mm));
+		
+		rotation+=rotationalconstant*mm;
 	}
 	/*
 public boolean isColliding(PhysicalObject obj){
@@ -152,38 +169,46 @@ public boolean isColliding(PhysicalObject obj){
 		mainimg.setImageColor(1f, 1f, 1f, changepercent * 0.1f);
 	}
 	public Shape getShape(){
-		return boundbox;
+		return newboundbox;
 	}
 	public float getX(){
-		return boundbox.getX();
+		return newboundbox.getX();
 	}
 	public float getY(){
-		return boundbox.getY();
+		return newboundbox.getY();
 	}
 	public float getCenterX(){
-		if(boundbox!=null){
-		return boundbox.getCenterX();
+		/*
+		if(newboundbox!=null){
+		return newboundbox.getCenterX();
 		}else return 0f;
+		*/
+		return this.getImage().getCenterOfRotationX();
 	}
 	public float getCenterY(){
-		if(boundbox!=null){
-		return boundbox.getCenterY();
-		}else return 0f;
+		/*
+		if(newboundbox!=null){
+		return newboundbox.getCenterY();
+		}else{
+			return 0f;
+		}
+		*/
+		return this.getImage().getCenterOfRotationY();
 	}
 	public void setX(float x){
-		boundbox.setX(x);
+		newboundbox.setX(x);
 	}
 	public void setY(float y){
-		boundbox.setY(y);
+		newboundbox.setY(y);
 	}
 	public void setCenterX(float x){
-		boundbox.setCenterX(x);
+		newboundbox.setCenterX(x);
 	}
 	public void setCenterY(float y){
-		boundbox.setCenterY(y);
+		newboundbox.setCenterY(y);
 	}
-	public Movement getMovement(){
-		return movement;
+	public AngledMovement getMovement(){
+		return angledmovement;
 	}
 	public void setScale(float scale){
 		this.scalefactor = scale;
@@ -192,10 +217,13 @@ public boolean isColliding(PhysicalObject obj){
 		return this.scalefactor;
 	}
 	public Shape getBoundbox(){
+		return newboundbox;
+	}
+	public Shape getOriginalBoundbox(){
 		return boundbox;
 	}
-	protected void setBoundbox(Shape boundbox){
-		this.boundbox = boundbox;
+	protected void setBoundbox(Shape boundboxm){
+		this.newboundbox = boundboxm;
 	}
 	public void update(int delta, float camX, float camY) {
 	}

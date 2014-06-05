@@ -1,15 +1,19 @@
 package nitrogene.world;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.Timer;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.Craft;
-import nitrogene.core.Planet;
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.util.Direction;
 
 public class ArenaMap {
 	private int planetnumber;
@@ -18,11 +22,36 @@ public class ArenaMap {
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
+	private ArrayList<Asteroid> asteroidlist;
 	private Craft craft;
 	private ArrayList<PhysicalObject> objlist;
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
+	private Timer asteroidtimer;
 	Random random;
+	
+	ActionListener tasker = new ActionListener(){
+		public void actionPerformed(ActionEvent evt){
+			try {
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
+				tick();
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+	
+	private void tick() throws SlickException{
+		Random rand = new Random();
+		System.out.println("ASTEROID SPAWNNNN!!!!!!!!!!!!!!!!!!!!!!");
+		//asteroidtimer.setDelay(rand.nextInt(1000)+500);
+		
+		this.getAsteroids().add(new Asteroid(leftbound,upbound-1000,leftbound,downbound+1000,Direction.DOWNWARD,rand.nextFloat()/2f+0.7f,this));
+		this.getAsteroids().add(new Asteroid(leftbound-1000,upbound,rightbound+1000,upbound,Direction.FORWARD,rand.nextFloat()/2f+0.7f,this));
+		this.getAsteroids().add(new Asteroid(rightbound,upbound-1000,rightbound,downbound+1000,Direction.DOWNWARD,rand.nextFloat()/2f+0.7f,this));
+		this.getAsteroids().add(new Asteroid(leftbound-1000,downbound,rightbound+1000,downbound,Direction.FORWARD,rand.nextFloat()/2f+0.7f,this));
+		
+	}
 	
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight, Craft craft) throws SlickException{
 		this.planetnumber = planetnumber;
@@ -40,7 +69,13 @@ public class ArenaMap {
 		imagelist.add(sun1);
 		imagelist.add(volcanicplanet);
 		this.craft = craft;
+		asteroidlist = new ArrayList<Asteroid>();
 		craftlist = new ArrayList<Craft>();
+		asteroidtimer = new Timer(10, tasker);
+		asteroidtimer.setInitialDelay(0);
+		asteroidtimer.setRepeats(true);
+		asteroidtimer.start();
+		System.out.println("generate:" +asteroidtimer.isRunning());
 		
 		this.mapwidth = mapwidth;
 		this.mapheight = mapheight;
@@ -138,7 +173,9 @@ public class ArenaMap {
 	public ArrayList<DroppedItem> getDroppedItem(){
 		return itemlist;
 	}
-	
+	public ArrayList<Asteroid> getAsteroids(){
+		return asteroidlist;
+	}
 	//any new item categories are added into the general list HERE!
 	public ArrayList<PhysicalObject> getObjList(){
 		ArrayList<PhysicalObject> objs = new ArrayList<PhysicalObject>();
@@ -150,4 +187,5 @@ public class ArenaMap {
 		}
 		return objs;
 	}
+	
 }

@@ -18,13 +18,15 @@ public class GlobalInformation {
 	
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
+	public static int SCRwidth,SCRheight;
+	public static double percentloaded;
 	private static HashMap<String, Shape> imagedata = new HashMap<String, Shape>();
 	public static boolean shipsLoaded = true;
 	public GlobalInformation(){
 		
 	}
 	
-	public org.newdawn.slick.UnicodeFont getMenuFont(Float size) throws SlickException{
+	public static org.newdawn.slick.UnicodeFont getMenuFont(Float size) throws SlickException{
 		try {
 			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
 			mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, size);
@@ -43,7 +45,7 @@ public class GlobalInformation {
 		return null;
 	}
 	
-	public org.newdawn.slick.UnicodeFont getPixelFont(Float size) throws SlickException{
+	public static org.newdawn.slick.UnicodeFont getPixelFont(Float size) throws SlickException{
 		try {
 			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("visitor1.ttf"));
 			mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, size);
@@ -98,7 +100,16 @@ public class GlobalInformation {
 		imagedata.put("res/icon/oxygensystem.png", new Circle(0,0,20));
 	}
 	
+	public static void init(int SCR_width, int SCR_height){
+		SCRwidth=SCR_width;
+		SCRheight=SCR_height;
+	}
+	
 	public static HashMap<String, Shape> getImageData(){
 		return imagedata;
+	}
+	
+	public static void addPercentLoaded(double amt){
+		percentloaded += amt;
 	}
 }

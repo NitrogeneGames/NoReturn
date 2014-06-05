@@ -90,15 +90,15 @@ public class Craft extends PhysicalObject{
 			cumulative = 0;
 		}
 		
-		this.mainimg.setRotation(0);
-		this.mainimg.setRotation(this.movement.getRotationAngle());
+		this.mainimg.setRotation(this.angledmovement.getRotationAngle());
 		
-		System.out.println("PROBLEM   " + boundbox.getCenterX());
-		move(20, delta);
+		moveAngled(20, delta);
 		
 		float carryx = this.getX();
 		float carryy = this.getY();
-		this.setBoundbox(this.getBoundbox().transform(Transform.createRotateTransform((float) Math.toRadians(90d))));
+		this.getBoundbox().setCenterX(this.getCenterX()+43);//43
+		this.getBoundbox().setCenterY(this.getCenterY()+16);//16
+		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),174,88)));
 		this.setX(carryx);
 		this.setY(carryy);
 	}

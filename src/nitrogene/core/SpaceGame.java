@@ -23,20 +23,21 @@ public class SpaceGame extends StateBasedGame{
 	public static void main(String[] args) throws SlickException{
 		AppGameContainer app = new AppGameContainer(new SpaceGame("Space Game"));
 		app.setDisplayMode(SCRwidth, SCRheight, false);
+		GlobalInformation.initHitboxData();
+		GlobalInformation.init(SCRwidth, SCRheight);
 		app.start();
 	}
  
  
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
-		GlobalInformation.initHitboxData();
-		this.addState(new LoadingState()); //0
+		//this.addState(new LoadingState()); //0
 		this.addState(new MenuState(SCRwidth,SCRheight)); //1
 		this.addState(new GameState(SCRwidth,SCRheight)); //2
 		this.addState(new HangarState(SCRwidth,SCRheight)); //3
 		this.addState(new OptionState(SCRwidth,SCRheight)); //4
 		this.addState(new ShipState(SCRwidth,SCRheight)); //5
-		this.enterState(0);
+		this.enterState(1);
 	}
 
 }
