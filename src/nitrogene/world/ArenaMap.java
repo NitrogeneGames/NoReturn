@@ -19,6 +19,7 @@ public class ArenaMap {
 	private int planetnumber;
 	private Image star2;
 	private Image sun1, volcanicplanet;
+	private Image img = new Image("res/asteroid1.png");
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
@@ -30,26 +31,16 @@ public class ArenaMap {
 	private Timer asteroidtimer;
 	Random random;
 	
-	ActionListener tasker = new ActionListener(){
-		public void actionPerformed(ActionEvent evt){
-			try {
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
-				tick();
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-	
-	private void tick() throws SlickException{
-		Random rand = new Random();
-		System.out.println("ASTEROID SPAWNNNN!!!!!!!!!!!!!!!!!!!!!!");
-		//asteroidtimer.setDelay(rand.nextInt(1000)+500);
+	public void tick() throws SlickException{
+		asteroidtimer.setDelay(random.nextInt(1000)+300);
+		asteroidtimer.restart();
 		
-		this.getAsteroids().add(new Asteroid(leftbound,upbound-1000,leftbound,downbound+1000,Direction.DOWNWARD,rand.nextFloat()/2f+0.7f,this));
-		this.getAsteroids().add(new Asteroid(leftbound-1000,upbound,rightbound+1000,upbound,Direction.FORWARD,rand.nextFloat()/2f+0.7f,this));
-		this.getAsteroids().add(new Asteroid(rightbound,upbound-1000,rightbound,downbound+1000,Direction.DOWNWARD,rand.nextFloat()/2f+0.7f,this));
-		this.getAsteroids().add(new Asteroid(leftbound-1000,downbound,rightbound+1000,downbound,Direction.FORWARD,rand.nextFloat()/2f+0.7f,this));
+		System.out.println("ASTEROID SPAWNNNN!!!!!!!!!!!!!!!!!!!!!!");
+		
+		this.getAsteroids().add(new Asteroid(0,-1000,0,mapheight+1000,img,Direction.DOWNWARD,2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,0,mapwidth+1000,0,img,Direction.FORWARD,2f,this));
+		this.getAsteroids().add(new Asteroid(mapwidth,-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,mapheight,mapwidth+1000,mapheight,img,Direction.FORWARD,2f,this));
 		
 	}
 	
@@ -71,9 +62,15 @@ public class ArenaMap {
 		this.craft = craft;
 		asteroidlist = new ArrayList<Asteroid>();
 		craftlist = new ArrayList<Craft>();
-		asteroidtimer = new Timer(10, tasker);
-		asteroidtimer.setInitialDelay(0);
-		asteroidtimer.setRepeats(true);
+		asteroidtimer = new Timer(1000, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try {
+					tick();
+				} catch (SlickException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		asteroidtimer.start();
 		System.out.println("generate:" +asteroidtimer.isRunning());
 		
@@ -100,13 +97,13 @@ public class ArenaMap {
 			for(int i = 0; i < planetlist.size(); i++){
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
-				if(Math.sqrt(vec.distSQ(new Vector(planet.getCenterX(),planet.getCenterY()))) <= radius + 500 + (planet.getShape().getWidth()/2) ||
+				if(Math.sqrt(vec.distSQ(new Vector(planet.getCenterX(),planet.getCenterY()))) <= radius + 500 + (planet.getBoundbox().getWidth()/2) ||
 				   Math.sqrt(vec.distSQ(new Vector(craft.getCenterX(),craft.getCenterY()))) <= (craft.shield.getImage().getWidth()/2) + radius + 300)
 						{
 					radius = random.nextInt(200)+200;
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 					vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
-					i=-1;
+					i=0;
 				}
 			}
 			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,(radius*2)/imagelist.get(imagenum).getWidth());

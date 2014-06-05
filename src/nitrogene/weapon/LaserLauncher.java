@@ -158,7 +158,7 @@ public class LaserLauncher extends ShipSystem{
 	public void update(float craftX, float craftY, float camX, float camY, int delta){
 		this.craftX = craftX;
 		this.craftY = craftY;
-		this.camX = camX;
+		this.camX = camX; 
 		this.camY = camY;
 		this.delta = delta;
 	}

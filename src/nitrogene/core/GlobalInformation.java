@@ -94,10 +94,10 @@ public class GlobalInformation {
 		imagedata.put("res/klaarship6.png", new Polygon(craftData));
 		imagedata.put("res/volcanicplanet2.png", new Circle(64,64,64));
 		imagedata.put("res/sun_1.png", new Circle(50,50,50));
-		imagedata.put("res/icon/shieldsystem.png", new Circle(0,0,20));
-		imagedata.put("res/icon/enginesystem.png", new Circle(0,0,20));
-		imagedata.put("res/icon/coresystem.png", new Circle(0,0,20));
-		imagedata.put("res/icon/oxygensystem.png", new Circle(0,0,20));
+		imagedata.put("res/icon/shieldsystem.png", new Circle(20,20,20));
+		imagedata.put("res/icon/enginesystem.png", new Circle(20,20,20));
+		imagedata.put("res/icon/coresystem.png", new Circle(20,20,20));
+		imagedata.put("res/icon/oxygensystem.png", new Circle(20,20,20));
 	}
 	
 	public static void init(int SCR_width, int SCR_height){

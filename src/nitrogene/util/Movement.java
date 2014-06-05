@@ -96,11 +96,11 @@ public class Movement {
 		else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
 		else if(!toggle[2]) diracceleration[2] = 0f;
 		
-		if(toggle[4] && diracceleration[4] < 0.5f) diracceleration[4] += 0.05f*delta/5f;
-		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.003f*delta/5f;
+		if(toggle[4] && diracceleration[4] < 20f) diracceleration[4] += 0.05f*delta/5f;
+		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.005f*delta/5f;
 		else if(!toggle[4]) diracceleration[4] = 0f;
 		
-		if(toggle[3] && diracceleration[3] < 0.5f) diracceleration[3] += 0.05f*delta/5f;
+		if(toggle[3] && diracceleration[3] < 20f) diracceleration[3] += 0.05f*delta/5f;
 		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= 0.05f*delta/5f;
 		else if(!toggle[3]) diracceleration[3] = 0f;
 		
@@ -156,7 +156,7 @@ public class Movement {
 	}
 	
 	public float getDy(){
-		return diracceleration[3] - diracceleration[4];
+		return diracceleration[4] - diracceleration[3];
 	}
 	
 	public boolean getToggle(Direction direction)

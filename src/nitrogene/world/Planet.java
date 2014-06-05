@@ -16,8 +16,7 @@ public class Planet extends PhysicalObject{
 
 	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
 		super(centerx-(theimage.getWidth()/2), centery-(theimage.getWidth()/2), theimage, scalefactor, map);
-		this.setCenterX(centerx);
-		this.setCenterY(centery);
+		this.getImage().setCenterOfRotation(centerx, centery);
 		this.maxhp = maxhp;
 		hp = maxhp;
 		shake = new Shake();

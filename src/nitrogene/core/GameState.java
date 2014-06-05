@@ -138,7 +138,7 @@ public class GameState extends BasicGameState{
 		
 		LoadingList.setDeferredLoading(false);
 		CursorSystem.init();
-		mousewheelposition = 1;
+		mousewheelposition = 0;
 		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);
 		Zoom.setZoomWindow(SCR_width, SCR_height);
@@ -466,24 +466,23 @@ public class GameState extends BasicGameState{
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
 		
 		g.setColor(Color.red);
-		g.drawRect(0, 0, mapwidth, mapheight);
+		//g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
-		g.drawRect(0,0, mapwidth-5, mapheight-5);
+		//g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		g.draw(craft.getBoundbox());
+		//g.draw(craft.getBoundbox());
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
 		for(int e = 0; e < map.getAsteroids().size(); e++){
 			Asteroid as = map.getAsteroids().get(e);
-			as.getImage().draw(as.getX(),as.getY());
-			as.setRotation(as.getRotation());
+			as.getImage().draw(as.getX(),as.getY(),as.getScale());
+			as.getImage().setRotation(as.getRotation());
 		}
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
-			g.draw(mesh.getBoundbox());
 			//image culling
 			
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||

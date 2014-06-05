@@ -12,8 +12,8 @@ public class Asteroid extends PhysicalObject{
 	private float startx, starty, endx, endy;
 	private Direction direction;
 
-	public Asteroid(float startx, float starty, float endx, float endy, Direction movement, float scalefactor, ArenaMap map) throws SlickException {
-		super(startx, starty, new Image("res/Asteroid1.png"), 1, map);
+	public Asteroid(float startx, float starty, float endx, float endy, Image img, Direction movement, float scalefactor, ArenaMap map) throws SlickException {
+		super(startx, starty, img, scalefactor, map);
 		setDefaultMovement("normal");
 		this.startx = startx;
 		this.starty = starty;
@@ -29,15 +29,14 @@ public class Asteroid extends PhysicalObject{
 	public void update(int delta){
 		if(this.direction==Direction.FORWARD && this.getX() > endx){
 			destroy();
-		} else if(this.direction==Direction.UPWARD && this.getY() > endy){
+		} else if(this.direction==Direction.UPWARD && this.getY() < endy){
 			destroy();
 		} else if(this.direction==Direction.BACKWARD && this.getX() < endx){
 			destroy();
-		} else if(this.direction==Direction.DOWNWARD && this.getY() < endx){
+		} else if(this.direction==Direction.DOWNWARD && this.getY() > endy){
 			destroy();
 		} else{
-		move(3, delta);
-		System.out.println("ASTEROID  " + this.getX() + "   :   " + this.getY());
+		move(7, delta);
 		}
 	}
 	
