@@ -18,6 +18,7 @@ import nitrogene.world.ArenaMap;
 
 public class PhysicalObject {
 	protected AngledMovement angledmovement;
+	protected String defaultmovement;
 	protected float rotationalconstant;
 	protected Movement movement;
 	protected ArenaMap map;
@@ -41,7 +42,7 @@ public class PhysicalObject {
 			boundbox = new Polygon(m);
 		}
 		this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
-		init(boundbox.getWidth(), boundbox.getHeight());
+		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
 		this.setX(x);
@@ -49,6 +50,14 @@ public class PhysicalObject {
 		rotationalconstant=0;
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
+	}
+	
+	protected void setDefaultMovement(String s){
+		if(s == "angled"){
+			defaultmovement = "angled";
+		} else if(s == "normal"){
+			defaultmovement = "normal";
+		}
 	}
 	
 	protected void init(float width, float height){
@@ -131,13 +140,13 @@ public boolean isColliding(PhysicalObject obj){
 				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.getCenterX() ||
 				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.getY()
 				){*/
-		double dist = Math.sqrt((boundbox.getCenterX()-obj.getCenterX())*(boundbox.getCenterX()-obj.getCenterX()) + (boundbox.getCenterY()-obj.getCenterY())*(boundbox.getCenterY()-obj.getCenterY()));
-		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= dist || 
-			this.boundbox.getCenterY() + width + this.movement.getDy() >= dist){
+		double dist = Math.sqrt((getBoundbox().getCenterX()-obj.getCenterX())*(getBoundbox().getCenterX()-obj.getCenterX()) + (getBoundbox().getCenterY()-obj.getCenterY())*(getBoundbox().getCenterY()-obj.getCenterY()));
+		if(this.getBoundbox().getX() + width + this.movement.getDx() >= dist || 
+			this.getBoundbox().getY() + width + this.movement.getDy() >= dist){
 			//if(obj instanceof ImageObject) {
 			//	return obj.isColliding(obj);
 			//} else {	    
-				if(this.boundbox.intersects(obj.boundbox)) {
+				if(this.getBoundbox().intersects(obj.getBoundbox())) {
 					return true;
 				} else {
 					return false;
@@ -148,12 +157,12 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	
 	public boolean isContaining(float x, float y){
-		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= x ||
-				this.boundbox.getCenterY() + height + this.movement.getDy() >= y ||
-				this.boundbox.getCenterX() - width - this.movement.getDx() <= x ||
-				this.boundbox.getCenterY() - height - this.movement.getDy() <= y
+		if(this.getBoundbox().getCenterX() + width + this.getMovement().getDx() >= x ||
+				this.getBoundbox().getCenterY() + height + this.getMovement().getDy() >= y ||
+				this.getBoundbox().getCenterX() - width - this.getMovement().getDx() <= x ||
+				this.getBoundbox().getCenterY() - height - this.getMovement().getDy() <= y
 				){
-		return this.boundbox.contains(x, y);
+		return this.getBoundbox().contains(x, y);
 		}
 		else return false;
 	}
@@ -203,12 +212,20 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	public void setCenterX(float x){
 		newboundbox.setCenterX(x);
+		
 	}
 	public void setCenterY(float y){
 		newboundbox.setCenterY(y);
 	}
-	public AngledMovement getMovement(){
-		return angledmovement;
+	public Movement getMovement(){
+		if(defaultmovement == "angled"){
+			return angledmovement;
+		} else if(defaultmovement == "normal"){
+			return movement;
+		} else{
+			System.out.println("CRITICAL: PhysicalObject.defaultmovement not set");
+			return movement;
+		}
 	}
 	public void setScale(float scale){
 		this.scalefactor = scale;

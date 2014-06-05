@@ -2,6 +2,7 @@ package nitrogene.weapon;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.Zoom;
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
 
@@ -12,7 +13,7 @@ import org.newdawn.slick.Sound;
 import java.util.Random;
 
 
-public class SLaser extends RectangleObject{
+public class SLaser extends PhysicalObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
 	double mangle = 0;
@@ -23,7 +24,7 @@ public class SLaser extends RectangleObject{
 	Sound basicTestLaser;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
-		super(startX, startY, img.getWidth(), img.getHeight(), rotation, img.copy(), size, map);
+		super(startX, startY, img.copy(), size, map);
 		isRotated = false;
 		this.startX =startX;
 		this.startY =startY;

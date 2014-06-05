@@ -12,14 +12,14 @@ import org.newdawn.slick.SlickException;
 public class Planet extends PhysicalObject{
 	private int maxhp;
 	private int hp;
-	private Image im;
 	private Shake shake;
 
 	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
 		super(centerx-(theimage.getWidth()/2), centery-(theimage.getWidth()/2), theimage, scalefactor, map);
+		this.setCenterX(centerx);
+		this.setCenterY(centery);
 		this.maxhp = maxhp;
 		hp = maxhp;
-		im = theimage;
 		shake = new Shake();
 	}
 	
@@ -40,13 +40,13 @@ public class Planet extends PhysicalObject{
 		}
 	}
 	public void destroy(ArenaMap map, int e) throws SlickException {
-		im = null;
+		this.mainimg = null;
 		spawnItem(map);
 		map.removePlanet(e);
 		map.getObjList().remove(e);
 	}
 	public void destroy(ArenaMap map, Planet planet) throws SlickException {
-		im = null;
+		this.mainimg = null;
 		spawnItem(map);
 		map.getObjList().remove(planet);
 		map.removePlanet(planet);

@@ -2,9 +2,7 @@ package nitrogene.util;
 
 import nitrogene.collision.Vector;
 
-public class AngledMovement {
-	private boolean[] toggle;
-	private float[] diracceleration;
+public class AngledMovement extends Movement{
 	private int downbound, leftbound, upbound, rightbound;
 	private float rotangle = 0;
 	private int rotspeed = 3;
@@ -32,6 +30,7 @@ public class AngledMovement {
 		this.rotangle = 0;
 	}
 	
+	@Override
 	public void Toggle(Direction direction){
 		if(direction == Direction.FORWARD){
 			toggle[1] = !toggle[1];
@@ -57,6 +56,7 @@ public class AngledMovement {
 		}
 	}
 	
+	@Override
 	public void changeAccelerator(Direction direction, boolean b){
 		if(direction == Direction.FORWARD){
 			toggle[1] = b;
@@ -83,6 +83,7 @@ public class AngledMovement {
 	
 	//linear acceleration: 0 to 5 in increments of 0.1
 
+	@Override
 	public void Accelerate(Vector location, int delta){
 		/*
 		float DELTACON = delta/1000f;
@@ -133,33 +134,7 @@ public class AngledMovement {
 		rotangle += ((diracceleration[4] - diracceleration[3])*rotspeed*0.07f)*(delta/5f);
 	}
 	
-	public void BringBack(Direction direction, int delta){
-		switch(direction){
-		case FORWARD: toggle[1] = false;
-			if(diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
-			else if(diracceleration[1] < 0f) diracceleration[1] = 0f;
-			break;
-		case BACKWARD: toggle[2] = false;
-			if(diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
-			else if(diracceleration[2] < 0f) diracceleration[2] = 0f;
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public void Break(int delta){
-	for(int e = 1; e < 5; e++){
-		if(toggle[e]) {
-			//toggle[e] = false;
-		}
-		if(diracceleration[e] > 0f){
-			diracceleration[e] -= .1f*delta/5f;
-		}
-		if(diracceleration[e] <= 0f) diracceleration[e] = 0f;
-	}
-	}
-	
+	@Override
 	public float getDx(){
 		//return diracceleration[1] - diracceleration[2]; //DIS WAS THE HYPOTENUSE SILLY
 		return (float) (Math.cos(Math.toRadians(rotangle))*getHypotenuse());
@@ -168,11 +143,14 @@ public class AngledMovement {
 	public float getHypotenuse() {
 		return diracceleration[1] - diracceleration[2];
 	}
+	
+	@Override
 	public float getDy(){
 		//return (float) (Math.tan(Math.toRadians(rotangle))*this.getDx()); STILL WORKS AFTER UPDATING getDx
 		return (float) (Math.sin(Math.toRadians(rotangle))*getHypotenuse()); //WAY CLEANER
 	}
 	
+	@Override
 	public boolean getToggle(Direction direction)
 	{
 		if(direction == Direction.FORWARD){
@@ -190,6 +168,7 @@ public class AngledMovement {
 		return false;
 	}
 	
+	@Override
 	public float getRotationAngle(){
 		return rotangle;
 	}

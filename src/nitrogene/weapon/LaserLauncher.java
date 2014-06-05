@@ -190,9 +190,9 @@ public class LaserLauncher extends ShipSystem{
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
-	      ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
-	      slaserlistcopy = slaserlist;
-	      for(SLaser laser : slaserlistcopy){
+	      //ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
+	      //slaserlistcopy = slaserlist;
+	      for(SLaser laser : slaserlist){
 	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
 						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
 						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||

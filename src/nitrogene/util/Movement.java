@@ -3,8 +3,8 @@ package nitrogene.util;
 import nitrogene.collision.Vector;
 
 public class Movement {
-	private boolean[] toggle;
-	private float[] diracceleration;
+	protected boolean[] toggle;
+	protected float[] diracceleration;
 	
 	public Movement(){
 		toggle = new boolean[5];
@@ -175,4 +175,6 @@ public class Movement {
 		}
 		return false;
 	}
+	
+	public float getRotationAngle() {return 0;}
 }

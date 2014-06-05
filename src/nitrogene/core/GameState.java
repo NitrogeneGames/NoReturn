@@ -483,6 +483,7 @@ public class GameState extends BasicGameState{
 		}
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
+			g.draw(mesh.getBoundbox());
 			//image culling
 			
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||

@@ -14,6 +14,7 @@ public class Asteroid extends PhysicalObject{
 
 	public Asteroid(float startx, float starty, float endx, float endy, Direction movement, float scalefactor, ArenaMap map) throws SlickException {
 		super(startx, starty, new Image("res/Asteroid1.png"), 1, map);
+		setDefaultMovement("normal");
 		this.startx = startx;
 		this.starty = starty;
 		this.endx = endx;

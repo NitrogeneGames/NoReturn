@@ -92,8 +92,8 @@ public class GlobalInformation {
 				276,176,260,161,245,161,245,166,131,166,110,161,98,154,94,150,84,145,63,135,
 				53,129,48,119,37,114,6,114,6,109,11,109,11,57,5,57};
 		imagedata.put("res/klaarship6.png", new Polygon(craftData));
-		imagedata.put("res/volcanicplanet2.png", new Circle(0,0,64));
-		imagedata.put("res/sun_1.png", new Circle(0,0,50));
+		imagedata.put("res/volcanicplanet2.png", new Circle(64,64,64));
+		imagedata.put("res/sun_1.png", new Circle(50,50,50));
 		imagedata.put("res/icon/shieldsystem.png", new Circle(0,0,20));
 		imagedata.put("res/icon/enginesystem.png", new Circle(0,0,20));
 		imagedata.put("res/icon/coresystem.png", new Circle(0,0,20));

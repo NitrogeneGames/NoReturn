@@ -41,6 +41,7 @@ public class Craft extends PhysicalObject{
 	public String name = "";
 	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
 		super(700, 700, img.copy(), scale, map);
+		setDefaultMovement("angled");
 		inventory = new ArrayList<Item>();
 		hull = 100;
 		maxhull = 100;
