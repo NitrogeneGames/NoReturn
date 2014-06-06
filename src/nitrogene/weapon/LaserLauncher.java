@@ -17,6 +17,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Transform;
 
 public class LaserLauncher extends ShipSystem{
 	private float desx, desy, camX, camY;
@@ -190,9 +191,10 @@ public class LaserLauncher extends ShipSystem{
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
-	      //ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
-	      //slaserlistcopy = slaserlist;
-	      for(SLaser laser : slaserlist){
+	      ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
+	      slaserlistcopy = slaserlist;
+	      for(int a = 0; a < slaserlistcopy.size(); a++){
+	    	  SLaser laser = slaserlistcopy.get(a);
 	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
 						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
 						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
@@ -201,12 +203,13 @@ public class LaserLauncher extends ShipSystem{
 					continue;
 				}
 				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getSize());
+				g.draw(laser.getBoundbox());
 				laser = null;
 	      }
 	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
-				accuracy, speed, damage, planetdamage, size, this.getAngle(), proje, map, this, true));
+				accuracy, 10F, damage, planetdamage, 1.5f, this.getAngle(), proje, map, this, true));
 	}
 	
 	public float getAngle(){

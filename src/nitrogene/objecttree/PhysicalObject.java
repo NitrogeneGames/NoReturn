@@ -41,7 +41,7 @@ public class PhysicalObject {
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		//this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
+		this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
 		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;

@@ -19,7 +19,7 @@ public class ArenaMap {
 	private int planetnumber;
 	private Image star2;
 	private Image sun1, volcanicplanet;
-	private Image img = new Image("res/asteroid1.png");
+	private Image img;
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
@@ -29,13 +29,15 @@ public class ArenaMap {
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	private Timer asteroidtimer;
+	private int asteroidtimerdelay;
 	Random random;
 	
 	public void tick() throws SlickException{
-		asteroidtimer.setDelay(random.nextInt(1000)+300);
+		int p = random.nextInt(2000)+300;
+		System.out.println("TeST   "+p);
+		asteroidtimer.setDelay(asteroidtimerdelay);
 		asteroidtimer.restart();
-		
-		System.out.println("ASTEROID SPAWNNNN!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(asteroidtimer.getDelay());
 		
 		this.getAsteroids().add(new Asteroid(0,-1000,0,mapheight+1000,img,Direction.DOWNWARD,2f,this));
 		this.getAsteroids().add(new Asteroid(-1000,0,mapwidth+1000,0,img,Direction.FORWARD,2f,this));
@@ -61,16 +63,20 @@ public class ArenaMap {
 		imagelist.add(volcanicplanet);
 		this.craft = craft;
 		asteroidlist = new ArrayList<Asteroid>();
+		img = new Image("res/asteroid1.png");
+		img.setFilter(Image.FILTER_NEAREST);
 		craftlist = new ArrayList<Craft>();
 		asteroidtimer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
+					asteroidtimerdelay = random.nextInt(1000)+300;
 					tick();
 				} catch (SlickException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+		asteroidtimerdelay=1000;
 		asteroidtimer.start();
 		System.out.println("generate:" +asteroidtimer.isRunning());
 		

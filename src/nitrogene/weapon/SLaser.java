@@ -9,6 +9,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Transform;
 
 import java.util.Random;
 
@@ -21,10 +22,13 @@ public class SLaser extends PhysicalObject{
 	private int sdamage;
 	private int planetdamage;
 	private boolean isRotated;
+	private float xconstant, yconstant;
 	Sound basicTestLaser;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
 		super(startX, startY, img.copy(), size, map);
+		//Movement class unused
+		setDefaultMovement("normal");
 		isRotated = false;
 		this.startX =startX;
 		this.startY =startY;
@@ -94,6 +98,22 @@ public class SLaser extends PhysicalObject{
 		float gj = thrust;
 		setX(getX()+(gj*mm*dx));
 		setY(getY()+(gj*mm*dy));
+		
+		if(this.scalefactor == 0.7f){ xconstant = 21f; yconstant = 6f;
+		}else if(this.scalefactor == 0.6f){ xconstant = 27f; yconstant = 7.5f;
+		}else if(this.scalefactor == 0.3f){ xconstant = 70f; yconstant = 26f;
+		}else if(this.scalefactor == 1.5f){ xconstant = 4f; yconstant = 2f;}
+		xconstant*=scalefactor;
+		yconstant*=scalefactor;
+		
+		float carryx = this.getX();
+		float carryy = this.getY();
+		this.getBoundbox().setCenterX(this.getCenterX());
+		this.getBoundbox().setCenterY(this.getCenterY());
+		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform(
+				(float)Math.toRadians(this.getAngle()),xconstant,yconstant)));//25f, 7.5f
+		this.setX(carryx);
+		this.setY(carryy);
 	}
 	
 	public float getAngle(){
