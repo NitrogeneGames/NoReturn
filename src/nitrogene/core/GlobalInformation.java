@@ -47,7 +47,7 @@ public class GlobalInformation {
 	
 	public static org.newdawn.slick.UnicodeFont getPixelFont(Float size) throws SlickException{
 		try {
-			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("visitor1.ttf"));
+			java.awt.Font mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/visitor1.ttf"));
 			mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, size);
 			org.newdawn.slick.UnicodeFont uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
 			uniFont.addAsciiGlyphs();

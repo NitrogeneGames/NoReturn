@@ -504,8 +504,8 @@ public class GameState extends BasicGameState{
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
-		shieldbar.render(camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
-		hullbar.render(camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
+		shieldbar.render(g, camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
+		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
 		//minimap.render(g);

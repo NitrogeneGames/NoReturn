@@ -203,7 +203,7 @@ public class Button
         return false;
     }
 
-    protected float getTextWidth (String text, Font font)
+    public static float getTextWidth (String text, Font font)
     {
         float width = 0;
 

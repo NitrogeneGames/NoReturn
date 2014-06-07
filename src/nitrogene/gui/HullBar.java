@@ -1,11 +1,19 @@
 package nitrogene.gui;
 
+import nitrogene.core.GlobalInformation;
+import nitrogene.util.Button;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 
 public class HullBar {
 	
 	private Image hullBackground, hullFill, hullicon;
+	private UnicodeFont font;
+	private float offsetx;
 	private float scalefactor;
 	
 	public HullBar(float f) throws SlickException{
@@ -16,11 +24,17 @@ public class HullBar {
 		hullBackground.setFilter(Image.FILTER_NEAREST);
 		hullicon.setFilter(Image.FILTER_NEAREST);
 		this.scalefactor = f;
+		
+		font = GlobalInformation.getPixelFont(26F);
 	}
 	
-	public void render(float camX, float camY, float progress){
+	public void render(Graphics g, float camX, float camY, float progress) throws SlickException{
 		hullicon.draw(camX + 73 + 256*2*scalefactor + 10*scalefactor + 3,camY+20);
 		hullBackground.draw(camX + 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*scalefactor, 32*scalefactor);
 		hullFill.draw(camX+ 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*progress*scalefactor, 32*scalefactor);
+		g.setColor(Color.black);
+		g.setFont(font);
+		offsetx = Button.getTextWidth((int)(progress*100)+"%", font);
+		g.drawString((int)(progress*100) + "%", camX+73+128*scalefactor + 256*scalefactor + 20*scalefactor - offsetx, camY + 23);
 	}
 }
