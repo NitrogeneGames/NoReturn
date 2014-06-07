@@ -207,7 +207,7 @@ public class LaserLauncher extends ShipSystem{
 	}
 	public void fire() throws SlickException{
 		slaserlist.add(new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
-				accuracy, 10F, damage, planetdamage, 1.5f, this.getAngle(), proje, map, this, true));
+				accuracy, speed, damage, planetdamage, size, this.getAngle(), proje, map, this, true));
 	}
 	
 	public float getAngle(){
@@ -241,12 +241,12 @@ public class LaserLauncher extends ShipSystem{
 				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
 					//Target Planet
 					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p.getCenterX(), p.getCenterY());
+					this.setTarget(p.getX()+(p.getImage().getWidth()/2)*p.getScale(), p.getCenterY()+(p.getImage().getHeight()/2)*p.getScale());
 				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
 						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
 					//Target Ship
 					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p.getCenterX(), p.getCenterY());
+					this.setTarget(p.getX()+(p.getImage().getWidth()/2)*p.getScale(), p.getCenterY()+(p.getImage().getHeight()/2)*p.getScale());
 				}
 			} else {
 			this.setTarget(x + camX, y + camY);

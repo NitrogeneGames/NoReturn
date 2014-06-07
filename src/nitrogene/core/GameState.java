@@ -420,7 +420,7 @@ public class GameState extends BasicGameState{
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
 		
-		//Change the third paramater to control the camera's view
+		//Change the third paramater to control the camera's view rotation
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
 		
 		g.setColor(Color.red);
@@ -430,7 +430,7 @@ public class GameState extends BasicGameState{
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		//g.draw(craft.getBoundbox());
+		g.draw(craft.getBoundbox());
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
@@ -482,6 +482,7 @@ public class GameState extends BasicGameState{
 				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.getShape().getWidth()), 20);
 			}
 			//drawing planet
+			g.draw(mesh.getBoundbox());
 			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
 			mesh = null;
 		}

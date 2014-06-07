@@ -137,7 +137,9 @@ public boolean isColliding(PhysicalObject obj){
 				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.getCenterX() ||
 				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.getY()
 				){*/
-		double dist = Math.sqrt((getBoundbox().getCenterX()-obj.getCenterX())*(getBoundbox().getCenterX()-obj.getCenterX()) + (getBoundbox().getCenterY()-obj.getCenterY())*(getBoundbox().getCenterY()-obj.getCenterY()));
+		float xdif = getBoundbox().getX()+(getImage().getWidth()/2*scalefactor)-obj.getX()+obj.getImage().getWidth()/2*obj.scalefactor;
+		float ydif = getBoundbox().getY()+(getImage().getHeight()/2*scalefactor)-obj.getY()+obj.getImage().getHeight()/2*obj.scalefactor;
+		double dist = Math.sqrt((xdif*xdif) + (ydif*ydif));
 		if(this.getBoundbox().getX() + width + this.movement.getDx() >= dist || 
 			this.getBoundbox().getY() + width + this.movement.getDy() >= dist){
 			//if(obj instanceof ImageObject) {
@@ -154,14 +156,18 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	
 	public boolean isContaining(float x, float y){
-		if(this.getBoundbox().getCenterX() + width + this.getMovement().getDx() >= x ||
-				this.getBoundbox().getCenterY() + height + this.getMovement().getDy() >= y ||
-				this.getBoundbox().getCenterX() - width - this.getMovement().getDx() <= x ||
-				this.getBoundbox().getCenterY() - height - this.getMovement().getDy() <= y
+		/*
+		if(this.getBoundbox().getX() + width + this.getMovement().getDx() >= x ||
+				this.getBoundbox().getY() + height + this.getMovement().getDy() >= y ||
+				this.getBoundbox().getX() - width - this.getMovement().getDx() <= x ||
+				this.getBoundbox().getY() - height - this.getMovement().getDy() <= y
 				){
+				*/
 		return this.getBoundbox().contains(x, y);
+		/*
 		}
 		else return false;
+		*/
 	}
 	
 	public float getRotation(){
