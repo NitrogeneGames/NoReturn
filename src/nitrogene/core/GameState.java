@@ -434,11 +434,23 @@ public class GameState extends BasicGameState{
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
+		int n = 0;
 		for(int e = 0; e < map.getAsteroids().size(); e++){
 			Asteroid as = map.getAsteroids().get(e);
+			//culling
+			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
+					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
+					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
+					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
+				as=null;
+				n++;
+				continue;
+			}
 			as.getImage().draw(as.getX(),as.getY(),as.getScale());
 			as.getImage().setRotation(as.getRotation());
+			as = null;
 		}
+		System.out.println("TESTER:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
@@ -446,7 +458,7 @@ public class GameState extends BasicGameState{
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
 					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
 					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
-					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY-(Zoom.getZoomHeight()/2)){
+					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
 				mesh = null;
 				continue;
 			}

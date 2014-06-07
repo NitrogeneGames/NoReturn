@@ -28,20 +28,31 @@ public class ArenaMap {
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	private Timer asteroidtimer;
-	private int asteroidtimerdelay;
 	Random random;
 	
 	public void tick() throws SlickException{
-		int p = random.nextInt(2000)+300;
-		System.out.println("TeST   "+p);
-		asteroidtimer.setDelay(asteroidtimerdelay);
+		//randomizer for delay
+		int p = random.nextInt(500)+500;
+		//variable for belt seperation
+		int n = 10;
+		asteroidtimer.setInitialDelay(p);
 		asteroidtimer.restart();
-		System.out.println(asteroidtimer.getDelay());
 		
-		this.getAsteroids().add(new Asteroid(0,-1000,0,mapheight+1000,img,Direction.DOWNWARD,2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,0,mapwidth+1000,0,img,Direction.FORWARD,2f,this));
-		this.getAsteroids().add(new Asteroid(mapwidth,-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,mapheight,mapwidth+1000,mapheight,img,Direction.FORWARD,2f,this));
+		this.getAsteroids().add(new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(n+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(2*n+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		
+		this.getAsteroids().add(new Asteroid(-1000,0+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,n+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,2*n+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		
+		this.getAsteroids().add(new Asteroid(0+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(2*n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		
+		this.getAsteroids().add(new Asteroid(-1000,0+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,n+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		this.getAsteroids().add(new Asteroid(-1000,2*n+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
 		
 	}
 	
@@ -68,16 +79,13 @@ public class ArenaMap {
 		asteroidtimer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					asteroidtimerdelay = random.nextInt(1000)+300;
 					tick();
 				} catch (SlickException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		asteroidtimerdelay=1000;
 		asteroidtimer.start();
-		System.out.println("generate:" +asteroidtimer.isRunning());
 		
 		this.mapwidth = mapwidth;
 		this.mapheight = mapheight;

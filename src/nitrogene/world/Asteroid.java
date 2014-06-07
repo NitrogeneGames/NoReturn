@@ -22,6 +22,7 @@ public class Asteroid extends PhysicalObject{
 		
 		Random rand1 = new Random();
 		this.rotationalconstant = rand1.nextInt(8)+2;
+		this.rotation = rand1.nextInt(360);
 	}
 	
 	public void update(int delta){
