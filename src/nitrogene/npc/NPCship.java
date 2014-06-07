@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import nitrogene.collision.Vector;
 import nitrogene.core.Craft;
-import nitrogene.weapon.EnumWeapon;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Planet;
 

@@ -2,7 +2,6 @@ package nitrogene.world;
 
 import java.util.ArrayList;
 
-import nitrogene.objecttree.CircleObject;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Shake;
 

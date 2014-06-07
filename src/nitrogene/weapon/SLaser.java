@@ -1,9 +1,7 @@
 package nitrogene.weapon;
 
-import nitrogene.collision.Vector;
 import nitrogene.core.Zoom;
 import nitrogene.objecttree.PhysicalObject;
-import nitrogene.objecttree.RectangleObject;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;

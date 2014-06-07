@@ -1,7 +1,5 @@
 package nitrogene.core;
 
-import java.io.File;
-
 import nitrogene.util.AppData;
 
 import org.newdawn.slick.AppGameContainer;

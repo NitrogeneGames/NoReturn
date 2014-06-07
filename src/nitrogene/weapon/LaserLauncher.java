@@ -3,7 +3,6 @@ package nitrogene.weapon;
 import java.util.ArrayList;
 
 import nitrogene.core.Craft;
-import nitrogene.core.CursorSystem;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.system.ShipSystem;
@@ -17,7 +16,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Transform;
 
 public class LaserLauncher extends ShipSystem{
 	private float desx, desy, camX, camY;

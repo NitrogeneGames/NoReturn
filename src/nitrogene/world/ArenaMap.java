@@ -17,7 +17,6 @@ import nitrogene.util.Direction;
 
 public class ArenaMap {
 	private int planetnumber;
-	private Image star2;
 	private Image sun1, volcanicplanet;
 	private Image img;
 	private ArrayList<Planet> planetlist;

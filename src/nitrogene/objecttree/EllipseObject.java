@@ -1,11 +1,8 @@
 package nitrogene.objecttree;
 
-import java.awt.Shape;
-
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Ellipse;
 
 public class EllipseObject extends PhysicalObject{
 

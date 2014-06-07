@@ -1,10 +1,6 @@
 package nitrogene.npc;
 
-import org.newdawn.slick.SlickException;
-
 import nitrogene.core.Craft;
-import nitrogene.core.Zoom;
-import nitrogene.weapon.WeaponTimer;
 
 public class TaskFire extends Task {
 	public Craft target;

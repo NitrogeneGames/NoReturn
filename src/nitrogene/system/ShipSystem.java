@@ -1,9 +1,6 @@
 package nitrogene.system;
 
-import nitrogene.collision.Circle;
-import nitrogene.collision.CollisionLibrary;
 import nitrogene.core.Craft;
-import nitrogene.objecttree.CircleObject;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.EnumStatus;
 import nitrogene.world.ArenaMap;

@@ -3,8 +3,6 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.objecttree.PhysicalObject;
-import nitrogene.objecttree.PolygonObject;
-import nitrogene.objecttree.RectangleObject;
 import nitrogene.system.Core;
 import nitrogene.system.Engine;
 import nitrogene.system.LifeSupport;
@@ -20,7 +18,6 @@ import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 public class Craft extends PhysicalObject{

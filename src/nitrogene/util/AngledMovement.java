@@ -3,7 +3,6 @@ package nitrogene.util;
 import nitrogene.collision.Vector;
 
 public class AngledMovement extends Movement{
-	private int downbound, leftbound, upbound, rightbound;
 	private float rotangle = 0;
 	private int rotspeed = 3;
 	
@@ -11,10 +10,6 @@ public class AngledMovement extends Movement{
 		toggle = new boolean[5];
 		diracceleration = new float[5];
 		
-		this.upbound = upbound;
-		this.downbound = downbound;
-		this.leftbound = leftbound;
-		this.rightbound = rightbound;
 		this.rotangle = startangle;
 		this.rotspeed = rotspeed;
 	}
@@ -23,10 +18,6 @@ public class AngledMovement extends Movement{
 		toggle = new boolean[5];
 		diracceleration = new float[5];
 		
-		this.upbound = upbound;
-		this.downbound = downbound;
-		this.leftbound = leftbound;
-		this.rightbound = rightbound;
 		this.rotangle = 0;
 	}
 	

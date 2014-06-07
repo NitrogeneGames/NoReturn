@@ -4,17 +4,12 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.fills.GradientFill;
-import org.newdawn.slick.geom.Rectangle;
 
 import nitrogene.core.Craft;
-import nitrogene.util.Button;
 import nitrogene.util.EnumStatus;
 import nitrogene.weapon.LaserLauncher;
 

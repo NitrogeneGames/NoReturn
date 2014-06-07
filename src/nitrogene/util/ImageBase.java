@@ -3,7 +3,6 @@ package nitrogene.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 public class ImageBase {

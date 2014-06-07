@@ -6,7 +6,6 @@ import nitrogene.util.ImageBase;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 
 @Deprecated

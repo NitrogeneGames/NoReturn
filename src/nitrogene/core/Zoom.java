@@ -1,7 +1,5 @@
 package nitrogene.core;
 
-import org.newdawn.slick.state.StateBasedGame;
-
 import nitrogene.util.ZoomEnum;
 
 public class Zoom {

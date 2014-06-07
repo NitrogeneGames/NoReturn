@@ -1,49 +1,20 @@
 package nitrogene.core;
 
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import nitrogene.collision.AABB;
-import nitrogene.collision.CollisionLibrary;
-import nitrogene.collision.Vector;
 import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
-import nitrogene.gui.Minimap;
 import nitrogene.gui.ShieldBar;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
-import nitrogene.npc.TaskFire;
-import nitrogene.npc.TaskMove;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
 import nitrogene.util.Explosion;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
-import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
-import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.SLaser;
 import nitrogene.world.ArenaMap;
@@ -52,7 +23,6 @@ import nitrogene.world.DroppedItem;
 import nitrogene.world.Item;
 import nitrogene.world.Planet;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -60,25 +30,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
-import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.Particle;
-import org.newdawn.slick.particles.ParticleIO;
-import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.pathfinding.PathFinder;
 
 
 
 public class GameState extends BasicGameState{
 	Craft craft;
-	private ParticleSystem shockwave;
 	NPCship enemy;
 	public Hotbar guihotbar;
 	private ShieldBar shieldbar;
@@ -87,12 +47,10 @@ public class GameState extends BasicGameState{
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
 	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
 	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
-	Particle part;
 	ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
 	private int mousewheelposition;
-	private Animation animation;
 	private int mapwidth, mapheight;
 	//private Minimap minimap;
 	private int offsetX, offsetY;

@@ -3,7 +3,6 @@ package nitrogene.objecttree;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
 
 @Deprecated
 public class CircleObject extends PhysicalObject{

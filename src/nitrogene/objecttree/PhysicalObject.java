@@ -2,16 +2,13 @@ package nitrogene.objecttree;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.GlobalInformation;
-import nitrogene.util.ImageBase;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;

@@ -14,7 +14,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import com.sun.net.httpserver.Filter;
 
 public class BuyButton extends Button
 {

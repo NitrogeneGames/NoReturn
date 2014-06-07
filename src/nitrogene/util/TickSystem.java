@@ -1,15 +1,9 @@
 package nitrogene.util;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.Timer;
 
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.WeaponTimer;
-
-import org.newdawn.slick.SlickException;
 
 public class TickSystem {
 	private static boolean isPaused = false;

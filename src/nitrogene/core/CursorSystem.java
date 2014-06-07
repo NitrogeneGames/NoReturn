@@ -1,6 +1,5 @@
 package nitrogene.core;
 
-import org.lwjgl.input.Controller;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

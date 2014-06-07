@@ -2,7 +2,6 @@ package nitrogene.gui;
 
 import java.util.ArrayList;
 
-import org.lwjgl.util.Point;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

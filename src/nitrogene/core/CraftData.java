@@ -1,14 +1,10 @@
 package nitrogene.core;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.util.BufferedImageUtil;
 
 import nitrogene.util.EnumHull;
 import nitrogene.weapon.EnumWeapon;

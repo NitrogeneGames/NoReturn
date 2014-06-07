@@ -59,10 +59,6 @@ public class TaskMove extends Task {
 		return arrayline;
 	}
 	
-	private void findobstruction(){
-		
-	}
-
 	@Override
 	public void activate(int delta, float camX, float camY) {
 		if(ship.getX()!=desx||ship.getY()!=desy){

@@ -9,14 +9,12 @@ import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 
 public class Asteroid extends PhysicalObject{
-	private float startx, starty, endx, endy;
+	private float endx, endy;
 	private Direction direction;
 
 	public Asteroid(float startx, float starty, float endx, float endy, Image img, Direction movement, float scalefactor, ArenaMap map) throws SlickException {
 		super(startx, starty, img, scalefactor, map);
 		setDefaultMovement("normal");
-		this.startx = startx;
-		this.starty = starty;
 		this.endx = endx;
 		this.endy = endy;
 		this.movement.Toggle(movement);
