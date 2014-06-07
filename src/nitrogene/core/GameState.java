@@ -295,7 +295,7 @@ public class GameState extends BasicGameState{
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
-								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
@@ -304,7 +304,7 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if(craft.isColliding(laser) && !craft.equals(obj)){
-								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 								//Damage crafts here!
 							}
@@ -340,7 +340,7 @@ public class GameState extends BasicGameState{
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser)){
 								mesh.damage(laser.getPlanetDamage(), map);
-								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 							}
@@ -348,7 +348,7 @@ public class GameState extends BasicGameState{
 						for(PhysicalObject temp2 : map.getObjList()){
 							if(!temp2.equals(obj) && temp2.isColliding(laser)){
 								
-								AnimationManager.addAnimation(new Explosion(laser.getCenterX(), laser.getCenterY(), 2.5f, 100));
+								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 							}
 						}
