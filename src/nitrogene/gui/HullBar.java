@@ -5,19 +5,22 @@ import org.newdawn.slick.SlickException;
 
 public class HullBar {
 	
-	private Image hullBackground, hullFill;
-	private int scalefactor;
+	private Image hullBackground, hullFill, hullicon;
+	private float scalefactor;
 	
-	public HullBar(int scalefactor) throws SlickException{
-		hullFill = new Image("res/gui/HullBarFullNoBorder.png");
-		hullBackground = new Image("res/gui/HullBar1.png");
+	public HullBar(float f) throws SlickException{
+		hullFill = new Image("res/gui/hullbar2_fill.png");
+		hullBackground = new Image("res/gui/hullbar2.png");
+		hullicon = new Image("res/gui/hullicon.png");
 		hullFill.setFilter(Image.FILTER_NEAREST);
 		hullBackground.setFilter(Image.FILTER_NEAREST);
-		this.scalefactor = scalefactor;
+		hullicon.setFilter(Image.FILTER_NEAREST);
+		this.scalefactor = f;
 	}
 	
 	public void render(float camX, float camY, float progress){
-		hullBackground.draw(camX + 25, camY + 20 + (62*scalefactor), scalefactor);
-		hullFill.draw(camX+26, camY+21 + (62*scalefactor), 62*progress*scalefactor, 14*scalefactor);
+		hullicon.draw(camX + 73 + 256*2*scalefactor + 10*scalefactor + 3,camY+20);
+		hullBackground.draw(camX + 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*scalefactor, 32*scalefactor);
+		hullFill.draw(camX+ 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*progress*scalefactor, 32*scalefactor);
 	}
 }

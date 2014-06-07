@@ -130,8 +130,8 @@ public class GameState extends BasicGameState{
     	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
     	//ADDRESS PROBLEM
     	
-    	shieldbar = new ShieldBar(4);
-    	hullbar = new HullBar(4);
+    	shieldbar = new ShieldBar(1.4f);
+    	hullbar = new HullBar(1.4f);
     	
     	/*
     	shockwave = new ParticleSystem(shockimage,1500);

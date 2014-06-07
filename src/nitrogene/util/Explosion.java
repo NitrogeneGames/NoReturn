@@ -22,7 +22,7 @@ public class Explosion extends Animation{
 	}
 	
 	private void init(int duration) throws SlickException{
-		Image baseimage = new Image("res/explainim.png");
+		Image baseimage = new Image("res/explanim.png");
 		//Initializes explosion into memory, row = rows, col = columns
 		//baseimage.getSubImage(x,y,width,height)
 		for (int row=0;row<2;row++) {
