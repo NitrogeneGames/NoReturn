@@ -23,6 +23,8 @@ public class ArenaMap {
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Image> imagelist;
 	private ArrayList<Asteroid> asteroidlist;
+	private long asteroidelapsed, asteroidstart;
+	private int asteroiddelay;
 	private Craft craft;
 	private ArrayList<PhysicalObject> objlist;
 	private ArrayList<DroppedItem> itemlist;
@@ -32,11 +34,12 @@ public class ArenaMap {
 	
 	public void tick() throws SlickException{
 		//randomizer for delay
-		int p = random.nextInt(500)+500;
+		asteroiddelay = random.nextInt(500)+500;
 		//variable for belt seperation
 		int n = 10;
-		asteroidtimer.setInitialDelay(p);
+		asteroidtimer.setInitialDelay(asteroiddelay);
 		asteroidtimer.restart();
+		asteroidstart = System.currentTimeMillis();
 		
 		this.getAsteroids().add(new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
 		this.getAsteroids().add(new Asteroid(n+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
@@ -85,7 +88,9 @@ public class ArenaMap {
 				}
 			}
 		});
+		asteroiddelay = 1000;
 		asteroidtimer.start();
+		asteroidstart = System.currentTimeMillis();
 		
 		this.mapwidth = mapwidth;
 		this.mapheight = mapheight;
@@ -197,5 +202,19 @@ public class ArenaMap {
 		}
 		return objs;
 	}
-	
+	public void asteroidPause(){
+		asteroidelapsed = System.currentTimeMillis() - asteroidstart;
+		asteroidtimer.stop();
+		System.out.println(asteroidelapsed);
+	}
+	public void asteroidResume(){
+		if((int) (asteroiddelay-asteroidelapsed)<0){
+			asteroidtimer.setInitialDelay(0);
+			asteroidtimer.setDelay(0);
+		} else{
+		asteroidtimer.setInitialDelay((int) (asteroiddelay-asteroidelapsed));
+		asteroidtimer.setDelay((int) (asteroiddelay-asteroidelapsed));
+		}
+		asteroidtimer.start();
+	}
 }

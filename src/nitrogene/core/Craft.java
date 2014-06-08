@@ -124,8 +124,8 @@ public class Craft extends PhysicalObject{
 		s.getImage().setRotation(this.mainimg.getRotation());
 		double mangle = (double) s.getShipAngle();
 		double radius = (double) s.getShipRadius();
-		System.out.println("center: " + this.getCenterX() + ", " + this.getCenterY());
-		System.out.println("imagecenter: " + this.getImage().getCenterOfRotationX() + ", " + this.getImage().getCenterOfRotationY());
+//		//System.out.println("center: " + this.getCenterX() + ", " + this.getCenterY());
+		//System.out.println("imagecenter: " + this.getImage().getCenterOfRotationX() + ", " + this.getImage().getCenterOfRotationY());
 		//float mangle = s.getRelations()[0];
 		//float radius = s.getRelations()[1];
 		double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));

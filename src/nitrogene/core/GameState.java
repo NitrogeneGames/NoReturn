@@ -224,6 +224,7 @@ public class GameState extends BasicGameState{
 		if(!PAUSED){
 		if(TickSystem.isPaused()) {
 			TickSystem.gameResume();
+			map.asteroidResume();
 		}
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
@@ -233,6 +234,10 @@ public class GameState extends BasicGameState{
     	//Input Controllers
     	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
 			craft.getMovement().Break(delta);
+			craft.getMovement().changeAccelerator(Direction.FORWARD, false);
+			craft.getMovement().changeAccelerator(Direction.BACKWARD, false);
+			craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);
+			craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);
 		} else{
 			if(input.isKeyDown(Input.KEY_W)){
 				if(!craft.getMovement().getToggle(Direction.FORWARD)){
@@ -261,6 +266,9 @@ public class GameState extends BasicGameState{
 			} else{
 				if(craft.getMovement().getToggle(Direction.UNDERANGLE)){
 				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);}
+			}
+			if(input.isKeyPressed(Input.KEY_T)){
+				GlobalInformation.testMode = !GlobalInformation.testMode;
 			}
 		}
     	
@@ -396,6 +404,7 @@ public class GameState extends BasicGameState{
 			//Button Controllers
 			if(!TickSystem.isPaused()) {
 				TickSystem.gamePause();
+				map.asteroidPause();
 			}
 			resume.update(container);
 	    	restart.update(container);
@@ -430,7 +439,7 @@ public class GameState extends BasicGameState{
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
-		g.draw(craft.getBoundbox());
+		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
 		craft.getImage().draw(craft.getX(), craft.getY());
 		craft.renderSystems();
 		enemy.renderSystems();
@@ -450,7 +459,7 @@ public class GameState extends BasicGameState{
 			as.getImage().setRotation(as.getRotation());
 			as = null;
 		}
-		System.out.println("TESTER:"+n+ "   :   "+ map.getAsteroids().size());
+		if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
@@ -482,7 +491,7 @@ public class GameState extends BasicGameState{
 				g.fillRect(mesh.getX(), mesh.getY() - 20, (gg/ff) * (mesh.getShape().getWidth()), 20);
 			}
 			//drawing planet
-			g.draw(mesh.getBoundbox());
+			if(GlobalInformation.testMode)g.draw(mesh.getBoundbox());
 			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
 			mesh = null;
 		}

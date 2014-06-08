@@ -152,7 +152,7 @@ public class HangarState extends BasicGameState{
 			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test", EnumHull.NORMAL));
 			AppData.saveShipFile();
 			if(weapons.isEmpty()){
-				System.out.println("CHECKPOINT 1 FAILURE");
+				//System.out.println("CHECKPOINT 1 FAILURE");
 			}
 			game.enterState(1);
 		}
