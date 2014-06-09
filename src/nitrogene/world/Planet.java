@@ -54,7 +54,7 @@ public class Planet extends PhysicalObject{
 		Item item = new Item(EnumDrop.IRON, list);
 		item.addStack(10);
 		list.add(item);
-		DroppedItem drop = new DroppedItem(map, list, this.getX()+this.getImage().getWidth()/2, this.getY()+this.getImage().getHeight()/2);
+		DroppedItem drop = new DroppedItem(map, list, this.getX(), this.getY());
 		map.addDroppedItem(drop);
 	}
 	public int getHp(){
