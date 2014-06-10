@@ -3,6 +3,7 @@ package nitrogene.weapon;
 import java.util.ArrayList;
 
 import nitrogene.core.Craft;
+import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.system.ShipSystem;
@@ -193,15 +194,15 @@ public class LaserLauncher extends ShipSystem{
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
 	    	  SLaser laser = slaserlistcopy.get(a);
-	    	  if(laser.getX()-(laser.getImage().getWidth()*laser.getSize())>Zoom.getZoomWidth()+camX||
-						laser.getX()+(laser.getImage().getWidth()*laser.getSize())<camX||
-						laser.getY()-(laser.getImage().getHeight()*laser.getSize())>Zoom.getZoomHeight()+camY||
-						laser.getY()+(laser.getImage().getHeight()*laser.getSize())<camY){
+	    	  if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
+						laser.getX()+(laser.getImage().getWidth()*laser.getScale())<parent.getX()+174-(Zoom.getZoomWidth()/2)||
+						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||
+						laser.getY()+(laser.getImage().getHeight()*laser.getScale())<parent.getY()+88-(Zoom.getZoomHeight()/2)){
 	    		  	laser=null;
 					continue;
 				}
 				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getSize());
-				g.draw(laser.getBoundbox());
+				if(GlobalInformation.testMode) g.draw(laser.getBoundbox());
 				laser = null;
 	      }
 	}
@@ -241,12 +242,12 @@ public class LaserLauncher extends ShipSystem{
 				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
 					//Target Planet
 					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p.getX()+(p.getImage().getWidth()/2)*p.getScale(), p.getCenterY()+(p.getImage().getHeight()/2)*p.getScale());
+					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
 				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
 						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
 					//Target Ship
 					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p.getX()+(p.getImage().getWidth()/2)*p.getScale(), p.getCenterY()+(p.getImage().getHeight()/2)*p.getScale());
+					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
 				}
 			} else {
 			this.setTarget(x + camX, y + camY);
@@ -266,18 +267,18 @@ public class LaserLauncher extends ShipSystem{
 				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
 					//Target Planet
 					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p.getCenterX(), p.getCenterY());
+					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
 				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
 						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
 					//Target Ship
 					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p.getCenterX(), p.getCenterY());
+					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
 				}
 			} else {
 			this.setTarget(x + camX, y + camY);
 			}
-			TickSystem.resume();
-
+			//TickSystem.resume();
+			this.getTimer().gameResume();
 		}
 	}
 }

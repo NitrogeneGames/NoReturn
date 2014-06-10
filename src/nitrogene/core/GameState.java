@@ -195,12 +195,6 @@ public class GameState extends BasicGameState{
 	      //enemy.addTask(new TaskFire(enemy, craft, 0));
 	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      
-	      /*
-	      if(!map.asteroidtimer.isRunning()){
-	    	  map.asteroidtimer.start();
-	      }
-	      */
-	      
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -476,7 +470,7 @@ public class GameState extends BasicGameState{
 			as.getImage().draw(as.getX(),as.getY(),as.getScale());
 			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
 			as.getImage().setRotation(as.getRotation());
-			g.draw(as.getBoundbox());
+			if(GlobalInformation.testMode) g.draw(as.getBoundbox());
 			as = null;
 		}
 		if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());

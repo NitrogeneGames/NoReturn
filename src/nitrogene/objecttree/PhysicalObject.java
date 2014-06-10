@@ -208,10 +208,10 @@ public boolean isColliding(PhysicalObject obj){
 		return this.getImage().getCenterOfRotationY();
 	}
 	public float getRealCenterX(){
-		return this.getX()+(this.getImage().getWidth()/2);
+		return this.getX()+(this.getImage().getWidth()*scalefactor/2);
 	}
 	public float getRealCenterY(){
-		return this.getY()+(this.getImage().getHeight()/2);
+		return this.getY()+(this.getImage().getHeight()*scalefactor/2);
 	}
 	public void setX(float x){
 		newboundbox.setX(x);
