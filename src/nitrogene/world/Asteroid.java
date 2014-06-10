@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Transform;
 
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;

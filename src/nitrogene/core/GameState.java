@@ -201,6 +201,7 @@ public class GameState extends BasicGameState{
 	      }
 	      */
 	      
+	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
 	
@@ -473,7 +474,9 @@ public class GameState extends BasicGameState{
 				continue;
 			}
 			as.getImage().draw(as.getX(),as.getY(),as.getScale());
+			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
 			as.getImage().setRotation(as.getRotation());
+			g.draw(as.getBoundbox());
 			as = null;
 		}
 		if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());

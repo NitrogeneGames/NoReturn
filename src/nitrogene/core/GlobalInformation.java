@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import nitrogene.weapon.EnumWeapon;
@@ -101,6 +102,7 @@ public class GlobalInformation {
 		imagedata.put("res/icon/enginesystem.png", new Circle(20,20,20));
 		imagedata.put("res/icon/coresystem.png", new Circle(20,20,20));
 		imagedata.put("res/icon/oxygensystem.png", new Circle(20,20,20));
+		//imagedata.put("res/asteroid1.png", new Circle(12, 12, 12));
 	}
 	
 	public static void init(int SCR_width, int SCR_height){

@@ -89,8 +89,8 @@ public class ArenaMap {
 			}
 		});
 		asteroiddelay = 1000;
-		asteroidtimer.start();
 		asteroidstart = System.currentTimeMillis();
+		asteroidPause();
 		
 		this.mapwidth = mapwidth;
 		this.mapheight = mapheight;
@@ -103,7 +103,9 @@ public class ArenaMap {
 	}
 	
 	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft craft){
-		for(int e = 0; e < planetnumber; e++){
+		main:
+		for(int e = 1; e <= planetnumber; e++){
+			
 			Vector vec = new Vector();
 			vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 			vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
@@ -115,16 +117,22 @@ public class ArenaMap {
 			for(int i = 0; i < planetlist.size(); i++){
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
-				if(Math.sqrt(vec.distSQ(new Vector(planet.getCenterX(),planet.getCenterY()))) <= radius + 500 + (planet.getBoundbox().getWidth()/2) ||
-				   Math.sqrt(vec.distSQ(new Vector(craft.getCenterX(),craft.getCenterY()))) <= (craft.shield.getImage().getWidth()/2) + radius + 300)
+				if(Math.sqrt(vec.distSQ(new Vector(planet.getRealCenterX(),planet.getRealCenterY()))) <= radius + 500 + (planet.getImage().getWidth()*planet.getScale()/2))
 						{
 					radius = random.nextInt(200)+200;
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
 					vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
-					i=0;
+					i=-1;
 				}
 			}
+			
+			if(Math.sqrt(vec.distSQ(new Vector(craft.getRealCenterX(),craft.getRealCenterY()))) <= (craft.getImage().getWidth()/2) + radius + 200){
+				e--;
+				continue main;
+			}
+			
 			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,(radius*2)/imagelist.get(imagenum).getWidth());
+			System.out.println("PLANET  "+vec.x+ "   :   "+vec.y);
 		}
 	}
 	
@@ -204,8 +212,9 @@ public class ArenaMap {
 	}
 	public void asteroidPause(){
 		asteroidelapsed = System.currentTimeMillis() - asteroidstart;
-		asteroidtimer.stop();
-		System.out.println(asteroidelapsed);
+		if(asteroidtimer.isRunning()){
+			asteroidtimer.stop();
+		}
 	}
 	public void asteroidResume(){
 		if((int) (asteroiddelay-asteroidelapsed)<0){
