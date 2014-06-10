@@ -7,9 +7,9 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public class Slider {
-	private float x,y,maxx,maxy,minx,miny,width,height;
+	private float x,y,maxx,maxy,minx,miny,width,height,storedmousex,storedmousey;
 	private Image normalimage, pressedimage;
-	private boolean isGrabbed;
+	private boolean isGrabbed, visible;
 	private Shape boundbox;
 
 	public Slider(float x, float y, float width, float height, Image normalimage, Image pressedimage, float maxx, float maxy, float minx, float miny){
@@ -37,25 +37,53 @@ public class Slider {
 	}
 	
 	public void update(GameContainer gc){
-		boundbox.setX(this.x);
-		boundbox.setY(this.y);
-		
 		if (boundbox.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
 	        {
-	            if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON))
+	            if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
 	            {
 	            	isGrabbed=true;
+	            	this.x+=gc.getInput().getMouseX()-storedmousex;
+	            	if(x<minx){
+	            		x=minx;
+	            	}
+	            	if(x>maxx){
+	            		x=maxx;
+	            	}
+	            	this.y+=gc.getInput().getMouseY()-storedmousey;
+	            	if(y<minx){
+	            		y=miny;
+	            	}
+	            	if(y>maxx){
+	            		y=maxy;
+	            	}
 	            }else{
 	            	isGrabbed=false;
 	            }
 	        }
+		boundbox.setX(this.x);
+		boundbox.setY(this.y);
+		
+		storedmousex=gc.getInput().getMouseX();
+		storedmousey=gc.getInput().getMouseY();
 	}
 	
 	public void render(){
-		
+		if(isGrabbed){
+			pressedimage.draw(x,y,width,height);
+		}else{
+			normalimage.draw(x,y,width,height);
+		}
 	}
 
 	public boolean getGrabbed(){
 		return this.isGrabbed;
+	}
+	
+	public void setVisible(boolean b){
+		visible = b;
+	}
+	
+	public boolean isVisible(){
+		return visible;
 	}
 }
