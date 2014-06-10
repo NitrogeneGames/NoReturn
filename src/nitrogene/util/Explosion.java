@@ -18,6 +18,9 @@ public class Explosion extends Animation{
 		this.y = y;
 		this.scale = scale;
 		init(duration);
+		if(hit.playing()){
+			hit.stop();
+		}
 		hit.play(1f, 0.5f);
 	}
 	
