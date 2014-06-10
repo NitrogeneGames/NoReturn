@@ -459,18 +459,25 @@ public class GameState extends BasicGameState{
 		for(int e = 0; e < map.getAsteroids().size(); e++){
 			Asteroid as = map.getAsteroids().get(e);
 			//culling
-			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
-					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
-					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
-					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
+			//free constant
+			int fr = -100;
+			/*
+			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
+					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)+fr||
+					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)-fr||
+					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)+fr){
 				as=null;
 				n++;
 				continue;
 			}
+			//ASTEROID CULLING : BROKEN
+			*/
 			as.getImage().draw(as.getX(),as.getY(),as.getScale());
 			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
 			as.getImage().setRotation(as.getRotation());
-			if(GlobalInformation.testMode) g.draw(as.getBoundbox());
+			if(GlobalInformation.testMode){
+				g.draw(as.getBoundbox());
+			}
 			as = null;
 		}
 		if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
