@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GlobalInformation;
 import nitrogene.core.HangarState;
 import nitrogene.weapon.EnumWeapon;
 
@@ -27,12 +28,20 @@ public class BuyButton extends Button
 		super(name, x, y, width, height,mouseover);
 		this.cost = cost;
 		selected = false;
+		this.fontsize = 25f;
 	}
 
 	@Override
 	public void update (GameContainer gc, ArrayList<EnumWeapon> weapons, EnumWeapon enumwep)
      {
-    	
+		if(this.font==null){
+    		try {
+				font = GlobalInformation.getMenuFont(fontsize);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+    	}
+		
         buttonReleased = false;
         
         if (button.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
@@ -64,11 +73,9 @@ public class BuyButton extends Button
 		Image temp = null;
 		if(finalrender == "pressedimage" && pressedImage != null){
 			temp = pressedImage;
-		} else if(finalrender == "normalimage" && normalImage != null){
-			temp = normalImage;
 		} else{
-			System.out.println("CRITICAL ERROR in Buybutton");
-		}
+			temp = normalImage;
+		} 
 		temp.setFilter(Image.FILTER_NEAREST);
         temp.draw(position.x,position.y,width,height);
 

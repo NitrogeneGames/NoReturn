@@ -174,9 +174,10 @@ public class HangarState extends BasicGameState{
 		}
 		
 		Image observatory = (Image)AssetManager.get().get("observatory");
+		observatory.setFilter(Image.FILTER_NEAREST);
 		observatory.draw(obserx, obsery, scalefactor);
 		
-		weapontab.render(g, (Image)AssetManager.get().get("normaltab"), null, (Image)(AssetManager.get().get("pressedtab")));
+		weapontab.render(g, (Image)AssetManager.get().get("normaltab"), (Image)(AssetManager.get().get("pressedtab")));
 		startbutton.render(g,(Image)AssetManager.get().get("startbutton"), null, null);
 		uppage.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
 		downpage.render(g, (Image)AssetManager.get().get("minusbutton"), null, null);
@@ -199,7 +200,7 @@ public class HangarState extends BasicGameState{
 		} else if(money > 1000){
 			g.drawString(Integer.toString(money), obserx+(10*scalefactor), obsery+(36*scalefactor));
 		}
-		Image coinsImage = (Image) AssetManager.get().get("coin");
+		Image coinsImage = (Image) AssetManager.get().get("coins");
         coinsImage.draw(obserx+(24*scalefactor), obsery+(37*scalefactor), scalefactor/3);
 	}
 	

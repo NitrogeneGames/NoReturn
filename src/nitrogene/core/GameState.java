@@ -96,7 +96,6 @@ public class GameState extends BasicGameState{
 		pauseresumedown = new Image("res/button/pauseresumedown.png");
 		pauseresumeup = new Image("res/button/pauseresumeup.png");
 		
-		LoadingList.setDeferredLoading(false);
 		CursorSystem.init();
 		mousewheelposition = 0;
 		//set largest zoom for generation

@@ -1,6 +1,5 @@
 package nitrogene.util;
 
-import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,7 +85,6 @@ public class Button
             {
                 buttonDown = true;
                 renderImage = "pressedimage";
-                }
             }
             else
             {
@@ -96,7 +94,7 @@ public class Button
                     buttonReleased = true;
                 }
                 renderImage = "hoverimage";
-                }
+               
                 if (i==1) i=2;
                 if (i==0) i=1;
                 if (i==1) {
@@ -104,7 +102,8 @@ public class Button
                 	mouseover.play();
                 	}
                 }
-        else
+            }
+        }else
         {
             renderImage = "normalimage";
             i=0;
@@ -131,8 +130,10 @@ public class Button
         int marginx = (int) (width - (getTextWidth(text, font))) / 2;
         int marginy = (int) (height - (getTextHeight(text, font))) / 2;
 
-        gr.setFont(font);
-        font.drawString(button.getMinX() + marginx, button.getMinY() + marginy, text);
+        if(text != null){
+            gr.setFont(font);
+            gr.drawString(text,  button.getMinX() + marginx, button.getMinY() + marginy);
+        }
     }
     
     public boolean isClicked()
@@ -186,4 +187,8 @@ public class Button
 			Image pressedImage) {
 		
 	}
+
+	public void render(Graphics gr, Image normalimage, Image pressedimage) {
+	}
+
 }

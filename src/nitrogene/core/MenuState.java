@@ -75,6 +75,7 @@ public class MenuState extends BasicGameState{
 		Image tempnormal = (Image) AssetManager.get().get("defaultbuttonnormal");
 		Image temppressed = (Image) AssetManager.get().get("defaultbuttonpressed");
 		Image temphover = (Image) AssetManager.get().get("defaultbuttonhover");
+		temp.setFilter(Image.FILTER_NEAREST);
 		temp.draw(0,0);
 		campaign.render(g, tempnormal, temphover, temppressed);
 		quickPlay.render(g, tempnormal, temphover, temppressed);

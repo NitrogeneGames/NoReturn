@@ -3,7 +3,10 @@ package nitrogene.util;
 import java.awt.FontFormatException;
 import java.io.IOException;
 
+import nitrogene.core.GlobalInformation;
+
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -23,6 +26,14 @@ public class Tab extends Button{
 	public void update(GameContainer gc) {
         if (button.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY()))
         {
+        	if(this.font==null){
+        		try {
+        			fontsize = 1f;
+    				font = GlobalInformation.getMenuFont(fontsize);
+    			} catch (SlickException e) {
+    				e.printStackTrace();
+    			}
+        	}
         	
             if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON))
             {
@@ -35,6 +46,19 @@ public class Tab extends Button{
         	this.renderImage = "normalimage";
         }
 	}
+	
+	@Override
+	public void render (Graphics gr, Image normalimage, Image pressedimage)
+    {
+    	Image temp = null;
+    	if(pressedimage!=null && renderImage == "pressedimage"){
+    		temp = pressedimage;
+    	}else{
+    		temp = normalimage;
+    	}
+    	temp.setFilter(Image.FILTER_NEAREST);
+        temp.draw(position.x,position.y,width,height);
+    }
 	
 	public boolean getButtonDown(){
 		return buttonDown;

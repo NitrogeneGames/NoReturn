@@ -57,7 +57,7 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("normalbuybutton", normalImageBuyButton);
 		Image pressedImageBuyButton = new Image("res/hangar/buttonhighlighted2.png");
 		AssetManager.get().put("normalbuybutton", pressedImageBuyButton);
-		Image coinsImage = new Image("res/hangar/buttonhighlighted2.png");
+		Image coinsImage = new Image("res/hangar/twocoins.png");
 		AssetManager.get().put("coins", coinsImage);
 		Image observatoryBackground = new Image("res/hangar/observatory1.png");
 		AssetManager.get().put("observatory", observatoryBackground);
