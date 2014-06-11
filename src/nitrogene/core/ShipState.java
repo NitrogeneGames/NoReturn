@@ -20,12 +20,9 @@ public class ShipState extends BasicGameState{
 
 	private int width,height;
 	private int scalefactor, obserx, obsery;
-	private Image backgroundimg;
 	private Color backgroundcolor;
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
 	
-	private Image shipButtonImage;
-	private Image shipButtonImage2;
 	private Button startButton, hangarButton, menuButton, minusButton, plusButton;
 	
 	public ShipState(int width,int height){
@@ -35,28 +32,20 @@ public class ShipState extends BasicGameState{
 	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		backgroundimg = new Image("res/hangar/shipselectionfinal.png");
-		backgroundimg.setFilter(Image.FILTER_NEAREST);
 		backgroundcolor = new Color(91, 91, 91);
 		
 		this.scalefactor = (int) Math.floor(height/128);
-		obserx = (width/2)-(backgroundimg.getWidth()*scalefactor/2);
-		obsery = (height/2)-(backgroundimg.getHeight()*scalefactor/2);
+		obserx = (width/2)-(150*scalefactor/2);
+		obsery = (height/2)-(120*scalefactor/2);
 		
 		//button init
-		Image startButtonImage = new Image("res/hangar/startbuttonhangar.png");
-		Image menuButtonImage = new Image("res/hangar/menubutton.png");
-		Image minusButtonImage = new Image("res/hangar/minusbutton.png");
-		Image plusButtonImage = new Image("res/hangar/plusbutton.png");
-		shipButtonImage = new Image("res/hangar/button2.png");
-		shipButtonImage2 = new Image("res/hangar/buttonhighlighted2.png");
 		
 		try {
-			startButton = new Button("Start", obserx+(120*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, startButtonImage, null, null, null);
-			hangarButton = new Button("Design", obserx+(22*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, startButtonImage, null, null, null);
-			menuButton = new Button("", obserx+(10*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, menuButtonImage, null, null, null);
-			minusButton = new Button("", obserx+(97*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, minusButtonImage, null, null, null);
-			plusButton = new Button("", obserx+(108*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, plusButtonImage, null, null, null);
+			startButton = new Button("Start", obserx+(120*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
+			hangarButton = new Button("Design", obserx+(22*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
+			menuButton = new Button("", obserx+(10*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
+			minusButton = new Button("", obserx+(97*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
+			plusButton = new Button("", obserx+(108*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
@@ -67,18 +56,11 @@ public class ShipState extends BasicGameState{
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		try {
 			for(int i = 0; i < GlobalInformation.getCraftData().size(); i++) {
-				buttonList.add(new Button(GlobalInformation.getCraftData().get(i).name, this.width/2-150, 150+i*80, 300, 60, shipButtonImage, shipButtonImage2, null, null));
+				buttonList.add(new Button(GlobalInformation.getCraftData().get(i).name, this.width/2-150, 150+i*80, 300, 60, null));
 			}
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			for(int i = 0; i < buttonList.size(); i++) {
-				buttonList.get(i).enter(25);
-			}
-		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -107,16 +89,17 @@ public class ShipState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.setBackground(backgroundcolor);
+		Image backgroundimg = (Image) AssetManager.get().get("shipselection");
 		backgroundimg.draw(obserx, obsery, scalefactor);
 		for(int i = 0; i < buttonList.size(); i++) {
-			buttonList.get(i).render(g);
+			buttonList.get(i).render(g, (Image)AssetManager.get().get("shipbutton"), (Image)AssetManager.get().get("shipbuttonhighlighted"), null);
 		}
 		
-		startButton.render(g);
-		hangarButton.render(g);
-		menuButton.render(g);
-		minusButton.render(g);
-		plusButton.render(g);
+		startButton.render(g, (Image)AssetManager.get().get("startbutton"), null, null);
+		hangarButton.render(g, (Image)AssetManager.get().get("startbutton"), null, null);
+		menuButton.render(g, (Image)AssetManager.get().get("menubutton"), null, null);
+		minusButton.render(g, (Image)AssetManager.get().get("minusbutton"), null, null);
+		plusButton.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
 	}
 
 	public int getID() {

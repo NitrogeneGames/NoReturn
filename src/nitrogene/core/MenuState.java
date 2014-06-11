@@ -17,7 +17,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MenuState extends BasicGameState{
 
 	private int width,height;
-	private Image backgroundimg;
 	private Button quickPlay, campaign, options, hangar, quitgame;
 	
 	public MenuState(int width,int height){
@@ -27,7 +26,6 @@ public class MenuState extends BasicGameState{
 	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		backgroundimg = new Image("res/menubackground4.png");
 		//button init
 		try {
 			campaign = new Button("Campaign", 1100, 340, 150, 60);
@@ -44,16 +42,7 @@ public class MenuState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
-		try {
-			quickPlay.enter(25);
-			campaign.enter(25);
-			hangar.enter(25);
-			options.enter(25);
-			quitgame.enter(25);
-		} catch (FontFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 	
 	@Override
@@ -72,6 +61,9 @@ public class MenuState extends BasicGameState{
 		if(hangar.isClicked()){
 			game.enterState(3);
 		}
+		if(options.isClicked()){
+			game.enterState(4);
+		}
 		if(quitgame.isClicked()){
 			container.exit();
 		}
@@ -79,12 +71,16 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		backgroundimg.draw(0,0);
-		campaign.render(g);
-		quickPlay.render(g);
-		hangar.render(g);
-		options.render(g);
-		quitgame.render(g);
+		Image temp = (Image) AssetManager.get().get("menubackgroundimg");
+		Image tempnormal = (Image) AssetManager.get().get("defaultbuttonnormal");
+		Image temppressed = (Image) AssetManager.get().get("defaultbuttonpressed");
+		Image temphover = (Image) AssetManager.get().get("defaultbuttonhover");
+		temp.draw(0,0);
+		campaign.render(g, tempnormal, temphover, temppressed);
+		quickPlay.render(g, tempnormal, temphover, temppressed);
+		hangar.render(g, tempnormal, temphover, temppressed);
+		options.render(g, tempnormal, temphover, temppressed);
+		quitgame.render(g, tempnormal, temphover, temppressed);
 	}
 
 	public int getID() {

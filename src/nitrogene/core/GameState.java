@@ -4,7 +4,6 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import nitrogene.gui.GuiComponent;
 import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
 import nitrogene.gui.ShieldBar;
@@ -45,7 +44,6 @@ public class GameState extends BasicGameState{
 	NPCship enemy;
 	public Hotbar guihotbar;
 	private ShieldBar shieldbar;
-	private ArrayList<GuiComponent> componentlist;
 	private HullBar hullbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
 	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
@@ -136,15 +134,9 @@ public class GameState extends BasicGameState{
     	
     	shieldbar = new ShieldBar(1.4f);
     	hullbar = new HullBar(1.4f);
-    	componentlist = new ArrayList<GuiComponent>();
-    	try {
-			componentlist.add(new GuiComponent("masterwarn", 5, 653, new Image("res/gui/masterwarn_on.png"), new Image("res/gui/masterwarn_off.png"),1f));
-			componentlist.add(new GuiComponent("evacswitch", 58, 653, new Image("res/gui/toggleswitchon.png"), new Image("res/gui/toggleswitchoff.png"),0.5f));
-		} catch (FontFormatException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+    	//componentlist = new ArrayList<GuiComponent>();
+			//componentlist.add(new GuiComponent("masterwarn", 5, 653, new Image("res/gui/masterwarn_on.png"), new Image("res/gui/masterwarn_off.png"),1f));
+			//componentlist.add(new GuiComponent("evacswitch", 58, 653, new Image("res/gui/toggleswitchon.png"), new Image("res/gui/toggleswitchoff.png"),0.5f));
     	
     	/*
     	shockwave = new ParticleSystem(shockimage,1500);
@@ -406,10 +398,10 @@ public class GameState extends BasicGameState{
 		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
 		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
 		
-		for(GuiComponent component : componentlist){
-			component.move(camX, camY);
-			component.update(container);
-		}
+		//for(GuiComponent component : componentlist){
+		//	component.move(camX, camY);
+		//	component.update(container);
+		//}
 		}
 		else{
 		//pause menu here
@@ -539,9 +531,9 @@ public class GameState extends BasicGameState{
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
 		//minimap.render(g);
-		for(GuiComponent component : componentlist){
-			component.render(g);
-		}
+		//for(GuiComponent component : componentlist){
+		//	component.render(g);
+		//}
 		if (PAUSED) {
 	        Color trans = new Color(0f,0f,0f,0.5f);
 	        g.setColor(trans);

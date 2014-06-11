@@ -12,6 +12,7 @@ import nitrogene.util.EnumHull;
 import nitrogene.util.Tab;
 import nitrogene.weapon.EnumWeapon;
 
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,15 +23,12 @@ import org.newdawn.slick.state.StateBasedGame;
 public class HangarState extends BasicGameState{
 
 	private int width, height, repx, repy;
-	private Image backgroundimg, observatory;
 	private int scalefactor;
 	private static int money;
 	private int tabpagenumber, maxpagenumber;
 	private int obserx, obsery;
 	
-	Image coinsImage;
-	java.awt.Font mainFont;
-    org.newdawn.slick.UnicodeFont uniFont;
+	private Font font;
 	
 	//tabs
 	private ArrayList<Tab> tablist;
@@ -60,61 +58,36 @@ public class HangarState extends BasicGameState{
 		buttonlist = new ArrayList<BuyButton>();
 		weapons = new ArrayList<EnumWeapon>();
 		
-		try {
-			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
-		} catch (FontFormatException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 40.f);
-        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
-        uniFont.addAsciiGlyphs();
-        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
-        a.setColor(Color.white);
-        uniFont.getEffects().add(a);
-        uniFont.loadGlyphs();
-		
-		backgroundimg = new Image("res/hangar/background.png");
-		observatory = new Image("res/hangar/observatory1.png");
-		observatory.setFilter(Image.FILTER_NEAREST);
-		
 		this.repx = (int) Math.ceil(width/100.0);
 		this.repy = (int) Math.ceil(height/100.0);
 		
 		this.scalefactor = (int) Math.floor(height/128);
-		obserx = (width/2)-(observatory.getWidth()*scalefactor/2);
-		obsery = (height/2)-(observatory.getHeight()*scalefactor/2);
 		
-		Image normalimgtab = new Image("res/hangar/tab2.png");
-		Image pressedimgtab = new Image("res/hangar/tabhighlighted2.png");
-		Image normalimgbuybutton = new Image("res/hangar/button2.png");
-		Image pressedimgbuybutton = new Image("res/hangar/buttonhighlighted2.png");
-		Image standardbutton = new Image("res/button/logomenubutton2.png");
-		coinsImage = new Image("res/hangar/twocoins.png");
-		coinsImage.setFilter(Image.FILTER_NEAREST);
+		//Observatory 1 variables
+		obserx=(width/2)-(165*scalefactor/2);
+		obsery=(height/2)-(128*scalefactor/2);
 		
 		//Image buybuttonnormal = new Image("res/hangar/")
 		
 		try {
-			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, normalimgtab, null, pressedimgtab, null);
+			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, null);
 			tablist.add(weapontab);
 			maxpagenumber=2;
 			
-			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			splitlaserbutton = new BuyButton("Split Laser", 50, obserx+(14*scalefactor), obsery+(67*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			splitlaser2button = new BuyButton("Split Laser Mk.II", 80, obserx+(14*scalefactor), obsery+(75*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			pulsarbutton = new BuyButton("Pulsar", 80, obserx+(14*scalefactor), obsery+(83*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			pulsar2button = new BuyButton("Pulsar Mk.II", 150, obserx+(14*scalefactor), obsery+(91*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			veloxlaserbutton = new BuyButton("Velox Laser", 250, obserx+(14*scalefactor), obsery+(99*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			velox2laserbutton = new BuyButton("Velox Laser Mk.II", 350, obserx+(14*scalefactor), obsery+(107*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			splitlaserbutton = new BuyButton("Split Laser", 50, obserx+(14*scalefactor), obsery+(67*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			splitlaser2button = new BuyButton("Split Laser Mk.II", 80, obserx+(14*scalefactor), obsery+(75*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			pulsarbutton = new BuyButton("Pulsar", 80, obserx+(14*scalefactor), obsery+(83*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			pulsar2button = new BuyButton("Pulsar Mk.II", 150, obserx+(14*scalefactor), obsery+(91*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			veloxlaserbutton = new BuyButton("Velox Laser", 250, obserx+(14*scalefactor), obsery+(99*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			velox2laserbutton = new BuyButton("Velox Laser Mk.II", 350, obserx+(14*scalefactor), obsery+(107*scalefactor), 100*scalefactor, 7*scalefactor, null);
 			
-			immineolaserbutton = new BuyButton("Immineo Laser", 200, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			immineo2laserbutton = new BuyButton("Immineo Laser Mk.II", 300, obserx+(14*scalefactor), obsery+(67*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			demolitionlaserbutton = new BuyButton("Demolition Laser", 300, obserx+(14*scalefactor), obsery+(75*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			precisionlaserbutton = new BuyButton("Precision Laser", 100, obserx+(14*scalefactor), obsery+(83*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			pdibutton = new BuyButton("Point Defense Interceptor", 40, obserx+(14*scalefactor), obsery+(91*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
-			mininglaserbutton = new BuyButton("Mining Laser", 100, obserx+(14*scalefactor), obsery+(99*scalefactor), 100*scalefactor, 7*scalefactor, normalimgbuybutton, pressedimgbuybutton, null);
+			immineolaserbutton = new BuyButton("Immineo Laser", 200, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			immineo2laserbutton = new BuyButton("Immineo Laser Mk.II", 300, obserx+(14*scalefactor), obsery+(67*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			demolitionlaserbutton = new BuyButton("Demolition Laser", 300, obserx+(14*scalefactor), obsery+(75*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			precisionlaserbutton = new BuyButton("Precision Laser", 100, obserx+(14*scalefactor), obsery+(83*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			pdibutton = new BuyButton("Point Defense Interceptor", 40, obserx+(14*scalefactor), obsery+(91*scalefactor), 100*scalefactor, 7*scalefactor, null);
+			mininglaserbutton = new BuyButton("Mining Laser", 100, obserx+(14*scalefactor), obsery+(99*scalefactor), 100*scalefactor, 7*scalefactor, null);
 
 			buttonlist.add(basiclaserbutton);
 			buttonlist.add(splitlaserbutton);
@@ -130,14 +103,19 @@ public class HangarState extends BasicGameState{
 			buttonlist2.add(demolitionlaserbutton);
 			buttonlist2.add(precisionlaserbutton);
 			
-			startbutton = new Button("Start", obserx+(129*scalefactor), obsery+(116*scalefactor), 30*scalefactor, 12*scalefactor, new Image("res/hangar/startbuttonhangar.png"), null, null, null, 40);
-			downpage = new Button("", obserx+(97*scalefactor), obsery+(35*scalefactor), 10*scalefactor, 9*scalefactor, new Image("res/hangar/minusbutton.png"), null, null, null);
-			uppage = new Button("", obserx+(108*scalefactor), obsery+(35*scalefactor), 10*scalefactor, 9*scalefactor, new Image("res/hangar/plusbutton.png"), null, null, null);
+			startbutton = new Button("Start", obserx+(129*scalefactor), obsery+(116*scalefactor), 30*scalefactor, 12*scalefactor, null, 40);
+			downpage = new Button("", obserx+(97*scalefactor), obsery+(35*scalefactor), 10*scalefactor, 9*scalefactor, null);
+			uppage = new Button("", obserx+(108*scalefactor), obsery+(35*scalefactor), 10*scalefactor, 9*scalefactor, null);
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		font = GlobalInformation.getMenuFont(40f);
 	}
 
 	@Override
@@ -190,35 +168,38 @@ public class HangarState extends BasicGameState{
 		//Render repeating background
 		for(int x = 0; x < repx; x++){
 			for (int y = 0; y < repy; y++){
-				backgroundimg.draw(x*100,y*100);
+				Image t = (Image)AssetManager.get().get("hangarbackground");
+				t.draw(x*100,y*100);
 			}
 		}
 		
+		Image observatory = (Image)AssetManager.get().get("observatory");
 		observatory.draw(obserx, obsery, scalefactor);
 		
-		weapontab.render(g);
-		startbutton.render(g);
-		uppage.render(g);
-		downpage.render(g);
+		weapontab.render(g, (Image)AssetManager.get().get("normaltab"), null, (Image)(AssetManager.get().get("pressedtab")));
+		startbutton.render(g,(Image)AssetManager.get().get("startbutton"), null, null);
+		uppage.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
+		downpage.render(g, (Image)AssetManager.get().get("minusbutton"), null, null);
 		
 		if(weapontab.getButtonDown()){
 			if(tabpagenumber ==1){
 				for(Button b : buttonlist){
-					b.render(g, scalefactor);
+					b.render(g, scalefactor, (Image)AssetManager.get().get("normalbuybutton"), (Image)AssetManager.get().get("pressedbuybutton"));
 				}
 			}else if(tabpagenumber == 2){
 				for(Button b: buttonlist2){
-					b.render(g, scalefactor);
+					b.render(g, scalefactor , (Image)AssetManager.get().get("normalbuybutton"), (Image)AssetManager.get().get("pressedbuybutton"));
 				}
 			}
 		}
 		
-		g.setFont(uniFont);
+		g.setFont(this.font);
 		if(money < 1000){
 			g.drawString(Integer.toString(money), obserx+(13*scalefactor), obsery+(36*scalefactor));
 		} else if(money > 1000){
 			g.drawString(Integer.toString(money), obserx+(10*scalefactor), obsery+(36*scalefactor));
 		}
+		Image coinsImage = (Image) AssetManager.get().get("coin");
         coinsImage.draw(obserx+(24*scalefactor), obsery+(37*scalefactor), scalefactor/3);
 	}
 	

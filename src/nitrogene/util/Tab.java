@@ -15,9 +15,9 @@ public class Tab extends Button{
 			throws FontFormatException, IOException, SlickException {
 		super(text, x, y, width, height);
 	}
-	public Tab(String text, float x, float y, float width, float height, Image normalimage, Image hoverimage, Image pressedimage, Sound mouseover)
+	public Tab(String text, float x, float y, float width, float height, Sound mouseover)
 			throws FontFormatException, IOException, SlickException {
-		super(text, x, y, width, height, normalimage, hoverimage, pressedimage, mouseover);
+		super(text, x, y, width, height, mouseover);
 	}
 	@Override
 	public void update(GameContainer gc) {
@@ -30,9 +30,9 @@ public class Tab extends Button{
             }
         }
         if(this.buttonDown) {
-        	this.renderImage = this.pressedimage;
+        	this.renderImage = "pressedimage";
         } else {
-        	this.renderImage = this.normalimage;
+        	this.renderImage = "normalimage";
         }
 	}
 	

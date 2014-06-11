@@ -18,11 +18,15 @@ public class GlobalInformation {
 	
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
+	public static float musiclevel = 50;
+	public static float sfxlevel = 100;
+	public static float alarmlevel = 50;
 	public static int SCRwidth,SCRheight;
 	public static double percentloaded;
 	public static boolean testMode = false;
 	private static HashMap<String, Shape> imagedata = new HashMap<String, Shape>();
 	public static boolean shipsLoaded = true;
+	
 	public GlobalInformation(){
 		
 	}
