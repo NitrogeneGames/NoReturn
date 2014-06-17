@@ -25,6 +25,7 @@ public class LoadingState extends BasicGameState{
 	/** True if we've loaded all the resources and started rendereing */
 	private boolean started;
 
+	//PLACE IMAGE DECLARATIONS HERE!
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		LoadingList.setDeferredLoading(true);
@@ -79,12 +80,16 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("craftimage", craftImage);
 		Image sunImage = new Image("res/sun_1.png");
 		AssetManager.get().put("sun1", sunImage);
+		Image volcanicplanetImage = new Image("res/volcanicplanet2.png");
+		AssetManager.get().put("volcanicplanet", volcanicplanetImage);
 		Image pauseMenu = new Image("res/button/pauseback.png");
 		AssetManager.get().put("pausemenu", pauseMenu);
 		Image slaserImage = new Image("res/LaserV2ro.png");
 		AssetManager.get().put("slaserimage", slaserImage);
 		Image GUIimage = new Image("res/GUIportrait.png");
 		AssetManager.get().put("GUI", GUIimage);
+		Image twopixelstar = new Image("res/star2.png");
+		AssetManager.get().put("twopixelstar", twopixelstar);
 		
 		Image pauseExitDownImage = new Image("res/button/pauseexitdown.png");
 		AssetManager.get().put("pauseexitdown", pauseExitDownImage);
@@ -110,6 +115,35 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("pauseresumeup", pauseResumeUpImage);
 		Image pauseResumeDownImage = new Image("res/button/pauseresumedown.png");
 		AssetManager.get().put("pauseresumedown", pauseResumeDownImage);
+		
+		//UI
+		Image statusReadyImage = new Image("res/gui/status_ready.png");
+		AssetManager.get().put("statusReady", statusReadyImage);
+		Image statusFiringImage = new Image("res/gui/status_firing.png");
+		AssetManager.get().put("statusFiring", statusFiringImage);
+		Image statusDamagedImage = new Image("res/gui/status_damaged.png");
+		AssetManager.get().put("statusDamaged", statusDamagedImage);
+		Image statusNeedPowerImage = new Image("res/gui/status_needpower.png");
+		AssetManager.get().put("statusNeedPower", statusNeedPowerImage);
+		Image statusDestroyedImage = new Image("res/gui/status_destroyed.png");
+		AssetManager.get().put("statusDestroyed", statusDestroyedImage);
+		Image heartImage = new Image("res/gui/heart.png");
+		AssetManager.get().put("heart", heartImage);
+		Image boltImage = new Image("res/gui/lightningbolt.png");
+		AssetManager.get().put("bolt", boltImage);
+		Image shieldIconImage = new Image("res/gui/shieldicon2.png");
+		AssetManager.get().put("shieldicon", shieldIconImage);
+		Image shieldFillImage = new Image("res/gui/shieldbar2_fill.png");
+		AssetManager.get().put("shieldfill", shieldFillImage);
+		Image shieldBackgroundImage = new Image("res/gui/shieldbar2.png");
+		AssetManager.get().put("shieldbackground", shieldBackgroundImage);
+		Image hullIconImage = new Image("res/gui/hullicon.png");
+		AssetManager.get().put("hullicon", hullIconImage);
+		Image hullFillImage = new Image("res/gui/hullbar2_fill.png");
+		AssetManager.get().put("hullfill", hullFillImage);
+		Image hullBackgroundImage = new Image("res/gui/hullbar2.png");
+		AssetManager.get().put("hullbackground", hullBackgroundImage);
+		
 		
 		System.out.println(LoadingList.get().getRemainingResources());
 	}

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 
+import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
 import nitrogene.util.EnumStatus;
 import nitrogene.weapon.LaserLauncher;
@@ -21,8 +22,8 @@ public class Hotbar {
 	private Image heart, bolt;
 	
 	public Hotbar(Craft s) throws SlickException {
-		heart = new Image("res/gui/heart.png");
-		bolt = new Image("res/gui/lightningbolt.png");
+		heart = (Image) AssetManager.get().get("heart");
+		bolt = (Image) AssetManager.get().get("bolt");
 		try {
 			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
 		} catch (FontFormatException e1) {
@@ -56,17 +57,17 @@ public class Hotbar {
 			Image rend = launcher.getImage().copy();
 			Image statusicon;
 			if(launcher.getStatus() == EnumStatus.READY){
-				statusicon = new Image("res/gui/status_ready.png");
+				statusicon = (Image) AssetManager.get().get("statusReady");
 			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
-				statusicon = new Image("res/gui/status_firing.png");
+				statusicon = (Image) AssetManager.get().get("statusFiring");
 			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
-				statusicon = new Image("res/gui/status_ready.png");
+				statusicon = (Image) AssetManager.get().get("statusDamaged");
 			} else if(launcher.getStatus() == EnumStatus.POWER){
-				statusicon = new Image("res/gui/status_needpower.png");
+				statusicon = (Image) AssetManager.get().get("statusNeedPower");
 			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
-				statusicon = new Image("res/gui/status_destroyed.png");
+				statusicon = (Image) AssetManager.get().get("statusDestroyed");
 			} else{
-				statusicon = new Image("res/gui/status_ready.png");
+				statusicon = (Image) AssetManager.get().get("statusReady");
 			}
 			statusicon.setFilter(Image.FILTER_NEAREST);
 			

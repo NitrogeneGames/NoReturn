@@ -17,12 +17,9 @@ public class HullBar {
 	private float scalefactor;
 	
 	public HullBar(float f) throws SlickException{
+		hullicon = new Image("res/gui/hullicon.png");
 		hullFill = new Image("res/gui/hullbar2_fill.png");
 		hullBackground = new Image("res/gui/hullbar2.png");
-		hullicon = new Image("res/gui/hullicon.png");
-		hullFill.setFilter(Image.FILTER_NEAREST);
-		hullBackground.setFilter(Image.FILTER_NEAREST);
-		hullicon.setFilter(Image.FILTER_NEAREST);
 		this.scalefactor = f;
 		
 		font = GlobalInformation.getPixelFont(26F);

@@ -8,7 +8,9 @@ import nitrogene.system.Engine;
 import nitrogene.system.LifeSupport;
 import nitrogene.system.Shield;
 import nitrogene.system.ShipSystem;
+import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumHull;
+import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
@@ -18,6 +20,7 @@ import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 public class Craft extends PhysicalObject{
@@ -36,8 +39,8 @@ public class Craft extends PhysicalObject{
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
 	public String name = "";
-	public Craft(float scale, ArenaMap map) throws SlickException{
-		super(700, 700, scale, map);
+	public Craft(float xpos, float ypos) throws SlickException{
+		super(xpos, ypos);
 		setDefaultMovement("angled");
 		inventory = new ArrayList<Item>();
 		hull = 100;
@@ -49,12 +52,33 @@ public class Craft extends PhysicalObject{
 		lifesupport = new LifeSupport(this,82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50,(short)3);
 		cumulative = 0;
 		maxWeapons = 6;
-		addSlot((int)(250*scale), (int)(30*scale));
-		addSlot((int)(174*scale), (int)(30*scale));
-		addSlot((int)(105*scale), (int)(17*scale));
-		addSlot((int)(250*scale), (int)(136*scale));
-		addSlot((int)(174*scale), (int)(136*scale));
-		addSlot((int)(105*scale), (int)(136*scale));
+	}
+	@Override
+	public void load(Image img, float scalefactor, ArenaMap map){
+		this.scalefactor = scalefactor;
+		this.map = map;
+		this.mainimg = img;
+		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		if(boundbox == null){
+			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			float[] m = {0,0,1,1,2,2};
+			boundbox = new Polygon(m);
+		}
+		init(img.getWidth(), img.getHeight());
+		newboundbox = new Polygon();
+		newboundbox = boundbox;
+		this.setX(tempx);
+		this.setY(tempy);
+		rotationalconstant=0;
+		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		movement = new Movement();
+		
+		addSlot((int)(250*scalefactor), (int)(30*scalefactor));
+		addSlot((int)(174*scalefactor), (int)(30*scalefactor));
+		addSlot((int)(105*scalefactor), (int)(17*scalefactor));
+		addSlot((int)(250*scalefactor), (int)(136*scalefactor));
+		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
+		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
 	}
 	public CraftData formData() {
 		ArrayList<EnumWeapon> enums = new ArrayList<EnumWeapon>();

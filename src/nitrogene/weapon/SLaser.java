@@ -24,7 +24,7 @@ public class SLaser extends PhysicalObject{
 	Sound basicTestLaser;
 	
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
-		super(startX, startY, img.copy(), size, map);
+		super(startX, startY);
 		//Movement class unused
 		setDefaultMovement("normal");
 		isRotated = false;

@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import nitrogene.collision.Vector;
+import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
@@ -21,7 +22,6 @@ public class ArenaMap {
 	private Image img;
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
-	private ArrayList<Image> imagelist;
 	private ArrayList<Asteroid> asteroidlist;
 	private long asteroidelapsed, asteroidstart;
 	private int asteroiddelay;
@@ -30,6 +30,7 @@ public class ArenaMap {
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	private Timer asteroidtimer;
+	public boolean isLoaded;
 	Random random;
 	
 	public void tick() throws SlickException{
@@ -41,22 +42,45 @@ public class ArenaMap {
 		asteroidtimer.restart();
 		asteroidstart = System.currentTimeMillis();
 		
-		this.getAsteroids().add(new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(n+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(2*n+random.nextInt(50),-1000,0,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		Asteroid a1 = new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000);
+		a1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(a1);
+		Asteroid a2 = new Asteroid(n+random.nextInt(50),-1000,0,mapheight+1000);
+		a2.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(a2);
+		Asteroid a3 = new Asteroid(2*n+random.nextInt(50),-1000,0,mapheight+1000);
+		a3.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(a3);
 		
-		this.getAsteroids().add(new Asteroid(-1000,0+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,n+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,2*n+random.nextInt(50),mapwidth+1000,0,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
+		Asteroid b1 = new Asteroid(-1000,0+random.nextInt(50),mapwidth+1000,0);
+		b1.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(b1);
+		Asteroid b2 = new Asteroid(-1000,n+random.nextInt(50),mapwidth+1000,0);
+		b2.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(b2);
+		Asteroid b3 = new Asteroid(-1000,2*n+random.nextInt(50),mapwidth+1000,0);
+		b3.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(b3);
 		
-		this.getAsteroids().add(new Asteroid(0+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(2*n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000,img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this));
+		Asteroid c1 = new Asteroid(0+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
+		c1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(c1);
+		Asteroid c2 = new Asteroid(n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
+		c2.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(c2);
+		Asteroid c3 = new Asteroid(2*n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
+		c3.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(c3);
 		
-		this.getAsteroids().add(new Asteroid(-1000,0+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,n+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
-		this.getAsteroids().add(new Asteroid(-1000,2*n+mapheight+random.nextInt(50),mapwidth+1000,mapheight,img,Direction.FORWARD,random.nextFloat()*2f+2f,this));
-		
+		Asteroid d1 = new Asteroid(-1000,0+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
+		d1.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(d1);
+		Asteroid d2 = new Asteroid(-1000,n+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
+		d2.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(d2);
+		Asteroid d3 = new Asteroid(-1000,2*n+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
+		d3.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+		this.getAsteroids().add(d3);
 	}
 	
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight, Craft craft) throws SlickException{
@@ -64,16 +88,8 @@ public class ArenaMap {
 		objlist = new ArrayList<PhysicalObject>();
 		itemlist = new ArrayList<DroppedItem>();
 		planetlist = new ArrayList<Planet>();
-		imagelist = new ArrayList<Image>();
 		random = new Random();
 		//star2 = new Image("res/star2.png");
-		volcanicplanet = new Image("res/volcanicplanet2.png");
-		volcanicplanet.setFilter(Image.FILTER_NEAREST);
-		sun1 = new Image("res/sun_1.png");
-		sun1.setFilter(Image.FILTER_NEAREST);
-		//imagelist.add(star2);
-		imagelist.add(sun1);
-		imagelist.add(volcanicplanet);
 		this.craft = craft;
 		asteroidlist = new ArrayList<Asteroid>();
 		img = new Image("res/asteroid1.png");
@@ -111,7 +127,6 @@ public class ArenaMap {
 			vec.y = random.nextInt(mapheight - (2*offsety)) + offsety;
 			int radius = random.nextInt(200)+200;
 			int maxhp = random.nextInt(1000) +500;
-			int imagenum = random.nextInt(imagelist.size());
 			
 			//check for planet validity
 			for(int i = 0; i < planetlist.size(); i++){
@@ -131,15 +146,34 @@ public class ArenaMap {
 				continue main;
 			}
 			
-			addPlanet((int)vec.x,(int)vec.y,imagelist.get(imagenum),maxhp,(radius*2)/imagelist.get(imagenum).getWidth());
+			addPlanet((int)vec.x,(int)vec.y,maxhp,radius);
 			System.out.println("PLANET  "+vec.x+ "   :   "+vec.y);
 		}
 	}
 	
-	private void addPlanet(int centerx, int centery, Image image, int maxhp, int scalefactor){
-		Planet planet = new Planet(centerx, centery, image, maxhp, scalefactor, this);
+	private void addPlanet(int centerx, int centery, int maxhp, int radius){
+		Planet planet = new Planet(centerx, centery,  maxhp, radius);
+		this.loadPlanet(planet);
 		objlist.add(planet);
 		planetlist.add(planet);
+	}
+	
+	public void loadPlanets(){
+		ArrayList<Image> imagelist = new ArrayList<Image>();
+		imagelist.add((Image) AssetManager.get().get("sun1"));
+		imagelist.add((Image) AssetManager.get().get("volcanicplnaet"));
+		for(Planet p : this.getPlanets()){
+			int imagenum = random.nextInt(imagelist.size());
+			p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
+		}
+	}
+	
+	private void loadPlanet(Planet p){
+		ArrayList<Image> imagelist = new ArrayList<Image>();
+		imagelist.add((Image) AssetManager.get().get("sun1"));
+		imagelist.add((Image) AssetManager.get().get("volcanicplanet"));
+		int imagenum = random.nextInt(imagelist.size());
+		p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
 	}
 	
 	public void addCraft(Craft craft){

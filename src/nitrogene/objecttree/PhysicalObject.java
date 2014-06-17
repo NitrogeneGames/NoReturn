@@ -25,15 +25,19 @@ public class PhysicalObject {
 	protected int delta;
 	protected float rotation;
 	protected float width, height;
+	public boolean isLoaded = false;
+	protected float tempx, tempy;
 
-	public PhysicalObject(float x, float y, float scalefactor, ArenaMap map){
+	public PhysicalObject(float x, float y){
 		width = 0;
 		height = 0;
-		this.map = map;
-		this.scalefactor = scalefactor;
+		tempx = x;
+		tempy = y;
 	}
 	
-	public void load(Image img, float x, float y){
+	public void load(Image img, float scalefactor, ArenaMap map){
+		this.scalefactor = scalefactor;
+		this.map = map;
 		this.mainimg = img;
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
@@ -44,8 +48,8 @@ public class PhysicalObject {
 		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
-		this.setX(x);
-		this.setY(y);
+		this.setX(tempx);
+		this.setY(tempy);
 		rotationalconstant=0;
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
@@ -186,10 +190,18 @@ public boolean isColliding(PhysicalObject obj){
 		return newboundbox;
 	}
 	public float getX(){
-		return newboundbox.getX();
+		if(newboundbox == null){
+			return tempx;
+		} else{
+			return newboundbox.getX();
+		}
 	}
 	public float getY(){
-		return newboundbox.getY();
+		if(newboundbox == null){
+			return tempy;
+		} else{
+			return newboundbox.getY();
+		}
 	}
 	public float getCenterX(){
 		/*

@@ -1,5 +1,6 @@
 package nitrogene.gui;
 
+import nitrogene.core.AssetManager;
 import nitrogene.core.GlobalInformation;
 import nitrogene.util.Button;
 
@@ -17,12 +18,9 @@ public class ShieldBar {
 	private float scalefactor;
 	
 	public ShieldBar(float f) throws SlickException{
-		shieldicon = new Image("res/gui/shieldicon2.png");
-		shieldFill = new Image("res/gui/shieldbar2_fill.png");
-		shieldBackground = new Image("res/gui/shieldbar2.png");
-		shieldFill.setFilter(Image.FILTER_NEAREST);
-		shieldBackground.setFilter(Image.FILTER_NEAREST);
-		shieldicon.setFilter(Image.FILTER_NEAREST);
+		shieldicon = (Image) AssetManager.get().get("shieldicon");
+		shieldFill = (Image) AssetManager.get().get("shieldfill");
+		shieldBackground = (Image) AssetManager.get().get("shieldbackground");
 		this.scalefactor = f;
 		
 		font = GlobalInformation.getPixelFont(26F);

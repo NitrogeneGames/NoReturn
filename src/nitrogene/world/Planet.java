@@ -2,23 +2,53 @@ package nitrogene.world;
 
 import java.util.ArrayList;
 
+import nitrogene.core.GlobalInformation;
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.util.AngledMovement;
+import nitrogene.util.Movement;
 import nitrogene.util.Shake;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Polygon;
 
 public class Planet extends PhysicalObject{
 	private int maxhp;
+	private float realcenterx, realcentery;
+	private int radius;
 	private int hp;
 	private Shake shake;
 
-	public Planet(float centerx, float centery, Image theimage, int maxhp, int scalefactor, ArenaMap map) {
-		super(centerx-(theimage.getWidth()/2), centery-(theimage.getWidth()/2), theimage, scalefactor, map);
-		this.getImage().setCenterOfRotation(centerx, centery);
+	public Planet(float centerx, float centery, int maxhp, int radius) {
+		super(centerx-radius, centery-radius);
+		this.realcenterx = centerx;
+		this.realcentery = centery;
 		this.maxhp = maxhp;
+		this.radius = radius;
 		hp = maxhp;
 		shake = new Shake();
+	}
+	
+	public void load(Image img, float scalefactor, ArenaMap map){
+		this.scalefactor = scalefactor;
+		this.map = map;
+		this.mainimg = img;
+		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		if(boundbox == null){
+			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			float[] m = {0,0,1,1,2,2};
+			boundbox = new Polygon(m);
+		}
+		init(img.getWidth(), img.getHeight());
+		newboundbox = new Polygon();
+		newboundbox = boundbox;
+		this.setX(tempx);
+		this.setY(tempy);
+		rotationalconstant=0;
+		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		movement = new Movement();
+		
+		this.getImage().setCenterOfRotation(realcenterx, realcentery);
 	}
 	
 	public void damage(int damage, ArenaMap map, int e) throws SlickException{
@@ -67,6 +97,10 @@ public class Planet extends PhysicalObject{
 	
 	public Shake getShake(){
 		return shake;
+	}
+
+	public int getRadius() {
+		return radius;
 	}
 
 }

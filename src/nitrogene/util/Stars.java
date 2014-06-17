@@ -2,6 +2,7 @@ package nitrogene.util;
 
 import java.util.Random;
 
+import nitrogene.core.AssetManager;
 import nitrogene.core.Zoom;
 
 import org.newdawn.slick.Image;
@@ -10,7 +11,6 @@ import org.newdawn.slick.SlickException;
 public class Stars {
 	private int n, biggeststarsize;
 	private int[] starx, stary;
-	private Image twopixelstar;
 	
 	public Stars(int biggeststarsize, int mapwidth, int mapheight, int startx, int starty, int frequency) throws SlickException{
     	Random rand = new Random();
@@ -24,7 +24,6 @@ public class Stars {
     	stary[i] = randomy.nextInt(mapheight+starty - biggeststarsize) + 1;
     	}
     	this.biggeststarsize = biggeststarsize;
-    	twopixelstar = new Image("res/star2.png");
 	}
 	
 	public void render(float camX, float camY){
@@ -35,6 +34,7 @@ public class Stars {
 			if(stary[g1]-biggeststarsize>Zoom.getZoomHeight()+camY||stary[g1]+biggeststarsize<camY){
 				continue;
 			}
+			Image twopixelstar = (Image) AssetManager.get().get("twopixelstar");
 			twopixelstar.draw(starx[g1],stary[g1]);
 		}
 	}

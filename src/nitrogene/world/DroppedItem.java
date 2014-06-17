@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import nitrogene.objecttree.RectangleObject;
+import nitrogene.objecttree.PhysicalObject;
 
-public class DroppedItem extends RectangleObject{
+public class DroppedItem extends PhysicalObject{
 	private ArrayList<Item> droplist;
 
 	public DroppedItem(ArenaMap map, ArrayList<Item> droplist, float x, float y) throws SlickException{
-		super(50, 15, new Image("res/LaserV2ro.png"), 1, map);
+		super(50, 15);
 		this.setCenterX(x);
 		this.setCenterY(y);
 		this.droplist = droplist;

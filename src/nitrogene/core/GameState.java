@@ -59,6 +59,7 @@ public class GameState extends BasicGameState{
 	private float camX, camY;
 	private boolean isRotated = false;
 	private short selected = 0;
+	public boolean guielementsloaded = false;
 
 	private boolean PAUSED = false;
 
@@ -113,16 +114,10 @@ public class GameState extends BasicGameState{
 		
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 		
-		//craftImage.setFilter(Image.FILTER_NEAREST);
-		Image craftImage = (Image) AssetManager.get().get("craftImage");
-		craft = new Craft(1, map);
+		craft = new Craft(700, 700);
 		map.addCraft(craft);
-		guihotbar = new Hotbar(craft);
-		enemy = new NPCship(1200, 1200, craftImage, 1, map, Relation.HOSTILE);
-		enemy.getImage().rotate(180);
+		enemy = new NPCship(1200, 1200, Relation.HOSTILE);
 		map.addCraft(enemy);
-		
-		map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
     	
     	//minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
 		int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
@@ -130,8 +125,6 @@ public class GameState extends BasicGameState{
     	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
     	//ADDRESS PROBLEM
     	
-    	shieldbar = new ShieldBar(1.4f);
-    	hullbar = new HullBar(1.4f);
     	//componentlist = new ArrayList<GuiComponent>();
 			//componentlist.add(new GuiComponent("masterwarn", 5, 653, new Image("res/gui/masterwarn_on.png"), new Image("res/gui/masterwarn_off.png"),1f));
 			//componentlist.add(new GuiComponent("evacswitch", 58, 653, new Image("res/gui/toggleswitchon.png"), new Image("res/gui/toggleswitchoff.png"),0.5f));
@@ -179,8 +172,23 @@ public class GameState extends BasicGameState{
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
 	      }
 	      */
-	      craft.load((Image) AssetManager.get().get("craftImage"), SCR_width/2-175,(float)(SCR_height/2-88.5));;
-	      
+	      if(!craft.isLoaded){
+	    	  craft.load((Image) AssetManager.get().get("craftimage"), 1, map);
+	    	  craft.isLoaded = true;
+	      }
+	      if(!enemy.isLoaded){
+	    	  enemy.load((Image) AssetManager.get().get("craftimage"), 1, map);
+	    	  enemy.getImage().rotate(180);
+	    	  enemy.isLoaded = true;
+	      }
+	      map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
+	      if(!this.guielementsloaded){
+	    	shieldbar = new ShieldBar(1.4f);
+	      	hullbar = new HullBar(1.4f);
+	      	guihotbar = new Hotbar(craft);
+	      	this.guielementsloaded = true;
+	      }
+	    
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());

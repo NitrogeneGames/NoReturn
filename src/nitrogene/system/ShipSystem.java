@@ -23,7 +23,7 @@ public class ShipSystem extends PhysicalObject{
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
 	public ShipSystem(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority){
-		super(x,y, img, 1, map);
+		super(x,y);
 		setDefaultMovement("normal");
 		this.hp = maxhp;
 		this.powerstorage = 0;
