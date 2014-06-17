@@ -33,11 +33,11 @@ public class LoadingState extends BasicGameState{
 		Image backgroundimg = new Image("res/menubackground4.png");
 		AssetManager.get().put("menubackgroundimg", backgroundimg);
 		
-		Image defaultbuttonnormalimage = new Image("res/button/logomenbutton21.png");
+		Image defaultbuttonnormalimage = new Image("res/button/logomenubutton21.png");
 		AssetManager.get().put("defaultbuttonnormal", defaultbuttonnormalimage);
 		Image defaultbuttonhoverimage = new Image("res/button/logomenubutton2hover.png");
 		AssetManager.get().put("defaultbuttonhover", defaultbuttonhoverimage);
-		Image defaultbuttonpressedimage = new Image("res/button/logomenubutton2hover.png");
+		Image defaultbuttonpressedimage = new Image("res/button/logomenubutton21.png");
 		AssetManager.get().put("defaultbuttonpressed", defaultbuttonpressedimage);
 		
 		Image startButtonImage = new Image("res/hangar/startbuttonhangar.png");
@@ -90,6 +90,8 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("GUI", GUIimage);
 		Image twopixelstar = new Image("res/star2.png");
 		AssetManager.get().put("twopixelstar", twopixelstar);
+		Image asteroidImage1 = new Image("res/asteroid1.png");
+		AssetManager.get().put("asteroid", asteroidImage1);
 		
 		Image pauseExitDownImage = new Image("res/button/pauseexitdown.png");
 		AssetManager.get().put("pauseexitdown", pauseExitDownImage);
@@ -144,6 +146,20 @@ public class LoadingState extends BasicGameState{
 		Image hullBackgroundImage = new Image("res/gui/hullbar2.png");
 		AssetManager.get().put("hullbackground", hullBackgroundImage);
 		
+		//systems
+		Image shieldSystemIcon = new Image("res/icon/shieldsystem.png");
+		AssetManager.get().put("shieldsystemicon", shieldSystemIcon);
+		Image engineSystemIcon = new Image("res/icon/enginesystem.png");
+		AssetManager.get().put("enginesystemicon", engineSystemIcon);
+		Image coreSystemIcon = new Image("res/icon/coresystem.png");
+		AssetManager.get().put("coresystemicon", coreSystemIcon);
+		Image oxygenSystemIcon = new Image("res/icon/oxygensystem.png");
+		AssetManager.get().put("oxygensystemicon", oxygenSystemIcon);
+		
+		Image standardLaserImage = new Image("res/Laser1.png");
+		AssetManager.get().put("standardlaser", standardLaserImage);
+		Image klaarPulsarImage = new Image("res/klaar_pulsar_2.png");
+		AssetManager.get().put("klaarpulsar", klaarPulsarImage);
 		
 		System.out.println(LoadingList.get().getRemainingResources());
 	}

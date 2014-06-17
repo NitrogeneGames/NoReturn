@@ -18,8 +18,6 @@ import nitrogene.util.Direction;
 
 public class ArenaMap {
 	private int planetnumber;
-	private Image sun1, volcanicplanet;
-	private Image img;
 	private ArrayList<Planet> planetlist;
 	private ArrayList<Craft> craftlist;
 	private ArrayList<Asteroid> asteroidlist;
@@ -41,6 +39,8 @@ public class ArenaMap {
 		asteroidtimer.setInitialDelay(asteroiddelay);
 		asteroidtimer.restart();
 		asteroidstart = System.currentTimeMillis();
+		
+		Image img = (Image) AssetManager.get().get("asteroid");
 		
 		Asteroid a1 = new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000);
 		a1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
@@ -92,8 +92,6 @@ public class ArenaMap {
 		//star2 = new Image("res/star2.png");
 		this.craft = craft;
 		asteroidlist = new ArrayList<Asteroid>();
-		img = new Image("res/asteroid1.png");
-		img.setFilter(Image.FILTER_NEAREST);
 		craftlist = new ArrayList<Craft>();
 		asteroidtimer = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){

@@ -2,12 +2,15 @@ package nitrogene.weapon;
 
 import java.util.ArrayList;
 
+import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.system.ShipSystem;
+import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
+import nitrogene.util.Movement;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
 import nitrogene.world.ArenaMap;
@@ -17,6 +20,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Polygon;
 
 public class LaserLauncher extends ShipSystem{
 	private float desx, desy, camX, camY;
@@ -84,9 +88,12 @@ public class LaserLauncher extends ShipSystem{
 	}
 	*/
 	
-	public LaserLauncher(Craft w, ArenaMap map, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
-		super(w,xpos, ypos, new Image(stat.image), map, stat.hp, 0, 100, 1000, 10, priority);
+	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
+		super(w,xpos, ypos, stat.hp, 0, 100, 1000, 10, priority);
 		parent = w;
+		if(stat.image == "res/Laser1.png") mainimg = (Image) AssetManager.get().get("standardlaser");
+		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = (Image) AssetManager.get().get("klaarpulsar");
+		else mainimg = (Image) AssetManager.get().get("standardlaser");
 		enumtype = stat;
 		name = n;
 		desx = 0;
@@ -113,6 +120,24 @@ public class LaserLauncher extends ShipSystem{
 		this.speed = stat.speed;
 		this.damage = stat.damage;
 		this.size = stat.size;
+	}
+	
+	public void load(ArenaMap map){
+		this.map = map;
+		boundbox = GlobalInformation.getImageData().get(mainimg.getResourceReference());
+		if(boundbox == null){
+			System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			float[] m = {0,0,1,1,2,2};
+			boundbox = new Polygon(m);
+		}
+		init(mainimg.getWidth(), mainimg.getHeight());
+		newboundbox = new Polygon();
+		newboundbox = boundbox;
+		this.setX(tempx);
+		this.setY(tempy);
+		rotationalconstant=0;
+		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		movement = new Movement();
 	}
 	
 	public void setTarget(float desx, float desy){

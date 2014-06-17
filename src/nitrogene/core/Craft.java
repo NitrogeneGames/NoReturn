@@ -45,11 +45,11 @@ public class Craft extends PhysicalObject{
 		inventory = new ArrayList<Item>();
 		hull = 100;
 		maxhull = 100;
-		shield = new Shield(this,82,45,new Image("res/icon/shieldsystem.png"), map, 300,2,30,1000,1,50,(short)1);
+		shield = new Shield(this,82,45, 300,2,30,1000,1,50,(short)1);
 		delta = 0;
-		engine = new Engine(this,48,77,new Image("res/icon/enginesystem.png"), map, 200,2,20,1000,20,/*warpchage */ 100,50,(short)2);
-		core = new Core(this,82,83,new Image("res/icon/coresystem.png"), map, 1000,5,100,2000,50,50); 
-		lifesupport = new LifeSupport(this,82,125,new Image("res/icon/oxygensystem.png"),map,200,2,5,1000,50,(short)3);
+		engine = new Engine(this,48,77, 200,2,20,1000,20,/*warpchage */ 100,50,(short)2);
+		core = new Core(this,82,83, 1000,5,100,2000,50,50); 
+		lifesupport = new LifeSupport(this,82,125,200,2,5,1000,50,(short)3);
 		cumulative = 0;
 		maxWeapons = 6;
 	}
@@ -79,6 +79,11 @@ public class Craft extends PhysicalObject{
 		addSlot((int)(250*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
+		
+		shield.load((Image) AssetManager.get().get("shieldsystemicon"), 1f, map);
+		engine.load((Image) AssetManager.get().get("enginesystemicon"), 1f, map);
+		core.load((Image) AssetManager.get().get("coresystemicon"), 1f, map);
+		lifesupport.load((Image) AssetManager.get().get("oxygensystemicon"), 1f, map);
 	}
 	public CraftData formData() {
 		ArrayList<EnumWeapon> enums = new ArrayList<EnumWeapon>();
@@ -93,7 +98,8 @@ public class Craft extends PhysicalObject{
 	public void loadWeapons(ArrayList<EnumWeapon> weapons) throws SlickException{
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
-				LaserLauncher temp = new LaserLauncher(this, map, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+4));
+				LaserLauncher temp = new LaserLauncher(this, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+4));
+				temp.load(map);
 				TickSystem.addTimer(new WeaponTimer(temp));
 				laserlist.add(temp);
 			}

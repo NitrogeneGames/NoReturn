@@ -1,11 +1,15 @@
 package nitrogene.system;
 
 import nitrogene.core.Craft;
+import nitrogene.core.GlobalInformation;
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
+import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Polygon;
 
 public class ShipSystem extends PhysicalObject{
 	private int hp, durability, maxpower, capacity, maxhp;
@@ -22,7 +26,7 @@ public class ShipSystem extends PhysicalObject{
 	}
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
-	public ShipSystem(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority){
+	public ShipSystem(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority){
 		super(x,y);
 		setDefaultMovement("normal");
 		this.hp = maxhp;
@@ -47,6 +51,25 @@ public class ShipSystem extends PhysicalObject{
 	}
 	public float rotation = 0;
 	
+	public void load(Image img, float scalefactor, ArenaMap map){
+		this.scalefactor = scalefactor;
+		this.map = map;
+		this.mainimg = img;
+		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		if(boundbox == null){
+			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			float[] m = {0,0,1,1,2,2};
+			boundbox = new Polygon(m);
+		}
+		init(img.getWidth(), img.getHeight());
+		newboundbox = new Polygon();
+		newboundbox = boundbox;
+		this.setX(tempx);
+		this.setY(tempy);
+		rotationalconstant=0;
+		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
+		movement = new Movement();
+	}
 	@Override
 	public void update(int delta, float camX, float camY){
 		

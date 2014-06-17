@@ -77,11 +77,11 @@ public class MenuState extends BasicGameState{
 		Image temphover = (Image) AssetManager.get().get("defaultbuttonhover");
 		temp.setFilter(Image.FILTER_NEAREST);
 		temp.draw(0,0);
-		campaign.render(g, tempnormal, temphover, temppressed);
-		quickPlay.render(g, tempnormal, temphover, temppressed);
-		hangar.render(g, tempnormal, temphover, temppressed);
-		options.render(g, tempnormal, temphover, temppressed);
-		quitgame.render(g, tempnormal, temphover, temppressed);
+		campaign.render(g, tempnormal, temppressed, temphover);
+		quickPlay.render(g, tempnormal, temppressed, temphover);
+		hangar.render(g, tempnormal, temppressed, temphover);
+		options.render(g, tempnormal, temppressed, temphover);
+		quitgame.render(g, tempnormal, temppressed, temphover);
 	}
 
 	public int getID() {

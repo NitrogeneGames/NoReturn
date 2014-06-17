@@ -11,8 +11,8 @@ public class Engine extends ShipSystem{
 	private int maxhp;
 	private boolean locked;
 
-	public Engine(Craft c, float x, float y, Image img, ArenaMap map, int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge, int damageradius, short priority) throws SlickException {
-		super(c, x, y, img, map, maxhp, durability, maxpower, capacity, damageradius, priority);
+	public Engine(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int thrust, int warpcharge, int damageradius, short priority) throws SlickException {
+		super(c, x, y, maxhp, durability, maxpower, capacity, damageradius, priority);
 		this.thrust = thrust;
 		this.warpcharge = warpcharge;
 		this.maxhp = getHp();
