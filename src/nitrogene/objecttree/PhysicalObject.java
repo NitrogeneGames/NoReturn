@@ -26,19 +26,21 @@ public class PhysicalObject {
 	protected float rotation;
 	protected float width, height;
 
-	public PhysicalObject(float x, float y, Image img, float scalefactor, ArenaMap map){
+	public PhysicalObject(float x, float y, float scalefactor, ArenaMap map){
 		width = 0;
 		height = 0;
 		this.map = map;
-		this.mainimg = img;
 		this.scalefactor = scalefactor;
+	}
+	
+	public void load(Image img, float x, float y){
+		this.mainimg = img;
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
 			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		this.boundbox = boundbox.transform(Transform.createScaleTransform(this.scalefactor, this.scalefactor));
 		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;

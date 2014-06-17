@@ -46,9 +46,6 @@ public class GameState extends BasicGameState{
 	private ShieldBar shieldbar;
 	private HullBar hullbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
-	Image craftImage, statis, mapbackground, slaserimage, sun, backing, shockimage, GUI, pausemenu, img1, enemyImage;
-	Image pauseexitdown, pauseexitup, pausehangardown, pausehangarup, pausemenudown, pausemenuup, pauseoptionsdown, pauseoptionsup,
-	pauserestartdown,pauserestartup,pauseresumeup,pauseresumedown;
 	ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
@@ -75,6 +72,7 @@ public class GameState extends BasicGameState{
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		/*
 		craftImage = new Image("res/klaarship6.png");
 		enemyImage = new Image("res/klaarship6.png");
 		sun = new Image("res/sun_1.png");
@@ -95,7 +93,7 @@ public class GameState extends BasicGameState{
 		pauserestartup = new Image("res/button/pauserestartup.png");
 		pauseresumedown = new Image("res/button/pauseresumedown.png");
 		pauseresumeup = new Image("res/button/pauseresumeup.png");
-		
+		*/
 		CursorSystem.init();
 		mousewheelposition = 0;
 		//set largest zoom for generation
@@ -116,10 +114,11 @@ public class GameState extends BasicGameState{
 		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 		
 		//craftImage.setFilter(Image.FILTER_NEAREST);
-		craft = new Craft(SCR_width/2-175, (float) (SCR_height/2-88.5), craftImage, 1, map);
+		Image craftImage = (Image) AssetManager.get().get("craftImage");
+		craft = new Craft(1, map);
 		map.addCraft(craft);
 		guihotbar = new Hotbar(craft);
-		enemy = new NPCship(1200, 1200, enemyImage, 1, map, Relation.HOSTILE);
+		enemy = new NPCship(1200, 1200, craftImage, 1, map, Relation.HOSTILE);
 		enemy.getImage().rotate(180);
 		map.addCraft(enemy);
 		
@@ -156,12 +155,12 @@ public class GameState extends BasicGameState{
 		pausemenux = (SCR_width/2) - 52;
 		pausemenuy = (SCR_height/2) - 102.5f;
 		try {
-			resume = new PauseButton(pausemenux + 6, pausemenuy + 6, pauseresumeup, pauseresumedown);
-			menu = new PauseButton(pausemenux + 6, pausemenuy + 105, pausemenuup, pausemenudown);
-			restart = new PauseButton(pausemenux + 6, pausemenuy + 39, pauserestartup, pauserestartdown);
-			hangar = new PauseButton(pausemenux + 6, pausemenuy + 72, pausehangarup, pausehangardown);
-			options = new PauseButton(pausemenux + 6, pausemenuy + 138, pauseoptionsup, pauseoptionsdown);
-			exit = new PauseButton(pausemenux + 6, pausemenuy + 171, pauseexitup, pauseexitdown);
+			resume = new PauseButton(pausemenux + 6, pausemenuy + 6, (Image) AssetManager.get().get("pauseresumeup"), (Image) AssetManager.get().get("pauseresumedown"));
+			menu = new PauseButton(pausemenux + 6, pausemenuy + 105, (Image) AssetManager.get().get("pausemenuup"), (Image) AssetManager.get().get("pausemenudown"));
+			restart = new PauseButton(pausemenux + 6, pausemenuy + 39, (Image) AssetManager.get().get("pauserestartup"), (Image) AssetManager.get().get("pauserestartdown"));
+			hangar = new PauseButton(pausemenux + 6, pausemenuy + 72, (Image) AssetManager.get().get("pausehangarup"), (Image) AssetManager.get().get("pausehangardown"));
+			options = new PauseButton(pausemenux + 6, pausemenuy + 138, (Image) AssetManager.get().get("pauseoptionsup"), (Image) AssetManager.get().get("pauseoptionsdown"));
+			exit = new PauseButton(pausemenux + 6, pausemenuy + 171, (Image) AssetManager.get().get("pauseexitup"), (Image) AssetManager.get().get("pauseexitdown"));
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -180,6 +179,8 @@ public class GameState extends BasicGameState{
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
 	      }
 	      */
+	      craft.load((Image) AssetManager.get().get("craftImage"), SCR_width/2-175,(float)(SCR_height/2-88.5));;
+	      
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
@@ -527,6 +528,7 @@ public class GameState extends BasicGameState{
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		shieldbar.render(g, camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
 		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
+		Image GUI = (Image) AssetManager.get().get("GUI");
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
 		//minimap.render(g);
@@ -538,8 +540,9 @@ public class GameState extends BasicGameState{
 	        g.setColor(trans);
 	        g.fillRect(camX,camY, SCR_width, SCR_height);
 	        
-	        pausemenu.draw(pausemenux+camX,pausemenuy+camY);
+	        Image pausemenu = (Image) AssetManager.get().get("pausemenu");
 	        pausemenu.setFilter(Image.FILTER_NEAREST);
+	        pausemenu.draw(pausemenux+camX,pausemenuy+camY);
 	        resume.render(g,camX,camY);
 	        restart.render(g,camX,camY);
 	        options.render(g,camX,camY);

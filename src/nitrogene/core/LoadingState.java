@@ -1,6 +1,9 @@
 package nitrogene.core;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -72,6 +75,42 @@ public class LoadingState extends BasicGameState{
 		Image shipSelectionImage = new Image("res/hangar/shipselectionfinal.png");
 		AssetManager.get().put("shipselection", shipSelectionImage);
 		
+		Image craftImage = new Image("res/klaarship6.png");
+		AssetManager.get().put("craftimage", craftImage);
+		Image sunImage = new Image("res/sun_1.png");
+		AssetManager.get().put("sun1", sunImage);
+		Image pauseMenu = new Image("res/button/pauseback.png");
+		AssetManager.get().put("pausemenu", pauseMenu);
+		Image slaserImage = new Image("res/LaserV2ro.png");
+		AssetManager.get().put("slaserimage", slaserImage);
+		Image GUIimage = new Image("res/GUIportrait.png");
+		AssetManager.get().put("GUI", GUIimage);
+		
+		Image pauseExitDownImage = new Image("res/button/pauseexitdown.png");
+		AssetManager.get().put("pauseexitdown", pauseExitDownImage);
+		Image pauseExitUpImage = new Image("res/button/pauseexitup.png");
+		AssetManager.get().put("pauseexitup", pauseExitUpImage);
+		Image pauseHangarDownImage = new Image("res/button/pausehangardown.png");
+		AssetManager.get().put("pausehangardown", pauseHangarDownImage);
+		Image pauseHangarUpImage = new Image("res/button/pausehangarup.png");
+		AssetManager.get().put("pausehangarup", pauseHangarUpImage);
+		Image pauseMenuDownImage = new Image("res/button/pausemenudown.png");
+		AssetManager.get().put("pausemenudown", pauseMenuDownImage);
+		Image pauseMenuUpImage = new Image("res/button/pausemenuup.png");
+		AssetManager.get().put("pausemenuup", pauseMenuUpImage);
+		Image pauseOptionsDownImage = new Image("res/button/pauseoptionsdown.png");
+		AssetManager.get().put("pauseoptionsdown", pauseOptionsDownImage);
+		Image pauseOptionsUpImage = new Image("res/button/pauseoptionsup.png");
+		AssetManager.get().put("pauseoptionsup", pauseOptionsUpImage);
+		Image pauseRestartDownImage = new Image("res/button/pauserestartdown.png");
+		AssetManager.get().put("pauserestartdown", pauseRestartDownImage);
+		Image pauseRestartUpImage = new Image("res/button/pauserestartup.png");
+		AssetManager.get().put("pauserestartup", pauseRestartUpImage);
+		Image pauseResumeUpImage = new Image("res/button/pauseresumeup.png");
+		AssetManager.get().put("pauseresumeup", pauseResumeUpImage);
+		Image pauseResumeDownImage = new Image("res/button/pauseresumedown.png");
+		AssetManager.get().put("pauseresumedown", pauseResumeDownImage);
+		
 		System.out.println(LoadingList.get().getRemainingResources());
 	}
 	
@@ -83,6 +122,16 @@ public class LoadingState extends BasicGameState{
 			try {
 				lastLoaded = nextResource.getDescription();
 				nextResource.load();
+				System.out.println(nextResource.getDescription());
+				Set<Entry<String, Object>> entires = AssetManager.get().entrySet();
+				for(Entry<String, Object> ent : entires){
+					Image entimage = (Image)ent.getValue();
+					if(entimage.getResourceReference() == nextResource.getDescription()){
+						entimage.setFilter(Image.FILTER_NEAREST);
+						AssetManager.get().put(ent.getKey(), entimage);
+						break;
+					}
+				}
 				System.out.println("LOADING!");
 			} catch (IOException e) {
 				e.printStackTrace();

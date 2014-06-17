@@ -36,8 +36,8 @@ public class Craft extends PhysicalObject{
 	protected volatile boolean destroyed = true;
 	protected int cumulative;
 	public String name = "";
-	public Craft(float xpos, float ypos, Image img, float scale, ArenaMap map) throws SlickException{
-		super(700, 700, img.copy(), scale, map);
+	public Craft(float scale, ArenaMap map) throws SlickException{
+		super(700, 700, scale, map);
 		setDefaultMovement("angled");
 		inventory = new ArrayList<Item>();
 		hull = 100;
