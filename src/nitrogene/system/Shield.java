@@ -12,8 +12,8 @@ public class Shield extends ShipSystem{
 	public float shieldPercentage;
 	public int shieldQuality;
 	
-	public Shield(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int shieldQuality, int damageradius, short priority) throws SlickException{
-		super(c, x, y, maxhp, durability, maxpower, capacity, damageradius, priority);
+	public Shield(Craft c, float x, float y, int maxhp, int durability, int shieldQuality, int damageradius, float powerNeeded) throws SlickException{
+		super(c, x, y, maxhp, durability, damageradius, powerNeeded);
 		damageInd = 0;
 		shieldPercentage = 100;
 		this.shieldQuality = shieldQuality;

@@ -89,7 +89,8 @@ public class LaserLauncher extends ShipSystem{
 	*/
 	
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
-		super(w,xpos, ypos, stat.hp, 0, 100, 1000, 10, priority);
+		//power usage 100 giga-watts
+		super(w,xpos, ypos, stat.hp, 0, 100, 100f);
 		parent = w;
 		if(stat.image == "res/Laser1.png") mainimg = (Image) AssetManager.get().get("standardlaser");
 		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = (Image) AssetManager.get().get("klaarpulsar");
@@ -226,14 +227,16 @@ public class LaserLauncher extends ShipSystem{
 	    		  	laser=null;
 					continue;
 				}
-				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getSize());
+				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
 				if(GlobalInformation.testMode) g.draw(laser.getBoundbox());
 				laser = null;
 	      }
 	}
 	public void fire() throws SlickException{
-		slaserlist.add(new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
-				accuracy, speed, damage, planetdamage, size, this.getAngle(), proje, map, this, true));
+		SLaser temp = new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
+				accuracy, speed, damage, planetdamage, this.getAngle(), this, true);
+		temp.load(proje, size, map);
+		slaserlist.add(temp);
 	}
 	
 	public float getAngle(){

@@ -7,18 +7,19 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Core extends ShipSystem{
-	private int maxpower;
+	private float maxpower;
 	private int maxhp;
-	private int powerRate;
+	private float powerRate;
+	private boolean enabled;
 
-	public Core(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius, int powerRate) throws SlickException {
-		super(c,x,y, maxhp, durability, maxpower, capacity, damageradius, (short)0);
-		this.maxpower = maxpower;
+	public Core(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerRate) throws SlickException {
+		super(c,x,y, maxhp, durability, damageradius, 0f);
 		this.powerRate = powerRate;
+		this.maxpower = powerRate;
 	}
 	
 	//Core under 30% health stars to 
-	public int getPower(){
+	public float getPower(){
 		double zz = getHp()/maxhp;
 		if(zz<0.3) return (int) (zz*3.33*maxpower);
 		else return maxpower;
@@ -33,7 +34,17 @@ public class Core extends ShipSystem{
 		setHp(getHp()+repair);
 		if(getHp() < 0) setHp(0);
 	}
-	public int getPowerRate(){
+	public float getPowerRate(){
 		return this.powerRate;
+	}
+	
+	public void sendPower(Capacitor cap){
+		cap.receivePower(this.powerRate);
+	}
+	
+	public void deviatePowerRate(float pwrrate){
+		if(pwrrate <= maxpower){
+			powerRate = pwrrate;
+		}
 	}
 }

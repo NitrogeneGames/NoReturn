@@ -23,7 +23,7 @@ public class LoadingState extends BasicGameState{
 	/** The next resource to load */
 	private DeferredResource nextResource;
 	/** True if we've loaded all the resources and started rendereing */
-	private boolean started;
+	private float totalResources, resourcesLoaded;
 
 	//PLACE IMAGE DECLARATIONS HERE!
 	public void init(GameContainer container, StateBasedGame game)
@@ -165,6 +165,12 @@ public class LoadingState extends BasicGameState{
 	}
 	
 	@Override
+	public void enter(GameContainer container, StateBasedGame game){
+		totalResources = LoadingList.get().getTotalResources();
+		resourcesLoaded = 0;
+	}
+	
+	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		if(LoadingList.get().getRemainingResources() > 0){
@@ -183,6 +189,7 @@ public class LoadingState extends BasicGameState{
 					}
 				}
 				System.out.println("LOADING!");
+				resourcesLoaded++;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -195,7 +202,9 @@ public class LoadingState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		if(nextResource!=null){
-			g.drawString("Loaded: "+lastLoaded, 100, 100); 
+			g.drawString("Loaded: "+lastLoaded, 100, 100);
+			float temp = resourcesLoaded/totalResources;
+			g.drawString(Math.round(temp*100) + "%", 105, 120);
 		} else{
 		g.drawString("LOADING COMPLETE", 200, 200);
 		}

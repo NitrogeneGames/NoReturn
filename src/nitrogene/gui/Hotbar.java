@@ -78,7 +78,7 @@ public class Hotbar {
 						camX, camY);
 			}
 			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
-			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerStorage()/launcher.getCapacity(), camX, camY);
+			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerReceived()/launcher.getPowerUsage(), camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
 			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
 		}

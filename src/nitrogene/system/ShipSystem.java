@@ -12,31 +12,33 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Polygon;
 
 public class ShipSystem extends PhysicalObject{
-	private int hp, durability, maxpower, capacity, maxhp;
+	protected int hp;
+	private int durability;
+	private int maxpower;
+	private int maxhp;
 	private EnumStatus status;
 	public Craft craft;
-	private long powerstorage;
 	private float x1;
 	private float y1;
 	private float m;
 	private float r;
-	private short priority;
+	protected float powerusage;
+	protected float powerReceived;
+	private float powerNeeded;
+	private boolean enabled;
 	public float[] getRelations() {
 		return new float[]{m,r};
 	}
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
-	public ShipSystem(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority){
+	public ShipSystem(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerNeeded){
 		super(x,y);
 		setDefaultMovement("normal");
 		this.hp = maxhp;
-		this.powerstorage = 0;
 		this.maxhp = maxhp;
 		this.durability = durability;
-		this.maxpower = maxpower;
-		this.capacity = capacity;
+		this.powerNeeded = powerNeeded;
 		this.craft = c;
-		this.priority = priority;
 		x1 = x;
 		y1 = y;
 		//x1 = -(craft.getX()+(craft.getBoundbox().getWidth()*craft.getScale()) - (x+img.getWidth()*this.getScale()));
@@ -81,12 +83,12 @@ public class ShipSystem extends PhysicalObject{
 	}
 	
 	//THIS FUNCTION IS REQUIRED (EVEN IF AMOUNT IS 0) -> ALL SYSTEMS MUST RECEIVE POWER
-	public void sendPower(int amount){
-		if(capacity+amount <= capacity && maxpower <= amount){
-			powerstorage += amount;
-		} else if(maxpower > amount){
+	public void receivePower(float amount){
+		this.powerReceived = amount;
+		if(amount < powerusage){
+			this.setStatus(EnumStatus.POWER);
+		} else if(amount > powerusage){
 			this.hp-=1;
-			//Damage the system for providing too much power
 		}
 	}
 	public int getHp(){
@@ -123,24 +125,22 @@ public class ShipSystem extends PhysicalObject{
 	public float getShipRadius() {
 		return r;
 	}
-	public int getCapacity(){
-		return capacity;
-	}
 	public void setStatus(EnumStatus status){
 		this.status = status;
 	}
 	public EnumStatus getStatus(){
 		return status;
 	}
-	public long getPowerStorage(){
-		return powerstorage;
+	public float getPowerUsage(){
+		return powerusage;
 	}
-	public boolean acquirePower(int amount) {
-		if(this.capacity>=amount){
-			this.capacity -= amount;
-			return true;
-		} else{
-			return false;
-		}
+	public float getPowerReceived(){
+		return powerReceived;
+	}
+	public void setEnabled(boolean e){
+		enabled = e;
+	}
+	public boolean getEnabled(){
+		return enabled;
 	}
 }

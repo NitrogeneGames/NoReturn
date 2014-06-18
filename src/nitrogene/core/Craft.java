@@ -3,6 +3,7 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.system.Capacitor;
 import nitrogene.system.Core;
 import nitrogene.system.Engine;
 import nitrogene.system.LifeSupport;
@@ -10,6 +11,7 @@ import nitrogene.system.Shield;
 import nitrogene.system.ShipSystem;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumHull;
+import nitrogene.util.EnumStatus;
 import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
@@ -29,8 +31,10 @@ public class Craft extends PhysicalObject{
 	public Shield shield;
 	public LifeSupport lifesupport;
 	public Core core;
+	public Capacitor capacitor;
 	public EnumHull hulltype = EnumHull.NORMAL;
 	public Engine engine;
+	protected ArrayList<ShipSystem> systems;
 	public ArrayList<LaserLauncher> laserlist = new ArrayList<LaserLauncher>();
 	protected double hull, maxhull;
 	public int maxWeapons;
@@ -42,14 +46,18 @@ public class Craft extends PhysicalObject{
 	public Craft(float xpos, float ypos) throws SlickException{
 		super(xpos, ypos);
 		setDefaultMovement("angled");
+		systems = new ArrayList<ShipSystem>(30);
 		inventory = new ArrayList<Item>();
 		hull = 100;
 		maxhull = 100;
-		shield = new Shield(this,82,45, 300,2,30,1000,1,50,(short)1);
+		shield = new Shield(this,82,45,300,2,1,50,100f);
 		delta = 0;
-		engine = new Engine(this,48,77, 200,2,20,1000,20,/*warpchage */ 100,50,(short)2);
-		core = new Core(this,82,83, 1000,5,100,2000,50,50); 
-		lifesupport = new LifeSupport(this,82,125,200,2,5,1000,50,(short)3);
+		engine = new Engine(this,48,77, 200,2,20,/*warpchage */ 100,50,100f);
+		core = new Core(this,82,83, 1000,5,50,500f); 
+		lifesupport = new LifeSupport(this,82,125, 200,2,50,100f);
+		systems.add(lifesupport);
+		systems.add(engine);
+		systems.add(shield);
 		cumulative = 0;
 		maxWeapons = 6;
 	}
@@ -111,11 +119,11 @@ public class Craft extends PhysicalObject{
 	{
 		//Send power to systems based on priorities
 		
-		//Clock
-		if(cumulative >= 1000){
-			//1 second cumulative
-			lifesupport.tick();
-			cumulative = 0;
+		core.sendPower(capacitor);
+		for(ShipSystem system : this.systems){
+			if(system != null && system.getEnabled() && capacitor.getStoredEnergy() >= system.getPowerUsage() && system.getStatus()!=EnumStatus.DESTROYED){
+			capacitor.sendPower(system.getPowerUsage(), system);
+			}
 		}
 		
 		this.mainimg.setRotation(this.angledmovement.getRotationAngle());

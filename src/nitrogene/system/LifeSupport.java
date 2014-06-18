@@ -10,8 +10,8 @@ public class LifeSupport extends ShipSystem{
 	private int percentoxygen;
 	private int maxhp;
 
-	public LifeSupport(Craft c, float x, float y, int maxhp, int durability, int maxpower, int capacity, int damageradius, short priority) throws SlickException {
-		super(c, x, y, maxhp, durability, maxpower, capacity, damageradius, priority);
+	public LifeSupport(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerNeeded) throws SlickException {
+		super(c, x, y, maxhp, durability, damageradius, powerNeeded);
 		this.maxhp = maxhp;
 	}
 	

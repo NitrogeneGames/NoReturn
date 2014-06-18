@@ -16,14 +16,14 @@ public class SLaser extends PhysicalObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
 	double mangle = 0;
-	private float mmangle, scalesize, sspeed;
+	private float mmangle, sspeed;
 	private int sdamage;
 	private int planetdamage;
 	private boolean isRotated;
 	private float xconstant, yconstant;
 	Sound basicTestLaser;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float size, float rotation, Image img, ArenaMap map, LaserLauncher l, boolean playsound) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float rotation, LaserLauncher l, boolean playsound) throws SlickException{
 		super(startX, startY);
 		//Movement class unused
 		setDefaultMovement("normal");
@@ -34,7 +34,6 @@ public class SLaser extends PhysicalObject{
 		this.desY = destinY;
 		this.sdamage = damage;
 		this.sspeed = speed;
-		this.scalesize = size;
 		this.planetdamage = planetdamage;
 		this.mmangle = rotation;
 		if(accuracy!=0){
@@ -126,9 +125,6 @@ public class SLaser extends PhysicalObject{
 	
 	public int getDamage(){
 		return sdamage;
-	}
-	public float getSize(){
-		return scalesize;
 	}
 
 	public int getPlanetDamage() {
