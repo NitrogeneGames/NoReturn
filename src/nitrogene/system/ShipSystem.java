@@ -15,8 +15,9 @@ public class ShipSystem extends PhysicalObject{
 	protected int hp;
 	private int durability;
 	private int maxpower;
-	private int maxhp;
+	protected int maxhp;
 	private EnumStatus status;
+	protected int functionality; //1-10 for how functional the system is.
 	public Craft craft;
 	private float x1;
 	private float y1;
@@ -72,11 +73,16 @@ public class ShipSystem extends PhysicalObject{
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 	}
+	
 	@Override
 	public void update(int delta, float camX, float camY){
 		
 		if(hp <= 0){
 			this.setStatus(EnumStatus.DESTROYED);
+		} else if(hp<maxhp){
+			this.setStatus(EnumStatus.DAMAGED);
+		} else if(this.functionality<10){
+			this.setStatus(EnumStatus.POWER);
 		} else{
 			this.setStatus(EnumStatus.READY);
 		}
@@ -86,7 +92,7 @@ public class ShipSystem extends PhysicalObject{
 	public void receivePower(float amount){
 		this.powerReceived = amount;
 		if(amount < powerusage){
-			this.setStatus(EnumStatus.POWER);
+			this.functionality = (int)Math.round((amount/powerusage)*10);
 		} else if(amount > powerusage){
 			this.hp-=1;
 		}

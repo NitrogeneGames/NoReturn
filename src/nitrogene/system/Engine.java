@@ -58,7 +58,7 @@ public class Engine extends ShipSystem{
 	
 	public int getThrust(){
 		if(!locked){
-		return thrust;
+		return thrust*functionality;
 		}
 		return 0;
 	}

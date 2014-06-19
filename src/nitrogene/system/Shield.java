@@ -1,6 +1,7 @@
 package nitrogene.system;
 
 import nitrogene.core.Craft;
+import nitrogene.util.EnumStatus;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
@@ -12,11 +13,31 @@ public class Shield extends ShipSystem{
 	public float shieldPercentage;
 	public int shieldQuality;
 	
-	public Shield(Craft c, float x, float y, int maxhp, int durability, int shieldQuality, int damageradius, float powerNeeded) throws SlickException{
+	public Shield(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerNeeded) throws SlickException{
 		super(c, x, y, maxhp, durability, damageradius, powerNeeded);
 		damageInd = 0;
 		shieldPercentage = 100;
-		this.shieldQuality = shieldQuality;
+	}
+	
+	@Override
+	public void update(int delta, float camX, float camY){
+		if(functionality>=8){
+			shieldQuality=3;
+		} else if(functionality>=4 && functionality < 8){
+			shieldQuality=2;
+		} else if(functionality<4){
+			shieldQuality=1;
+		}
+		
+		if(hp <= 0){
+			this.setStatus(EnumStatus.DESTROYED);
+		} else if(hp<maxhp){
+			this.setStatus(EnumStatus.DAMAGED);
+		} else if(this.functionality<10){
+			this.setStatus(EnumStatus.POWER);
+		} else{
+			this.setStatus(EnumStatus.READY);
+		}
 	}
 	
 	/*

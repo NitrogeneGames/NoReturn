@@ -42,12 +42,6 @@ public class NPCship extends Craft{
 		if(crafttarget.get(0)!=null)
 			//this.laserlist.get(0).setTarget(crafttarget.get(0).getCenterX(), crafttarget.get(0).getCenterY());
 		
-		//Clock
-		if(cumulative >= 1000){
-			//1 second cumulative
-			lifesupport.tick();
-			cumulative -= 1000;
-		}
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
 		runTasks(delta, camX, camY);

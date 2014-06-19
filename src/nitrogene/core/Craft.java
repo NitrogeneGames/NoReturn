@@ -50,7 +50,7 @@ public class Craft extends PhysicalObject{
 		inventory = new ArrayList<Item>();
 		hull = 100;
 		maxhull = 100;
-		shield = new Shield(this,82,45,300,2,1,50,100f);
+		shield = new Shield(this,82,45,300,2,50,100f);
 		delta = 0;
 		engine = new Engine(this,48,77, 200,2,20,/*warpchage */ 100,50,100f);
 		core = new Core(this,82,83, 1000,5,50,500f); 
