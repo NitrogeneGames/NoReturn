@@ -15,7 +15,6 @@ public class SpaceGame extends StateBasedGame{
 		super("No Return");
 		SCRwidth = 1366;
 		SCRheight = 768;
-		AppData.runInit();
 	}
 
 	public static void main(String[] args) throws SlickException{
@@ -23,6 +22,7 @@ public class SpaceGame extends StateBasedGame{
 		app.setDisplayMode(SCRwidth, SCRheight, false);
 		GlobalInformation.initHitboxData();
 		GlobalInformation.init(SCRwidth, SCRheight);
+		AppData.runInit();
 		app.start();
 	}
  

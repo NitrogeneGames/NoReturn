@@ -27,11 +27,55 @@ import nitrogene.weapon.EnumWeapon;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class AppData {
 	public static String userDataRoot = System.getenv("APPDATA");
+	public static void loadOptions() {
+		try {
+		File fXmlFile = new File(userDataRoot + "\\NoReturn\\options.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		doc.getDocumentElement().normalize();
+		if(doc.getDocumentElement().getNodeName() != "optionlist") {
+			System.out.println("ERROR: CORRUPTRED OPTIONS FILE CP 1");
+			return;
+		}
+		NodeList nList = doc.getElementsByTagName("option");
+		for(int i = 0; i < nList.getLength(); i++) {
+			Element nNode =  (Element) nList.item(i);
+			GlobalInformation.musiclevel = Integer.parseInt(nNode.getAttribute("music"));
+			GlobalInformation.sfxlevel = Integer.parseInt(nNode.getAttribute("sfx"));
+			GlobalInformation.alarmlevel = Integer.parseInt(nNode.getAttribute("alarm"));
+		}
+		 } catch (Exception e) {
+			 System.out.println("ERROR: CORRUPTED OPTIONS FILE CP 2");
+			 e.printStackTrace();
+		  }
+	}
+	public static void saveOptions() {
+		  try {
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		Document doc = docBuilder.newDocument();
+		
+		Element rootElement = doc.createElement("optionlist");
+		doc.appendChild(rootElement);
+		Element e1 = doc.createElement("option");
+		rootElement.appendChild(e1);
+		Attr s1 = doc.createAttribute("music");
+		s1.setValue("" + GlobalInformation.musiclevel);
+		Attr s2 = doc.createAttribute("sfx");
+		s2.setValue("" + GlobalInformation.sfxlevel);
+		Attr s3 = doc.createAttribute("alarm");
+		s3.setValue("" + GlobalInformation.alarmlevel);
+		  } catch (Exception e) {
+			  
+		  }
+	}
 	public static void runInit() {
 		File folder = new File(userDataRoot + "\\NoReturn");
 		if(!folder.exists()) { //Checks if folder exists
@@ -39,6 +83,7 @@ public class AppData {
 		}
 		if(new File(userDataRoot + "\\NoReturn\\ships.xml").exists()) {
 			loadShipFile();
+			loadOptions();
 		} else {
 			GlobalInformation.shipsLoaded = false;
 		}
@@ -55,7 +100,7 @@ public class AppData {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
-		if(doc.getDocumentElement().getNodeName() == "shipslist") {
+		if(doc.getDocumentElement().getNodeName() != "shiplist") {
 			System.out.println("ERROR: CORRUPTRED SHIP FILE CP 1");
 			return;
 		}
