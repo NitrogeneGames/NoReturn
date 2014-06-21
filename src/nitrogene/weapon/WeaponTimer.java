@@ -87,7 +87,7 @@ public class WeaponTimer {
 	   CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
-   public float getMaxChargeTime(){  
+   public float getMaxChargeTime(){
 		return w.getOuterburst();
    }
    public float getCurrentChargeTime(){

@@ -21,7 +21,8 @@ public class ShipState extends BasicGameState{
 	private int width,height;
 	private int scalefactor, obserx, obsery;
 	private Color backgroundcolor;
-	private ArrayList<Button> buttonList = new ArrayList<Button>();
+	private ArrayList<ArrayList<Button>> buttonList;
+	private int currentTab;
 	
 	private Button startButton, hangarButton, menuButton, minusButton, plusButton;
 	
@@ -32,6 +33,8 @@ public class ShipState extends BasicGameState{
 	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		buttonList = new ArrayList<ArrayList<Button>>();
+		currentTab = 0;
 		backgroundcolor = new Color(91, 91, 91);
 		
 		this.scalefactor = (int) Math.floor(height/128);
@@ -43,7 +46,7 @@ public class ShipState extends BasicGameState{
 		try {
 			startButton = new Button("Start", obserx+(120*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
 			hangarButton = new Button("Design", obserx+(22*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
-			menuButton = new Button("", obserx+(10*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
+			menuButton = new Button("Main Menu", obserx+(10*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 			minusButton = new Button("", obserx+(97*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 			plusButton = new Button("", obserx+(108*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 		} catch (FontFormatException | IOException e) {
@@ -55,8 +58,15 @@ public class ShipState extends BasicGameState{
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		try {
-			for(int i = 0; i < GlobalInformation.getCraftData().size(); i++) {
-				buttonList.add(new Button(GlobalInformation.getCraftData().get(i).name, this.width/2-150, 150+i*80, 300, 60, null));
+			for(int e = 0; e < Math.ceil(GlobalInformation.getCraftData().size()/6d); e++){
+				ArrayList<Button> templist = new ArrayList<Button>();
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+0).name, this.width/2-150, 150+e*80*1, 300, 60, null));
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+1).name, this.width/2-150, 150+e*80*2, 300, 60, null));
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+2).name, this.width/2-150, 150+e*80*3, 300, 60, null));
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+3).name, this.width/2-150, 150+e*80*4, 300, 60, null));
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+4).name, this.width/2-150, 150+e*80*5, 300, 60, null));
+				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+5).name, this.width/2-150, 150+e*80*6, 300, 60, null));
+				buttonList.add(templist);
 			}
 		} catch (FontFormatException e) {
 			e.printStackTrace();
@@ -74,15 +84,24 @@ public class ShipState extends BasicGameState{
 		minusButton.update(container);
 		plusButton.update(container);
 		
-		for(int i = 0; i < buttonList.size(); i++) {
-			buttonList.get(i).update(container);
-			if(buttonList.get(i).isClicked()){
-				GlobalInformation.setStartingWeapons(GlobalInformation.getCraftData().get(i).weapons);
-				game.enterState(2);
-				//GlobalInformation.getCraftData().get(i).renderShip().draw(0, 0);
+		for(int i = 0; i < buttonList.size(); i++){
+			ArrayList<Button> blist = buttonList.get(i);
+			for(int e = 0; e < blist.size(); e++){
+				Button b = blist.get(e);
+				if(b.isClicked()){
+					GlobalInformation.setStartingWeapons(GlobalInformation.getCraftData().get(e*6+i).weapons);
+					game.enterState(2);
+				}
 			}
 		}
 		
+		if(startButton.isClicked()){
+			
+		} else if(hangarButton.isClicked()){
+			game.enterState(3);
+		} else if(menuButton.isClicked()){
+			game.enterState(1);
+		}
 
 	}
 	@Override
@@ -91,8 +110,9 @@ public class ShipState extends BasicGameState{
 		g.setBackground(backgroundcolor);
 		Image backgroundimg = (Image) AssetManager.get().get("shipselection");
 		backgroundimg.draw(obserx, obsery, scalefactor);
-		for(int i = 0; i < buttonList.size(); i++) {
-			buttonList.get(i).render(g, (Image)AssetManager.get().get("shipbutton"), (Image)AssetManager.get().get("shipbuttonhighlighted"), null);
+		ArrayList<Button> finalblist = buttonList.get(currentTab);
+ 		for(int i = 0; i < finalblist.size(); i++) {
+			finalblist.get(i).render(g, (Image)AssetManager.get().get("shipbutton"), (Image)AssetManager.get().get("shipbuttonhighlighted"), null);
 		}
 		
 		startButton.render(g, (Image)AssetManager.get().get("startbutton"), null, null);

@@ -54,6 +54,7 @@ public class Craft extends PhysicalObject{
 		delta = 0;
 		engine = new Engine(this,48,77, 200,2,20,/*warpchage */ 100,50,100f);
 		core = new Core(this,82,83, 1000,5,50,500f); 
+		capacitor = new Capacitor(this,100,100, 1000,5,20,100000f);
 		lifesupport = new LifeSupport(this,82,125, 200,2,50,100f);
 		systems.add(lifesupport);
 		systems.add(engine);
@@ -92,6 +93,7 @@ public class Craft extends PhysicalObject{
 		engine.load((Image) AssetManager.get().get("enginesystemicon"), 1f, map);
 		core.load((Image) AssetManager.get().get("coresystemicon"), 1f, map);
 		lifesupport.load((Image) AssetManager.get().get("oxygensystemicon"), 1f, map);
+		capacitor.load((Image)AssetManager.get().get("coresystemicon"), 1f, map);
 	}
 	public CraftData formData() {
 		ArrayList<EnumWeapon> enums = new ArrayList<EnumWeapon>();
@@ -106,7 +108,7 @@ public class Craft extends PhysicalObject{
 	public void loadWeapons(ArrayList<EnumWeapon> weapons) throws SlickException{
 		if(weapons != null){
 			for(int i = 0; i < weapons.size(); i++) {
-				LaserLauncher temp = new LaserLauncher(this, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+4));
+				LaserLauncher temp = new LaserLauncher(this, weaponSlots.get(i)[0], weaponSlots.get(i)[1], weapons.get(i), i, weapons.get(i).formalname, (short)(i+5));
 				temp.load(map);
 				TickSystem.addTimer(new WeaponTimer(temp));
 				laserlist.add(temp);
@@ -121,7 +123,8 @@ public class Craft extends PhysicalObject{
 		
 		core.sendPower(capacitor);
 		for(ShipSystem system : this.systems){
-			if(system != null && system.getEnabled() && capacitor.getStoredEnergy() >= system.getPowerUsage() && system.getStatus()!=EnumStatus.DESTROYED){
+			if(system != null && system.getEnabled() &&
+				capacitor.getStoredEnergy() >= system.getPowerUsage() && system.getStatus()!=EnumStatus.DESTROYED){
 			capacitor.sendPower(system.getPowerUsage(), system);
 			}
 		}
