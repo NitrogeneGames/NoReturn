@@ -63,9 +63,9 @@ public class OptionState extends BasicGameState{
 			game.enterState(1);
 		}
 		
-		GlobalInformation.musiclevel = (music.getX()-151-x)/6;
-		GlobalInformation.sfxlevel = (sfx.getX()-151-x)/6;
-		GlobalInformation.alarmlevel = (alarm.getX()-151-x)/6;
+		GlobalInformation.musiclevel = (music.getX()-151-x)/6/100;
+		GlobalInformation.sfxlevel = (sfx.getX()-151-x)/6/100;
+		GlobalInformation.alarmlevel = (alarm.getX()-151-x)/6/100;
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g)

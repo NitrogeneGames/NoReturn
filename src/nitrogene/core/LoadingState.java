@@ -8,6 +8,7 @@ import java.util.Set;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
@@ -161,6 +162,9 @@ public class LoadingState extends BasicGameState{
 		Image klaarPulsarImage = new Image("res/klaar_pulsar_2.png");
 		AssetManager.get().put("klaarpulsar", klaarPulsarImage);
 		
+		Music millionaireMusic = new Music("res/sound/millionaire.ogg");
+		AssetManager.get().put("millionaire", millionaireMusic);
+		
 		System.out.println(LoadingList.get().getRemainingResources());
 	}
 	
@@ -179,13 +183,15 @@ public class LoadingState extends BasicGameState{
 				lastLoaded = nextResource.getDescription();
 				nextResource.load();
 				System.out.println(nextResource.getDescription());
-				Set<Entry<String, Object>> entires = AssetManager.get().entrySet();
-				for(Entry<String, Object> ent : entires){
-					Image entimage = (Image)ent.getValue();
-					if(entimage.getResourceReference() == nextResource.getDescription()){
-						entimage.setFilter(Image.FILTER_NEAREST);
-						AssetManager.get().put(ent.getKey(), entimage);
-						break;
+				if(nextResource.getClass() == Image.class){
+					Set<Entry<String, Object>> entires = AssetManager.get().entrySet();
+					for(Entry<String, Object> ent : entires){
+						Image entimage = (Image)ent.getValue();
+						if(entimage.getResourceReference() == nextResource.getDescription()){
+							entimage.setFilter(Image.FILTER_NEAREST);
+							AssetManager.get().put(ent.getKey(), entimage);
+							break;
+						}
 					}
 				}
 				System.out.println("LOADING!");

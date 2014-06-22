@@ -9,6 +9,7 @@ import nitrogene.util.Button;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -17,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MenuState extends BasicGameState{
 
 	private int width,height;
+	private Music menuMusic;
 	private Button quickPlay, campaign, options, hangar, quitgame;
 	
 	public MenuState(int width,int height){
@@ -43,7 +45,9 @@ public class MenuState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
-
+		menuMusic = (Music) AssetManager.get().get("millionaire");
+		System.out.println(GlobalInformation.musiclevel);
+		menuMusic.loop(1f, GlobalInformation.musiclevel);
 	}
 	
 	@Override
