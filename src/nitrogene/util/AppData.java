@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import nitrogene.core.CraftData;
 import nitrogene.core.GlobalInformation;
 import nitrogene.weapon.EnumWeapon;
@@ -35,13 +36,9 @@ public class AppData {
    System.out.println("ERROR: CORRUPTRED OPTIONS FILE CP 1");
    return;
   }
-  NodeList nList = doc.getElementsByTagName("option");
-  for(int i = 0; i < nList.getLength(); i++) {
-   Element nNode =  (Element) nList.item(i);
-   GlobalInformation.musiclevel = Integer.parseInt(nNode.getAttribute("music"));
-   GlobalInformation.sfxlevel = Integer.parseInt(nNode.getAttribute("sfx"));
-   GlobalInformation.alarmlevel = Integer.parseInt(nNode.getAttribute("alarm"));
-  }
+   GlobalInformation.musiclevel = Float.parseFloat(doc.getDocumentElement().getAttribute("music"));
+   GlobalInformation.sfxlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("sfx"));
+   GlobalInformation.alarmlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("alarm"));
    } catch (Exception e) {
     System.out.println("ERROR: CORRUPTED OPTIONS FILE CP 2");
     e.printStackTrace();
@@ -49,27 +46,30 @@ public class AppData {
  }
  public static void saveOptions() {
     try {
+
   DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
   DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
   Document doc = docBuilder.newDocument();
   
   Element rootElement = doc.createElement("optionlist");
   doc.appendChild(rootElement);
-  Element e1 = doc.createElement("option");
-  rootElement.appendChild(e1);
   Attr s1 = doc.createAttribute("music");
   s1.setValue("" + GlobalInformation.musiclevel);
   Attr s2 = doc.createAttribute("sfx");
   s2.setValue("" + GlobalInformation.sfxlevel);
   Attr s3 = doc.createAttribute("alarm");
   s3.setValue("" + GlobalInformation.alarmlevel);
+  rootElement.setAttributeNode(s1);
+  rootElement.setAttributeNode(s2);
+  rootElement.setAttributeNode(s3);
   TransformerFactory transformerFactory = TransformerFactory.newInstance();
   Transformer transformer = transformerFactory.newTransformer();
   DOMSource source = new DOMSource(doc);
   StreamResult result = new StreamResult(new File(userDataRoot + "\\NoReturn\\options.xml"));
   transformer.transform(source, result);
+	System.out.println("SAVING");
     } catch (Exception e) {
-     
+     e.printStackTrace();
     }
  }
  public static void runInit() {
