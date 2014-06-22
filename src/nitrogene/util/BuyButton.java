@@ -20,7 +20,7 @@ import org.newdawn.slick.Sound;
 public class BuyButton extends Button
 {
 	private int cost;
-	private String finalrender;
+	private String finalrender = "normalimage";
 	private boolean selected;
 
 	public BuyButton(String name, int cost, float x, float y, float width, float height,Sound mouseover) throws FontFormatException, IOException,
@@ -54,8 +54,7 @@ public class BuyButton extends Button
             		weapons.remove(enumwep);
             		buttonDown = false;
             		return;
-            	}
-            	if(finalrender == "normalimage"){
+            	} else if(finalrender == "normalimage"){
             		if(HangarState.getMoney() - cost < 0){
             			return;
             		}
