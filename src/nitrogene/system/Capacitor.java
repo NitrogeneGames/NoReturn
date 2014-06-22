@@ -19,6 +19,7 @@ public class Capacitor extends ShipSystem{
 	@Override
 	public void update(int delta, float camX, float camY){
 		
+		//Testing whether the health is at or below zero.
 		if(hp <= 0){
 			this.capacity = this.maxcapacity/2;
 			this.setStatus(EnumStatus.DAMAGED);
