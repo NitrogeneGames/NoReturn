@@ -28,6 +28,7 @@ public class MenuState extends BasicGameState{
 			throws SlickException {
 		//button init
 		try {
+			//variables for objects (text, width, height, position, button)
 			campaign = new Button("Campaign", 1100, 340, 150, 60);
 			quickPlay = new Button("Quick Play", 1100, 400, 150, 60);
 			hangar = new Button("Hangar", 1100, 460, 150, 60);
