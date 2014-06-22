@@ -8,6 +8,7 @@ public class Vector {
 	      x = 0.0f;
 	      y = 0.0f;
 	   }
+	   //This line is a comment (therefore it is considered useless by the codec that is constantly reading it)
 	   
 	   public Vector(final float x, final float y){
 		   this.x = x;
