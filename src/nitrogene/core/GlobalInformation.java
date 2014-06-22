@@ -18,9 +18,9 @@ public class GlobalInformation {
 	
 	private static ArrayList<CraftData> craftdata = new ArrayList<CraftData>();
 	public static int selected;
-	public static float musiclevel = 50;
-	public static float sfxlevel = 100;
-	public static float alarmlevel = 50;
+	public static float musiclevel = 50/100;
+	public static float sfxlevel = 100/100;
+	public static float alarmlevel = 50/100;
 	public static int SCRwidth,SCRheight;
 	public static double percentloaded;
 	public static boolean testMode = false;

@@ -30,9 +30,9 @@ public class OptionState extends BasicGameState{
 	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		music = new Slider(x+151+(GlobalInformation.musiclevel*6),y+86-15,20,40,x+751,y+86-15,x+151,y+86-15);
-		sfx = new Slider(x+151+(GlobalInformation.sfxlevel*6),y+146-15,20,40,x+751,y+146-15,x+151,y+146-15);
-		alarm = new Slider(x+151+(GlobalInformation.alarmlevel*6),y+205-15,20,40,x+751,y+205-15,x+151,y+205-15);
+		music = new Slider(x+151+(GlobalInformation.musiclevel*6*100),y+86-15,20,40,x+751,y+86-15,x+151,y+86-15);
+		sfx = new Slider(x+151+(GlobalInformation.sfxlevel*6*100),y+146-15,20,40,x+751,y+146-15,x+151,y+146-15);
+		alarm = new Slider(x+151+(GlobalInformation.alarmlevel*6*100),y+205-15,20,40,x+751,y+205-15,x+151,y+205-15);
 		
 		try {
 			decline = new Button("Menu", x+720, y+300, 110, 40);
