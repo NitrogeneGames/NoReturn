@@ -20,6 +20,7 @@ public class SLaser extends PhysicalObject{
 	private int sdamage;
 	private int planetdamage;
 	private boolean isRotated;
+	public LaserLauncher parent;
 	private float xconstant, yconstant;
 	Sound basicTestLaser;
 	
@@ -32,6 +33,7 @@ public class SLaser extends PhysicalObject{
 		this.startY =startY;
 		this.desX = destinX;
 		this.desY = destinY;
+		this.parent = l;
 		this.sdamage = damage;
 		this.sspeed = speed;
 		this.planetdamage = planetdamage;
@@ -41,18 +43,19 @@ public class SLaser extends PhysicalObject{
 		desY += randomize(accuracy);
 		}
 		recalculateVector(desX, desY);
-		
-
-		this.getImage().setRotation(0);
-		this.getImage().setCenterOfRotation(l.getImage().getWidth()/2,l.getImage().getHeight()/2);
-		this.getImage().rotate(mmangle);
-		if(playsound) {
+		/*if(playsound) {
 		basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		basicTestLaser.play(1f, 0.5f);
-		}
+		} */
 		//recalculateAngle(desX, desY);
 	}
-	
+	@Override
+	public void load(Image img, float scalefactor, ArenaMap map) {
+		super.load(img, scalefactor, map);
+		this.getImage().setRotation(0);
+		this.getImage().setCenterOfRotation(parent.getImage().getWidth()/2,parent.getImage().getHeight()/2);
+		this.getImage().rotate(mmangle);
+	}
 	/*
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image im) throws SlickException{
 		super(startX, startY, img.getWidth(), img.getHeight(), img, size, map);

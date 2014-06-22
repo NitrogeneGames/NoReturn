@@ -1,6 +1,5 @@
 package nitrogene.core;
 
-import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,11 +11,13 @@ import nitrogene.util.EnumHull;
 import nitrogene.util.Tab;
 import nitrogene.weapon.EnumWeapon;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -35,6 +36,7 @@ public class HangarState extends BasicGameState{
 	private ArrayList<BuyButton> buttonlist, buttonlist2;
 	private ArrayList<EnumWeapon> weapons;
 	private Tab weapontab;
+	private TextField textbox;
 	
 	//buttons for purchasing systems
 	private BuyButton basiclaserbutton, splitlaserbutton, splitlaser2button, pulsarbutton, pulsar2button, pdibutton, mininglaserbutton, veloxlaserbutton, velox2laserbutton, immineolaserbutton, immineo2laserbutton,
@@ -44,6 +46,11 @@ public class HangarState extends BasicGameState{
 	public HangarState(int width, int height){
 		this.width = width;
 		this.height = height;
+		try {
+			font = GlobalInformation.getMenuFont(40f);
+		} catch (SlickException e) {
+
+		}
 	}
 	
 	@Override
@@ -57,12 +64,11 @@ public class HangarState extends BasicGameState{
 		buttonlist2 = new ArrayList<BuyButton>();
 		buttonlist = new ArrayList<BuyButton>();
 		weapons = new ArrayList<EnumWeapon>();
-		
+		//textbox = new TextField(container, font, 100, 100,100, 100);
 		this.repx = (int) Math.ceil(width/100.0);
 		this.repy = (int) Math.ceil(height/100.0);
 		
 		this.scalefactor = (int) Math.floor(height/128);
-		
 		//Observatory 1 variables
 		obserx=(width/2)-(165*scalefactor/2);
 		obsery=(height/2)-(128*scalefactor/2);
@@ -73,7 +79,10 @@ public class HangarState extends BasicGameState{
 			weapontab = new Tab("", obserx+(11*scalefactor), obsery+(48*scalefactor), 15*scalefactor, 8*scalefactor, null);
 			tablist.add(weapontab);
 			maxpagenumber=2;
-			
+			textbox = new TextField(container, font, obserx+(14*scalefactor), obsery+(15*scalefactor),100*scalefactor, 7*scalefactor);
+			textbox.setBackgroundColor(Color.transparent);
+			textbox.setBorderColor(Color.transparent);
+			textbox.setText("Ship Name");
 			basiclaserbutton = new BuyButton("Basic Laser", 20, obserx+(14*scalefactor), obsery+(59*scalefactor), 100*scalefactor, 7*scalefactor, null);
 			splitlaserbutton = new BuyButton("Split Laser", 50, obserx+(14*scalefactor), obsery+(67*scalefactor), 100*scalefactor, 7*scalefactor, null);
 			splitlaser2button = new BuyButton("Split Laser Mk.II", 80, obserx+(14*scalefactor), obsery+(75*scalefactor), 100*scalefactor, 7*scalefactor, null);
@@ -115,7 +124,7 @@ public class HangarState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-		font = GlobalInformation.getMenuFont(40f);
+		
 	}
 
 	@Override
@@ -127,8 +136,9 @@ public class HangarState extends BasicGameState{
 		downpage.update(container);
 		
 		if(startbutton.isClicked()){
-			GlobalInformation.addCraftData(new CraftData(weapons, "Ship Test", EnumHull.NORMAL));
+			GlobalInformation.addCraftData(new CraftData(weapons, textbox.getText(), EnumHull.NORMAL));
 			AppData.saveShipFile();
+			GlobalInformation.shipsLoaded = true;
 			if(weapons.isEmpty()){
 				//System.out.println("CHECKPOINT 1 FAILURE");
 			}
@@ -176,7 +186,7 @@ public class HangarState extends BasicGameState{
 		Image observatory = (Image)AssetManager.get().get("observatory");
 		observatory.setFilter(Image.FILTER_NEAREST);
 		observatory.draw(obserx, obsery, scalefactor);
-		
+		textbox.render(container, g);
 		weapontab.render(g, (Image)AssetManager.get().get("normaltab"), (Image)(AssetManager.get().get("pressedtab")));
 		startbutton.render(g,(Image)AssetManager.get().get("startbutton"), null, null);
 		uppage.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
