@@ -23,6 +23,7 @@ public class SpaceGame extends StateBasedGame{
 		GlobalInformation.initHitboxData();
 		GlobalInformation.init(SCRwidth, SCRheight);
 		AppData.runInit();
+		app.setUpdateOnlyWhenVisible(true);
 		app.start();
 	}
  

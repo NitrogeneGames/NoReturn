@@ -22,7 +22,7 @@ public class ShipState extends BasicGameState{
 	private int scalefactor, obserx, obsery;
 	private Color backgroundcolor;
 	private ArrayList<ArrayList<Button>> buttonList;
-	private int currentTab;
+	private int currentTab, maxTabNumber;
 	
 	private Button startButton, hangarButton, menuButton, minusButton, plusButton;
 	
@@ -57,15 +57,16 @@ public class ShipState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		maxTabNumber = (int) Math.ceil(GlobalInformation.getCraftData().size()/6d);
 		try {
 			for(int e = 0; e < Math.ceil(GlobalInformation.getCraftData().size()/6d); e++){
 				ArrayList<Button> templist = new ArrayList<Button>();
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+0).name, this.width/2-150, 150+e*80*1, 300, 60, null));
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+1).name, this.width/2-150, 150+e*80*2, 300, 60, null));
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+2).name, this.width/2-150, 150+e*80*3, 300, 60, null));
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+3).name, this.width/2-150, 150+e*80*4, 300, 60, null));
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+4).name, this.width/2-150, 150+e*80*5, 300, 60, null));
-				templist.add(new Button(GlobalInformation.getCraftData().get(e*6+5).name, this.width/2-150, 150+e*80*6, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+0) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+0).name, this.width/2-150, 150+80*0, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+1) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+1).name, this.width/2-150, 150+80*1, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+2) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+2).name, this.width/2-150, 150+80*2, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+3) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+3).name, this.width/2-150, 150+80*3, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+4) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+4).name, this.width/2-150, 150+80*4, 300, 60, null));
+				if(GlobalInformation.getCraftData().size() > e*6+5) templist.add(new Button(GlobalInformation.getCraftData().get(e*6+5).name, this.width/2-150, 150+80*5, 300, 60, null));
 				buttonList.add(templist);
 			}
 		} catch (FontFormatException e) {
@@ -78,22 +79,6 @@ public class ShipState extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		startButton.update(container);
-		hangarButton.update(container);
-		menuButton.update(container);
-		minusButton.update(container);
-		plusButton.update(container);
-		
-		for(int i = 0; i < buttonList.size(); i++){
-			ArrayList<Button> blist = buttonList.get(i);
-			for(int e = 0; e < blist.size(); e++){
-				Button b = blist.get(e);
-				if(b.isClicked()){
-					GlobalInformation.setStartingWeapons(GlobalInformation.getCraftData().get(e*6+i).weapons);
-					game.enterState(2);
-				}
-			}
-		}
 		
 		if(startButton.isClicked()){
 			
@@ -101,6 +86,26 @@ public class ShipState extends BasicGameState{
 			game.enterState(3);
 		} else if(menuButton.isClicked()){
 			game.enterState(1);
+		} else if(plusButton.isClicked() && currentTab < maxTabNumber - 1){
+			currentTab++;
+		} else if(minusButton.isClicked() && currentTab > 0){
+			currentTab--;
+		}
+		
+		startButton.update(container);
+		hangarButton.update(container);
+		menuButton.update(container);
+		minusButton.update(container);
+		plusButton.update(container);
+		
+		ArrayList<Button> blist = buttonList.get(currentTab);
+		for(int e = 0; e < blist.size(); e++){
+			Button b = blist.get(e);
+			b.update(container);
+			if(b.isClicked()){
+				GlobalInformation.setStartingWeapons(GlobalInformation.getCraftData().get(currentTab*6+e).weapons);
+				game.enterState(2);
+			}
 		}
 
 	}
@@ -111,6 +116,7 @@ public class ShipState extends BasicGameState{
 		Image backgroundimg = (Image) AssetManager.get().get("shipselection");
 		backgroundimg.draw(obserx, obsery, scalefactor);
 		ArrayList<Button> finalblist = buttonList.get(currentTab);
+		System.out.println(finalblist.size());
  		for(int i = 0; i < finalblist.size(); i++) {
 			finalblist.get(i).render(g, (Image)AssetManager.get().get("shipbutton"), (Image)AssetManager.get().get("shipbuttonhighlighted"), null);
 		}

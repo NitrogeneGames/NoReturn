@@ -1,5 +1,10 @@
 package nitrogene.core;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
+
+import nitrogene.util.AppData;
+import nitrogene.util.Button;
 import nitrogene.util.Slider;
 
 import org.newdawn.slick.Color;
@@ -14,6 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class OptionState extends BasicGameState{
 	
 	private Slider music, sfx, alarm; 
+	private Button accept, decline;
 	private float x,y = 0;
 	private Font largefont, normalfont;
 	
@@ -27,6 +33,13 @@ public class OptionState extends BasicGameState{
 		music = new Slider(x+151+(GlobalInformation.musiclevel*6),y+86-15,20,40,x+751,y+86-15,x+151,y+86-15);
 		sfx = new Slider(x+151+(GlobalInformation.sfxlevel*6),y+146-15,20,40,x+751,y+146-15,x+151,y+146-15);
 		alarm = new Slider(x+151+(GlobalInformation.alarmlevel*6),y+205-15,20,40,x+751,y+205-15,x+151,y+205-15);
+		
+		try {
+			decline = new Button("Menu", x+720, y+300, 110, 40);
+			accept = new Button("Accept", x+20, y+300, 110, 40);
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -40,6 +53,15 @@ public class OptionState extends BasicGameState{
 		music.update(container);
 		sfx.update(container);
 		alarm.update(container);
+		decline.update(container);
+		accept.update(container);
+		
+		if(accept.isClicked()){
+			AppData.saveOptions();
+			game.enterState(1);
+		} else if(decline.isClicked()){
+			game.enterState(1);
+		}
 		
 		GlobalInformation.musiclevel = (music.getX()-151-x)/6;
 		GlobalInformation.sfxlevel = (sfx.getX()-151-x)/6;
@@ -56,6 +78,9 @@ public class OptionState extends BasicGameState{
 		music.render(temp,temp);
 		sfx.render(temp,temp);
 		alarm.render(temp,temp);
+		
+		accept.render(g, (Image) AssetManager.get().get("defaultbuttonnormal"), (Image) AssetManager.get().get("defaultbuttonpressed"), (Image) AssetManager.get().get("defaultbuttonhover"));
+		decline.render(g, (Image) AssetManager.get().get("defaultbuttonnormal"), (Image) AssetManager.get().get("defaultbuttonpressed"), (Image) AssetManager.get().get("defaultbuttonhover"));
 		
 		g.setFont(this.largefont);
 		//title

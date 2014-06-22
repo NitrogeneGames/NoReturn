@@ -37,7 +37,7 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("defaultbuttonnormal", defaultbuttonnormalimage);
 		Image defaultbuttonhoverimage = new Image("res/button/logomenubutton2hover.png");
 		AssetManager.get().put("defaultbuttonhover", defaultbuttonhoverimage);
-		Image defaultbuttonpressedimage = new Image("res/button/logomenubutton21.png");
+		Image defaultbuttonpressedimage = new Image("res/button/logomenubutton2hover.png");
 		AssetManager.get().put("defaultbuttonpressed", defaultbuttonpressedimage);
 		
 		Image startButtonImage = new Image("res/hangar/startbuttonhangar.png");

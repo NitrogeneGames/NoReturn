@@ -123,7 +123,6 @@ public class Button
     	} else{
     		temp = normalimage;
     	}
-    	System.out.println(renderImage);
     	temp.setFilter(Image.FILTER_NEAREST);
         temp.draw(position.x,position.y,width,height);
 
