@@ -23,6 +23,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Polygon;
 
 public class LaserLauncher extends ShipSystem{
+	//Basic Variables for Laser Launcher
 	private float desx, desy, camX, camY;
 	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
 	public int accuracy, timer, maxtime,  damage, planetdamage;
