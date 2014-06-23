@@ -1,5 +1,7 @@
 package nitrogene.util;
 
+import nitrogene.core.AssetManager;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -12,7 +14,7 @@ public class Explosion extends Animation{
 	
 	public Explosion(float x, float y, float scale, int duration) throws SlickException{
 		super();
-		hit = new Sound("res/sound/Explosionfinal.ogg");
+		hit = (Sound) AssetManager.get().get("explosion");
 		this.setLooping(false);
 		this.x = x;
 		this.y = y;

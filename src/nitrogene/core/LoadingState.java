@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
@@ -30,6 +31,12 @@ public class LoadingState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		LoadingList.setDeferredLoading(true);
+		//SOUNDS
+		Sound basicTestLaser = new Sound("res/sound/laser1final.ogg");
+		AssetManager.get().put("laser1", basicTestLaser);
+		Sound hit = new Sound("res/sound/Explosionfinal.ogg");
+		AssetManager.get().put("explosion", hit);
+		
 		
 		Image backgroundimg = new Image("res/menubackground4.png");
 		AssetManager.get().put("menubackgroundimg", backgroundimg);

@@ -1,5 +1,6 @@
 package nitrogene.weapon;
 
+import nitrogene.core.AssetManager;
 import nitrogene.core.Zoom;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.world.ArenaMap;
@@ -43,10 +44,11 @@ public class SLaser extends PhysicalObject{
 		desY += randomize(accuracy);
 		}
 		recalculateVector(desX, desY);
-		/*if(playsound) {
-		basicTestLaser = new Sound("res/sound/laser1final.ogg");
-		basicTestLaser.play(1f, 0.5f);
-		} */
+		if(playsound) {
+		//basicTestLaser = new Sound("res/sound/laser1final.ogg");
+		//basicTestLaser.play(1f, 0.5f);
+		AssetManager.playSound("laser1", 1f, 0.f);
+		} 
 		//recalculateAngle(desX, desY);
 	}
 	@Override

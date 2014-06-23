@@ -45,8 +45,8 @@ public class ShipState extends BasicGameState{
 		
 		try {
 			startButton = new Button("Start", obserx+(120*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
-			hangarButton = new Button("Design", obserx+(22*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
-			menuButton = new Button("Main Menu", obserx+(10*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
+			hangarButton = new Button("Design", obserx+(35*scalefactor), obsery+(104*scalefactor), 20*scalefactor, 9*scalefactor, null);
+			menuButton = new Button("Main Menu", obserx+(10*scalefactor), obsery+(104*scalefactor), 24*scalefactor, 9*scalefactor, null);
 			minusButton = new Button("", obserx+(97*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 			plusButton = new Button("", obserx+(108*scalefactor), obsery+(104*scalefactor), 10*scalefactor, 9*scalefactor, null);
 		} catch (FontFormatException | IOException e) {
