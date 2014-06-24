@@ -235,7 +235,7 @@ public class LaserLauncher extends ShipSystem{
 	}
 	public void fire() throws SlickException{
 		SLaser temp = new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
-				accuracy, speed, damage, planetdamage, this.getAngle(), this, true);
+				accuracy, speed, damage, planetdamage, this.getAngle(), this);
 		temp.load(proje, size, map);
 		slaserlist.add(temp);
 	}

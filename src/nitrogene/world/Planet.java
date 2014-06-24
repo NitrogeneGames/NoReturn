@@ -11,6 +11,7 @@ import nitrogene.util.Shake;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Transform;
 
 public class Planet extends PhysicalObject{
 	private int maxhp;
@@ -39,6 +40,7 @@ public class Planet extends PhysicalObject{
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
+		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
 		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
@@ -84,7 +86,8 @@ public class Planet extends PhysicalObject{
 		Item item = new Item(EnumDrop.IRON, list);
 		item.addStack(10);
 		list.add(item);
-		DroppedItem drop = new DroppedItem(map, list, this.getX(), this.getY());
+		DroppedItem drop = new DroppedItem(list, this.getX(), this.getY());
+		drop.load(4f, map);
 		map.addDroppedItem(drop);
 	}
 	public int getHp(){

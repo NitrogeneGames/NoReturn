@@ -169,6 +169,13 @@ public class LoadingState extends BasicGameState{
 		Image klaarPulsarImage = new Image("res/klaar_pulsar_2.png");
 		AssetManager.get().put("klaarpulsar", klaarPulsarImage);
 		
+		Image ironitem = new Image("res/item/Iron.png");
+		AssetManager.get().put("ironitem", ironitem);
+		Image titaniumitem = new Image("res/item/TitaniumModule.png");
+		AssetManager.get().put("titaniumitem", titaniumitem);
+		Image ammoitem = new Image("res/item/Ammo.png");
+		AssetManager.get().put("ammoitem", ammoitem);
+		
 		Music millionaireMusic = new Music("res/sound/millionaire.ogg");
 		AssetManager.get().put("millionaire", millionaireMusic);
 		

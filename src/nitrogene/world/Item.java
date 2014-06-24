@@ -43,4 +43,8 @@ public class Item {
 	public void changeParent(ArrayList<Item> parent){
 		this.parent = parent;
 	}
+	
+	public EnumDrop getType(){
+		return type;
+	}
 }

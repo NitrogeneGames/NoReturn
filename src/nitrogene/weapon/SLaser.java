@@ -1,6 +1,7 @@
 package nitrogene.weapon;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.world.ArenaMap;
@@ -25,7 +26,7 @@ public class SLaser extends PhysicalObject{
 	private float xconstant, yconstant;
 	Sound basicTestLaser;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float rotation, LaserLauncher l, boolean playsound) throws SlickException{
+	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float rotation, LaserLauncher l) throws SlickException{
 		super(startX, startY);
 		//Movement class unused
 		setDefaultMovement("normal");
@@ -44,11 +45,6 @@ public class SLaser extends PhysicalObject{
 		desY += randomize(accuracy);
 		}
 		recalculateVector(desX, desY);
-		if(playsound) {
-		//basicTestLaser = new Sound("res/sound/laser1final.ogg");
-		//basicTestLaser.play(1f, 0.5f);
-		AssetManager.playSound("laser1", 1f, 0.f);
-		} 
 		//recalculateAngle(desX, desY);
 	}
 	@Override
@@ -57,6 +53,8 @@ public class SLaser extends PhysicalObject{
 		this.getImage().setRotation(0);
 		this.getImage().setCenterOfRotation(parent.getImage().getWidth()/2,parent.getImage().getHeight()/2);
 		this.getImage().rotate(mmangle);
+		basicTestLaser = (Sound) AssetManager.get().get("laser1");
+		basicTestLaser.play(1f, GlobalInformation.sfxlevel);
 	}
 	/*
 	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, float size, Image im) throws SlickException{

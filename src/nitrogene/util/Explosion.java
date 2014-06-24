@@ -1,6 +1,7 @@
 package nitrogene.util;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GlobalInformation;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -23,7 +24,7 @@ public class Explosion extends Animation{
 		if(hit.playing()){
 			hit.stop();
 		}
-		hit.play(1f, 0.5f);
+		hit.play(1f, GlobalInformation.sfxlevel);
 	}
 	
 	private void init(int duration) throws SlickException{
