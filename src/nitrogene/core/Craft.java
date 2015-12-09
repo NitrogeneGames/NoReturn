@@ -163,19 +163,34 @@ public class Craft extends PhysicalObject{
 	public void rotateSystem(ShipSystem s) {
 		if(s.rotation != this.getMovement().getRotationAngle()) {
 		s.getImage().setRotation(this.mainimg.getRotation());
-		double mangle = (double) s.getShipAngle();
-		double radius = (double) s.getShipRadius();
+		//double mangle = (double) s.getShipAngle();
+		//double radius = (double) s.getShipRadius();
 //		//System.out.println("center: " + this.getCenterX() + ", " + this.getCenterY());
 		//System.out.println("imagecenter: " + this.getImage().getCenterOfRotationX() + ", " + this.getImage().getCenterOfRotationY());
 		//float mangle = s.getRelations()[0];
 		//float radius = s.getRelations()[1];
-		double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
-		double y2 = (double) (radius * Math.sin(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
+		//double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
+		//double y2 = (double) (radius * Math.sin(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
 		//s.rotation = this.getMovement().getRotationAngle();
-		s.setCenterX((float)(this.getImage().getCenterOfRotationX() + x2));
-		s.setCenterY((float)(this.getImage().getCenterOfRotationY() + y2));
+		//s.setCenterX((float)(this.getImage().getCenterOfRotationX() + x2));
+		//s.setCenterY((float)(this.getImage().getCenterOfRotationY() + y2));
+		double[] coords = getRotatedCoordinates(s.getX1(), s.getY1());
+		s.setX((float) (this.getX()+this.width/2+coords[0]));
+		s.setY((float) (this.getY()+this.height/2+coords[1]));
+		//s.setX(this.getRealCenterX());
+		//s.setY(this.getRealCenterY());
 		}
 
+	}
+	public double[] getRotatedCoordinates(double x, double y) {
+		double x1 = x - this.getCenterX();
+		double y1 = y - this.getCenterY();
+		double theta = -Math.atan(y1/x1); //NEGATIVE IF IN 2 or 4, positive if in 1 or 3, then gets inverted
+		double mangle = theta + Math.toRadians(this.getImage().getRotation());
+		double x2 = Math.cos(mangle) * x1;
+		double y2 = Math.sin(mangle) * y1;
+		System.out.println("Rotated coordinates: " + x1 + ", " + y1 + " to: " + x2 + ", " + y2 + " at an angle of " + this.getRotation());
+		return new double[] {x2, y2};
 	}
 	public float getShieldX(){
 		return getCenterX() - shield.getImage().getWidth()/2*1.2f;

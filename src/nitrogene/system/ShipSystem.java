@@ -45,9 +45,9 @@ public class ShipSystem extends PhysicalObject{
 		//x1 = -(craft.getX()+(craft.getBoundbox().getWidth()*craft.getScale()) - (x+img.getWidth()*this.getScale()));
 		//y1 = -(craft.getY()+(craft.getBoundbox().getHeight()*craft.getScale()) - (y+img.getHeight()*this.getScale()));
 		if(y1 <= 0) {
-			m = (float) Math.atan2((double) y1,(double) x1);
+			m = (float) Math.atan((double) y1/(double) x1);
 		} else {
-			m = (float) Math.atan2((double) y1, (double) x1) + (float) Math.PI;
+			m = (float) Math.atan((double) y1/ (double) x1) + (float) Math.PI;
 		}
 		//System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
 		r = (float) Math.sqrt(x1*x1 + y1*y1);
