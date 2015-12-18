@@ -191,7 +191,8 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public void render(Graphics g, float camX, float camY){
-	      if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
+		/* when i feel like making the engine better:
+		  if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
 	    	  float rota = Target.getRotation(this);
 	    	  float dist = Math.abs(rota);
 	    		  if(dist >= 100) {
@@ -213,10 +214,18 @@ public class LaserLauncher extends ShipSystem{
 	    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
 	          this.getImage().setRotation(this.getAngle());
 	      }
-	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
-	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
-	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
-	      
+		 */
+	      this.getImage().setCenterOfRotation(this.getImage().getWidth()/2, this.getImage().getHeight()/2);
+	      this.getImage().setRotation(this.getAngle());
+	      double y = (double)(this.getY()-parent.getImage().getHeight()/2);
+	      double x = (double)(this.getX()-parent.getImage().getWidth()/2);
+	      double dist_to_middle = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+	      System.out.println(dist_to_middle);
+	      double theta = parent.getMovement().getRotationAngle();
+	      float added_x = (float) (Math.cos(theta)*dist_to_middle);
+	      float added_y = (float) (Math.sin(theta)*dist_to_middle);
+	      this.getImage().draw(craftX+parent.getImage().getWidth()/2+added_x, added_y+parent.getImage().getHeight()/2+craftY, 0.8f);
+	      this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
@@ -310,4 +319,5 @@ public class LaserLauncher extends ShipSystem{
 			this.getTimer().gameResume();
 		}
 	}
+
 }
