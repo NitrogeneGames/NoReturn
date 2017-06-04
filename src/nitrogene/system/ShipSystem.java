@@ -27,30 +27,19 @@ public class ShipSystem extends PhysicalObject{
 	protected float powerReceived;
 	private float powerNeeded;
 	private boolean enabled;
-	public float[] getRelations() {
-		return new float[]{m,r};
-	}
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
 	public ShipSystem(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerNeeded){
 		super(x,y);
+		x1 = x;
+		y1 = y;
 		setDefaultMovement("normal");
 		this.hp = maxhp;
 		this.maxhp = maxhp;
 		this.durability = durability;
 		this.powerNeeded = powerNeeded;
 		this.craft = c;
-		x1 = x;
-		y1 = y;
-		//x1 = -(craft.getX()+(craft.getBoundbox().getWidth()*craft.getScale()) - (x+img.getWidth()*this.getScale()));
-		//y1 = -(craft.getY()+(craft.getBoundbox().getHeight()*craft.getScale()) - (y+img.getHeight()*this.getScale()));
-		if(y1 <= 0) {
-			m = (float) Math.atan((double) y1/(double) x1);
-		} else {
-			m = (float) Math.atan((double) y1/ (double) x1) + (float) Math.PI;
-		}
-		//System.out.println(mangle + " ANGLE"); //SHOWS 2 different numbers, idk why
-		r = (float) Math.sqrt(x1*x1 + y1*y1);
+
 	}
 	public float rotation = 0;
 	
@@ -60,7 +49,6 @@ public class ShipSystem extends PhysicalObject{
 		this.mainimg = img;
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
-			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
@@ -72,6 +60,7 @@ public class ShipSystem extends PhysicalObject{
 		rotationalconstant=0;
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
+
 	}
 	
 	@Override
@@ -119,12 +108,6 @@ public class ShipSystem extends PhysicalObject{
 	public int getMaxPower(){
 		return maxpower;
 	}
-	public float getX1(){
-		return x1;
-	}
-	public float getY1(){
-		return y1;
-	}
 	public float getShipAngle(){
 		return m;
 	}
@@ -148,5 +131,11 @@ public class ShipSystem extends PhysicalObject{
 	}
 	public boolean getEnabled(){
 		return enabled;
+	}
+	public float getLockedX() {
+		return x1;
+	}
+	public float getLockedY() {
+		return y1;
 	}
 }

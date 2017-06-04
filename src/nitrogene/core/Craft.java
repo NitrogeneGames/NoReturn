@@ -174,7 +174,7 @@ public class Craft extends PhysicalObject{
 		//s.rotation = this.getMovement().getRotationAngle();
 		//s.setCenterX((float)(this.getImage().getCenterOfRotationX() + x2));
 		//s.setCenterY((float)(this.getImage().getCenterOfRotationY() + y2));
-		double[] coords = getRotatedCoordinates(s.getX1(), s.getY1());
+		double[] coords = getRotatedCoordinates(s.getLockedX(), s.getLockedY());
 		s.setX((float) (this.getX()+this.width/2+coords[0]));
 		s.setY((float) (this.getY()+this.height/2+coords[1]));
 		//s.setX(this.getRealCenterX());
@@ -183,13 +183,20 @@ public class Craft extends PhysicalObject{
 
 	}
 	public double[] getRotatedCoordinates(double x, double y) {
-		double x1 = x - this.getCenterX();
-		double y1 = y - this.getCenterY();
-		double theta = -Math.atan(y1/x1); //NEGATIVE IF IN 2 or 4, positive if in 1 or 3, then gets inverted
-		double mangle = theta + Math.toRadians(this.getImage().getRotation());
-		double x2 = Math.cos(mangle) * x1;
-		double y2 = Math.sin(mangle) * y1;
-		System.out.println("Rotated coordinates: " + x1 + ", " + y1 + " to: " + x2 + ", " + y2 + " at an angle of " + this.getRotation());
+
+		double currentRotation = -this.getImage().getRotation();
+		double x1 = this.getCenterX() - x;
+		double y1 = this.getCenterY() - y;
+		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
+		double theta = -(180 + Math.toDegrees(Math.atan(y1/x1))); 
+		double mangle = theta + currentRotation;
+		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
+		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
+		System.out.println("Current Angle " + currentRotation);
+		System.out.println("Theta " + theta);
+		System.out.println("Calculated Angle " + mangle);
+		System.out.println("New X: " + x2);
+		System.out.println("New Y: " + y2);
 		return new double[] {x2, y2};
 	}
 	public float getShieldX(){

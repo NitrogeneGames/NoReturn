@@ -10,6 +10,7 @@ public class Slider {
 	private float x,y,maxx,maxy,minx,miny,width,height;
 	private boolean isGrabbed, visible;
 	private Shape boundbox;
+	public static Slider activeSlider;
 
 	public Slider(float x, float y, float width, float height, float maxx, float maxy, float minx, float miny){
 		this.x=x;
@@ -45,17 +46,23 @@ public class Slider {
 			temp[4] = maxy;
 		}
 		
-		if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			if (gc.getInput().getMouseX()>=temp[1] && gc.getInput().getMouseX() <= temp[2] &&
-					gc.getInput().getMouseY()>=temp[3] && gc.getInput().getMouseY() <= temp[4]){
+		if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && gc.getInput().getMouseX()>=temp[1] && gc.getInput().getMouseX() <= temp[2] &&
+				gc.getInput().getMouseY()>=temp[3] && gc.getInput().getMouseY() <= temp[4] && activeSlider == null){
+				isGrabbed = true;
+				activeSlider = this;
+				registerMovement(gc);
+		}else if (gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && activeSlider == null && boundbox.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())){
 				isGrabbed = true;
 				registerMovement(gc);
-			}else if (boundbox.contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())){
+				activeSlider = this;
+		} else if (activeSlider == this) {
 				isGrabbed = true;
 				registerMovement(gc);
-			}else{
+		}else{
 				isGrabbed = false;
-			}
+		}
+		if(!gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			activeSlider = null;
 		}
 		boundbox.setX(this.x);
 		boundbox.setY(this.y);
@@ -70,10 +77,10 @@ public class Slider {
     		x=maxx;
     	}
     	this.y=gc.getInput().getMouseY()-20;
-    	if(y<minx){
+    	if(y<miny){
     		y=miny;
     	}
-    	if(y>maxx){
+    	if(y>maxy){
     		y=maxy;
     	}
 	}
