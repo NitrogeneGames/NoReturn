@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Transform;
 import java.util.Random;
 
 
-public class SLaser extends PhysicalObject{
+public class LaserProjectile extends PhysicalObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
 	double mangle = 0;
@@ -26,7 +26,7 @@ public class SLaser extends PhysicalObject{
 	private float xconstant, yconstant;
 	Sound basicTestLaser;
 	
-	public SLaser(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float rotation, LaserLauncher l) throws SlickException{
+	public LaserProjectile(float startX, float startY, float destinX, float destinY, int accuracy, float speed, int damage, int planetdamage, float rotation, LaserLauncher l) throws SlickException{
 		super(startX, startY);
 		//Movement class unused
 		setDefaultMovement("normal");

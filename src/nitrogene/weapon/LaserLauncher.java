@@ -25,7 +25,7 @@ import org.newdawn.slick.geom.Polygon;
 public class LaserLauncher extends ShipSystem{
 	//Basic Variables for Laser Launcher
 	private float desx, desy, camX, camY;
-	public ArrayList<SLaser> slaserlist = new ArrayList<SLaser>();
+	public ArrayList<LaserProjectile> slaserlist = new ArrayList<LaserProjectile>();
 	public int accuracy, timer, maxtime,  damage, planetdamage;
 	private double mangle;
 	private float mmangle, craftX, craftY, size, speed;
@@ -128,7 +128,7 @@ public class LaserLauncher extends ShipSystem{
 		this.map = map;
 		boundbox = GlobalInformation.getImageData().get(mainimg.getResourceReference());
 		if(boundbox == null){
-			System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
@@ -217,10 +217,10 @@ public class LaserLauncher extends ShipSystem{
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
 	      
-	      ArrayList<SLaser> slaserlistcopy = new ArrayList<SLaser>();
+	      ArrayList<LaserProjectile> slaserlistcopy = new ArrayList<LaserProjectile>();
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
-	    	  SLaser laser = slaserlistcopy.get(a);
+	    	  LaserProjectile laser = slaserlistcopy.get(a);
 	    	  if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
 						laser.getX()+(laser.getImage().getWidth()*laser.getScale())<parent.getX()+174-(Zoom.getZoomWidth()/2)||
 						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||
@@ -234,7 +234,7 @@ public class LaserLauncher extends ShipSystem{
 	      }
 	}
 	public void fire() throws SlickException{
-		SLaser temp = new SLaser(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
+		LaserProjectile temp = new LaserProjectile(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
 				accuracy, speed, damage, planetdamage, this.getAngle(), this);
 		temp.load(proje, size, map);
 		slaserlist.add(temp);
@@ -264,7 +264,7 @@ public class LaserLauncher extends ShipSystem{
 	public void setFire(int x, int y, float camX, float camY, boolean b){
 		if(!b){
 			if(this.getTimer().getClock().isRunning()){
-				this.getTimer().pause();
+				this.getTimer().stop();
 			}
 		} else{
 			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
@@ -289,7 +289,7 @@ public class LaserLauncher extends ShipSystem{
 	
 	public void toggleFire(int x, int y, float camX, float camY){
 		if(this.getTimer().getClock().isRunning()){
-			this.getTimer().pause();
+			this.getTimer().stop();
 		}
 		else{
 			if(Target.getTargetObject(x+camX, y+camY, map) != null) {

@@ -73,7 +73,7 @@ public class Hotbar {
 			
 			renderTransparentBackground(g, getSlot(launcher.laserId), camX, camY, selected, launcher);
 			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
-			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().getClock().isRunning()){
+			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().active){
 				renderChargeBar(g, getSlot(launcher.laserId), launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
 						camX, camY);
 			}

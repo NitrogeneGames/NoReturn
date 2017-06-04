@@ -45,6 +45,8 @@ public class MenuState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
+		super.enter(container, game);
+		
 		menuMusic = (Music) AssetManager.get().get("millionaire");
 		System.out.println(GlobalInformation.musiclevel);
 		menuMusic.loop(1f, GlobalInformation.musiclevel);
@@ -53,7 +55,6 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		
 		quickPlay.update(container);
 		campaign.update(container);
 		quitgame.update(container);
@@ -77,9 +78,10 @@ public class MenuState extends BasicGameState{
 			container.exit();
 		}
 	}
+	@SuppressWarnings("static-access")
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
+			throws SlickException {		
 		Image temp = (Image) AssetManager.get().get("menubackgroundimg");
 		Image tempnormal = (Image) AssetManager.get().get("defaultbuttonnormal");
 		Image temppressed = (Image) AssetManager.get().get("defaultbuttonpressed");

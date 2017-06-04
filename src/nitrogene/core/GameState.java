@@ -18,7 +18,7 @@ import nitrogene.util.Stars;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.LaserLauncher;
-import nitrogene.weapon.SLaser;
+import nitrogene.weapon.LaserProjectile;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Asteroid;
 import nitrogene.world.DroppedItem;
@@ -40,6 +40,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class GameState extends BasicGameState{
+	Graphics backup;
 	Craft craft;
 	NPCship enemy;
 	public Hotbar guihotbar;
@@ -61,7 +62,7 @@ public class GameState extends BasicGameState{
 	private short selected = 0;
 	public boolean guielementsloaded = false;
 
-	private boolean PAUSED = false;
+	public static boolean PAUSED = false;
 
 	
 	public GameState(int width, int height) {
@@ -167,6 +168,7 @@ public class GameState extends BasicGameState{
 	   public void enter(GameContainer container, StateBasedGame game)
 	         throws SlickException {
 	      super.enter(container, game);
+	      backup = container.getGraphics();
 	      /*
 	      for(LaserLauncher l : craft.laserlist){
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
@@ -199,9 +201,11 @@ public class GameState extends BasicGameState{
 	      this.PAUSED = false;
 	   }
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException{
 		super.leave(container, game);
+    	container.getGraphics().setColor(Color.white);
 		this.PAUSED = true;
 	}
 	
@@ -305,7 +309,7 @@ public class GameState extends BasicGameState{
 					 laserlauncher.update(craft.getX(), craft.getY(),delta);
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
-						SLaser laser = laserlauncher.slaserlist.get(i);
+						LaserProjectile laser = laserlauncher.slaserlist.get(i);
 						laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
@@ -349,7 +353,7 @@ public class GameState extends BasicGameState{
 					laserlauncher.update(enemy.getX(), enemy.getY(),delta);
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
-						SLaser laser = laserlauncher.slaserlist.get(i);
+						LaserProjectile laser = laserlauncher.slaserlist.get(i);
 						laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);

@@ -89,7 +89,7 @@ public class Craft extends PhysicalObject{
 		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
 		
-		shield.load((Image) AssetManager.get().get("shieldsystemicon"), 1f, map);
+		shield.load((Image) AssetManager. get().get("shieldsystemicon"), 1f, map);
 		engine.load((Image) AssetManager.get().get("enginesystemicon"), 1f, map);
 		core.load((Image) AssetManager.get().get("coresystemicon"), 1f, map);
 		lifesupport.load((Image) AssetManager.get().get("oxygensystemicon"), 1f, map);

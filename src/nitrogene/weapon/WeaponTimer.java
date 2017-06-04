@@ -12,15 +12,19 @@ import org.newdawn.slick.SlickException;
 public class WeaponTimer {
    public Timer Clock;
    public boolean isPauseLocked = false;
+   public boolean active = false;
    public boolean isLocked = false;
-   public int tickTime = 1000;
+   public int tickTime = 10;
    private int shot, maxshot;
    private long start;
    private long elapsed;
    private LaserLauncher w;
+   private int counter = 0;
 	ActionListener taskPerformer = new ActionListener() {
     	public void actionPerformed(ActionEvent evt) {
-    		tick();
+    		if(!isPauseLocked && active && !isLocked) {
+    			tick();
+    		}
     	}
     };
     public Timer getClock() {
@@ -29,14 +33,21 @@ public class WeaponTimer {
     public void setClock(Timer t) {
     	Clock = t;
     }
-   public void tick() {
+    public void tick() {
+    	counter++;
+    	if(counter >= 100) {
+    		action();
+    		counter = 0;
+    	}
+    }
+   public void action() {
 	   shot++;
-	   if(shot <= w.getBurstNumber()){
+	   /*if(shot <= w.getBurstNumber()){
 		   Clock.setDelay(w.getInterburst());
 	   } else{
 		   Clock.setDelay(w.getOuterburst());
 		   shot = 1;
-	   }
+	   }*/
 	   try {
 		w.fire();
 		start = System.currentTimeMillis();
@@ -65,18 +76,28 @@ public class WeaponTimer {
    public void start() {   
 		this.start((int) (tickTime - elapsed));		
    }
-   public void start(int delay) {   
-	    isLocked = false;
+   public void resume() {   
+		this.resume((int) (tickTime - elapsed));		
+   }
+   public void start(int delay) {  
+	    active = true;
+	 	resume(delay);
+   }
+   public void stop() {
+	   active = false;
+	   pause();
+   }
+   public void resume(int delay) {
 		start = System.currentTimeMillis();
-		Clock.start();		
-  }
+		Clock.start();		   
+   }
    public void pause() {
 	   elapsed = System.currentTimeMillis() - start;
 	   Clock.stop();
    }
    public void gameResume() {
 	   if(!isLocked ) {
-			this.start();
+			this.resume();
 	   } 
 	   shot = 1;
 	   CursorSystem.changeCursor("greenfire");
@@ -88,9 +109,9 @@ public class WeaponTimer {
 	   isPauseLocked = true;
    }
    public float getMaxChargeTime(){
-		return w.getOuterburst();
+		return 100;
    }
    public float getCurrentChargeTime(){
-	   return System.currentTimeMillis() - start;
+	   return counter;
    }
 }
