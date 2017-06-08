@@ -71,16 +71,16 @@ public class OptionState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.setBackground(Color.black);
-		Image a = (Image) AssetManager.get().get("optionsbackground");
+		Image a = ((Image) AssetManager.get().get("optionsbackground")).copy();
 		a.draw(x, y);
 		
-		Image temp = (Image) AssetManager.get().get("slider");
+		Image temp = ((Image) AssetManager.get().get("slider")).copy();
 		music.render(temp,temp);
 		sfx.render(temp,temp);
 		alarm.render(temp,temp);
 		
-		accept.render(g, (Image) AssetManager.get().get("defaultbuttonnormal"), (Image) AssetManager.get().get("defaultbuttonpressed"), (Image) AssetManager.get().get("defaultbuttonhover"));
-		decline.render(g, (Image) AssetManager.get().get("defaultbuttonnormal"), (Image) AssetManager.get().get("defaultbuttonpressed"), (Image) AssetManager.get().get("defaultbuttonhover"));
+		accept.render(g, ((Image) AssetManager.get().get("defaultbuttonnormal")).copy(), ((Image) AssetManager.get().get("defaultbuttonpressed")).copy(), ((Image) AssetManager.get().get("defaultbuttonhover")).copy());
+		decline.render(g, ((Image) AssetManager.get().get("defaultbuttonnormal")).copy(), ((Image) AssetManager.get().get("defaultbuttonpressed")).copy(), ((Image) AssetManager.get().get("defaultbuttonhover")).copy());
 		
 		g.setFont(this.largefont);
 		//title

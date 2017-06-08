@@ -178,28 +178,28 @@ public class HangarState extends BasicGameState{
 		//Render repeating background
 		for(int x = 0; x < repx; x++){
 			for (int y = 0; y < repy; y++){
-				Image t = (Image)AssetManager.get().get("hangarbackground");
+				Image t = ((Image)AssetManager.get().get("hangarbackground")).copy();
 				t.draw(x*100,y*100);
 			}
 		}
 		
-		Image observatory = (Image)AssetManager.get().get("observatory");
+		Image observatory = ((Image)AssetManager.get().get("observatory")).copy();
 		observatory.setFilter(Image.FILTER_NEAREST);
 		observatory.draw(obserx, obsery, scalefactor);
 		textbox.render(container, g);
-		weapontab.render(g, (Image)AssetManager.get().get("normaltab"), (Image)(AssetManager.get().get("pressedtab")));
-		startbutton.render(g,(Image)AssetManager.get().get("startbutton"), null, null);
-		uppage.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
-		downpage.render(g, (Image)AssetManager.get().get("minusbutton"), null, null);
+		weapontab.render(g, ((Image)AssetManager.get().get("normaltab")).copy(), (Image)(AssetManager.get().get("pressedtab")));
+		startbutton.render(g,((Image)AssetManager.get().get("startbutton")).copy(), null, null);
+		uppage.render(g, ((Image)AssetManager.get().get("plusbutton")).copy(), null, null);
+		downpage.render(g, ((Image)AssetManager.get().get("minusbutton")).copy(), null, null);
 		
 		if(weapontab.getButtonDown()){
 			if(tabpagenumber ==1){
 				for(Button b : buttonlist){
-					b.render(g, scalefactor, (Image)AssetManager.get().get("normalbuybutton"), (Image)AssetManager.get().get("pressedbuybutton"));
+					b.render(g, scalefactor, ((Image)AssetManager.get().get("normalbuybutton")).copy(), ((Image)AssetManager.get().get("pressedbuybutton")).copy());
 				}
 			}else if(tabpagenumber == 2){
 				for(Button b: buttonlist2){
-					b.render(g, scalefactor , (Image)AssetManager.get().get("normalbuybutton"), (Image)AssetManager.get().get("pressedbuybutton"));
+					b.render(g, scalefactor , ((Image)AssetManager.get().get("normalbuybutton")).copy(), ((Image)AssetManager.get().get("pressedbuybutton")).copy());
 				}
 			}
 		}
@@ -210,7 +210,7 @@ public class HangarState extends BasicGameState{
 		} else if(money > 1000){
 			g.drawString(Integer.toString(money), obserx+(10*scalefactor), obsery+(36*scalefactor));
 		}
-		Image coinsImage = (Image) AssetManager.get().get("coins");
+		Image coinsImage = ((Image) AssetManager.get().get("coins")).copy();
         coinsImage.draw(obserx+(24*scalefactor), obsery+(37*scalefactor), scalefactor/3);
 	}
 	

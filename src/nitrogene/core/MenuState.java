@@ -82,10 +82,10 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {		
-		Image temp = (Image) AssetManager.get().get("menubackgroundimg");
-		Image tempnormal = (Image) AssetManager.get().get("defaultbuttonnormal");
-		Image temppressed = (Image) AssetManager.get().get("defaultbuttonpressed");
-		Image temphover = (Image) AssetManager.get().get("defaultbuttonhover");
+		Image temp = ((Image) AssetManager.get().get("menubackgroundimg")).copy();
+		Image tempnormal = ((Image) AssetManager.get().get("defaultbuttonnormal")).copy();
+		Image temppressed = ((Image) AssetManager.get().get("defaultbuttonpressed")).copy();
+		Image temphover = ((Image) AssetManager.get().get("defaultbuttonhover")).copy();
 		temp.setFilter(Image.FILTER_NEAREST);
 		temp.draw(0,0);
 		campaign.render(g, tempnormal, temppressed, temphover);

@@ -9,6 +9,8 @@ import nitrogene.gui.HullBar;
 import nitrogene.gui.ShieldBar;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
+import nitrogene.npc.TaskFire;
+import nitrogene.npc.TaskMove;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
@@ -149,12 +151,12 @@ public class GameState extends BasicGameState{
 		pausemenux = (SCR_width/2) - 52;
 		pausemenuy = (SCR_height/2) - 102.5f;
 		try {
-			resume = new PauseButton(pausemenux + 6, pausemenuy + 6, (Image) AssetManager.get().get("pauseresumeup"), (Image) AssetManager.get().get("pauseresumedown"));
-			menu = new PauseButton(pausemenux + 6, pausemenuy + 105, (Image) AssetManager.get().get("pausemenuup"), (Image) AssetManager.get().get("pausemenudown"));
-			restart = new PauseButton(pausemenux + 6, pausemenuy + 39, (Image) AssetManager.get().get("pauserestartup"), (Image) AssetManager.get().get("pauserestartdown"));
-			hangar = new PauseButton(pausemenux + 6, pausemenuy + 72, (Image) AssetManager.get().get("pausehangarup"), (Image) AssetManager.get().get("pausehangardown"));
-			options = new PauseButton(pausemenux + 6, pausemenuy + 138, (Image) AssetManager.get().get("pauseoptionsup"), (Image) AssetManager.get().get("pauseoptionsdown"));
-			exit = new PauseButton(pausemenux + 6, pausemenuy + 171, (Image) AssetManager.get().get("pauseexitup"), (Image) AssetManager.get().get("pauseexitdown"));
+			resume = new PauseButton(pausemenux + 6, pausemenuy + 6, ((Image) AssetManager.get().get("pauseresumeup")).copy(), ((Image) AssetManager.get().get("pauseresumedown")).copy());
+			menu = new PauseButton(pausemenux + 6, pausemenuy + 105, ((Image) AssetManager.get().get("pausemenuup")).copy(), ((Image) AssetManager.get().get("pausemenudown")).copy());
+			restart = new PauseButton(pausemenux + 6, pausemenuy + 39, ((Image) AssetManager.get().get("pauserestartup")).copy(), ((Image) AssetManager.get().get("pauserestartdown")).copy());
+			hangar = new PauseButton(pausemenux + 6, pausemenuy + 72, ((Image) AssetManager.get().get("pausehangarup")).copy(), ((Image) AssetManager.get().get("pausehangardown")).copy());
+			options = new PauseButton(pausemenux + 6, pausemenuy + 138, ((Image) AssetManager.get().get("pauseoptionsup")).copy(), ((Image) AssetManager.get().get("pauseoptionsdown")).copy());
+			exit = new PauseButton(pausemenux + 6, pausemenuy + 171, ((Image) AssetManager.get().get("pauseexitup")).copy(), ((Image) AssetManager.get().get("pauseexitdown")).copy());
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -175,11 +177,11 @@ public class GameState extends BasicGameState{
 	      }
 	      */
 	      if(!craft.isLoaded){
-	    	  craft.load((Image) AssetManager.get().get("craftimage"), 1, map);
+	    	  craft.load(((Image) AssetManager.get().get("craftimage")).copy(), 1, map);
 	    	  craft.isLoaded = true;
 	      }
 	      if(!enemy.isLoaded){
-	    	  enemy.load((Image) AssetManager.get().get("craftimage"), 1, map);
+	    	  enemy.load(((Image) AssetManager.get().get("craftimage")).copy(), 1, map);
 	    	  enemy.getImage().rotate(180);
 	    	  enemy.isLoaded = true;
 	      }
@@ -194,8 +196,8 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      //enemy.addTask(new TaskFire(enemy, craft, 0));
-	     // enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
+	      enemy.addTask(new TaskFire(enemy, craft, 0));
+	      enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      
 	      map.asteroidResume();
 	      this.PAUSED = false;
@@ -345,7 +347,7 @@ public class GameState extends BasicGameState{
 					}
 					laserlauncher = null;
 				}
-			} else if (obj.getClass() == NPCship.class){
+				} else if (obj.getClass() == NPCship.class){
 				NPCship temp = (NPCship) obj;
 				temp.update(delta,camX,camY);
 				for(int m = 0; m<enemy.laserlist.size(); m++) {
@@ -378,7 +380,7 @@ public class GameState extends BasicGameState{
 						laser = null;
 					}
 					laserlauncher = null;
-				}
+				} 
 			} else if (obj.getClass() == Planet.class){
 				for(Planet mesh : map.getPlanets()){
 					if(craft.isColliding(mesh)){
@@ -540,7 +542,7 @@ public class GameState extends BasicGameState{
 		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
 		shieldbar.render(g, camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
 		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
-		Image GUI = (Image) AssetManager.get().get("GUI");
+		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
 		//minimap.render(g);
@@ -552,7 +554,7 @@ public class GameState extends BasicGameState{
 	        g.setColor(trans);
 	        g.fillRect(camX,camY, SCR_width, SCR_height);
 	        
-	        Image pausemenu = (Image) AssetManager.get().get("pausemenu");
+	        Image pausemenu = ((Image) AssetManager.get().get("pausemenu")).copy();
 	        pausemenu.setFilter(Image.FILTER_NEAREST);
 	        pausemenu.draw(pausemenux+camX,pausemenuy+camY);
 	        resume.render(g,camX,camY);

@@ -66,7 +66,7 @@ public class Craft extends PhysicalObject{
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img;
+		this.mainimg = img.copy();
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
 			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
@@ -89,11 +89,12 @@ public class Craft extends PhysicalObject{
 		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
 		
-		shield.load((Image) AssetManager. get().get("shieldsystemicon"), 1f, map);
-		engine.load((Image) AssetManager.get().get("enginesystemicon"), 1f, map);
-		core.load((Image) AssetManager.get().get("coresystemicon"), 1f, map);
-		lifesupport.load((Image) AssetManager.get().get("oxygensystemicon"), 1f, map);
-		capacitor.load((Image)AssetManager.get().get("coresystemicon"), 1f, map);
+		shield.load(((Image) AssetManager.get().get("shieldsystemicon")), 1f, map);
+		engine.load(((Image) AssetManager.get().get("enginesystemicon")), 1f, map);
+		core.load(((Image) AssetManager.get().get("coresystemicon")), 1f, map);
+		lifesupport.load(((Image) AssetManager.get().get("oxygensystemicon")), 1f, map);
+		capacitor.load(((Image)AssetManager.get().get("coresystemicon")), 1f, map);
+		renderSystems();
 	}
 	public CraftData formData() {
 		ArrayList<EnumWeapon> enums = new ArrayList<EnumWeapon>();
@@ -146,41 +147,25 @@ public class Craft extends PhysicalObject{
 		this.shield.getImage().draw(this.getShieldX(),this.getShieldY(),1.2f);
 		//rotateSystem(this.shield);
 		//systems
-		this.core.getImage().drawCentered(this.core.getX()+this.getX(),this.core.getY()+this.getY());
+		this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
 		rotateSystem(this.core);
 		
-		this.shield.getImage().drawCentered(this.shield.getX()+this.getX(),this.shield.getY()+this.getY());
+		this.shield.getImage().drawCentered(this.shield.getX(),this.shield.getY());
 		rotateSystem(this.shield);
 		
 		
-		this.engine.getImage().drawCentered(this.engine.getX()+this.getX(),this.engine.getY()+this.getY());
+		this.engine.getImage().drawCentered(this.engine.getX(),this.engine.getY());
 		rotateSystem(this.engine);
 		
-		this.lifesupport.getImage().drawCentered(this.lifesupport.getX()+this.getX(),this.lifesupport.getY()+this.getY());
+		this.lifesupport.getImage().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
 		rotateSystem(this.lifesupport);
 	
 	}
 	public void rotateSystem(ShipSystem s) {
-		if(s.rotation != this.getMovement().getRotationAngle()) {
-		s.getImage().setRotation(this.mainimg.getRotation());
-		//double mangle = (double) s.getShipAngle();
-		//double radius = (double) s.getShipRadius();
-//		//System.out.println("center: " + this.getCenterX() + ", " + this.getCenterY());
-		//System.out.println("imagecenter: " + this.getImage().getCenterOfRotationX() + ", " + this.getImage().getCenterOfRotationY());
-		//float mangle = s.getRelations()[0];
-		//float radius = s.getRelations()[1];
-		//double x2 = (double) (radius * Math.cos(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
-		//double y2 = (double) (radius * Math.sin(mangle + Math.toRadians(this.getMovement().getRotationAngle()-s.rotation)));
-		//s.rotation = this.getMovement().getRotationAngle();
-		//s.setCenterX((float)(this.getImage().getCenterOfRotationX() + x2));
-		//s.setCenterY((float)(this.getImage().getCenterOfRotationY() + y2));
+		s.getImage().setRotation(this.getMovement().getRotationAngle());
 		double[] coords = getRotatedCoordinates(s.getLockedX(), s.getLockedY());
 		s.setX((float) (this.getX()+this.width/2+coords[0]));
 		s.setY((float) (this.getY()+this.height/2+coords[1]));
-		//s.setX(this.getRealCenterX());
-		//s.setY(this.getRealCenterY());
-		}
-
 	}
 	public double[] getRotatedCoordinates(double x, double y) {
 
@@ -192,11 +177,6 @@ public class Craft extends PhysicalObject{
 		double mangle = theta + currentRotation;
 		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
 		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
-		System.out.println("Current Angle " + currentRotation);
-		System.out.println("Theta " + theta);
-		System.out.println("Calculated Angle " + mangle);
-		System.out.println("New X: " + x2);
-		System.out.println("New Y: " + y2);
 		return new double[] {x2, y2};
 	}
 	public float getShieldX(){

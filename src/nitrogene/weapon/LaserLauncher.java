@@ -93,9 +93,9 @@ public class LaserLauncher extends ShipSystem{
 		//power usage 100 giga-watts
 		super(w,xpos, ypos, stat.hp, 0, 100, 100f);
 		parent = w;
-		if(stat.image == "res/Laser1.png") mainimg = (Image) AssetManager.get().get("standardlaser");
-		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = (Image) AssetManager.get().get("klaarpulsar");
-		else mainimg = (Image) AssetManager.get().get("standardlaser");
+		if(stat.image == "res/Laser1.png") mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = ((Image) AssetManager.get().get("klaarpulsar")).copy();
+		else mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
 		enumtype = stat;
 		name = n;
 		desx = 0;
@@ -191,23 +191,27 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public void render(Graphics g, float camX, float camY){
-	      if(((this.getAngle()-this.getImage().getRotation()) != 0)) {
-	    	  float rota = Target.getRotation(this);
-	    	  float dist = Math.abs(rota);
+	      double[] coords = parent.getRotatedCoordinates(this.getLockedX(), this.getLockedY());
+	      this.setX((float) (parent.width/2+coords[0]));
+		  this.setY((float) (parent.height/2+coords[1]));
+
+	      float rota = Target.getRotation(this);
+	      float dist = Math.abs(rota);
+		  if(dist > 1) {
 	    		  if(dist >= 100) {
 	    			  if(dist >= 200) {
-	    				  if(dist >= 300) {
-				       this.getImage().rotate(rota/50*(delta/25f));
+		    			  if(dist >= 300) {
+		    				  	this.getImage().rotate(rota/50*(delta/25f));
 				       
-				      } else {   //<300
-				       this.getImage().rotate(rota/25*(delta/25f));
-				      }
+		   				  } else {   //<300
+		   					  	this.getImage().rotate(rota/25*(delta/25f));
+		   				  }
 				      } else {  //<200
-				       this.getImage().rotate(rota/10*(delta/25f));
+				    	  this.getImage().rotate(rota/10*(delta/25f));
 				      }
-				      } else { //<100
+				  } else { //<100
 				      this.getImage().rotate(rota/5*(delta/25f));
-				      }
+			      }
 	    		  //50,40,30,20
 	      } else {
 	    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
@@ -215,7 +219,8 @@ public class LaserLauncher extends ShipSystem{
 	      }
 	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
-	      this.getImage().draw(this.getX()+craftX, this.getY()+craftY, 0.8f);
+
+	      this.getImage().drawCentered(this.getX()+craftX, this.getY()+craftY);
 	      
 	      ArrayList<LaserProjectile> slaserlistcopy = new ArrayList<LaserProjectile>();
 	      slaserlistcopy = slaserlist;
@@ -228,7 +233,7 @@ public class LaserLauncher extends ShipSystem{
 	    		  	laser=null;
 					continue;
 				}
-				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
+				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());				
 				if(GlobalInformation.testMode) g.draw(laser.getBoundbox());
 				laser = null;
 	      }

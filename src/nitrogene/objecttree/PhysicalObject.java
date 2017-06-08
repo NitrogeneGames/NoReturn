@@ -24,7 +24,8 @@ public class PhysicalObject {
 	protected float scalefactor;
 	protected int delta;
 	protected float rotation;
-	protected float width, height;
+	public float width;
+	public float height;
 	public boolean isLoaded = false;
 	protected float tempx, tempy;
 
@@ -38,7 +39,7 @@ public class PhysicalObject {
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img;
+		this.mainimg = img.copy();
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
 			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");

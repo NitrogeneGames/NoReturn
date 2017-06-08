@@ -55,8 +55,8 @@ public class ShipSystem extends PhysicalObject{
 		init(img.getWidth(), img.getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
-		this.setX(tempx);
-		this.setY(tempy);
+		this.setX(x1);
+		this.setY(y1);
 		rotationalconstant=0;
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();

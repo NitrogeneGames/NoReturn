@@ -9,9 +9,7 @@ public class Target {
 	
 	//gui}
 	
-	public static float getRotation(LaserLauncher laser) {
-		//return getRotationNew(laser);
-
+	public static float getRotation(LaserLauncher laser) {	
 	  	  if((laser.getAngle() >= 0 && laser.getImage().getRotation() >= 0) || (laser.getAngle() <= 0 && laser.getImage().getRotation() <= 0))
 	  	  {
 	  		  return laser.getAngle()-laser.getImage().getRotation();

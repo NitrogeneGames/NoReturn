@@ -113,19 +113,19 @@ public class ShipState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		g.setBackground(backgroundcolor);
-		Image backgroundimg = (Image) AssetManager.get().get("shipselection");
+		Image backgroundimg = ((Image) AssetManager.get().get("shipselection")).copy();
 		backgroundimg.draw(obserx, obsery, scalefactor);
 		ArrayList<Button> finalblist = buttonList.get(currentTab);
 		System.out.println(finalblist.size());
  		for(int i = 0; i < finalblist.size(); i++) {
-			finalblist.get(i).render(g, (Image)AssetManager.get().get("shipbutton"), (Image)AssetManager.get().get("shipbuttonhighlighted"), null);
+			finalblist.get(i).render(g, ((Image)AssetManager.get().get("shipbutton")).copy(), ((Image)AssetManager.get().get("shipbuttonhighlighted")).copy(), null);
 		}
 		
-		startButton.render(g, (Image)AssetManager.get().get("startbutton"), null, null);
-		hangarButton.render(g, (Image)AssetManager.get().get("startbutton"), null, null);
-		menuButton.render(g, (Image)AssetManager.get().get("menubutton"), null, null);
-		minusButton.render(g, (Image)AssetManager.get().get("minusbutton"), null, null);
-		plusButton.render(g, (Image)AssetManager.get().get("plusbutton"), null, null);
+		startButton.render(g, ((Image)AssetManager.get().get("startbutton")).copy(), null, null);
+		hangarButton.render(g, ((Image)AssetManager.get().get("startbutton")).copy(), null, null);
+		menuButton.render(g, ((Image)AssetManager.get().get("menubutton")).copy(), null, null);
+		minusButton.render(g, ((Image)AssetManager.get().get("minusbutton")).copy(), null, null);
+		plusButton.render(g, ((Image)AssetManager.get().get("plusbutton")).copy(), null, null);
 	}
 
 	public int getID() {
