@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -210,7 +211,6 @@ public class LoadingState extends BasicGameState{
 						}
 					}
 				}
-				System.out.println("LOADING!");
 				resourcesLoaded++;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -223,15 +223,27 @@ public class LoadingState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		//container.setFullscreen(true);
+		float width = container.getWidth();
+		float height = container.getHeight();
 		if(nextResource!=null){
 			g.drawString("Loaded: "+lastLoaded, 100, 100);
 			float temp = resourcesLoaded/totalResources;
 			g.drawString(Math.round(temp*100) + "%", 105, 120);
+			//renderLoadingBar(g, temp, width, height);
 		} else{
 		g.drawString("LOADING COMPLETE", 200, 200);
 		}
 	}
-	
+	private void renderLoadingBar(Graphics g, float progress, float width, float height){
+		float barWidth = width/3;
+		float barHeight = height/20;
+		g.setColor(Color.white);
+		g.drawRect(width/2-barWidth/2, height/2-barHeight/2, barWidth, barHeight);
+		g.setColor(Color.blue);
+		g.fillRect(width/2-barWidth/2, height/2-barHeight/2, (int)(progress*barWidth)-1, barHeight-1);
+		g.setColor(Color.white);
+	}	
 	public int getID() {
 		return 0;
 	}

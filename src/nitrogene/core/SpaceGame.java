@@ -4,6 +4,7 @@ import nitrogene.util.AppData;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,8 +19,13 @@ public class SpaceGame extends StateBasedGame{
 	}
 
 	public static void main(String[] args) throws SlickException{
-		AppGameContainer app = new AppGameContainer(new SpaceGame("Space Game"));
+
+		AppGameContainer app = new AppGameContainer(new ScalableGame(new SpaceGame("Space Game"), 1366, 768));	
+		//SCRheight = app.getScreenHeight();
+		//SCRwidth = app.getScreenWidth();
 		app.setDisplayMode(SCRwidth, SCRheight, false);
+		
+		//app.setFullscreen(true);
 		GlobalInformation.initHitboxData();
 		GlobalInformation.init(SCRwidth, SCRheight);
 		AppData.runInit();
@@ -31,6 +37,8 @@ public class SpaceGame extends StateBasedGame{
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		this.addState(new LoadingState()); //0
+		//SCRwidth = container.getScreenWidth();
+		//SCRheight = container.getScreenHeight();
 		this.addState(new MenuState(SCRwidth,SCRheight)); //1
 		this.addState(new GameState(SCRwidth,SCRheight)); //2
 		this.addState(new HangarState(SCRwidth,SCRheight)); //3
