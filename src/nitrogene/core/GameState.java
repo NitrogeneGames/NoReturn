@@ -100,6 +100,7 @@ public class GameState extends BasicGameState{
 		pauseresumeup = new Image("res/button/pauseresumeup.png");
 		*/
 		CursorSystem.init();
+
 		mousewheelposition = 0;
 		//set largest zoom for generation
 		Zoom.setZoom(ZoomEnum.MAP);

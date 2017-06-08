@@ -173,7 +173,7 @@ public class LaserLauncher extends ShipSystem{
 		this.delta = delta;
 		if(this.getHp() < 0){
 			this.setStatus(EnumStatus.DESTROYED);
-		} else if(this.getTimer().getClock().isRunning()){
+		} else if(this.getTimer().active){
 			this.setStatus(EnumStatus.ENGAGED);
 		} else if(this.getHp()<this.getMaxHp()){
 			this.setStatus(EnumStatus.DAMAGED);

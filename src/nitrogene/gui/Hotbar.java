@@ -57,17 +57,17 @@ public class Hotbar {
 			Image rend = launcher.getImage().copy();
 			Image statusicon;
 			if(launcher.getStatus() == EnumStatus.READY){
-				statusicon = (Image) AssetManager.get().get("statusReady");
+				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
 			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
-				statusicon = (Image) AssetManager.get().get("statusFiring");
+				statusicon = ((Image) AssetManager.get().get("statusFiring")).copy();
 			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
-				statusicon = (Image) AssetManager.get().get("statusDamaged");
+				statusicon = ((Image) AssetManager.get().get("statusDamaged")).copy();
 			} else if(launcher.getStatus() == EnumStatus.POWER){
-				statusicon = (Image) AssetManager.get().get("statusNeedPower");
+				statusicon = ((Image) AssetManager.get().get("statusNeedPower")).copy();
 			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
-				statusicon = (Image) AssetManager.get().get("statusDestroyed");
+				statusicon = ((Image) AssetManager.get().get("statusDestroyed")).copy();
 			} else{
-				statusicon = (Image) AssetManager.get().get("statusReady");
+				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
 			}
 			statusicon.setFilter(Image.FILTER_NEAREST);
 			

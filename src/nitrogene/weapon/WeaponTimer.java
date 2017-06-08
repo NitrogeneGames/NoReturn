@@ -15,7 +15,11 @@ public class WeaponTimer {
    public boolean active = false;
    public boolean isLocked = false;
    public int tickTime = 10;
-   private int shot, maxshot;
+   public float interBurst = 0;
+   public float outerBurst = 0;
+   public int burstShot = 0;
+   private boolean bursting = false;
+   private int shot = 0;
    private long start;
    private long elapsed;
    private LaserLauncher w;
@@ -35,20 +39,29 @@ public class WeaponTimer {
     }
     public void tick() {
     	counter++;
-    	if(counter >= 100) {
+    	if(counter >= outerBurst && !bursting) {
+    		if(burstShot > 1) {
+    			bursting = true;
+    			action();
+    			counter = 0;
+    			shot++;
+    		} else {
+    			action();
+    			counter = 0;
+    		}
+    	} else if(counter >= interBurst && bursting) {
     		action();
+    		shot++;
     		counter = 0;
+    		if(shot >= burstShot) {
+    			bursting = false;
+    			shot = 0;
+    		}
     	}
     }
    public void action() {
-	   shot++;
-	   /*if(shot <= w.getBurstNumber()){
-		   Clock.setDelay(w.getInterburst());
-	   } else{
-		   Clock.setDelay(w.getOuterburst());
-		   shot = 1;
-	   }*/
 	   try {
+		   System.out.println("FIRING");
 		w.fire();
 		start = System.currentTimeMillis();
 	} catch (SlickException e) {
@@ -63,14 +76,18 @@ public class WeaponTimer {
    }
    public WeaponTimer(int c, LaserLauncher d) {
 	   w = d; 
-	   shot = 1;
-       Clock = new Timer(c, taskPerformer);
+	   interBurst = d.getInterburst()/10;
+	   outerBurst = d.getOuterburst()/10;
+	   burstShot = d.getBurstNumber();
+       Clock = new Timer(tickTime, taskPerformer);
        //CursorSystem.changeCursor("greenfire");
    }
    public WeaponTimer(LaserLauncher d) {
 	   w = d;
-	   shot = 1;
-       Clock = new Timer(d.getInterburst(), taskPerformer);
+	   interBurst = ((float)d.getInterburst())/10;
+	   outerBurst = ((float)d.getOuterburst())/10;
+	   burstShot = d.getBurstNumber();
+       Clock = new Timer(tickTime, taskPerformer);
        //CursorSystem.changeCursor("greenfire");
    }
    public void start() {   
@@ -99,19 +116,21 @@ public class WeaponTimer {
 	   if(!isLocked ) {
 			this.resume();
 	   } 
-	   shot = 1;
-	   CursorSystem.changeCursor("greenfire");
+	   //CursorSystem.changeCursor("greenfire");
 	   isPauseLocked = false;
    }
    public void gamePause() {
 	   this.pause();
-	   CursorSystem.changeCursor("redfire");
+	   //CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
    public float getMaxChargeTime(){
-		return 100;
+		return outerBurst;
    }
    public float getCurrentChargeTime(){
+	   if(bursting) {
+		   return outerBurst;
+	   }
 	   return counter;
    }
 }
