@@ -78,57 +78,7 @@ public class GameState extends BasicGameState{
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		/*
-		craftImage = new Image("res/klaarship6.png");
-		enemyImage = new Image("res/klaarship6.png");
-		sun = new Image("res/sun_1.png");
-		pausemenu = new Image("res/button/pauseback.png");
-		shockimage = new Image("res/shockwave_particle.png");
-		statis = new Image("res/klaarship4.png");
-		slaserimage = new Image("res/LaserV2ro.png");
-		GUI = new Image("res/GUIportrait.png");
-		pauseexitdown = new Image("res/button/pauseexitdown.png");
-		pauseexitup = new Image("res/button/pauseexitup.png");
-		pausehangardown = new Image("res/button/pausehangardown.png");
-		pausehangarup = new Image("res/button/pausehangarup.png");
-		pausemenudown = new Image("res/button/pausemenudown.png");
-		pausemenuup = new Image("res/button/pausemenuup.png");
-		pauseoptionsdown = new Image("res/button/pauseoptionsdown.png");
-		pauseoptionsup = new Image("res/button/pauseoptionsup.png");
-		pauserestartdown = new Image("res/button/pauserestartdown.png");
-		pauserestartup = new Image("res/button/pauserestartup.png");
-		pauseresumedown = new Image("res/button/pauseresumedown.png");
-		pauseresumeup = new Image("res/button/pauseresumeup.png");
-		*/
-		CursorSystem.init();
-
-		mousewheelposition = 0;
-		//set largest zoom for generation
-		Zoom.setZoom(ZoomEnum.MAP);
-		Zoom.setZoomWindow(SCR_width, SCR_height);
-
-		//other variables
-				mapwidth = 5000;
-				mapheight = 2000;
-				offsetY = SCR_height/2;
-		    	offsetX = SCR_width/2;
-		    	camX = 0;
-		    	camY = 0;
-
-		//load all resources here
-		
-		
-		map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-		
-		craft = new Craft(700, 700);
-		map.addCraft(craft);
-		enemy = new NPCship(1200, 1200, Relation.HOSTILE);
-		map.addCraft(enemy);
-    	
-    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
-		int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
-		int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
-    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
+		System.out.println("ininitngi");
     	//ADDRESS PROBLEM
     	
     	//componentlist = new ArrayList<GuiComponent>();
@@ -165,15 +115,64 @@ public class GameState extends BasicGameState{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		this.PAUSED = true;
+		/*
+		craftImage = new Image("res/klaarship6.png");
+		enemyImage = new Image("res/klaarship6.png");
+		sun = new Image("res/sun_1.png");
+		pausemenu = new Image("res/button/pauseback.png");
+		shockimage = new Image("res/shockwave_particle.png");
+		statis = new Image("res/klaarship4.png");
+		slaserimage = new Image("res/LaserV2ro.png");
+		GUI = new Image("res/GUIportrait.png");
+		pauseexitdown = new Image("res/button/pauseexitdown.png");
+		pauseexitup = new Image("res/button/pauseexitup.png");
+		pausehangardown = new Image("res/button/pausehangardown.png");
+		pausehangarup = new Image("res/button/pausehangarup.png");
+		pausemenudown = new Image("res/button/pausemenudown.png");
+		pausemenuup = new Image("res/button/pausemenuup.png");
+		pauseoptionsdown = new Image("res/button/pauseoptionsdown.png");
+		pauseoptionsup = new Image("res/button/pauseoptionsup.png");
+		pauserestartdown = new Image("res/button/pauserestartdown.png");
+		pauserestartup = new Image("res/button/pauserestartup.png");
+		pauseresumedown = new Image("res/button/pauseresumedown.png");
+		pauseresumeup = new Image("res/button/pauseresumeup.png");
+		*/
 	}
 	
 	@Override
 	   public void enter(GameContainer container, StateBasedGame game)
 	         throws SlickException {
 	      super.enter(container, game);
-	      backup = container.getGraphics();
+			CursorSystem.init();
+
+			mousewheelposition = 0;
+			//set largest zoom for generation
+			Zoom.setZoom(ZoomEnum.MAP);
+			Zoom.setZoomWindow(SCR_width, SCR_height);
+
+			//other variables
+					mapwidth = 5000;
+					mapheight = 2000;
+					offsetY = SCR_height/2;
+			    	offsetX = SCR_width/2;
+			    	camX = 0;
+			    	camY = 0;
+
+			//load all resources here
+			
+			
+			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
+			
+			craft = new Craft(700, 700);
+			map.addCraft(craft);
+			enemy = new NPCship(1200, 1200, Relation.HOSTILE);
+			map.addCraft(enemy);
+	    	
+	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
+			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
+			int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
+	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
 	      /*
 	      for(LaserLauncher l : craft.laserlist){
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
@@ -199,9 +198,8 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskFire(enemy, craft, 0));
-	      enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
-	      
+	      enemy.addTask(new TaskMove(enemy, craft.getCenterX(), craft.getCenterY()));
+	      //enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }

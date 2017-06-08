@@ -116,7 +116,6 @@ public class ShipState extends BasicGameState{
 		Image backgroundimg = ((Image) AssetManager.get().get("shipselection")).copy();
 		backgroundimg.draw(obserx, obsery, scalefactor);
 		ArrayList<Button> finalblist = buttonList.get(currentTab);
-		System.out.println(finalblist.size());
  		for(int i = 0; i < finalblist.size(); i++) {
 			finalblist.get(i).render(g, ((Image)AssetManager.get().get("shipbutton")).copy(), ((Image)AssetManager.get().get("shipbuttonhighlighted")).copy(), null);
 		}
