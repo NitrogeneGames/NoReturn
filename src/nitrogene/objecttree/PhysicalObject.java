@@ -155,6 +155,10 @@ public boolean isColliding(PhysicalObject obj){
 			//} else {	    
 				if(this.getBoundbox().intersects(obj.getBoundbox())) {
 					return true;
+				} else if(this.getBoundbox().contains(obj.getBoundbox())) {
+					return true;
+				} else if(obj.getBoundbox().contains(this.getBoundbox())) {
+					return true;
 				} else {
 					return false;
 				}

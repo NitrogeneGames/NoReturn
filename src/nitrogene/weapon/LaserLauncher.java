@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
@@ -233,7 +234,10 @@ public class LaserLauncher extends ShipSystem{
 	    		  	laser=null;
 					continue;
 				}
-				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());				
+				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
+				if(GameState.debugMode) {
+					g.draw(laser.getBoundbox());
+				}
 				if(GlobalInformation.testMode) g.draw(laser.getBoundbox());
 				laser = null;
 	      }

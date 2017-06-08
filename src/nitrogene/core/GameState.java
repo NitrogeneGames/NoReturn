@@ -64,6 +64,7 @@ public class GameState extends BasicGameState{
 	private boolean isRotated = false;
 	private short selected = 0;
 	public boolean guielementsloaded = false;
+	public static boolean debugMode = false;
 
 	public static boolean PAUSED = false;
 
@@ -461,6 +462,9 @@ public class GameState extends BasicGameState{
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
 		craft.getImage().draw(craft.getX(), craft.getY());
+		if(debugMode) {
+			g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
+		}
 		craft.renderSystems();
 		enemy.renderSystems();
 		int n = 0;
@@ -522,6 +526,9 @@ public class GameState extends BasicGameState{
 			//drawing planet
 			if(GlobalInformation.testMode)g.draw(mesh.getBoundbox());
 			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
+			if(debugMode) {
+				g.draw(mesh.getBoundbox());  //DRAW BOUNDBOX DEBUG
+			}
 			mesh = null;
 		}
 		

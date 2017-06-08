@@ -112,6 +112,7 @@ public class LaserProjectile extends PhysicalObject{
 		this.getBoundbox().setCenterY(this.getCenterY());
 		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform(
 				(float)Math.toRadians(this.getAngle()),xconstant,yconstant)));//25f, 7.5f
+		
 		this.setX(carryx);
 		this.setY(carryy);
 	}
