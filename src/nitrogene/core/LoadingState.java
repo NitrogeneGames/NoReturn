@@ -94,6 +94,8 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("pausemenu", pauseMenu);
 		Image slaserImage = new Image("res/LaserV2ro.png");
 		AssetManager.get().put("slaserimage", slaserImage);
+		Image slaserBolt = new Image("res/pulsar_bolt_fixed.png");
+		AssetManager.get().put("slaserBolt", slaserBolt);
 		Image GUIimage = new Image("res/GUIportrait.png");
 		AssetManager.get().put("GUI", GUIimage);
 		Image twopixelstar = new Image("res/star2.png");

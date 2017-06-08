@@ -61,7 +61,6 @@ public class WeaponTimer {
     }
    public void action() {
 	   try {
-		   System.out.println("FIRING");
 		w.fire();
 		start = System.currentTimeMillis();
 	} catch (SlickException e) {
