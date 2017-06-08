@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import nitrogene.core.Craft;
 import nitrogene.world.Planet;
@@ -25,7 +26,7 @@ public class Minimap {
 		this.SCR_height = SCR_height;
 		this.mapwidth = mapwidth; //length of full map
 		this.mapheight = mapheight;
-		float scalefactor = width/mapwidth;
+		scalefactor = ((float)width)/((float) mapwidth);
 		locationx = 0f;
 		locationy = 0f;
 	}
@@ -36,17 +37,20 @@ public class Minimap {
 	}
 	
 	public void render(Graphics g){
-		Color trans = new Color(0f,0f,0f,0.7f);
+		Color trans = new Color(0f,0f,0f,1f);
         g.setColor(trans);
         g.fillRect(locationx, locationy,width,height);
 		for(int i = 0; i < planetlist.size(); i++){
 			Planet mesh = planetlist.get(i);
-			mesh.getImage().draw((mesh.getX()*scalefactor)+locationx,(mesh.getY()*scalefactor)+locationy,mesh.getScale()*scalefactor);
+			mesh.getImage().copy().draw((mesh.getX()*scalefactor)+locationx,(mesh.getY()*scalefactor)+locationy,scalefactor);
 			mesh=null;
 		}
 		for(int e = 0; e < craftlist.size(); e++){
 			Craft craft = craftlist.get(e);
-			craft.getImage().draw(craft.getX()*scalefactor,craft.getY()*scalefactor, scalefactor);
+			Image d = craft.getImage().copy();
+			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
+			d.setRotation(craft.getRotation());
+			d.draw(craft.getX()*scalefactor+locationx,craft.getY()*scalefactor+locationy, scalefactor);
 			craft = null;
 		}
 	}

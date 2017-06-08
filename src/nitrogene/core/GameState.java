@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
+import nitrogene.gui.Minimap;
 import nitrogene.gui.ShieldBar;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
@@ -54,7 +55,7 @@ public class GameState extends BasicGameState{
 	SpriteSheet spriteex;
 	private int mousewheelposition;
 	private int mapwidth, mapheight;
-	//private Minimap minimap;
+	private Minimap minimap;
 	private int offsetX, offsetY;
 	private final int SCR_width, SCR_height;
 	private int zoomwidth, zoomheight;
@@ -122,7 +123,7 @@ public class GameState extends BasicGameState{
 		enemy = new NPCship(1200, 1200, Relation.HOSTILE);
 		map.addCraft(enemy);
     	
-    	//minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
+    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
 		int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
 		int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
     	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
@@ -242,7 +243,7 @@ public class GameState extends BasicGameState{
 		}
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
-    	//minimap.update(camX, camY);
+    	minimap.update(camX, camY);
     	
     	
     	//Input Controllers
@@ -545,7 +546,7 @@ public class GameState extends BasicGameState{
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
-		//minimap.render(g);
+		minimap.render(g);
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);
 		//}
