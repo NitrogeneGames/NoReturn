@@ -552,7 +552,7 @@ public class GameState extends BasicGameState{
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
-		minimap.render(g);
+		minimap.render(g,camX,camY);
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);
 		//}

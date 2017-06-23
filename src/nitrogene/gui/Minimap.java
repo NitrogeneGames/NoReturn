@@ -43,32 +43,42 @@ public class Minimap {
 	}
 	
 	public void update(float camX, float camY){
+		//locationx = camX;
+		//locationy = camY+SCR_height-height;
+	}
+	private boolean imageBasedMinimap = true;
+	public void render(Graphics gr, float camX, float camY){
 		locationx = camX;
 		locationy = camY+SCR_height-height;
-	}
-	
-	public void render(Graphics gr){
-		gr.drawImage(l, locationx, locationy);
 		//g = new Graphics();
+		float statx = 0;
+		float staty = 0;
+		if(!imageBasedMinimap) {
+			g = gr;
+			statx = locationx;
+			staty = locationy;
+		}
 		Color trans = new Color(0f,0f,0f,1f);
         g.setColor(trans);
-        g.fillRect(0, 0,width,height);
+        g.fillRect(statx, staty,width,height);
 		for(int i = 0; i < planetlist.size(); i++){
 			Planet mesh = planetlist.get(i);
-			float x = ((mesh.getX()-focus.getX())*scalefactor)+width/2-focus.width/2*scalefactor;
-			float y = ((mesh.getY()-focus.getY())*scalefactor)+height/2-focus.height/2*scalefactor;
+			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
+			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
 			mesh.getImage().copy().draw(x,y,scalefactor);
 			mesh=null;
 		}
 		for(int e = 0; e < craftlist.size(); e++){
 			Craft craft = craftlist.get(e);
-			float x = ((craft.getX()-focus.getX())*scalefactor)+width/2-focus.width/2*scalefactor;
-			float y = ((craft.getY()-focus.getY())*scalefactor)+height/2-focus.height/2*scalefactor;
+			float x = ((craft.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
+			float y = ((craft.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
 			Image d = craft.getImage().copy();
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
 			d.setRotation(craft.getRotation());
 			d.draw(x, y, scalefactor);
 			craft = null;
 		}
+		g.flush();
+		gr.drawImage(l, locationx, locationy);
 	}
 }
