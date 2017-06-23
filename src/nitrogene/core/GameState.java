@@ -169,7 +169,7 @@ public class GameState extends BasicGameState{
 			enemy = new NPCship(1200, 1200, Relation.HOSTILE);
 			map.addCraft(enemy);
 	    	
-	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts());
+	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts(), craft);
 			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
 			int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
 	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);

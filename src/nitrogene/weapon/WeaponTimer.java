@@ -10,7 +10,7 @@ import nitrogene.core.CursorSystem;
 import org.newdawn.slick.SlickException;
 
 public class WeaponTimer {
-   public Timer Clock;
+   public Timer Clock; //needs to be optimized to static
    public boolean isPauseLocked = false;
    public boolean active = false;
    public boolean isLocked = false;
@@ -18,13 +18,13 @@ public class WeaponTimer {
    public float interBurst = 0;
    public float outerBurst = 0;
    public int burstShot = 0;
-   private boolean bursting = false;
+   public boolean bursting = false;
    private int shot = 0;
    private long start;
    private long elapsed;
    private LaserLauncher w;
    private int counter = 0;
-	ActionListener taskPerformer = new ActionListener() {
+	ActionListener taskPerformer = new ActionListener() {//event to call tick() every 10 miliseconds
     	public void actionPerformed(ActionEvent evt) {
     		if(!isPauseLocked && active && !isLocked) {
     			tick();
@@ -37,7 +37,7 @@ public class WeaponTimer {
     public void setClock(Timer t) {
     	Clock = t;
     }
-    public void tick() {
+    public void tick() {//called every 10 miliseconds, will count up to the set time then call action() to fire a laser
     	counter++;
     	if(counter >= outerBurst && !bursting) {
     		if(burstShot > 1) {
@@ -59,7 +59,7 @@ public class WeaponTimer {
     		}
     	}
     }
-   public void action() {
+   public void action() {//called when the timer wants to fire a laser
 	   try {
 		w.fire();
 		start = System.currentTimeMillis();
@@ -70,9 +70,10 @@ public class WeaponTimer {
    public LaserLauncher getWeapon() {
 	   return w;
    }
-   public void setWeapon(LaserLauncher t) {
+   public void setWeapon(LaserLauncher t) {//assigns a weapon to the timer, will trigger the weapon to fire as needed
 	   w = t;
    }
+   //interburst = time between burst shots, outerburst = time to charge, burstshot = shots in burst
    public WeaponTimer(int c, LaserLauncher d) {
 	   w = d; 
 	   interBurst = d.getInterburst()/10;
@@ -95,41 +96,46 @@ public class WeaponTimer {
    public void resume() {   
 		this.resume((int) (tickTime - elapsed));		
    }
-   public void start(int delay) {  
+   public void start(int delay) { //activate the laser if not already active 
 	    active = true;
 	 	resume(delay);
    }
-   public void stop() {
+   public void stop() { //called by the game istelf to deactivate the laser, ie laser breaks
 	   active = false;
 	   pause();
    }
-   public void resume(int delay) {
+   public void resume(int delay) { //resume function called by gameResume and start
 		start = System.currentTimeMillis();
 		Clock.start();		   
    }
-   public void pause() {
+   public void pause() { //pause function called by gamePause and stop
 	   elapsed = System.currentTimeMillis() - start;
 	   Clock.stop();
    }
-   public void gameResume() {
+   public void gameResume() { //resume the timer when game is unpaused
 	   if(!isLocked ) {
 			this.resume();
 	   } 
 	   //CursorSystem.changeCursor("greenfire");
 	   isPauseLocked = false;
    }
-   public void gamePause() {
+   public void gamePause() { //called when the ESC button is pressed, needs to freeze the timer
 	   this.pause();
 	   //CursorSystem.changeCursor("redfire");
 	   isPauseLocked = true;
    }
    public float getMaxChargeTime(){
-		return outerBurst;
+	   	if(bursting && interBurst*((float)burstShot)*10 >= 500) { //only counts for bursts longer than 1 second in total
+	   		return burstShot; //return max shots, makes hotbar show burst progress
+	   	}
+		return outerBurst; //return max charge
    }
    public float getCurrentChargeTime(){
-	   if(bursting) {
+	   if(bursting && interBurst*((float)burstShot)*10 >= 500) {
+		   return shot; //return current shot for hotbar burst progress
+	   } else if(bursting) {
 		   return outerBurst;
 	   }
-	   return counter;
+	   return counter; //return current charge
    }
 }

@@ -75,7 +75,7 @@ public class Hotbar {
 			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
 			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().active){
 				renderChargeBar(g, getSlot(launcher.laserId), launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
-						camX, camY);
+						camX, camY, launcher.getTimer().bursting, ((float) launcher.getTimer().burstShot) * launcher.getTimer().interBurst * 10);
 			}
 			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
 			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerReceived()/launcher.getPowerUsage(), camX, camY);
@@ -92,10 +92,14 @@ public class Hotbar {
 		icon.draw(slot[2] + camX + 82, slot[3] + camY + 2);
 	}
 	
-	private void renderChargeBar(Graphics g, int[] slot, float progress, float camX, float camY){
+	private void renderChargeBar(Graphics g, int[] slot, float progress, float camX, float camY, boolean bursting, float charge){
 		g.setColor(Color.white);
 		g.drawRect(slot[2] + camX + 4, slot[3] + camY + 6, 74, 18);
-		g.setColor(Color.blue);
+		if(bursting && charge >= 500) {
+			g.setColor(Color.red);
+		} else {
+			g.setColor(Color.blue);
+		}
 		g.fillRect(slot[2] + camX + 5, slot[3] + camY + 7, (int)(progress*73), 17);
 	}
 	
