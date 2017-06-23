@@ -9,6 +9,7 @@ import nitrogene.world.ArenaMap;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Transform;
 
 import java.util.Random;
@@ -93,7 +94,9 @@ public class LaserProjectile extends PhysicalObject{
 	}
 	
 	@Override
-	public void move(int thrust, int delta){
+	public Line move(float thrust, int delta){
+		float x1 = getX();
+		float y1 = getY();
 		float mm = delta/1000f;
 		float gj = thrust;
 		setX(getX()+(gj*mm*dx));
@@ -115,6 +118,7 @@ public class LaserProjectile extends PhysicalObject{
 		
 		this.setX(carryx);
 		this.setY(carryy);
+		return new Line(x1, y1, getX(), getY());
 	}
 	
 	public float getAngle(){

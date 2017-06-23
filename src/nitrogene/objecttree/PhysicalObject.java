@@ -3,6 +3,7 @@ package nitrogene.objecttree;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -80,7 +81,9 @@ public class PhysicalObject {
 		this.rotation = angledmovement.getRotationAngle();
 	}
 	
-	public void move(int thrust, int delta){
+	public Line move(float thrust, int delta){
+		float x1 = getX();
+		float y1 = getY();
 		movement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
@@ -89,6 +92,7 @@ public class PhysicalObject {
 		this.setY(this.getBoundbox().getY()+((movement.getDy()*gj)*mm));
 		
 		rotation+=rotationalconstant*mm;
+		return new Line(x1, y1, getX(), getY());
 	}
 	/*
 public boolean isColliding(PhysicalObject obj){
@@ -139,20 +143,6 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	 */
 	public boolean isColliding(PhysicalObject obj){
-		
-		/*if(this.boundbox.getCenterX() + width + this.movement.getDx() >= obj.getCenterX() ||
-				this.boundbox.getCenterY() + height + this.movement.getDy() >= obj.getCenterY() ||
-				this.boundbox.getCenterX() - width - this.movement.getDx() <= obj.getCenterX() ||
-				this.boundbox.getCenterY() - height - this.movement.getDy() <= obj.getY()
-				){*/
-		float xdif = getBoundbox().getX()+(getImage().getWidth()/2*scalefactor)-obj.getX()+obj.getImage().getWidth()/2*obj.scalefactor;
-		float ydif = getBoundbox().getY()+(getImage().getHeight()/2*scalefactor)-obj.getY()+obj.getImage().getHeight()/2*obj.scalefactor;
-		double dist = Math.sqrt((xdif*xdif) + (ydif*ydif));
-		if(this.getBoundbox().getX() + width + this.movement.getDx() >= dist || 
-			this.getBoundbox().getY() + width + this.movement.getDy() >= dist){
-			//if(obj instanceof ImageObject) {
-			//	return obj.isColliding(obj);
-			//} else {	    
 				if(this.getBoundbox().intersects(obj.getBoundbox())) {
 					return true;
 				} else if(this.getBoundbox().contains(obj.getBoundbox())) {
@@ -162,9 +152,13 @@ public boolean isColliding(PhysicalObject obj){
 				} else {
 					return false;
 				}
-			//}
+	}
+	public boolean isColliding(Line l) {
+		if(this.getBoundbox().intersects(l)) {
+			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 	
 	public boolean isContaining(float x, float y){

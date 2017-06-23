@@ -36,6 +36,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -313,11 +314,11 @@ public class GameState extends BasicGameState{
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						LaserProjectile laser = laserlauncher.slaserlist.get(i);
-						laser.move(10,delta);
+						Line path = laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
-							if(mesh.isColliding(laser)){
+							if(mesh.isColliding(laser) || mesh.isColliding(path)){
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
@@ -326,7 +327,7 @@ public class GameState extends BasicGameState{
 							}
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
-							if(craft.isColliding(laser) && !craft.equals(obj)){
+							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
 								//Damage crafts here!
@@ -357,11 +358,11 @@ public class GameState extends BasicGameState{
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						LaserProjectile laser = laserlauncher.slaserlist.get(i);
-						laser.move(10,delta);
+						Line d = laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
-							if(mesh.isColliding(laser)){
+							if(mesh.isColliding(laser) || mesh.isColliding(d)){
 								mesh.damage(laser.getPlanetDamage(), map);
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								//mesh.getShake().shakeObject(3, 1000);
