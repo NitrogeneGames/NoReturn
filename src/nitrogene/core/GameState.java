@@ -469,7 +469,7 @@ public class GameState extends BasicGameState{
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
 		if(!craft.destroyed) craft.getImage().draw(craft.getX(), craft.getY());
-		if(debugMode) {
+		if(debugMode && !craft.destroyed) {
 			g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
 		}
 		if(!craft.destroyed) craft.renderSystems();
