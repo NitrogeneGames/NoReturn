@@ -40,7 +40,7 @@ public class Craft extends PhysicalObject{
 	public int maxWeapons;
 	public ArrayList<int[]> weaponSlots = new ArrayList<int[]>();
 	private ArrayList<Item> inventory;
-	protected volatile boolean destroyed = true;
+	public boolean destroyed = false;
 	protected int cumulative;
 	public String name = "";
 	public Craft(float xpos, float ypos) throws SlickException{
@@ -144,21 +144,23 @@ public class Craft extends PhysicalObject{
 	}
 	
 	public void renderSystems() {
-		this.shield.getImage().draw(this.getShieldX(),this.getShieldY(),1.2f);
-		//rotateSystem(this.shield);
-		//systems
-		this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
-		rotateSystem(this.core);
-		
-		this.shield.getImage().drawCentered(this.shield.getX(),this.shield.getY());
-		rotateSystem(this.shield);
-		
-		
-		this.engine.getImage().drawCentered(this.engine.getX(),this.engine.getY());
-		rotateSystem(this.engine);
-		
-		this.lifesupport.getImage().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
-		rotateSystem(this.lifesupport);
+		if(!destroyed) {
+			this.shield.getImage().draw(this.getShieldX(),this.getShieldY(),1.2f);
+			//rotateSystem(this.shield);
+			//systems
+			this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
+			rotateSystem(this.core);
+			
+			this.shield.getImage().drawCentered(this.shield.getX(),this.shield.getY());
+			rotateSystem(this.shield);
+			
+			
+			this.engine.getImage().drawCentered(this.engine.getX(),this.engine.getY());
+			rotateSystem(this.engine);
+			
+			this.lifesupport.getImage().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
+			rotateSystem(this.lifesupport);
+		}
 	
 	}
 	public void rotateSystem(ShipSystem s) {
@@ -207,7 +209,8 @@ public class Craft extends PhysicalObject{
 	}
 	
 	private void destroy(){
-		//EXPLOSION!
+		destroyed = true;
+		this.getMovement().forceStop();
 	}
 	
 	public void addToInventory(ArrayList<Item> itemlist){

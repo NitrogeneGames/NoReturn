@@ -68,6 +68,7 @@ public class GameState extends BasicGameState{
 	public static boolean debugMode = false;
 
 	public static boolean PAUSED = false;
+	public static boolean drawPauseMenu = true;
 
 	
 	public GameState(int width, int height) {
@@ -75,8 +76,6 @@ public class GameState extends BasicGameState{
 		this.SCR_width = width;
 		this.SCR_height = height;
 	}
-
-
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		System.out.println("ininitngi");
@@ -248,44 +247,47 @@ public class GameState extends BasicGameState{
     	
     	
     	//Input Controllers
-    	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
-			craft.getMovement().Break(delta);
-			craft.getMovement().changeAccelerator(Direction.FORWARD, false);
-			craft.getMovement().changeAccelerator(Direction.BACKWARD, false);
-			craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);
-			craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);
-		} else{
-			if(input.isKeyDown(Input.KEY_W)){
-				if(!craft.getMovement().getToggle(Direction.FORWARD)){
-				craft.getMovement().changeAccelerator(Direction.FORWARD, true);}
+    	if(!craft.destroyed) {
+	    	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
+				craft.getMovement().Break(delta);
+				craft.getMovement().changeAccelerator(Direction.FORWARD, false);
+				craft.getMovement().changeAccelerator(Direction.BACKWARD, false);
+				craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);
+				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);
 			} else{
-				if(craft.getMovement().getToggle(Direction.FORWARD)){
-				craft.getMovement().changeAccelerator(Direction.FORWARD, false);}
+				if(input.isKeyDown(Input.KEY_W)){
+					if(!craft.getMovement().getToggle(Direction.FORWARD)){
+					craft.getMovement().changeAccelerator(Direction.FORWARD, true);}
+				} else{
+					if(craft.getMovement().getToggle(Direction.FORWARD)){
+					craft.getMovement().changeAccelerator(Direction.FORWARD, false);}
+				}
+				if(input.isKeyDown(Input.KEY_S)){
+					if(!craft.getMovement().getToggle(Direction.BACKWARD)){
+					craft.getMovement().changeAccelerator(Direction.BACKWARD, true);}
+				} else{
+					if(craft.getMovement().getToggle(Direction.BACKWARD)){
+					craft.getMovement().changeAccelerator(Direction.BACKWARD, false);}
+				}
+				if(input.isKeyDown(Input.KEY_A)){
+					if(!craft.getMovement().getToggle(Direction.UPPERANGLE)){
+					craft.getMovement().changeAccelerator(Direction.UPPERANGLE, true);}
+				} else{
+					if(craft.getMovement().getToggle(Direction.UPPERANGLE)){
+					craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);}
+				}
+				if(input.isKeyDown(Input.KEY_D)){
+					if(!craft.getMovement().getToggle(Direction.UNDERANGLE)){
+					craft.getMovement().changeAccelerator(Direction.UNDERANGLE, true);}
+				} else{
+					if(craft.getMovement().getToggle(Direction.UNDERANGLE)){
+					craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);}
+				}
 			}
-			if(input.isKeyDown(Input.KEY_S)){
-				if(!craft.getMovement().getToggle(Direction.BACKWARD)){
-				craft.getMovement().changeAccelerator(Direction.BACKWARD, true);}
-			} else{
-				if(craft.getMovement().getToggle(Direction.BACKWARD)){
-				craft.getMovement().changeAccelerator(Direction.BACKWARD, false);}
-			}
-			if(input.isKeyDown(Input.KEY_A)){
-				if(!craft.getMovement().getToggle(Direction.UPPERANGLE)){
-				craft.getMovement().changeAccelerator(Direction.UPPERANGLE, true);}
-			} else{
-				if(craft.getMovement().getToggle(Direction.UPPERANGLE)){
-				craft.getMovement().changeAccelerator(Direction.UPPERANGLE, false);}
-			}
-			if(input.isKeyDown(Input.KEY_D)){
-				if(!craft.getMovement().getToggle(Direction.UNDERANGLE)){
-				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, true);}
-			} else{
-				if(craft.getMovement().getToggle(Direction.UNDERANGLE)){
-				craft.getMovement().changeAccelerator(Direction.UNDERANGLE, false);}
-			}
-			if(input.isKeyPressed(Input.KEY_T)){
-				GlobalInformation.testMode = !GlobalInformation.testMode;
-			}
+    	}
+		if(input.isKeyPressed(Input.KEY_T)){
+			GlobalInformation.testMode = !GlobalInformation.testMode;
+			debugMode = !debugMode;
 		}
     	
     	if(craft.laserlist.size() > 0 && input.isKeyPressed(Input.KEY_1)){
@@ -418,6 +420,12 @@ public class GameState extends BasicGameState{
 		//	component.move(camX, camY);
 		//	component.update(container);
 		//}
+			for(Craft c : map.getCrafts()) {
+				if(c.destroyed) {
+					AnimationManager.addAnimation(new Explosion(c.getRealCenterX(), c.getRealCenterY(), 3f, 100));
+					map.getCrafts().remove(c);
+				}
+			}
 		}
 		else{
 		//pause menu here
@@ -460,11 +468,11 @@ public class GameState extends BasicGameState{
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
-		craft.getImage().draw(craft.getX(), craft.getY());
+		if(!craft.destroyed) craft.getImage().draw(craft.getX(), craft.getY());
 		if(debugMode) {
 			g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
 		}
-		craft.renderSystems();
+		if(!craft.destroyed) craft.renderSystems();
 		enemy.renderSystems();
 		int n = 0;
 		for(int e = 0; e < map.getAsteroids().size(); e++){
@@ -536,12 +544,12 @@ public class GameState extends BasicGameState{
 		}
 		
 		AnimationManager.renderAnimation();
-		
-		for(LaserLauncher cannon : craft.laserlist){
-			cannon.render(g,camX,camY);
-		}
-		for(LaserLauncher cannon : enemy.laserlist){
-			cannon.render(g,camX,camY);
+		for(Craft c : map.getCrafts()) {
+			if(!c.destroyed) {
+				for(LaserLauncher cannon : c.laserlist){
+					cannon.render(g,camX,camY);
+				}
+			}
 		}
 		
 		//Type inverse of third paramater here to counteract (for GUI components)
@@ -557,7 +565,7 @@ public class GameState extends BasicGameState{
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);
 		//}
-		if (PAUSED) {
+		if (PAUSED && drawPauseMenu) {
 	        Color trans = new Color(0f,0f,0f,0.5f);
 	        g.setColor(trans);
 	        g.fillRect(camX,camY, SCR_width, SCR_height);

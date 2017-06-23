@@ -175,6 +175,11 @@ public class Movement {
 		}
 		return false;
 	}
-	
+	public void forceStop() {
+		diracceleration[1] = 0;
+		diracceleration[2] = 0;
+		diracceleration[3] = 0;
+		diracceleration[4] = 0;
+	}
 	public float getRotationAngle() {return 0;}
 }
