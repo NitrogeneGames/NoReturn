@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import nitrogene.collision.Vector;
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.inventory.DroppedItem;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 

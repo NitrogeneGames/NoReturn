@@ -8,6 +8,8 @@ import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
 import nitrogene.gui.Minimap;
 import nitrogene.gui.ShieldBar;
+import nitrogene.inventory.DroppedItem;
+import nitrogene.inventory.Item;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.npc.TaskFire;
@@ -24,8 +26,6 @@ import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.LaserProjectile;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Asteroid;
-import nitrogene.world.DroppedItem;
-import nitrogene.world.Item;
 import nitrogene.world.Planet;
 
 import org.newdawn.slick.Animation;
@@ -164,9 +164,9 @@ public class GameState extends BasicGameState{
 			
 			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 			
-			craft = new Craft(700, 700);
+			craft = new Craft(1200, 1200);
 			map.addCraft(craft);
-			enemy = new NPCship(1200, 1200, Relation.HOSTILE);
+			enemy = new NPCship(600, 600, Relation.HOSTILE);
 			map.addCraft(enemy);
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
@@ -184,7 +184,6 @@ public class GameState extends BasicGameState{
 	      }
 	      if(!enemy.isLoaded){
 	    	  enemy.load(((Image) AssetManager.get().get("craftimage")).copy(), 1, map);
-	    	  enemy.getImage().rotate(180);
 	    	  enemy.isLoaded = true;
 	      }
 	      map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
@@ -211,7 +210,10 @@ public class GameState extends BasicGameState{
     	container.getGraphics().setColor(Color.white);
 		this.PAUSED = true;
 	}
-	
+	public void hostUpdate(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException {
+		
+	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		if(!container.hasFocus()){
@@ -285,9 +287,12 @@ public class GameState extends BasicGameState{
 				}
 			}
     	}
-		if(input.isKeyPressed(Input.KEY_T)){
+		if(input.isKeyPressed(Input.KEY_T)){//debug mode
 			GlobalInformation.testMode = !GlobalInformation.testMode;
 			debugMode = !debugMode;
+		}
+		if(input.isKeyPressed(Input.KEY_I)){//open inventory
+			//show inventory gui TODO
 		}
     	
     	if(craft.laserlist.size() > 0 && input.isKeyPressed(Input.KEY_1)){
@@ -453,6 +458,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		//System.out.println(enemy.getX()  + " " + enemy.getY());
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
@@ -468,10 +474,8 @@ public class GameState extends BasicGameState{
 		
 		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
+		if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
 		if(!craft.destroyed) craft.getImage().draw(craft.getX(), craft.getY());
-		if(debugMode && !craft.destroyed) {
-			g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
-		}
 		if(!craft.destroyed) craft.renderSystems();
 		enemy.renderSystems();
 		int n = 0;
@@ -548,6 +552,9 @@ public class GameState extends BasicGameState{
 			if(!c.destroyed) {
 				for(LaserLauncher cannon : c.laserlist){
 					cannon.render(g,camX,camY);
+				}
+				if(debugMode) {
+					g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
 				}
 			}
 		}

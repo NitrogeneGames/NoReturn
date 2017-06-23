@@ -2,6 +2,7 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
+import nitrogene.inventory.Item;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.system.Capacitor;
 import nitrogene.system.Core;
@@ -18,7 +19,6 @@ import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.WeaponTimer;
 import nitrogene.world.ArenaMap;
-import nitrogene.world.Item;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -69,7 +69,7 @@ public class Craft extends PhysicalObject{
 		this.mainimg = img.copy();
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
-			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
@@ -136,9 +136,9 @@ public class Craft extends PhysicalObject{
 		
 		float carryx = this.getX();
 		float carryy = this.getY();
+		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),174,88)));
 		this.getBoundbox().setCenterX(this.getCenterX()+43);//43
 		this.getBoundbox().setCenterY(this.getCenterY()+16);//16
-		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),174,88)));
 		this.setX(carryx);
 		this.setY(carryy);
 	}

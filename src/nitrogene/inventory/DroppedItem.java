@@ -1,4 +1,4 @@
-package nitrogene.world;
+package nitrogene.inventory;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,7 @@ import nitrogene.core.GlobalInformation;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
+import nitrogene.world.ArenaMap;
 
 public class DroppedItem extends PhysicalObject{
 	private ArrayList<Item> droplist;

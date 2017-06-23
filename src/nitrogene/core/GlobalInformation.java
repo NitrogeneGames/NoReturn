@@ -115,7 +115,7 @@ public class GlobalInformation {
 	}
 	
 	public static HashMap<String, Shape> getImageData(){
-		return imagedata;
+		return (HashMap<String, Shape>) imagedata.clone();
 	}
 	
 	public static void addPercentLoaded(double amt){

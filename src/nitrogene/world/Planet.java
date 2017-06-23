@@ -3,6 +3,9 @@ package nitrogene.world;
 import java.util.ArrayList;
 
 import nitrogene.core.GlobalInformation;
+import nitrogene.inventory.DroppedItem;
+import nitrogene.inventory.EnumDrop;
+import nitrogene.inventory.Item;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;

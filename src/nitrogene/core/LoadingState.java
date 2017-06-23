@@ -187,6 +187,7 @@ public class LoadingState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game){
+		container.setAlwaysRender(true);
 		totalResources = LoadingList.get().getTotalResources();
 		resourcesLoaded = 0;
 	}

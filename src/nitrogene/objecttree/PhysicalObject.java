@@ -43,7 +43,7 @@ public class PhysicalObject {
 		this.mainimg = img.copy();
 		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
 		if(boundbox == null){
-			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}

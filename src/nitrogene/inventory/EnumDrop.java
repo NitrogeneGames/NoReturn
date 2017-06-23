@@ -1,4 +1,4 @@
-package nitrogene.world;
+package nitrogene.inventory;
 
 public enum EnumDrop {
 
