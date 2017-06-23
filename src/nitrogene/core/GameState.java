@@ -169,7 +169,7 @@ public class GameState extends BasicGameState{
 			enemy = new NPCship(1200, 1200, Relation.HOSTILE);
 			map.addCraft(enemy);
 	    	
-	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, map.getPlanets(), map.getCrafts(), craft);
+	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
 			int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
 	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
@@ -243,7 +243,7 @@ public class GameState extends BasicGameState{
 		}
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
-    	minimap.update(camX, camY);
+    	minimap.update();
     	
     	
     	//Input Controllers
@@ -552,7 +552,7 @@ public class GameState extends BasicGameState{
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw(camX,camY);
 		guihotbar.loadWeapons(g,craft,camX,camY,selected);
-		minimap.render(g,camX,camY);
+		minimap.render(g,camX,camY,map.getPlanets(),map.getCrafts(),map.getAsteroids());
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);
 		//}

@@ -8,12 +8,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
+import nitrogene.world.Asteroid;
 import nitrogene.world.Planet;
 
 public class Minimap {
-	private ArrayList<Planet> planetlist;
 	public Craft focus;
-	private ArrayList<Craft> craftlist;
 	private final int width, height, SCR_width, SCR_height;
 	private int mapwidth, mapheight;
 	private float scalefactor;
@@ -21,10 +20,8 @@ public class Minimap {
 	private Image l;
 	private Graphics g;
 	
-	public Minimap(int width, int height, int SCR_width, int SCR_height, int mapwidth, int mapheight, ArrayList<Planet> planetlist, ArrayList<Craft> craftlist, Craft f){
+	public Minimap(int width, int height, int SCR_width, int SCR_height, int mapwidth, int mapheight, Craft f){
 		this.focus = f;
-		this.planetlist = planetlist;
-		this.craftlist = craftlist;
 		this.width = width; //length of minimap
 		this.height = height;
 		this.SCR_width = SCR_width;
@@ -42,12 +39,11 @@ public class Minimap {
 		}
 	}
 	
-	public void update(float camX, float camY){
-		//locationx = camX;
-		//locationy = camY+SCR_height-height;
+	public void update(){
+
 	}
 	private boolean imageBasedMinimap = true;
-	public void render(Graphics gr, float camX, float camY){
+	public void render(Graphics gr, float camX, float camY, ArrayList<Planet> planetlist, ArrayList<Craft> craftlist, ArrayList<Asteroid> asteroidlist){
 		locationx = camX;
 		locationy = camY+SCR_height-height;
 		//g = new Graphics();
@@ -65,18 +61,31 @@ public class Minimap {
 			Planet mesh = planetlist.get(i);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
-			mesh.getImage().copy().draw(x,y,scalefactor);
+			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
+			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
+			d.setRotation(mesh.getRotation());
+			d.draw(x, y, scalefactor);
 			mesh=null;
 		}
 		for(int e = 0; e < craftlist.size(); e++){
-			Craft craft = craftlist.get(e);
-			float x = ((craft.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
-			float y = ((craft.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
-			Image d = craft.getImage().copy();
+			Craft mesh = craftlist.get(e);
+			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
+			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
+			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
-			d.setRotation(craft.getRotation());
+			d.setRotation(mesh.getRotation());
 			d.draw(x, y, scalefactor);
-			craft = null;
+			mesh=null;
+		}
+		for(int e = 0; e < asteroidlist.size(); e++){
+			Asteroid mesh = asteroidlist.get(e);
+			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
+			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
+			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
+			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
+			d.setRotation(mesh.getRotation());
+			d.draw(x, y, scalefactor);
+			mesh=null;
 		}
 		g.flush();
 		gr.drawImage(l, locationx, locationy);
