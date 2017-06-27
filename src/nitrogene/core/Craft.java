@@ -144,9 +144,6 @@ public class Craft extends PhysicalObject{
 	
 	public void renderSystems() {
 		if(!destroyed) {
-			this.shield.getImage().draw(this.getShieldX(),this.getShieldY(),1.2f);
-			//rotateSystem(this.shield);
-			//systems
 			this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
 			rotateSystem(this.core);
 			
@@ -174,7 +171,7 @@ public class Craft extends PhysicalObject{
 		double x1 = this.getCenterX() - x;
 		double y1 = this.getCenterY() - y;
 		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
-		double theta = -(180 + Math.toDegrees(Math.atan(y1/x1))); 
+		double theta = -(180 + Math.toDegrees(Math.atan2(y1,x1))); 
 		double mangle = theta + currentRotation;
 		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
 		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
