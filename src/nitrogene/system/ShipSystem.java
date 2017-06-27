@@ -47,7 +47,7 @@ public class ShipSystem extends PhysicalObject{
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = img;
-		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);

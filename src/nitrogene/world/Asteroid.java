@@ -28,9 +28,9 @@ public class Asteroid extends PhysicalObject{
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = img;
-		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
-			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}

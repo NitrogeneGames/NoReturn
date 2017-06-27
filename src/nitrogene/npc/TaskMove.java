@@ -1,6 +1,8 @@
 package nitrogene.npc;
 
+import nitrogene.core.Zoom;
 import nitrogene.util.Direction;
+import nitrogene.util.Target;
 
 import org.newdawn.slick.geom.Line;
 
@@ -27,61 +29,34 @@ public class TaskMove extends Task {
 		return line = new Line(ship.getX(),ship.getY(),desx,desy);
 	}
 	
-	private Line[] transformLine(Line startline){
-		Line slopeline = new Line(0,0);
-		Line straightline = new Line(0,0);
-		double legy = Math.abs(desy - ship.getY());
-		double legx = Math.abs(desx - ship.getX());
-		double hyp = Math.sqrt(Math.pow(legx, 2) + Math.pow(legy, 2));
-		double anglex = Math.toDegrees((Math.acos(legx/hyp)));
-		double angley = Math.toDegrees((Math.acos(legy/hyp)));
-		anglex = Math.round(anglex);
-		angley = Math.round(angley);
-		
-		float pointx, pointy;
-		if(!(anglex==angley)){
-			if(anglex>45){
-				pointx = desx;
-				pointy = (float) (desy + (legy-legx));
-				slopeline.set(ship.getX(),ship.getY(),pointx,pointy);
-				straightline.set(pointx,pointy,desx,desy);
-			} if (anglex < 45){
-				pointx = (float) (desx - (legx - legy));
-				pointy = desy;
-				slopeline.set(ship.getX(),ship.getY(),pointx,pointy);
-				straightline.set(pointx,pointy,desx,desy);
-			}
-		}
-		
-		Line[] arrayline = new Line[2];
-		arrayline[0] = slopeline;
-		arrayline[1] = straightline;
-		return arrayline;
-	}
 	
 	@Override
 	public void activate(int delta, float camX, float camY) {
+		float rotation = this.ship.getRotation();
+		//System.out.println(rotation);
+		float legy = (desy - ship.getY());
+		float legx = (desx - ship.getX());
+		float anglex = (float) Math.toDegrees((Math.atan(legy/legx)));
+		float theta = Target.getRotation(rotation, anglex);
 		if(ship.getX()!=desx||ship.getY()!=desy){
-			if(this.ship.getX() != desx) {
-				if(desx > this.ship.getX()) {
-					if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) ship.getMovement().Toggle(Direction.UNDERANGLE);
-				} else {
-					if(!ship.getMovement().getToggle(Direction.UPPERANGLE)) this.ship.getMovement().Toggle(Direction.UPPERANGLE);
-				}
+			if(Math.abs(theta) < 2) {
+				if(ship.getMovement().getToggle(Direction.UNDERANGLE)) ship.getMovement().Toggle(Direction.UNDERANGLE);
+				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
 			}
-			if(this.ship.getY() != desy) {
-				if(desy > this.ship.getY()) {
-					if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
-				} else {
-					if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
-				}
+			else if(theta > 0) {
+				if(!ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
+				if(ship.getMovement().getToggle(Direction.UNDERANGLE)) ship.getMovement().Toggle(Direction.UNDERANGLE);
+			} else {
+				if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) this.ship.getMovement().Toggle(Direction.UNDERANGLE);
+				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
 			}
+			if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 		}
 		else{
 			this.close(delta);
 			ship.removeTask(this);
 		}
-		transformLine(findDirectLine());
+		//transformLine(findDirectLine());
 		this.ship.move(20,delta);
 	}
 

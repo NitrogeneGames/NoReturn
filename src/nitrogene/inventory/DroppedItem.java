@@ -36,7 +36,7 @@ public class DroppedItem extends PhysicalObject{
 		} else{
 			mainimg = (Image) AssetManager.get().get("ironitem");
 		}
-		boundbox = GlobalInformation.getImageData().get(mainimg.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};

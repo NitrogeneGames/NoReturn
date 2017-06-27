@@ -166,7 +166,7 @@ public class GameState extends BasicGameState{
 			
 			craft = new Craft(1200, 1200);
 			map.addCraft(craft);
-			enemy = new NPCship(600, 600, Relation.HOSTILE);
+			enemy = new NPCship(00, 00, Relation.HOSTILE);
 			map.addCraft(enemy);
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
@@ -193,12 +193,11 @@ public class GameState extends BasicGameState{
 	      	guihotbar = new Hotbar(craft);
 	      	this.guielementsloaded = true;
 	      }
-	    
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskMove(enemy, craft.getCenterX(), craft.getCenterY()));
-	      //enemy.addTaskOverride(new TaskMove(enemy, 0, 0));
+	      enemy.addTask(new TaskMove(enemy, craft.getX(), craft.getY()));
+	      //enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -393,12 +392,13 @@ public class GameState extends BasicGameState{
 			} else if (obj.getClass() == Planet.class){
 				for(Planet mesh : map.getPlanets()){
 					if(craft.isColliding(mesh)){
-						craft.setHull(0d);
+						//craft.setHull(0d);
 					}
 				}
 			} else{
 				System.out.println("ERROR! Fix update in GameState");
 			}
+
 		}
 		
 		for(int f = 0; f < map.getAsteroids().size(); f++){
@@ -503,7 +503,7 @@ public class GameState extends BasicGameState{
 			}
 			as = null;
 		}
-		if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
+		//if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling

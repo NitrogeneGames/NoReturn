@@ -43,7 +43,40 @@ public class Target {
 	  	  }
 	  	  	 
 		}
-		
+	public static float getRotation(float l1, float l2) {	
+	  	  if((l1 >= 0 && l2 >= 0) || (l1 <= 0 && l2 <= 0))
+	  	  {
+	  		  return l1-l2;
+	  	  } else {
+	  		if(l1 >= 0 && l2 <= 0) {
+	  			float x = Math.abs(l1);
+	  			float y = Math.abs(l2);
+	  			
+	  			float oneeighty = (180 - x) + (180 - y);
+	  			float zero = x + y;
+	  			if(zero<oneeighty) {
+	  				return zero;
+	  			} else {
+	  				return -oneeighty;
+	  			}
+	  		} else if(l1 <= 0 && l2 >= 0) {
+	  			float x = Math.abs(l1);
+	  			float y = Math.abs(l2);
+	  			
+	  			float oneeighty = (180 - x) + (180 - y);
+	  			float zero = x + y;
+	  			if(zero<oneeighty) {
+	  				return -zero;
+	  			} else {
+	  				return oneeighty;
+	  			}
+	  		} else {
+	  			return 0;
+	  		}
+
+	  	  }
+	  	  	 
+		}
 	/*
 	public static float getRotation(LaserLauncher laser) {
 			float a = (laser.getAngle());

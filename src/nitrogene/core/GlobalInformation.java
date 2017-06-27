@@ -114,10 +114,20 @@ public class GlobalInformation {
 		SCRheight=SCR_height;
 	}
 	
-	public static HashMap<String, Shape> getImageData(){
+	/*public static HashMap<String, Shape> getImageData(){
 		return (HashMap<String, Shape>) imagedata.clone();
+	}*/
+	public static Shape getHitbox(String s) {
+		if(imagedata.containsKey(s)) {
+			if(imagedata.get(s).getClass() == org.newdawn.slick.geom.Polygon.class) {
+				return new Polygon(imagedata.get(s).getPoints());
+			} else {
+				return imagedata.get(s);
+			}
+		} else {
+			return null;
+		}
 	}
-	
 	public static void addPercentLoaded(double amt){
 		percentloaded += amt;
 	}

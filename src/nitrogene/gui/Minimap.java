@@ -6,6 +6,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import nitrogene.core.Craft;
 import nitrogene.world.Asteroid;
@@ -65,7 +67,6 @@ public class Minimap {
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
 			d.setRotation(mesh.getRotation());
 			d.draw(x, y, scalefactor);
-			mesh=null;
 		}
 		for(int e = 0; e < craftlist.size(); e++){
 			Craft mesh = craftlist.get(e);

@@ -34,7 +34,7 @@ public class NPCship extends Craft{
 	}
 
 	public void update(int delta, float camX, float camY){
-		
+		super.update(delta, camX, camY);
 		this.delta = delta;
 		cumulative += delta;
 		

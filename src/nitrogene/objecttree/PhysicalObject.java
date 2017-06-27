@@ -41,7 +41,7 @@ public class PhysicalObject {
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = img.copy();
-		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
@@ -49,8 +49,7 @@ public class PhysicalObject {
 		}
 		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
 		init(img.getWidth(), img.getHeight());
-		newboundbox = new Polygon();
-		newboundbox = boundbox;
+		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
 		this.setY(tempy);
 		rotationalconstant=0;
@@ -177,6 +176,11 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	
 	public float getRotation(){
+		if(rotation > 180) {
+			return rotation - 360;
+		} else if(rotation < -180) {
+			return rotation + 360;
+		}
 		return rotation;
 	}
 	
@@ -269,6 +273,10 @@ public boolean isColliding(PhysicalObject obj){
 	}
 	public void setRotation(float rotation){
 		this.rotation = rotation;
+	}
+	public void removeBoundbox() {
+		this.boundbox = null;
+		
 	}
 	public static ArrayList<int[]> getCollidingPoints(PhysicalObject a, PhysicalObject a1) {
 		ArrayList<int[]> list = new ArrayList<int[]>();

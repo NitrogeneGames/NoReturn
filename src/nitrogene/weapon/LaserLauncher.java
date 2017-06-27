@@ -127,7 +127,7 @@ public class LaserLauncher extends ShipSystem{
 	
 	public void load(ArenaMap map){
 		this.map = map;
-		boundbox = GlobalInformation.getImageData().get(mainimg.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};

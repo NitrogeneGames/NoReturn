@@ -101,6 +101,7 @@ public class WeaponTimer {
 	 	resume(delay);
    }
    public void stop() { //called by the game istelf to deactivate the laser, ie laser breaks
+	   counter = 0;
 	   active = false;
 	   pause();
    }

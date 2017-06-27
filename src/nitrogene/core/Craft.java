@@ -67,15 +67,14 @@ public class Craft extends PhysicalObject{
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = img.copy();
-		boundbox = GlobalInformation.getImageData().get(img.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
 		init(img.getWidth(), img.getHeight());
-		newboundbox = new Polygon();
-		newboundbox = boundbox;
+		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
 		this.setY(tempy);
 		rotationalconstant=0;
@@ -121,7 +120,7 @@ public class Craft extends PhysicalObject{
 	public void update(int delta, float camX, float camY)
 	{
 		//Send power to systems based on priorities
-		
+
 		core.sendPower(capacitor);
 		for(ShipSystem system : this.systems){
 			if(system != null && system.getEnabled() &&
@@ -207,10 +206,11 @@ public class Craft extends PhysicalObject{
 			//GAME OVER
 		}
 	}
-	
 	private void destroy(){
 		destroyed = true;
 		this.getMovement().forceStop();
+		this.removeBoundbox();
+		map.getCrafts().remove(this);
 	}
 	
 	public void addToInventory(ArrayList<Item> itemlist){
