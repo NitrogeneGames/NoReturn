@@ -166,7 +166,7 @@ public class LaserLauncher extends ShipSystem{
 		this.desy = desy;
 		camX = 0;
 		camY = 0;
-		//isTargetingObject = false;
+		isTargetingObject = false;
 	}
 	public void setTarget(PhysicalObject p){
 		this.target = p;
@@ -318,6 +318,7 @@ public class LaserLauncher extends ShipSystem{
 				
 			} else {
 			this.setTarget(x + camX, y + camY);
+			isTargetingObject = false;
 			}
 			if(!this.getTimer().isLocked) {
 				this.getTimer().start();
