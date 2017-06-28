@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import nitrogene.collision.Vector;
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.core.Resources;
 import nitrogene.inventory.DroppedItem;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
@@ -146,7 +147,7 @@ public class ArenaMap {
 			}
 			
 			addPlanet((int)vec.x,(int)vec.y,maxhp,radius);
-			System.out.println("PLANET  "+vec.x+ "   :   "+vec.y);
+			Resources.log("PLANET  "+vec.x+ "   :   "+vec.y);
 		}
 	}
 	

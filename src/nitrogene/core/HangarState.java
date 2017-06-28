@@ -145,7 +145,7 @@ public class HangarState extends BasicGameState{
 			AppData.saveShipFile();
 			GlobalInformation.shipsLoaded = true;
 			if(weapons.isEmpty()){
-				//System.out.println("CHECKPOINT 1 FAILURE");
+				System.out.println("No Weapons Found");
 			}
 			game.enterState(1);
 		}

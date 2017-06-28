@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.core.GlobalInformation;
+import nitrogene.core.Resources;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Direction;
@@ -30,7 +31,7 @@ public class Asteroid extends PhysicalObject{
 		this.mainimg = img;
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
-			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}

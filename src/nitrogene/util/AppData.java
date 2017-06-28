@@ -1,6 +1,8 @@
 package nitrogene.util;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import nitrogene.core.CraftData;
 import nitrogene.core.GlobalInformation;
+import nitrogene.core.Resources;
 import nitrogene.weapon.EnumWeapon;
 
 import org.w3c.dom.Attr;
@@ -33,16 +36,24 @@ public class AppData {
   Document doc = dBuilder.parse(fXmlFile);
   doc.getDocumentElement().normalize();
   if(doc.getDocumentElement().getNodeName() != "optionlist") {
-   System.out.println("ERROR: CORRUPTRED OPTIONS FILE CP 1");
+   Resources.log("ERROR: CORRUPTRED OPTIONS FILE CP 1");
    return;
   }
    GlobalInformation.musiclevel = Float.parseFloat(doc.getDocumentElement().getAttribute("music"));
    GlobalInformation.sfxlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("sfx"));
    GlobalInformation.alarmlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("alarm"));
    } catch (Exception e) {
-    System.out.println("ERROR: CORRUPTED OPTIONS FILE CP 2");
+    Resources.log("ERROR: CORRUPTED OPTIONS FILE CP 2");
     e.printStackTrace();
     }
+ }
+ public static void log(String l) throws IOException {
+	 File file = new File(userDataRoot + "\\NoReturn\\log.txt");	  
+	file.createNewFile();
+	 
+	FileWriter writer = new FileWriter(file);
+	writer.write(l);
+	writer.close();
  }
  public static void saveOptions() {
     try {
@@ -67,7 +78,7 @@ public class AppData {
   DOMSource source = new DOMSource(doc);
   StreamResult result = new StreamResult(new File(userDataRoot + "\\NoReturn\\options.xml"));
   transformer.transform(source, result);
-	System.out.println("SAVING");
+	Resources.log("SAVING");
     } catch (Exception e) {
      e.printStackTrace();
     }
@@ -105,7 +116,7 @@ public class AppData {
   Document doc = dBuilder.parse(fXmlFile);
   doc.getDocumentElement().normalize();
   if(doc.getDocumentElement().getNodeName() != "shiplist") {
-   System.out.println("ERROR: CORRUPTRED SHIP FILE CP 1");
+   Resources.log("ERROR: CORRUPTRED SHIP FILE CP 1");
    return;
   }
   NodeList nList = doc.getElementsByTagName("ship");
@@ -132,7 +143,7 @@ public class AppData {
   }
   GlobalInformation.setCraftDataOverride(lships);
    } catch (Exception e) {
-    System.out.println("ERROR: CORRUPTED SHIP FILE CP 2");
+    Resources.log("ERROR: CORRUPTED SHIP FILE CP 2");
     e.printStackTrace();
     }
  }
@@ -175,4 +186,5 @@ public class AppData {
    tfe.printStackTrace();
     }
  }
+ 
 }

@@ -35,7 +35,7 @@ public class MenuState extends BasicGameState{
 			quickPlay = new Button("Quick Play", 1100, 400, 150, 60);
 			hangar = new Button("Hangar", 1100, 460, 150, 60);
 			options = new Button("Options", 1100, 520, 150, 60);
-			quitgame = new Button("Quit Game", 1100, 580, 150, 60);
+			quitgame = new Button("Quit Game", 1100, 580, 150,  60);
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,7 +48,7 @@ public class MenuState extends BasicGameState{
 		super.enter(container, game);
 		
 		menuMusic = (Music) AssetManager.get().get("millionaire");
-		System.out.println(GlobalInformation.musiclevel);
+		Resources.log("Music Level: " + GlobalInformation.musiclevel);
 		menuMusic.loop(1f, GlobalInformation.musiclevel);
 	}
 	

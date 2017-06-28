@@ -1,6 +1,7 @@
 package nitrogene.system;
 
 import nitrogene.core.Craft;
+import nitrogene.core.Resources;
 import nitrogene.util.EnumStatus;
 import nitrogene.world.ArenaMap;
 
@@ -38,7 +39,7 @@ public class LifeSupport extends ShipSystem{
 		} else if(functionality < 5){
 			changerate = -3*(delta/1000f)*(0.5f*(5-functionality));
 		} else{
-			System.out.println("CRITICAL FUNCTIONALITY ERROR:  " + functionality);
+			Resources.log("CRITICAL FUNCTIONALITY ERROR:  " + functionality);
 		}
 		
 		percentoxygen += changerate;

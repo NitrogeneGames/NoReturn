@@ -71,7 +71,7 @@ public class Craft extends PhysicalObject{
 		this.mainimg = img.copy();
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
-			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
@@ -220,7 +220,7 @@ public class Craft extends PhysicalObject{
 		try {
 			AnimationManager.addAnimation(new Explosion(this.getRealCenterX(), this.getRealCenterY(), 3f, 100));
 		} catch (SlickException e) {
-			System.out.println("failed to create explosion animation");
+			Resources.log("failed to create explosion animation");
 		}
 		this.getMovement().forceStop();
 		this.mainimg = null;

@@ -79,7 +79,7 @@ public class GameState extends BasicGameState{
 	}
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		System.out.println("ininitngi");
+		Resources.log("Initializing Gamestate...");
     	//ADDRESS PROBLEM
     	
     	//componentlist = new ArrayList<GuiComponent>();
@@ -228,7 +228,7 @@ public class GameState extends BasicGameState{
 		} else if (mousewheelposition == 1){
 			Zoom.setZoom(ZoomEnum.MAP);
 		} else{
-			System.out.println("ERROR! in beginning of update method, scroll zoom controls!");
+			Resources.log("ERROR! in beginning of update method, scroll zoom controls out of range");
 		}
 		
 		Input input = container.getInput();
@@ -394,7 +394,7 @@ public class GameState extends BasicGameState{
 					}
 				}
 			} else{
-				System.out.println("ERROR! Fix update in GameState");
+				Resources.log("ERROR! physical object " + obj.getClass() + " is unidentified in gamestate update");
 			}
 
 		}
@@ -491,7 +491,7 @@ public class GameState extends BasicGameState{
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
-		//if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
+		//if(GlobalInformation.testMode)Resources.log("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
 			//image culling

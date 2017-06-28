@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Transform;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.GlobalInformation;
+import nitrogene.core.Resources;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
@@ -262,7 +263,7 @@ public boolean isColliding(PhysicalObject obj){
 		} else if(defaultmovement == "normal"){
 			return movement;
 		} else{
-			System.out.println("CRITICAL: PhysicalObject.defaultmovement not set");
+			Resources.log("CRITICAL: PhysicalObject.defaultmovement not set");
 			return movement;
 		}
 	}

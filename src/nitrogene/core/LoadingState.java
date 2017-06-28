@@ -17,6 +17,8 @@ import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import nitrogene.util.AppData;
+
 public class LoadingState extends BasicGameState{
 	String lastLoaded = "";
 	/** The music that will be played on load completion */
@@ -177,12 +179,12 @@ public class LoadingState extends BasicGameState{
 		Image titaniumitem = new Image("res/item/TitaniumModule.png");
 		AssetManager.get().put("titaniumitem", titaniumitem);
 		Image ammoitem = new Image("res/item/Ammo.png");
-		AssetManager.get().put("ammoitem", ammoitem);
-		
+		AssetManager.get().put("ammoitem", ammoitem);	
 		Music millionaireMusic = new Music("res/sound/millionaire.ogg");
 		AssetManager.get().put("millionaire", millionaireMusic);
+
 		
-		System.out.println(LoadingList.get().getRemainingResources());
+		Resources.log(LoadingList.get().getRemainingResources());
 	}
 	
 	@Override
@@ -200,7 +202,7 @@ public class LoadingState extends BasicGameState{
 			try {
 				lastLoaded = nextResource.getDescription();
 				nextResource.load();
-				System.out.println(nextResource.getDescription());
+				Resources.log(nextResource.getDescription());
 				if(nextResource.getClass() == Image.class){
 					Set<Entry<String, Object>> entires = AssetManager.get().entrySet();
 					for(Entry<String, Object> ent : entires){
@@ -229,6 +231,7 @@ public class LoadingState extends BasicGameState{
 		float height = container.getHeight();
 		if(nextResource!=null){
 			g.drawString("Loaded: "+lastLoaded, 100, 100);
+			Resources.log("Loaded: "+lastLoaded);
 			float temp = resourcesLoaded/totalResources;
 			g.drawString(Math.round(temp*100) + "%", 105, 120);
 			//renderLoadingBar(g, temp, width, height);

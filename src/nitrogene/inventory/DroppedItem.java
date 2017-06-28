@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Transform;
 
 import nitrogene.core.AssetManager;
 import nitrogene.core.GlobalInformation;
+import nitrogene.core.Resources;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
@@ -38,7 +39,7 @@ public class DroppedItem extends PhysicalObject{
 		}
 		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
-			System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			Resources.log(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
