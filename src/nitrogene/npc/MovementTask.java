@@ -28,8 +28,6 @@ public abstract class MovementTask extends Task {
 		float accel = (float) ((float)(Math.pow(Vnet, 2)*-.5)/(hyp-range));
 		float cons = 10;
 		accel = accel/cons;
-		System.out.println(accel/cons + " accel needed");
-		System.out.println(hyp-range + " distance to target");
 		///System.out.println(ship.getMovement().maxDirAccel + " max accel");
 		//System.out.println(Vnet + " current velocity");
 		/*if(Math.abs(accel/1000) > ship.getMovement().maxDirAccel) {
@@ -58,7 +56,6 @@ public abstract class MovementTask extends Task {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
 			} else if(Math.abs(accel) > ship.getMovement().maxDirAccel && Vnet > 0) {
-				System.out.println("cp");
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
 			} else if (hyp > range){
