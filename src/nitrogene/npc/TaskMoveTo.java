@@ -36,8 +36,8 @@ public class TaskMoveTo extends MovementTask {
 	}
 
 	@Override
-	public void close(int delta) {
-		
+	public void close() {
+		ship.getMovement().forceStop();
 	}
 	@Override
 	public int getTaskID() {

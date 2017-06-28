@@ -39,12 +39,13 @@ public class NPCship extends Craft{
 		cumulative += delta;
 		
 		//Targetting
-		if(crafttarget.get(0)!=null)
 			//this.laserlist.get(0).setTarget(crafttarget.get(0).getCenterX(), crafttarget.get(0).getCenterY());
 		
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
-		runTasks(delta, camX, camY);
+		if(!destroyed) {
+			runTasks(delta, camX, camY);
+		}
 		
 	}
 	
@@ -56,7 +57,11 @@ public class NPCship extends Craft{
 	}
 	public void runTasks(int delta, float camX, float camY) {
 		for (int i = 0; i < tasks.size(); i++){
+			if(!tasks.get(i).isComplete) {
 				tasks.get(i).run(delta, camY, camY);
+			} else {
+				tasks.get(i).disable();
+			}
 		}
 	}
 	public void removeTask(Task t2) {

@@ -1,6 +1,7 @@
 package nitrogene.util;
 
 
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Planet;
@@ -93,7 +94,7 @@ public class Target {
 				return a-a1;
 			}
 	} */
-	public static Object getTargetObject(float f, float g, ArenaMap map) {
+	public static PhysicalObject getTargetObject(float f, float g, ArenaMap map) {
 		/*
 		for(BoxMesh box : boxmeshlist){
 			if(CollisionLibrary.testBoxPoint(box.boundbox, f, g)){
@@ -101,13 +102,25 @@ public class Target {
 			}
 		}
 		*/
-		for(Planet planet : map.getPlanets()){
-				if(planet.isContaining(f,g)){
-					return planet;
+		for(PhysicalObject p : map.getObjList()){
+				if(p.isContaining(f,g)){
+					return p;
 				}
 		}
 		return null;
 		
+	}
+	public static double[] getRotatedCoordinates(double x, double y, PhysicalObject p) {
+
+		double currentRotation = -p.getImage().getRotation();
+		double x1 = p.getCenterX() - x;
+		double y1 = p.getCenterY() - y;
+		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
+		double theta = -(180 + Math.toDegrees(Math.atan2(y1,x1))); 
+		double mangle = theta + currentRotation;
+		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
+		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
+		return new double[] {x2, y2};
 	}
 		
 	}

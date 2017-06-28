@@ -1,12 +1,13 @@
 package nitrogene.npc;
 
 import nitrogene.core.Craft;
+import nitrogene.objecttree.PhysicalObject;
 
 public class TaskFire extends Task {
-	public Craft target;
+	public PhysicalObject target;
 	public int weaponID;
 	public int taskID = 0;
-	public TaskFire(NPCship s, Craft t, int wid){
+	public TaskFire(NPCship s, PhysicalObject t, int wid){
 		super(s);
 		target = t;
 		weaponID = wid;
@@ -20,11 +21,14 @@ public class TaskFire extends Task {
 		//WeaponTimer t = ship.laserlist.get(weaponID).getTimer();
 		
 		//		ship.laserlist.get(weaponID)
+		if(target.isDestroyed()) {
+			this.isComplete = true;
+		}
 	}
 
 	@Override
-	public void close(int delta) {
-		//ship.laserlist.get(weaponID).getTimer().isLocked = true;
+	public void close() {
+		ship.laserlist.get(weaponID).getTimer().stop();
 	}
 
 	@Override

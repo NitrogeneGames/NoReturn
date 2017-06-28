@@ -8,6 +8,7 @@ import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
+import nitrogene.objecttree.PhysicalObject;
 import nitrogene.system.ShipSystem;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
@@ -26,6 +27,7 @@ import org.newdawn.slick.geom.Polygon;
 public class LaserLauncher extends ShipSystem{
 	//Basic Variables for Laser Launcher
 	private float desx, desy, camX, camY;
+	public PhysicalObject target;
 	public ArrayList<LaserProjectile> slaserlist = new ArrayList<LaserProjectile>();
 	public int accuracy, timer, maxtime,  damage, planetdamage;
 	private double mangle;
@@ -39,6 +41,7 @@ public class LaserLauncher extends ShipSystem{
 	public String name;
 	private volatile int delta;
 	public EnumWeapon enumtype;
+	public boolean isTargetingObject = false;
 	
 	/*
 	@Deprecated
@@ -148,6 +151,7 @@ public class LaserLauncher extends ShipSystem{
 		this.desy = desy;
 		camX = 0;
 		camY = 0;
+		isTargetingObject = false;
 	}
 	
 	public void setTarget(float desx, float desy, float camX, float camY){
@@ -155,13 +159,24 @@ public class LaserLauncher extends ShipSystem{
 		this.desy = desy;
 		this.camX = camX;
 		this.camY = camY;
+		isTargetingObject = false;
+	}
+	public void setTarget(PhysicalObject p){
+		this.target = p;
+		isTargetingObject = true;
 	}
 	
 	public float getTargetX(){
+		if(isTargetingObject) {
+			return target.getRealCenterX();
+		}
 		return desx;
 	}
 	
 	public float getTargetY(){
+		if(isTargetingObject) {
+			return target.getRealCenterY();
+		}
 		return desy;
 	}
 	
@@ -192,6 +207,11 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public void render(Graphics g, float camX, float camY){
+			if(isTargetingObject) {
+				if(target.isDestroyed()) {
+					this.setFire(0, 0, camX, camY, false);
+				}
+			}
 	      double[] coords = parent.getRotatedCoordinates(this.getLockedX(), this.getLockedY());
 	      this.setX((float) (parent.width/2+coords[0]));
 		  this.setY((float) (parent.height/2+coords[1]));
@@ -243,15 +263,16 @@ public class LaserLauncher extends ShipSystem{
 	      }
 	}
 	public void fire() throws SlickException{
-		LaserProjectile temp = new LaserProjectile(this.getX()+craftX,this.getY()+craftY, Zoom.scale(camX)+desx, Zoom.scale(camY)+desy,
+
+		LaserProjectile temp = new LaserProjectile(this.getRealCenterX()+craftX,this.getRealCenterY()+craftY, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
 				accuracy, speed, damage, planetdamage, this.getAngle(), this);
 		temp.load(proje, size, map);
 		slaserlist.add(temp);
 	}
 	
 	public float getAngle(){
-			double mecX = (desx+Zoom.scale(camX) - (this.getX()+craftX));
-			double mecY = (desy+Zoom.scale(camY) - (this.getY()+craftY));
+			double mecX = (getTargetX()+Zoom.scale(camX) - (this.getX()+craftX));
+			double mecY = (getTargetY()+Zoom.scale(camY) - (this.getY()+craftY));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
 			return mmangle;
@@ -280,13 +301,14 @@ public class LaserLauncher extends ShipSystem{
 				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
 					//Target Planet
 					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
+					this.setTarget(p);
 				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
 						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
 					//Target Ship
 					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
+					this.setTarget(p);
 				}
+				
 			} else {
 			this.setTarget(x + camX, y + camY);
 			}

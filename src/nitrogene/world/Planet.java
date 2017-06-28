@@ -39,7 +39,7 @@ public class Planet extends PhysicalObject{
 		this.mainimg = img;
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
-			System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
@@ -63,7 +63,6 @@ public class Planet extends PhysicalObject{
 			//explode();
 			this.destroy(map, e);
 		}
-		System.out.println("Planet HP " + hp + " after hit of " + damage);
 	}
 	public void damage(int damage, ArenaMap map) throws SlickException{
 		hp -= damage;
@@ -72,10 +71,11 @@ public class Planet extends PhysicalObject{
 			//explode(); 
 			this.destroy(map, this);
 		}
-		System.out.println("Planet HP " + hp + " after hit of " + damage);
 	}
 	public void destroy(ArenaMap map, int e) throws SlickException {
 		this.mainimg = null;
+		this.removeBoundbox();
+		this.destroyed = true;
 		spawnItem(map);
 		map.removePlanet(e);
 		map.getObjList().remove(e);

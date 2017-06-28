@@ -249,7 +249,7 @@ public class GameState extends BasicGameState{
     	
     	
     	//Input Controllers
-    	if(!craft.destroyed) {
+    	if(!craft.isDestroyed()) {
 	    	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
 				craft.getMovement().Break(delta);
 				craft.getMovement().changeAccelerator(Direction.FORWARD, false);
@@ -423,12 +423,12 @@ public class GameState extends BasicGameState{
 		//	component.move(camX, camY);
 		//	component.update(container);
 		//}
-			for(Craft c : map.getCrafts()) {
-				if(c.destroyed) {
+			/*for(Craft c : map.getCrafts()) {
+				if(c.isDestroyed()) {
 					AnimationManager.addAnimation(new Explosion(c.getRealCenterX(), c.getRealCenterY(), 3f, 100));
 					map.getCrafts().remove(c);
 				}
-			}
+			}*/
 		}
 		else{
 		//pause menu here
@@ -470,12 +470,13 @@ public class GameState extends BasicGameState{
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
 		
-		enemy.getImage().draw(enemy.getX(), enemy.getY());
 		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
 		if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
-		if(!craft.destroyed) craft.getImage().draw(craft.getX(), craft.getY());
-		if(!craft.destroyed) craft.renderSystems();
-		enemy.renderSystems();
+		for(int i = 0; i < map.getCrafts().size(); i++) {
+			Craft c = map.getCrafts().get(i);
+			if(!c.isDestroyed()) c.getImage().draw(c.getX(), c.getY());
+			if(!c.isDestroyed()) c.renderSystems();
+		}
 		int n = 0;
 		for(int e = 0; e < map.getAsteroids().size(); e++){
 			Asteroid as = map.getAsteroids().get(e);
@@ -547,7 +548,7 @@ public class GameState extends BasicGameState{
 		
 		AnimationManager.renderAnimation();
 		for(Craft c : map.getCrafts()) {
-			if(!c.destroyed) {
+			if(!c.isDestroyed()) {
 				for(LaserLauncher cannon : c.laserlist){
 					cannon.render(g,camX,camY);
 				}

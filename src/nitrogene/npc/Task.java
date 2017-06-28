@@ -35,5 +35,5 @@ public abstract class Task {
 	}
 	public abstract void activate(int delta, float camX, float camY);
 	public abstract int getTaskID();
-	public abstract void close(int delta); //RUN THIS WHEN TASK IS DELETED OR ELSE BAD THINGS WILL HAPPEN
+	public abstract void close(); //RUN THIS WHEN TASK IS DELETED OR ELSE BAD THINGS WILL HAPPEN
 }

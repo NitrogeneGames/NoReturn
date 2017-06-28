@@ -34,8 +34,7 @@ public abstract class MovementTask extends Task {
 				if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
 			}
 		}else{
-			this.close(delta);
-			ship.removeTask(this);
+			this.isComplete = true;
 		}
 		//transformLine(findDirectLine());
 		this.ship.move(20,delta);

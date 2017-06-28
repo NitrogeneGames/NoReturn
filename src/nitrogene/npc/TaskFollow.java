@@ -18,10 +18,13 @@ public class TaskFollow extends MovementTask {
 		float destx = target.getX();
 		float desty = target.getY();
 		super.activate(delta, camX, camY, desty, destx);
+		if(target.isDestroyed()) {
+			isComplete = true;
+		}
 	}
 
 	@Override
-	public void close(int delta) {
+	public void close() {
 		
 	}
 	@Override

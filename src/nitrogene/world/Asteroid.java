@@ -65,6 +65,8 @@ public class Asteroid extends PhysicalObject{
 	}
 	
 	private void destroy(){
+		this.destroyed = true;
+		this.removeBoundbox();
 		this.map.getAsteroids().remove(this);
 	}
 

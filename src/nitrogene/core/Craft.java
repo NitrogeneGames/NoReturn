@@ -11,8 +11,10 @@ import nitrogene.system.LifeSupport;
 import nitrogene.system.Shield;
 import nitrogene.system.ShipSystem;
 import nitrogene.util.AngledMovement;
+import nitrogene.util.AnimationManager;
 import nitrogene.util.EnumHull;
 import nitrogene.util.EnumStatus;
+import nitrogene.util.Explosion;
 import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
@@ -40,7 +42,6 @@ public class Craft extends PhysicalObject{
 	public int maxWeapons;
 	public ArrayList<int[]> weaponSlots = new ArrayList<int[]>();
 	private ArrayList<Item> inventory;
-	public boolean destroyed = false;
 	protected int cumulative;
 	public String name = "";
 	public Craft(float xpos, float ypos) throws SlickException{
@@ -119,6 +120,7 @@ public class Craft extends PhysicalObject{
 	@Override
 	public void update(int delta, float camX, float camY)
 	{
+		//System.out.println("destroyed " + destroyed);
 		//Send power to systems based on priorities
 
 		core.sendPower(capacitor);
@@ -208,11 +210,16 @@ public class Craft extends PhysicalObject{
 	}
 	private void destroy(){
 		destroyed = true;
+		try {
+			AnimationManager.addAnimation(new Explosion(this.getRealCenterX(), this.getRealCenterY(), 3f, 100));
+		} catch (SlickException e) {
+			System.out.println("failed to create explosion animation");
+		}
 		this.getMovement().forceStop();
+		//this.mainimg = null;
 		this.removeBoundbox();
 		map.getCrafts().remove(this);
 	}
-	
 	public void addToInventory(ArrayList<Item> itemlist){
 		for(Item item: itemlist){
 			inventory.add(item);

@@ -29,6 +29,7 @@ public class PhysicalObject {
 	public float height;
 	public boolean isLoaded = false;
 	protected float tempx, tempy;
+	protected boolean destroyed = false;
 
 	public PhysicalObject(float x, float y){
 		width = 0;
@@ -36,7 +37,9 @@ public class PhysicalObject {
 		tempx = x;
 		tempy = y;
 	}
-	
+	public boolean isDestroyed() {
+		return destroyed;
+	}
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
@@ -56,7 +59,10 @@ public class PhysicalObject {
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 	}
-	
+	private void destroy(){
+		destroyed = true;
+		this.removeBoundbox();
+	}
 	protected void setDefaultMovement(String s){
 		if(s == "angled"){
 			defaultmovement = "angled";
