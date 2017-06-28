@@ -5,7 +5,7 @@ import nitrogene.collision.Vector;
 public class AngledMovement extends Movement{
 	private float rotangle = 0;
 	private int rotspeed = 3;
-	
+
 	public AngledMovement(int upbound, int downbound, int leftbound, int rightbound, float startangle, int rotspeed){
 		toggle = new boolean[5];
 		diracceleration = new float[5];
@@ -20,7 +20,7 @@ public class AngledMovement extends Movement{
 		
 		this.rotangle = 0;
 	}
-	
+
 	@Override
 	public void Toggle(Direction direction){
 		if(direction == Direction.FORWARD){
@@ -87,21 +87,22 @@ public class AngledMovement extends Movement{
 		float lspeed = (this.getDy() * 20 * DELTACON);
 		float ldistance = (lspeed*ltime) + ((1/2) * (lspeed/ltime) * ltime * ltime);
 		*/
+
 		
-		if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += 0.05f*delta/5f;
-		else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= 0.05f*delta/5f;
+		if(toggle[1] && diracceleration[1] < 20f) diracceleration[1] += delta*dirAccel;
+		else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= delta*dirAccel;
 		else if(!toggle[1]) diracceleration[1] = 0f;
 		
-		if(toggle[2] && diracceleration[2] < 20f) diracceleration[2] += 0.05f*delta/5f;
-		else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= 0.05f*delta/5f;
+		if(toggle[2] && diracceleration[2] < 20f) diracceleration[2] += delta*dirAccel;
+		else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= delta*dirAccel;
 		else if(!toggle[2]) diracceleration[2] = 0f;
 		
-		if(toggle[4] && diracceleration[4] < 0.5f) diracceleration[4] += 0.003f*delta/5f;
-		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= 0.003f*delta/5f;
+		if(toggle[4] && diracceleration[4] < 0.5f) diracceleration[4] += delta*angleAccel;
+		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= delta*angleAccel;
 		else if(!toggle[4]) diracceleration[4] = 0f;
 		
-		if(toggle[3] && diracceleration[3] < 0.5f) diracceleration[3] += 0.003f*delta/5f;
-		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= 0.003f*delta/5f;
+		if(toggle[3] && diracceleration[3] < 0.5f) diracceleration[3] += delta*angleAccel;
+		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= delta*angleAccel;
 		else if(!toggle[3]) diracceleration[3] = 0f;
 		
 		/*

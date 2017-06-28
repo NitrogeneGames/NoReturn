@@ -11,8 +11,9 @@ public class TaskMoveTo extends MovementTask {
 	private Line line1;
 	private Line line2;
 	public int taskID = 1;
-	public TaskMoveTo(NPCship s, float desx, float desy){
-		super(s);
+	
+	public TaskMoveTo(NPCship s, float desx, float desy, float range){
+		super(s, range);
 		this.desx = desx;
 		this.desy = desy;
 		findlines();

@@ -173,7 +173,7 @@ public class GameState extends BasicGameState{
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
 			int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
-	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 510);
+	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 100);
 	      /*
 	      for(LaserLauncher l : craft.laserlist){
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
@@ -197,7 +197,7 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskFollow(enemy, craft));
+	      enemy.addTask(new TaskFollow(enemy, craft, 500));
 	      enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;

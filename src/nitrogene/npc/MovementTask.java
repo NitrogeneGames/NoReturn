@@ -4,9 +4,10 @@ import nitrogene.util.Direction;
 import nitrogene.util.Target;
 
 public abstract class MovementTask extends Task {
-
-	public MovementTask(NPCship s) {
+	protected float range;
+	public MovementTask(NPCship s, float r) {
 		super(s);
+		range = r;
 	}
 	public void activate(int delta, float camX, float camY, float desty, float destx) {
 		float rotation = this.ship.getRotation();
@@ -15,6 +16,31 @@ public abstract class MovementTask extends Task {
 
 		float legx = (destx - ship.getX());
 		float anglex = (float) Math.toDegrees((Math.atan2(legy,legx)));
+		float hyp = (float) Math.pow(legx*legx + legy*legy, 0.5);
+		
+		
+		//OH BOI ITS MECHANICS TIME
+		float Vnet =  ship.getMovement().getDirVelocity();
+		//d = hyp, Vi = Vnet, Vf = 0
+		//Vf2 = Vi2 + 2ad
+		//Vi2 = -2ad
+		//a = Vi2/-2d
+		float accel = (float) ((float)(Math.pow(Vnet, 2)*-.5)/(hyp-range));
+		float cons = 10;
+		accel = accel/cons;
+		System.out.println(accel/cons + " accel needed");
+		System.out.println(hyp-range + " distance to target");
+		///System.out.println(ship.getMovement().maxDirAccel + " max accel");
+		//System.out.println(Vnet + " current velocity");
+		/*if(Math.abs(accel/1000) > ship.getMovement().maxDirAccel) {
+			ship.getMovement().setDirAcceleration(accel);
+			if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);	
+		} else {
+			if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);	
+		}*/
+		
+		
+		
 		float theta = Target.getRotation(rotation, anglex);
 		if(ship.getX()!=destx||ship.getY()!=desty){
 			if(Math.abs(theta) < 2) {
@@ -28,10 +54,19 @@ public abstract class MovementTask extends Task {
 				if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) this.ship.getMovement().Toggle(Direction.UNDERANGLE);
 				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
 			}
-			if(Math.abs(theta) > 30) {
+			if(range > hyp && (Math.abs(accel) > ship.getMovement().maxDirAccel)) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
-			} else 	if(Math.abs(theta) < 30) {
-				if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
+				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
+			} else if(Math.abs(accel) > ship.getMovement().maxDirAccel && Vnet > 0) {
+				System.out.println("cp");
+				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
+				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
+			} else if (hyp > range){
+				if(Math.abs(theta) > 30) {
+					if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
+				} else 	if(Math.abs(theta) <= 30) {
+					if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
+				}
 			}
 		}else{
 			this.isComplete = true;

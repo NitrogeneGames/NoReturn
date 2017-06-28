@@ -5,12 +5,34 @@ import nitrogene.collision.Vector;
 public class Movement {
 	protected boolean[] toggle;
 	protected float[] diracceleration;
-	
+	public final float maxDirAccel = 0.05f/5f;
+	public final float maxAngleAccel = 0.03f/5f;
+	public float dirAccel = 0.05f/5f;
+	public float angleAccel = 0.03f/5f;
 	public Movement(){
 		toggle = new boolean[5];
 		diracceleration = new float[5];
 	}
-	
+	public void setDirAcceleration(float a) {
+		a = a/1000;
+		if(a > maxDirAccel) {
+			dirAccel = maxDirAccel;
+		} else if (a < -maxDirAccel){
+			dirAccel = -maxDirAccel;
+		} else {
+			dirAccel = a;
+		}
+	}
+	public void setAngleAcceleration(float a) {
+		a = a/1000;
+		if(a > maxAngleAccel) {
+			angleAccel = maxAngleAccel;
+		} else if (a < -maxAngleAccel){
+			angleAccel = -maxAngleAccel;
+		} else {
+			angleAccel = a;
+		}
+	}
 	/*
 	public Movement(int upbound, int downbound, int leftbound, int rightbound){
 		toggle = new boolean[5];
@@ -73,8 +95,9 @@ public class Movement {
 		}
 	}
 	
-	//linear acceleration: 0 to 5 in increments of 0.1
-
+	public float getDirVelocity() {
+		return diracceleration[1] - diracceleration[2];
+	}
 	public void Accelerate(Vector location, int delta){
 		/*
 		float DELTACON = delta/1000f;

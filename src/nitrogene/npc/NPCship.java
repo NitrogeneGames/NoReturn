@@ -71,6 +71,6 @@ public class NPCship extends Craft{
 	}
 	public void moveToPoint(float camX, float camY)
 	{
-		this.tasks.add(new TaskMoveTo(this, camX, camY));
+		this.tasks.add(new TaskMoveTo(this, camX, camY, 0));
 	}
 }

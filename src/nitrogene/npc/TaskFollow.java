@@ -8,8 +8,8 @@ import nitrogene.util.Target;
 public class TaskFollow extends MovementTask {
 	public PhysicalObject target;
 	public int taskID = 1;
-	public TaskFollow(NPCship s, PhysicalObject c){
-		super(s);
+	public TaskFollow(NPCship s, PhysicalObject c, float r){
+		super(s, r);
 		target = c;
 	}
 	
