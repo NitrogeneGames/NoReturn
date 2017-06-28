@@ -10,6 +10,7 @@ public abstract class MovementTask extends Task {
 		range = r;
 	}
 	public void activate(int delta, float camX, float camY, float desty, float destx) {
+		float accuracy = 1; //scale of 0 to 1 on how well the AI slows down to the target
 		float rotation = this.ship.getRotation();
 		//System.out.println(rotation);
 		float legy = (desty - ship.getY());
@@ -52,10 +53,10 @@ public abstract class MovementTask extends Task {
 				if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) this.ship.getMovement().Toggle(Direction.UNDERANGLE);
 				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
 			}
-			if(range > hyp && (Math.abs(accel) > ship.getMovement().maxDirAccel)) {
+			if(range > hyp && (Math.abs(accel) > ship.getMovement().maxDirAccel*2*accuracy)) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
-			} else if(Math.abs(accel) > ship.getMovement().maxDirAccel && Vnet > 0) {
+			} else if(Math.abs(accel) > ship.getMovement().maxDirAccel*2*accuracy && Vnet > 0) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
 			} else if (hyp > range){
