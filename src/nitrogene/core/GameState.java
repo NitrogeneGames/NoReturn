@@ -447,6 +447,9 @@ public class GameState extends BasicGameState{
 	    	if(resume.isClicked()){
 	    		PAUSED = false;
 	    	}
+	    	if(restart.isClicked()) game.enterState(2);
+	    	if(options.isClicked()) game.enterState(4);
+	    	if(hangar.isClicked()) game.enterState(3);
 	    	if(menu.isClicked()) game.enterState(1);
 	    	if(exit.isClicked()) container.exit();
 		}
