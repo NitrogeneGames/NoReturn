@@ -1,49 +1,22 @@
 package nitrogene.npc;
 
-import nitrogene.core.Zoom;
 import nitrogene.util.Direction;
 import nitrogene.util.Target;
 
-import org.newdawn.slick.geom.Line;
+public abstract class MovementTask extends Task {
 
-public class TaskMove extends Task {
-	private float desx, desy, cx, cy;
-	private Line line1;
-	private Line line2;
-	public int taskID = 1;
-	public TaskMove(NPCship s, float desx, float desy){
+	public MovementTask(NPCship s) {
 		super(s);
-		this.desx = desx;
-		this.desy = desy;
-		findlines();
 	}
-	
-	//plot course to destination coordinates
-	private void findlines(){
-		//Line line1 = new Line(cx, desx);
-		//Line line2 = new Line(cy, desy);
-	}
-	
-	private Line findDirectLine(){
-		Line line;
-		return line = new Line(ship.getX(),ship.getY(),desx,desy);
-	}
-	
-	
-	@Override
-	public void activate(int delta, float camX, float camY) {
+	public void activate(int delta, float camX, float camY, float desty, float destx) {
 		float rotation = this.ship.getRotation();
 		//System.out.println(rotation);
-		float legy = (desy - ship.getY());
+		float legy = (desty - ship.getY());
 
-		float legx = (desx - ship.getX());
-		System.out.println(legx + " x + y " + legy);
+		float legx = (destx - ship.getX());
 		float anglex = (float) Math.toDegrees((Math.atan2(legy,legx)));
 		float theta = Target.getRotation(rotation, anglex);
-		System.out.println(anglex + " anglex");
-		System.out.println(rotation + " rotation");
-		System.out.println(theta + " theta");
-		if(ship.getX()!=desx||ship.getY()!=desy){
+		if(ship.getX()!=destx||ship.getY()!=desty){
 			if(Math.abs(theta) < 2) {
 				if(ship.getMovement().getToggle(Direction.UNDERANGLE)) ship.getMovement().Toggle(Direction.UNDERANGLE);
 				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
@@ -55,7 +28,7 @@ public class TaskMove extends Task {
 				if(!ship.getMovement().getToggle(Direction.UNDERANGLE)) this.ship.getMovement().Toggle(Direction.UNDERANGLE);
 				if(ship.getMovement().getToggle(Direction.UPPERANGLE)) ship.getMovement().Toggle(Direction.UPPERANGLE);
 			}
-			if(Math.abs(theta) > 90) {
+			if(Math.abs(theta) > 30) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 			} else 	if(Math.abs(theta) < 30) {
 				if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
@@ -67,26 +40,4 @@ public class TaskMove extends Task {
 		//transformLine(findDirectLine());
 		this.ship.move(20,delta);
 	}
-
-	@Override
-	public void close(int delta) {
-		
-	}
-	@Override
-	public int getTaskID() {
-		// TODO Auto-generated method stub
-		return taskID;
-	}
-	
-	//create path from lines
-	
-	
-	//find time between paths
-	
-	
-	//calculate acceleration and toggles
-	
-	
-	//execute with timer
-	
 }

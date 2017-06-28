@@ -196,6 +196,9 @@ public class Craft extends PhysicalObject{
 			//GAME OVER
 		}
 	}
+	public void damageHull(double change){
+		changeHull(-change);
+	}
 	public void setHull(double change){
 		hull = change;
 		if(hull<=0){

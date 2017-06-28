@@ -13,7 +13,8 @@ import nitrogene.inventory.Item;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.npc.TaskFire;
-import nitrogene.npc.TaskMove;
+import nitrogene.npc.TaskFollow;
+import nitrogene.npc.TaskMoveTo;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
@@ -196,8 +197,8 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskMove(enemy, craft.getX(), craft.getY()));
-	      //enemy.addTask(new TaskFire(enemy, craft, 1));
+	      enemy.addTask(new TaskFollow(enemy, craft));
+	      enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -336,7 +337,7 @@ public class GameState extends BasicGameState{
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
-								//Damage crafts here!
+								craft.damageHull(laser.getDamage());
 							}
 						}
 						//map.setPlanets(planetlist);
@@ -364,28 +365,25 @@ public class GameState extends BasicGameState{
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						LaserProjectile laser = laserlauncher.slaserlist.get(i);
-						Line d = laser.move(10,delta);
+						Line path = laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
-							if(mesh.isColliding(laser) || mesh.isColliding(d)){
-								mesh.damage(laser.getPlanetDamage(), map);
+							if(mesh.isColliding(laser) || mesh.isColliding(path)){
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
+								mesh.damage(laser.getPlanetDamage(), map);
 							}
-						}
-						for(PhysicalObject temp2 : map.getObjList()){
-							if(!temp2.equals(obj) && temp2.isColliding(laser)){
-								
+							}
+						for(int r = 0; r < map.getCrafts().size(); r++){
+							Craft craft = map.getCrafts().get(r);
+							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
 								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
 								laserlauncher.slaserlist.remove(laser);
+								craft.damageHull(laser.getDamage());
 							}
 						}
-						if (laser.getX() > mapwidth - 20 || laser.getY() > mapheight - 30 || laser.getX() < 0 || laser.getY() < 0){
-							laserlauncher.slaserlist.remove(laser);
-						}
-						laser = null;
 					}
 					laserlauncher = null;
 				} 
