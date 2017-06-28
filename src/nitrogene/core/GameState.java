@@ -456,6 +456,24 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		
+		//ORDER OF RENDERING IS THE ORDER IT IS CALLED TO BE DRAWN
+		//Stars and Background
+		//Order for Physical Objects:
+		// 1) Planets, 2) Asteroids, 3) Craft, 4) Enemy Craft, 5) Craft Systems/Lasers, 6) Enemy Systems/Lasers
+		// 7) LaserProjectiles
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//System.out.println(enemy.getX()  + " " + enemy.getY());
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
@@ -469,39 +487,6 @@ public class GameState extends BasicGameState{
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
 		stars.render(Zoom.scale(camX),Zoom.scale(camY));
-		
-		if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
-		if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
-		for(int i = 0; i < map.getCrafts().size(); i++) {
-			Craft c = map.getCrafts().get(i);
-			if(!c.isDestroyed()) c.getImage().draw(c.getX(), c.getY());
-			if(!c.isDestroyed()) c.renderSystems();
-		}
-		int n = 0;
-		for(int e = 0; e < map.getAsteroids().size(); e++){
-			Asteroid as = map.getAsteroids().get(e);
-			//culling
-			//free constant
-			int fr = -100;
-			/*
-			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
-					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)+fr||
-					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)-fr||
-					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)+fr){
-				as=null;
-				n++;
-				continue;
-			}
-			//ASTEROID CULLING : BROKEN
-			*/
-			as.getImage().draw(as.getX(),as.getY(),as.getScale());
-			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
-			as.getImage().setRotation(as.getRotation());
-			if(GlobalInformation.testMode){
-				g.draw(as.getBoundbox());
-			}
-			as = null;
-		}
 		//if(GlobalInformation.testMode)System.out.println("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
@@ -541,22 +526,53 @@ public class GameState extends BasicGameState{
 			}
 			mesh = null;
 		}
+		for(int e = 0; e < map.getAsteroids().size(); e++){
+			Asteroid as = map.getAsteroids().get(e);
+			//culling
+			//free constant
+			int fr = -100;
+			/*
+			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
+					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)+fr||
+					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)-fr||
+					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)+fr){
+				as=null;
+				n++;
+				continue;
+			}
+			//ASTEROID CULLING : BROKEN
+			*/
+			as.getImage().draw(as.getX(),as.getY(),as.getScale());
+			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
+			as.getImage().setRotation(as.getRotation());
+			if(GlobalInformation.testMode){
+				g.draw(as.getBoundbox());
+			}
+			as = null;
+		}
+		//if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
+		//if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
+		for(int i = 0; i < map.getCrafts().size(); i++) {
+			Craft c = map.getCrafts().get(i);
+			if(!c.isDestroyed()) c.getImage().draw(c.getX(), c.getY());
+			if(!c.isDestroyed()) c.renderSystems();
+			for(LaserLauncher cannon : c.laserlist){
+				cannon.render(g,camX,camY);
+			}
+			if(debugMode) {
+				g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
+			}
+		}
+		int n = 0;
+
+
 		
 		for(DroppedItem mesh : map.getDroppedItem()){
 			mesh.getImage().draw(mesh.getX(), mesh.getY());
 		}
 		
 		AnimationManager.renderAnimation();
-		for(Craft c : map.getCrafts()) {
-			if(!c.isDestroyed()) {
-				for(LaserLauncher cannon : c.laserlist){
-					cannon.render(g,camX,camY);
-				}
-				if(debugMode) {
-					g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
-				}
-			}
-		}
+
 		
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
