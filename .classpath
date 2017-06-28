@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="libraries/jinput.jar"/>
-	<classpathentry kind="lib" path="libraries/lwjgl_util.jar">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jinput.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/lwjgl_util.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="SpaceGame3/natives/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libraries/lwjgl.jar">
+	<classpathentry exported="true" kind="lib" path="libraries/lwjgl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="SpaceGame3/natives/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libraries/slick.jar">
+	<classpathentry exported="true" kind="lib" path="libraries/slick.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/C:/Users/Arpad/Desktop/FireBrowse/WebOwl/Java/slick2d/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libraries/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="libraries/jorbis-0.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jogg-0.0.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="libraries/jorbis-0.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
