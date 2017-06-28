@@ -159,6 +159,17 @@ public boolean isColliding(PhysicalObject obj){
 					return false;
 				}
 	}
+	public boolean isColliding(Shape obj){
+		if(this.getBoundbox().intersects(obj)) {
+			return true;
+		} else if(this.getBoundbox().contains(obj)) {
+			return true;
+		} else if(obj.contains(this.getBoundbox())) {
+			return true;
+		} else {
+			return false;
+		}
+}
 	public boolean isColliding(Line l) {
 		if(this.getBoundbox().intersects(l)) {
 			return true;

@@ -52,7 +52,7 @@ public class GameState extends BasicGameState{
 	private ShieldBar shieldbar;
 	private HullBar hullbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
-	ArenaMap map;
+	public static ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
 	private int mousewheelposition;

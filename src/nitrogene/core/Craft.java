@@ -233,7 +233,12 @@ public class Craft extends PhysicalObject{
 			inventory.add(item);
 		}
 	}
-	
+	public float getHeight() {
+		return this.getImage().getHeight();
+	}
+	public float getWidth() {
+		return this.getImage().getWidth();
+	}
 	public ArrayList<Item> getInventory(){
 		return this.inventory;
 	}
