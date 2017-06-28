@@ -175,14 +175,18 @@ public class LaserLauncher extends ShipSystem{
 	
 	public float getTargetX(){
 		if(isTargetingObject) {
-			return target.getRealCenterX();
+			if(!target.isDestroyed()){
+				return target.getRealCenterX();
+			}
 		}
 		return desx;
 	}
 	
 	public float getTargetY(){
 		if(isTargetingObject) {
-			return target.getRealCenterY();
+			if(!target.isDestroyed()){
+				return target.getRealCenterY();
+			}
 		}
 		return desy;
 	}

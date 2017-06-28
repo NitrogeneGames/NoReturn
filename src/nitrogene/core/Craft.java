@@ -223,7 +223,7 @@ public class Craft extends PhysicalObject{
 			System.out.println("failed to create explosion animation");
 		}
 		this.getMovement().forceStop();
-		//this.mainimg = null;
+		this.mainimg = null;
 		this.removeBoundbox();
 		destroyWeapons();
 		map.getCrafts().remove(this);
