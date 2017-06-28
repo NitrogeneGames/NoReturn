@@ -34,7 +34,7 @@ public class Craft extends PhysicalObject{
 	public Shield shield;
 	public LifeSupport lifesupport;
 	public Core core;
-	public Capacitor capacitor;ddddddddddd
+	public Capacitor capacitor;
 	public EnumHull hulltype = EnumHull.NORMAL;
 	public Engine engine;
 	protected ArrayList<ShipSystem> systems;
