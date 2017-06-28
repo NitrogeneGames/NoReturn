@@ -180,6 +180,10 @@ public class Movement {
 		diracceleration[2] = 0;
 		diracceleration[3] = 0;
 		diracceleration[4] = 0;
+		if(getToggle(Direction.FORWARD)) Toggle(Direction.FORWARD);
+		if(getToggle(Direction.BACKWARD)) Toggle(Direction.BACKWARD);
+		if(getToggle(Direction.UPWARD)) Toggle(Direction.UPWARD);
+		if(getToggle(Direction.DOWNWARD)) Toggle(Direction.DOWNWARD);
 	}
 	public float getRotationAngle() {return 0;}
 }

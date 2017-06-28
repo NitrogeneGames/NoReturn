@@ -158,7 +158,16 @@ public class AngledMovement extends Movement{
 		}
 		return false;
 	}
-	
+	public void forceStop() {
+		diracceleration[1] = 0;
+		diracceleration[2] = 0;
+		diracceleration[3] = 0;
+		diracceleration[4] = 0;
+		if(getToggle(Direction.FORWARD)) Toggle(Direction.FORWARD);
+		if(getToggle(Direction.BACKWARD)) Toggle(Direction.BACKWARD);
+		if(getToggle(Direction.UPPERANGLE)) Toggle(Direction.UPPERANGLE);
+		if(getToggle(Direction.UNDERANGLE)) Toggle(Direction.UNDERANGLE);
+	}
 	@Override
 	public float getRotationAngle(){
 		return rotangle;

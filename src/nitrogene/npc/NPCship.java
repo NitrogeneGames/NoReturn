@@ -59,8 +59,6 @@ public class NPCship extends Craft{
 		for (int i = 0; i < tasks.size(); i++){
 			if(!tasks.get(i).isComplete) {
 				tasks.get(i).run(delta, camY, camY);
-			} else {
-				tasks.get(i).disable();
 			}
 		}
 	}

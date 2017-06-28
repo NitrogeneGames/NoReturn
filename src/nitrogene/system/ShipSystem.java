@@ -9,6 +9,7 @@ import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 
 public class ShipSystem extends PhysicalObject{
@@ -53,8 +54,7 @@ public class ShipSystem extends PhysicalObject{
 			boundbox = new Polygon(m);
 		}
 		init(img.getWidth(), img.getHeight());
-		newboundbox = new Polygon();
-		newboundbox = boundbox;
+		newboundbox = new Circle(boundbox.getCenterX(), boundbox.getCenterY(), ((Circle) boundbox).getRadius());
 		this.setX(x1);
 		this.setY(y1);
 		rotationalconstant=0;

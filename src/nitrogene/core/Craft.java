@@ -3,6 +3,7 @@ package nitrogene.core;
 import java.util.ArrayList;
 
 import nitrogene.inventory.Item;
+import nitrogene.npc.NPCship;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.system.Capacitor;
 import nitrogene.system.Core;
@@ -89,11 +90,11 @@ public class Craft extends PhysicalObject{
 		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
 		
-		shield.load(((Image) AssetManager.get().get("shieldsystemicon")), 1f, map);
-		engine.load(((Image) AssetManager.get().get("enginesystemicon")), 1f, map);
-		core.load(((Image) AssetManager.get().get("coresystemicon")), 1f, map);
-		lifesupport.load(((Image) AssetManager.get().get("oxygensystemicon")), 1f, map);
-		capacitor.load(((Image)AssetManager.get().get("coresystemicon")), 1f, map);
+		shield.load(((Image) AssetManager.get().get("shieldsystemicon")).copy(), 1f, map);
+		engine.load(((Image) AssetManager.get().get("enginesystemicon")).copy(), 1f, map);
+		core.load(((Image) AssetManager.get().get("coresystemicon")).copy(), 1f, map);
+		lifesupport.load(((Image) AssetManager.get().get("oxygensystemicon")).copy(), 1f, map);
+		capacitor.load(((Image)AssetManager.get().get("coresystemicon")).copy(), 1f, map);
 		renderSystems();
 	}
 	public CraftData formData() {
@@ -162,7 +163,7 @@ public class Craft extends PhysicalObject{
 	
 	}
 	public void rotateSystem(ShipSystem s) {
-		s.getImage().setRotation(this.getMovement().getRotationAngle());
+		s.getImage().setRotation(this.getRotation());
 		double[] coords = getRotatedCoordinates(s.getLockedX(), s.getLockedY());
 		s.setX((float) (this.getX()+this.width/2+coords[0]));
 		s.setY((float) (this.getY()+this.height/2+coords[1]));

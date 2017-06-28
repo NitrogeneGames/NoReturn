@@ -17,12 +17,13 @@ public class TaskFire extends Task {
 	@Override
 	public void activate(int delta, float camX, float camY) {
 		ship.laserlist.get(weaponID).update(craftX, craftY, camX, camY,delta);
-		ship.laserlist.get(weaponID).setTarget((float) (target.getRealCenterX()), (float) (target.getRealCenterY()));
+		ship.laserlist.get(weaponID).updateTarget((float) (target.getRealCenterX()), (float) (target.getRealCenterY()));
 		//WeaponTimer t = ship.laserlist.get(weaponID).getTimer();
 		
 		//		ship.laserlist.get(weaponID)
 		if(target.isDestroyed()) {
 			this.isComplete = true;
+			this.close();
 		}
 	}
 

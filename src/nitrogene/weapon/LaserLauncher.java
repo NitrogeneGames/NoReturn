@@ -146,12 +146,12 @@ public class LaserLauncher extends ShipSystem{
 		movement = new Movement();
 	}
 	
-	public void setTarget(float desx, float desy){
+	public void updateTarget(float desx, float desy){
 		this.desx = desx;
 		this.desy = desy;
 		camX = 0;
 		camY = 0;
-		isTargetingObject = false;
+		//isTargetingObject = false;
 	}
 	
 	public void setTarget(float desx, float desy, float camX, float camY){
@@ -160,6 +160,13 @@ public class LaserLauncher extends ShipSystem{
 		this.camX = camX;
 		this.camY = camY;
 		isTargetingObject = false;
+	}
+	public void setTarget(float desx, float desy){
+		this.desx = desx;
+		this.desy = desy;
+		camX = 0;
+		camY = 0;
+		//isTargetingObject = false;
 	}
 	public void setTarget(PhysicalObject p){
 		this.target = p;
