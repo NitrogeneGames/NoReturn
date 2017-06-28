@@ -117,6 +117,12 @@ public class Craft extends PhysicalObject{
 			}
 		}
 	}
+	public void destroyWeapons() {
+		for(int i = 0; i < laserlist.size(); i++) {
+			laserlist.get(i).getTimer().stop();
+		}
+			
+	}
 	
 	@Override
 	public void update(int delta, float camX, float camY)
@@ -219,6 +225,7 @@ public class Craft extends PhysicalObject{
 		this.getMovement().forceStop();
 		//this.mainimg = null;
 		this.removeBoundbox();
+		destroyWeapons();
 		map.getCrafts().remove(this);
 	}
 	public void addToInventory(ArrayList<Item> itemlist){
