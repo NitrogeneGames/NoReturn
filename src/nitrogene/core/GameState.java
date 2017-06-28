@@ -415,9 +415,10 @@ public class GameState extends BasicGameState{
 				di.destroy(map);
 			}
 		}
-		
-		camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
-		camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
+		if(craft.getImage()!=null){
+			camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
+			camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
+		}
 		
 		//for(GuiComponent component : componentlist){
 		//	component.move(camX, camY);
