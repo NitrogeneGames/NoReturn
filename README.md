@@ -35,8 +35,4 @@ An open version will most likely be released after the quick play goal is met.
 
 Credits
 ========
-REAL NAMES ARE NOT ILLEGALLY DISCLOSED
-Ironarcher - Project leader, Lead design, Lead programming
-Warblish - programming
-FTL Change My Life - Lead Art, graphics (after all, the game changed his life)
-MiowMix - Public Relations
+Warblish, ironarcher, Glockta Seuss
