@@ -93,6 +93,8 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("sun1", sunImage);
 		Image volcanicplanetImage = new Image("res/volcanicplanet2.png");
 		AssetManager.get().put("volcanicplanet", volcanicplanetImage);
+		Image rockplanetImage = new Image("res/rockyplanet.png");
+		AssetManager.get().put("rockyplanet", rockplanetImage);
 		Image pauseMenu = new Image("res/button/pauseback.png");
 		AssetManager.get().put("pausemenu", pauseMenu);
 		Image slaserImage = new Image("res/LaserV2ro.png");
@@ -171,6 +173,19 @@ public class LoadingState extends BasicGameState{
 		
 		Image standardLaserImage = new Image("res/Laser1.png");
 		AssetManager.get().put("standardlaser", standardLaserImage);
+		Image standardLaserGreenImage = new Image("res/Laser1Green.png");
+		AssetManager.get().put("standardlasergreen", standardLaserGreenImage);
+		Image laser2Image = new Image("res/Laser2.png");
+		AssetManager.get().put("laser2", laser2Image);
+		Image laser2ImageGreen = new Image("res/Laser2Green.png");
+		AssetManager.get().put("laser2green", laser2ImageGreen);
+		
+		Image wep1 = new Image("res/wep1.png");
+		AssetManager.get().put("wep1", wep1);
+		Image wep2 = new Image("res/wep2.png");
+		AssetManager.get().put("wep2", wep2);	
+		
+		
 		Image klaarPulsarImage = new Image("res/klaar_pulsar_2.png");
 		AssetManager.get().put("klaarpulsar", klaarPulsarImage);
 		

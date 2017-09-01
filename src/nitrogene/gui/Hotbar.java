@@ -15,10 +15,15 @@ import nitrogene.util.EnumStatus;
 import nitrogene.weapon.LaserLauncher;
 
 public class Hotbar {
+	//slot width = 111, height = 104
 	public int tab = 0;
 	public Craft ship;
 	UnicodeFont uniFont;
 	java.awt.Font mainFont;
+	UnicodeFont uniFont2;
+	java.awt.Font mainFont2;
+	UnicodeFont uniFont3;
+	java.awt.Font mainFont3;
 	private Image heart, bolt;
 	
 	public Hotbar(Craft s) throws SlickException {
@@ -39,8 +44,20 @@ public class Hotbar {
         org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
         a.setColor(java.awt.Color.white);
         uniFont.getEffects().add(a);
+        
+        mainFont2 = mainFont.deriveFont(java.awt.Font.PLAIN, 15);
+        uniFont2 = new org.newdawn.slick.UnicodeFont(mainFont2);
+        uniFont2.addAsciiGlyphs();
+        uniFont2.getEffects().add(a);
+        
+        mainFont3 = mainFont.deriveFont(java.awt.Font.PLAIN, 13);
+        uniFont3 = new org.newdawn.slick.UnicodeFont(mainFont3);
+        uniFont3.addAsciiGlyphs();
+        uniFont3.getEffects().add(a);
 		try {
 			uniFont.loadGlyphs();
+			uniFont2.loadGlyphs();
+			uniFont3.loadGlyphs();
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,8 +101,20 @@ public class Hotbar {
 		}
 	}
 	public void renderWeapon(Image icon, int[] slot, String n, float camX, float camY) {
-		icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, slot[3] + 78 + camY, 2F);
-	    uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 26 + camY, n);
+		icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, slot[3] + 91- (icon.getHeight()) + camY, 2F);
+		if(uniFont.getWidth(n) < 104) {
+			uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont.getHeight(n)/2, n);
+		} else if(uniFont2.getWidth(n) < 104) {
+			uniFont2.drawString(slot[2] - uniFont2.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont2.getHeight(n)/2, n);
+		} else if(uniFont3.getWidth(n) < 104) {
+			uniFont3.drawString(slot[2] - uniFont3.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont3.getHeight(n)/2, n);
+		} else {
+			while(uniFont3.getWidth(n) > 104) {
+				n = n.substring(0, n.length() - 4);
+				n = n + "...";
+			}
+			uniFont3.drawString(slot[2] - uniFont3.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont3.getHeight(n)/2, n);
+		}
 	}
 	
 	private void renderStatus(Image icon, int[] slot, float camX, float camY){

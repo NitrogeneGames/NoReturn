@@ -20,7 +20,7 @@ public class SpaceGame extends StateBasedGame{
 
 	public static void main(String[] args) throws SlickException{
 
-		AppGameContainer app = new AppGameContainer(new SpaceGame("Space Game"));	
+		AppGameContainer app = new AppGameContainer(new SpaceGame("Space Game"));
 		//SCRheight = app.getScreenHeight();
 		//SCRwidth = app.getScreenWidth();
 		app.setDisplayMode(SCRwidth, SCRheight, false);

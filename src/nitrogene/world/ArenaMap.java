@@ -159,9 +159,8 @@ public class ArenaMap {
 	}
 	
 	public void loadPlanets(){
-		ArrayList<Image> imagelist = new ArrayList<Image>();
-		imagelist.add((Image) AssetManager.get().get("sun1"));
-		imagelist.add((Image) AssetManager.get().get("volcanicplnaet"));
+		PlanetSprites.load();
+		ArrayList<Image> imagelist = PlanetSprites.sprites;
 		for(Planet p : this.getPlanets()){
 			int imagenum = random.nextInt(imagelist.size());
 			p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
@@ -169,9 +168,8 @@ public class ArenaMap {
 	}
 	
 	private void loadPlanet(Planet p){
-		ArrayList<Image> imagelist = new ArrayList<Image>();
-		imagelist.add((Image) AssetManager.get().get("sun1"));
-		imagelist.add((Image) AssetManager.get().get("volcanicplanet"));
+		PlanetSprites.load();
+		ArrayList<Image> imagelist = PlanetSprites.sprites;
 		int imagenum = random.nextInt(imagelist.size());
 		p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
 	}

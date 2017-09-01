@@ -92,14 +92,19 @@ public class LaserLauncher extends ShipSystem{
 		firesound = new Sound("res/sound/laser1final.ogg");
 	}
 	*/
-	
+	public void loadSprite(EnumWeapon stat) {
+		if(stat.image == "res/Laser1.png") mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = ((Image) AssetManager.get().get("klaarpulsar")).copy();
+		else if(stat.image == "res/wep1.png") mainimg = ((Image) AssetManager.get().get("wep1")).copy();
+		else if(stat.image == "res/wep2.png") mainimg = ((Image) AssetManager.get().get("wep2")).copy();
+		else if(stat.image == "res/Laser2.png") mainimg = ((Image) AssetManager.get().get("laser2")).copy();
+		else mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+	}
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
 		//power usage 100 giga-watts
 		super(w,xpos, ypos, stat.hp, 0, 100, 100f);
 		parent = w;
-		if(stat.image == "res/Laser1.png") mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
-		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = ((Image) AssetManager.get().get("klaarpulsar")).copy();
-		else mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+		loadSprite(stat);
 		enumtype = stat;
 		name = n;
 		desx = 0;
@@ -190,8 +195,9 @@ public class LaserLauncher extends ShipSystem{
 		}
 		return desy;
 	}
-	
+	public boolean greenImage = false;
 	public void update(float craftX,float craftY,int delta){
+		
 		this.craftX = craftX;
 		this.craftY = craftY;
 		//if(this.getTimer().isPauseLocked){
@@ -200,15 +206,40 @@ public class LaserLauncher extends ShipSystem{
 		this.delta = delta;
 		if(this.getHp() < 0){
 			this.setStatus(EnumStatus.DESTROYED);
+			setGreenImage(false);
 		} else if(this.getTimer().active){
 			this.setStatus(EnumStatus.ENGAGED);
+			setGreenImage(true);
 		} else if(this.getHp()<this.getMaxHp()){
 			this.setStatus(EnumStatus.DAMAGED);
+			setGreenImage(false);
 		} else{
 			this.setStatus(EnumStatus.READY);
+			setGreenImage(false);
 		}
 	}
-	
+	public void setGreenImage(boolean b) {
+		float rot = this.getImage().getRotation();
+		if(b && !greenImage) {
+			if(enumtype.image == "res/Laser1.png") {
+				mainimg = ((Image) AssetManager.get().get("standardlasergreen")).copy();
+				this.getImage().setRotation(rot);
+			} else if(enumtype.image == "res/Laser2.png") {
+				mainimg = ((Image) AssetManager.get().get("laser2green")).copy();
+				this.getImage().setRotation(rot);
+			}
+			greenImage = true;
+		} else if(!b && greenImage) {
+			if(enumtype.image == "res/Laser1.png") {
+				mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+				this.getImage().setRotation(rot);
+			} else if(enumtype.image == "res/Laser2.png") {
+				mainimg = ((Image) AssetManager.get().get("laser2")).copy();
+				this.getImage().setRotation(rot);
+			}
+			greenImage = false;
+		}
+	}
 	public void update(float craftX, float craftY, float camX, float camY, int delta){
 		this.craftX = craftX;
 		this.craftY = craftY;
@@ -251,7 +282,6 @@ public class LaserLauncher extends ShipSystem{
 	      }
 	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
-
 	      this.getImage().drawCentered(this.getX()+craftX, this.getY()+craftY);
 	      
 	      ArrayList<LaserProjectile> slaserlistcopy = new ArrayList<LaserProjectile>();

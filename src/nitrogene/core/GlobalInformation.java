@@ -100,6 +100,7 @@ public class GlobalInformation {
 				45,15,30,15,21,14,15,13,6,11,1,9,0,8};
 		imagedata.put("res/klaarship6.png", new Polygon(craftData));
 		imagedata.put("res/volcanicplanet2.png", new Circle(64,64,64));
+		imagedata.put("res/rockyplanet.png", new Circle(64,64,64));
 		imagedata.put("res/sun_1.png", new Circle(50,50,50));
 		imagedata.put("res/LaserV2ro.png", new Polygon(slaserData));
 		imagedata.put("res/icon/shieldsystem.png", new Circle(20,20,20));
