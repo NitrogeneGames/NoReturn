@@ -311,20 +311,18 @@ public class LaserLauncher extends ShipSystem{
 		double[] coords = getRotatedCoordinates((double) x, (double) y);
 		float newX = (float) coords[0];
 		float newY = (float) coords[1];
-		newX = newX + this.getSprite().getImage().getWidth()/2;
-		newY = newY + this.getSprite().getImage().getHeight()/2;
-		LaserProjectile temp = new LaserProjectile(newX+this.getX()+craftX,newY+this.getY()+craftY, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
+		LaserProjectile temp = new LaserProjectile(newX + this.getX()+craftX- this.getSprite().getImage().getWidth()/2,newY + this.getY()+craftY- this.getSprite().getImage().getHeight()/2, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
 				accuracy, speed, damage, planetdamage, this.getAngle(), this);
 		temp.load(proje, size, map);
 		slaserlist.add(temp);
 	}
 	public double[] getRotatedCoordinates(double x1, double y1) {
 
-		double currentRotation = -this.getSprite().getImage().getRotation();
+		double currentRotation = this.getSprite().getImage().getRotation();
 		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
-		double theta = -(180 + Math.toDegrees(Math.atan2(y1,x1))); 
-		double mangle = -(theta + currentRotation);
-		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
+		double theta = (180 + Math.toDegrees(Math.atan2(y1,x1))); 
+		double mangle = (theta + currentRotation);
+		double x2 = -Math.cos(Math.toRadians(mangle)) * hypotenuse;
 		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
 		return new double[] {x2, y2};
 	}

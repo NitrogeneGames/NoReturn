@@ -391,7 +391,7 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float rotation = (float) -Math.toRadians(laser.getSprite().getImage().getRotation());
 								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
 								float xN = (float) (hyp*Math.cos(rotation))/2;
 								float yN = (float) (hyp*-Math.sin(rotation))/2;
