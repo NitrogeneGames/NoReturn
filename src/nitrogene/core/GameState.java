@@ -55,6 +55,7 @@ public class GameState extends BasicGameState{
 	public static ArenaMap map;
 	Stars stars;
 	SpriteSheet spriteex;
+	private boolean planetCollisions = false;
 	private int mousewheelposition;
 	private int mapwidth, mapheight;
 	private Minimap minimap;
@@ -389,9 +390,13 @@ public class GameState extends BasicGameState{
 					laserlauncher = null;
 				} 
 			} else if (obj.getClass() == Planet.class){
-				for(Planet mesh : map.getPlanets()){
-					if(craft.isColliding(mesh)){
-						//craft.setHull(0d);
+				if(planetCollisions) {
+					for(Planet mesh : map.getPlanets()){
+						for(Craft c : map.getCrafts()) {
+							if(c.isColliding(mesh)){
+								c.setHull(0d);
+							}
+						}
 					}
 				}
 			} else{

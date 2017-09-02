@@ -113,7 +113,6 @@ public class Hotbar {
 				n = n.substring(0, n.length() - 4);			
 				n = n + "...";
 			}
-			System.out.println(n.substring(n.length()-4,n.length()-3) + "=");
 			if(n.charAt(n.length()-4) == ' ') {
 				n = n.substring(0, n.length()-4) + "...";
 			}

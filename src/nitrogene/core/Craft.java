@@ -129,7 +129,6 @@ public class Craft extends PhysicalObject{
 	{
 		//System.out.println("destroyed " + destroyed);
 		//Send power to systems based on priorities
-
 		core.sendPower(capacitor);
 		for(ShipSystem system : this.systems){
 			if(system != null && system.getEnabled() &&
@@ -149,22 +148,30 @@ public class Craft extends PhysicalObject{
 		this.getBoundbox().setCenterY(this.getCenterY()+16);//16
 		this.setX(carryx);
 		this.setY(carryy);
+		rotateSystem(this.core);
+		rotateSystem(this.shield);
+		rotateSystem(this.engine);
+		rotateSystem(this.lifesupport);
+		if(hull<=0){
+			this.destroy();
+			//GAME OVER
+		}
 	}
 	
 	public void renderSystems() {
 		if(!destroyed) {
 			this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
-			rotateSystem(this.core);
+			//rotateSystem(this.core);
 			
 			this.shield.getImage().drawCentered(this.shield.getX(),this.shield.getY());
-			rotateSystem(this.shield);
+			//rotateSystem(this.shield);
 			
 			
 			this.engine.getImage().drawCentered(this.engine.getX(),this.engine.getY());
-			rotateSystem(this.engine);
+			//rotateSystem(this.engine);
 			
 			this.lifesupport.getImage().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
-			rotateSystem(this.lifesupport);
+			//rotateSystem(this.lifesupport);
 		}
 	
 	}
@@ -200,20 +207,16 @@ public class Craft extends PhysicalObject{
 	}
 	public void changeHull(double change){
 		hull += change;
-		if(hull<=0){
+		/*if(hull<=0){
 			this.destroy();
 			//GAME OVER
-		}
+		}*/
 	}
 	public void damageHull(double change){
 		changeHull(-change);
 	}
 	public void setHull(double change){
 		hull = change;
-		if(hull<=0){
-			this.destroy();
-			//GAME OVER
-		}
 	}
 	private void destroy(){
 		destroyed = true;
