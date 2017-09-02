@@ -55,6 +55,7 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		Resources.updateGraphics(container);
 		quickPlay.update(container);
 		campaign.update(container);
 		quitgame.update(container);

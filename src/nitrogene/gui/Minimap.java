@@ -46,6 +46,9 @@ public class Minimap {
 	}
 	private boolean imageBasedMinimap = true;
 	public void render(Graphics gr, float camX, float camY, ArrayList<Planet> planetlist, ArrayList<Craft> craftlist, ArrayList<Asteroid> asteroidlist){
+		camX = 0;
+		camY = 0;
+		
 		locationx = camX;
 		locationy = camY+SCR_height-height;
 		//g = new Graphics();

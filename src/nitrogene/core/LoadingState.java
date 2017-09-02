@@ -212,6 +212,7 @@ public class LoadingState extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		Resources.updateGraphics(container);
 		if(LoadingList.get().getRemainingResources() > 0){
 			nextResource = LoadingList.get().getNext();
 			try {

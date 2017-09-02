@@ -216,6 +216,7 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		Resources.updateGraphics(container);
 		if(!container.hasFocus()){
 			PAUSED = true;
 		}
@@ -460,7 +461,6 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		
 		//ORDER OF RENDERING IS THE ORDER IT IS CALLED TO BE DRAWN
 		//Stars and Background
 		//Order for Physical Objects:
@@ -594,17 +594,23 @@ public class GameState extends BasicGameState{
 		if (PAUSED && drawPauseMenu) {
 	        Color trans = new Color(0f,0f,0f,0.5f);
 	        g.setColor(trans);
-	        g.fillRect(camX,camY, SCR_width, SCR_height);
+	        g.fillRect(0,0, SCR_width, SCR_height);
 	        
 	        Image pausemenu = ((Image) AssetManager.get().get("pausemenu")).copy();
 	        pausemenu.setFilter(Image.FILTER_NEAREST);
-	        pausemenu.draw(pausemenux+camX,pausemenuy+camY);
-	        resume.render(g,camX,camY);
+	        pausemenu.draw(pausemenux,pausemenuy);
+	        /*resume.render(g,camX,camY);
 	        restart.render(g,camX,camY);
 	        options.render(g,camX,camY);
 	        hangar.render(g,camX,camY);
 	        menu.render(g,camX,camY);
-	        exit.render(g,camX,camY);
+	        exit.render(g,camX,camY);*/
+	        resume.render(g,0,0);
+	        restart.render(g,0,0);
+	        options.render(g,0,0);
+	        hangar.render(g,0,0);
+	        menu.render(g,0,0);
+	        exit.render(g,0,0);
 		}
 	}
 

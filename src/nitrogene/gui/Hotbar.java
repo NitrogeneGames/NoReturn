@@ -110,8 +110,12 @@ public class Hotbar {
 			uniFont3.drawString(slot[2] - uniFont3.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont3.getHeight(n)/2, n);
 		} else {
 			while(uniFont3.getWidth(n) > 104) {
-				n = n.substring(0, n.length() - 4);
+				n = n.substring(0, n.length() - 4);			
 				n = n + "...";
+			}
+			System.out.println(n.substring(n.length()-4,n.length()-3) + "=");
+			if(n.charAt(n.length()-4) == ' ') {
+				n = n.substring(0, n.length()-4) + "...";
 			}
 			uniFont3.drawString(slot[2] - uniFont3.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont3.getHeight(n)/2, n);
 		}

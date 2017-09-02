@@ -2,13 +2,22 @@ package nitrogene.core;
 
 import java.io.IOException;
 
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.geom.Line;
 
 import nitrogene.objecttree.PhysicalObject;
+import nitrogene.slick.BetterScalableGame;
+import nitrogene.slick.BetterAppGameContainer;
 import nitrogene.util.AppData;
 
 public class Resources {
 	public static String logStream = "";
+	public static BetterAppGameContainer appInstance;
+	public static BetterScalableGame scaleGameInstance;
 	public final static boolean systemPrintLn = true;
 	public static void log(Object ll){
 		ll = ll.toString();
@@ -32,5 +41,16 @@ public class Resources {
 			return p1;
 		}
 		return p2;
+	}
+	public static void updateGraphics(GameContainer container) 	{	
+		if(Display.getWidth() != container.getWidth() || Display.getHeight() != container.getHeight()) {
+	        try {
+	            appInstance.setDisplayMode(Display.getWidth(), Display.getHeight(), false);
+	        	//scaleGameInstance.recalculateScale();
+
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 }

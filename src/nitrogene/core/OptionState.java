@@ -50,6 +50,7 @@ public class OptionState extends BasicGameState{
 	
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		Resources.updateGraphics(container);
 		music.update(container);
 		sfx.update(container);
 		alarm.update(container);

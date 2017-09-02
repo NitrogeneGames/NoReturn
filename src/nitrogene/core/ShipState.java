@@ -79,7 +79,7 @@ public class ShipState extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		
+		Resources.updateGraphics(container);
 		if(startButton.isClicked()){
 			
 		} else if(hangarButton.isClicked()){
