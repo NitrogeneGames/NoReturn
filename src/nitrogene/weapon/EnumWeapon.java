@@ -36,6 +36,8 @@ public enum EnumWeapon{
 	public boolean animated2;
 	public UnicodeFont font;
 	public String shortenedString;
+	public int xLaunchOffset;
+	public int yLaunchOffset;
 	//im is the launcehrs image
 	//laserimage is the projectiles image
 	//interburst is time inbetween shots in a burst --> for non-burst, make this 0

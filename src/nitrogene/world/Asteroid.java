@@ -26,17 +26,17 @@ public class Asteroid extends PhysicalObject{
 		this.endy = endy;
 	}
 	
-	public void load(Image img, Direction movement, float scalefactor, ArenaMap map){
+	public void load(String img, Direction movement, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = new Sprite(img.copy());
-		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
+		this.mainimg = new Sprite(img);
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			//Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		init(img.getWidth(), img.getHeight());
+		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
 		this.setX(tempx);

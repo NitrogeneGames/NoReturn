@@ -178,25 +178,40 @@ public class LoadingState extends BasicGameState{
 		
 		Image standardLaserImage = new Image("res/Laser1.png");
 		AssetManager.get().put("laser1", standardLaserImage);
+		GlobalInformation.setLaserOffset("laser1", 11,1);
+		
 		Image standardLaserGreenImage = new Image("res/Laser1Green.png");
 		AssetManager.get().put("laser1Green", standardLaserGreenImage);
+		GlobalInformation.setLaserOffset("laser1Green", 11,1);
+		
 		Image laser2Image = new Image("res/Laser2.png");
 		AssetManager.get().put("laser2", laser2Image);
+		GlobalInformation.setLaserOffset("laser2", 19, 0);
+		
 		Image laser2ImageGreen = new Image("res/Laser2Green.png");
 		AssetManager.get().put("laser2Green", laser2ImageGreen);
+		GlobalInformation.setLaserOffset("laser2Green", 19, 0);
+		
 		Image klaarPulsarImage = new Image("res/Laser3.png");
 		AssetManager.get().put("laser3", klaarPulsarImage);
+		GlobalInformation.setLaserOffset("laser3", 12, 1);
+		
 		Image klaarPulsarImageGreen = new Image("res/Laser3Green.png");
 		AssetManager.get().put("laser3Green", klaarPulsarImageGreen);
+		GlobalInformation.setLaserOffset("laser3Green", 12, 1);
 		
 		Image wep1 = new Image("res/wep1.png");
 		AssetManager.get().put("wep1", wep1);
+		
 		Image wep1green = new Image("res/wep1Green.png");
 		AssetManager.get().put("wep1Green", wep1green);
+		
 		Image wep2 = new Image("res/wep2.png");
 		AssetManager.get().put("wep2", wep2);	
+		
 		Image wep2green = new Image("res/wep2Green.png");
 		AssetManager.get().put("wep2Green", wep2green);
+		
 		
 		Image ion1 = new Image("res/lazer.png");
 		AssetManager.get().put("ion1", ion1);

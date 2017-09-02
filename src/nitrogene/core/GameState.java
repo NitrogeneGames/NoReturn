@@ -198,8 +198,8 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskFollow(enemy, craft, 500));
-	      enemy.addTask(new TaskFire(enemy, craft, 1));
+	      //enemy.addTask(new TaskFollow(enemy, craft, 500));
+	      //enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -328,8 +328,11 @@ public class GameState extends BasicGameState{
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
-								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
-								//mesh.getShake().shakeObject(3, 1000);
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
 							}
@@ -337,7 +340,11 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								craft.damageHull(laser.getDamage());
 							}
@@ -372,8 +379,11 @@ public class GameState extends BasicGameState{
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
-								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
-								//mesh.getShake().shakeObject(3, 1000);
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
 							}
@@ -381,7 +391,11 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								craft.damageHull(laser.getDamage());
 							}
@@ -619,7 +633,7 @@ public class GameState extends BasicGameState{
 		}
 	}
 
-	public void mousePressed(int button, int x, int y){
+	public void mousePressed(int button, int x, int y){	
 		x=Zoom.scale(x);
 		y=Zoom.scale(y);
 		if(!PAUSED && selected > -1) {

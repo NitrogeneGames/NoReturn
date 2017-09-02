@@ -25,7 +25,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Transform;
 
 public class LaserLauncher extends ShipSystem{
 	//Basic Variables for Laser Launcher
@@ -96,11 +98,7 @@ public class LaserLauncher extends ShipSystem{
 	}
 	*/
 	public void loadSprite(EnumWeapon stat) {
-		if(!stat.animated1) {
-			mainimg = new Sprite(((Image) (AssetManager.get().get(stat.image))).copy());
-		} else {
-			mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(stat.image))).copy());
-		}
+		mainimg = new Sprite(stat.image);
 	}
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
 		//power usage 100 giga-watts
@@ -223,19 +221,11 @@ public class LaserLauncher extends ShipSystem{
 	public void setGreenImage(boolean b) {
 		float rot = this.getSprite().getImage().getRotation();
 		if(b && !greenImage) {
-			if(!enumtype.animated2) {
-				mainimg = new Sprite(((Image) (AssetManager.get().get(enumtype.image2))).copy());
-			} else {
-				mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(enumtype.image2))).copy());
-			}
+			mainimg = new Sprite(enumtype.image2);
 			this.getSprite().setRotation(rot);
 			greenImage = true;
 		} else if(!b && greenImage) {
-			if(!enumtype.animated1) {
-				mainimg = new Sprite(((Image) (AssetManager.get().get(enumtype.image))).copy());
-			} else {
-				mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(enumtype.image))).copy());
-			}
+			mainimg = new Sprite(enumtype.image);
 			this.getSprite().setRotation(rot);
 			greenImage = false;
 		}
@@ -295,20 +285,48 @@ public class LaserLauncher extends ShipSystem{
 	    		  	laser=null;
 					continue;
 				}
-				laser.getSprite().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
+	    	  	//float rotat = laser.getSprite().getImage().getRotation();
+	    	  	float rotat = 0;
+	    	  	float boundX = laser.getBoundbox().getX();
+	    	  	float boundY = laser.getBoundbox().getY();
+				laser.getSprite().draw(boundX, boundY,laser.getScale());
 				if(GameState.debugMode) {
-					g.draw(laser.getBoundbox());
+					g.draw(laser.getBoundbox());				
 				}
 				if(GlobalInformation.testMode) g.draw(laser.getBoundbox());
+				//Resources.log(laser.getBoundbox().getX() + ", " + laser.getBoundbox().getY());
 				laser = null;
 	      }
 	}
 	public void fire() throws SlickException{
+		int xOffset = GlobalInformation.getLaserOffsetX(enumtype.image2);
+		int yOffset = GlobalInformation.getLaserOffsetY(enumtype.image2);
+		
+		Image laser = (Image) AssetManager.get().get(enumtype.laserimage);
+		float width = laser.getWidth()*size;
+		float height = laser.getHeight()*size;
 
-		LaserProjectile temp = new LaserProjectile(this.getRealCenterX()+craftX,this.getRealCenterY()+craftY, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
+		float x = xOffset;
+		float y = yOffset;
+		double[] coords = getRotatedCoordinates((double) x, (double) y);
+		float newX = (float) coords[0];
+		float newY = (float) coords[1];
+		newX = newX + this.getSprite().getImage().getWidth()/2;
+		newY = newY + this.getSprite().getImage().getHeight()/2;
+		LaserProjectile temp = new LaserProjectile(newX+this.getX()+craftX,newY+this.getY()+craftY, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
 				accuracy, speed, damage, planetdamage, this.getAngle(), this);
 		temp.load(proje, size, map);
 		slaserlist.add(temp);
+	}
+	public double[] getRotatedCoordinates(double x1, double y1) {
+
+		double currentRotation = -this.getSprite().getImage().getRotation();
+		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
+		double theta = -(180 + Math.toDegrees(Math.atan2(y1,x1))); 
+		double mangle = -(theta + currentRotation);
+		double x2 = Math.cos(Math.toRadians(mangle)) * hypotenuse;
+		double y2 = -Math.sin(Math.toRadians(mangle)) * hypotenuse;
+		return new double[] {x2, y2};
 	}
 	
 	public float getAngle(){

@@ -42,7 +42,7 @@ public class ArenaMap {
 		asteroidtimer.restart();
 		asteroidstart = System.currentTimeMillis();
 		
-		Image img = (Image) AssetManager.get().get("asteroid");
+		String img = "asteroid";
 		
 		Asteroid a1 = new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000);
 		a1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
@@ -160,18 +160,18 @@ public class ArenaMap {
 	
 	public void loadPlanets(){
 		PlanetSprites.load();
-		ArrayList<Image> imagelist = PlanetSprites.sprites;
+		ArrayList<String> imagelist = PlanetSprites.sprites;
 		for(Planet p : this.getPlanets()){
 			int imagenum = random.nextInt(imagelist.size());
-			p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
+			p.load(imagelist.get(imagenum), p.getRadius(), this);
 		}
 	}
 	
 	private void loadPlanet(Planet p){
 		PlanetSprites.load();
-		ArrayList<Image> imagelist = PlanetSprites.sprites;
+		ArrayList<String> imagelist = PlanetSprites.sprites;
 		int imagenum = random.nextInt(imagelist.size());
-		p.load(imagelist.get(imagenum), (p.getRadius()*2)/imagelist.get(imagenum).getWidth(), this);
+		p.load(imagelist.get(imagenum), p.getRadius(), this);
 	}
 	
 	public void addCraft(Craft craft){

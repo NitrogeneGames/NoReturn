@@ -116,7 +116,26 @@ public class GlobalInformation {
 	public static java.awt.Font mainFont2;
 	public static UnicodeFont uniFont3;
 	public static java.awt.Font mainFont3;
-	
+	public static HashMap<String, int[]> offsets = new HashMap<String, int[]>();
+	public static void setLaserOffset(String s, int x, int y) {
+		if(!offsets.containsKey(s)) {
+			offsets.put(s, new int[] {x,y});
+		} else {
+			Resources.log("offset duplicate recording in globalinformation");
+		}
+	}
+	public static int getLaserOffsetX(String s) {
+		if(offsets.containsKey(s)) {
+			return (int)offsets.get(s)[0];
+		}
+		return 0;
+	}
+	public static int getLaserOffsetY(String s) {
+		if(offsets.containsKey(s)) {
+			return (int)offsets.get(s)[1];
+		}
+		return 0;
+	}
 	public static void loadFonts() {
 		try {
 			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));

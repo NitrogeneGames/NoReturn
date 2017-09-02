@@ -30,7 +30,7 @@ public class AnimationManager {
 	}
 	public static void renderAnimation(){
 		for(int i =0; i < ListAnimation.size(); i ++){
-			ListAnimation.get(i).draw();
+			((AnimationGui) ListAnimation.get(i)).drawCentered();
 		}
 	}
 	

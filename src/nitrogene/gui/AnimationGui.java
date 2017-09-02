@@ -78,7 +78,7 @@ public class AnimationGui extends Animation{
 		}
 	}
 	public void drawCentered(){
-		draw(xS-(width/2*scale),yS-(height/2*scale),getWidth()*scale,getHeight()*scale);
+		draw(xS-(getWidth()/2*scale),yS-(getHeight()/2*scale),getWidth()*scale,getHeight()*scale);
 	}
 	public AnimationGui copy() {
 		try {

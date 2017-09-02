@@ -30,13 +30,13 @@ public class DroppedItem extends PhysicalObject{
 		this.map = map;
 		//ADD DIFFERENT CLASSES OF RESOURCES HERE FOR DIFFERENT IMAGES LOADING.
 		if(droplist.get(0).getType() == EnumDrop.IRON){
-			mainimg = new Sprite(((Image) AssetManager.get().get("ironitem")).copy());
+			mainimg = new Sprite("ironitem");
 		} else if(droplist.get(0).getType() == EnumDrop.TITANIUM){
-			mainimg = new Sprite(((Image) AssetManager.get().get("titaniumitem")).copy());
+			mainimg = new Sprite("titaniumitem");
 		} else if(droplist.get(0).getType() == EnumDrop.AMMO){
-			mainimg = new Sprite(((Image) AssetManager.get().get("ammoitem")).copy());
+			mainimg = new Sprite("ammoitem");
 		} else{
-			mainimg = new Sprite(((Image) AssetManager.get().get("ironitem")).copy());
+			mainimg = new Sprite("ironitem");
 		}
 		boundbox = GlobalInformation.getHitbox(getSprite().getResourceReference());
 		if(boundbox == null){

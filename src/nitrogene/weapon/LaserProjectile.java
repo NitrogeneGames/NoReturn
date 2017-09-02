@@ -102,19 +102,13 @@ public class LaserProjectile extends PhysicalObject{
 		setX(getX()+(gj*mm*dx));
 		setY(getY()+(gj*mm*dy));
 		
-		if(this.scalefactor == 0.7f){ xconstant = 21f; yconstant = 6f;
-		}else if(this.scalefactor == 0.6f){ xconstant = 27f; yconstant = 7.5f;
-		}else if(this.scalefactor == 0.3f){ xconstant = 70f; yconstant = 26f;
-		}else if(this.scalefactor == 1.5f){ xconstant = 4f; yconstant = 2f;}
-		xconstant*=scalefactor;
-		yconstant*=scalefactor;
 		
 		float carryx = this.getX();
 		float carryy = this.getY();
 		this.getBoundbox().setCenterX(this.getCenterX());
 		this.getBoundbox().setCenterY(this.getCenterY());
 		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform(
-				(float)Math.toRadians(this.getAngle()),xconstant,yconstant)));//25f, 7.5f
+				(float)Math.toRadians(this.getAngle()),this.getCenterX(),this.getCenterY())));//25f, 7.5f
 		
 		this.setX(carryx);
 		this.setY(carryy);

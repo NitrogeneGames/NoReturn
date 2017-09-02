@@ -34,18 +34,18 @@ public class Planet extends PhysicalObject{
 		shake = new Shake();
 	}
 	
-	public void load(Image img, float scalefactor, ArenaMap map){
-		this.scalefactor = scalefactor;
+	public void load(String img, float radius, ArenaMap map){
 		this.map = map;
-		this.mainimg = new Sprite(img.copy());
-		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
+		this.mainimg = new Sprite(img);		
+		this.scalefactor = (radius*2)/mainimg.getImage().getWidth();
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			//Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
 		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
-		init(img.getWidth(), img.getHeight());
+		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
 		this.setX(tempx);

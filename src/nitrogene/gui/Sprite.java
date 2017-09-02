@@ -9,20 +9,6 @@ public class Sprite {
 	private Image image;
 	private boolean animated = false;
 	private AnimationImage animation = null;
-	public Sprite(Image i) {
-		this.image = i;
-		animated = false;
-	}
-	public Sprite(Image i, AnimationImage a) {
-		this.image = i;
-		animated = true;
-		this.animation = a;
-	}
-	public Sprite(AnimationImage a) {
-		this.image = a.getImage(0);
-		animated = true;
-		this.animation = a;
-	}
 	public Sprite(String s) {
 		if(AssetManager.get().containsKey(s)) {
 			if(AssetManager.get().get(s).getClass() == Image.class) {
@@ -59,9 +45,7 @@ public class Sprite {
 	public void setRotation(float rotation) {
 		if(animated) {
 			for(int i = 0; i < animation.getFrameCount(); i++) {
-				System.out.println("Setting rotation of image " + i + " to " + rotation);
 				animation.getImage(i).setRotation(rotation);
-				//animation.get
 			}
 		} else {
 			this.getImage().setRotation(rotation);
