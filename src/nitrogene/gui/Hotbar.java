@@ -2,6 +2,7 @@ package nitrogene.gui;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,57 +12,21 @@ import org.newdawn.slick.UnicodeFont;
 
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.core.GlobalInformation;
 import nitrogene.util.EnumStatus;
+import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 
 public class Hotbar {
 	//slot width = 111, height = 104
 	public int tab = 0;
 	public Craft ship;
-	UnicodeFont uniFont;
-	java.awt.Font mainFont;
-	UnicodeFont uniFont2;
-	java.awt.Font mainFont2;
-	UnicodeFont uniFont3;
-	java.awt.Font mainFont3;
 	private Image heart, bolt;
+	
 	
 	public Hotbar(Craft s) throws SlickException {
 		heart = (Image) AssetManager.get().get("heart");
 		bolt = (Image) AssetManager.get().get("bolt");
-		try {
-			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
-		} catch (FontFormatException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 17);
-        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
-        uniFont.addAsciiGlyphs();
-        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
-        a.setColor(java.awt.Color.white);
-        uniFont.getEffects().add(a);
-        
-        mainFont2 = mainFont.deriveFont(java.awt.Font.PLAIN, 15);
-        uniFont2 = new org.newdawn.slick.UnicodeFont(mainFont2);
-        uniFont2.addAsciiGlyphs();
-        uniFont2.getEffects().add(a);
-        
-        mainFont3 = mainFont.deriveFont(java.awt.Font.PLAIN, 13);
-        uniFont3 = new org.newdawn.slick.UnicodeFont(mainFont3);
-        uniFont3.addAsciiGlyphs();
-        uniFont3.getEffects().add(a);
-		try {
-			uniFont.loadGlyphs();
-			uniFont2.loadGlyphs();
-			uniFont3.loadGlyphs();
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		ship = s;
 	}
 	public void setTab(int i) {
@@ -97,12 +62,30 @@ public class Hotbar {
 			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
 			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerReceived()/launcher.getPowerUsage(), camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
-			renderWeapon(rend, getSlot(launcher.laserId), launcher.name, camX, camY);
+			renderWeapon(rend, getSlot(launcher.laserId), launcher.enumtype, camX, camY);
 		}
 	}
-	public void renderWeapon(Image icon, int[] slot, String n, float camX, float camY) {
-		icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, slot[3] + 91- (icon.getHeight()) + camY, 2F);
-		if(uniFont.getWidth(n) < 104) {
+	public HashMap<String, Integer> stringLog = new HashMap<String, Integer>();
+	public void renderWeapon(Image icon, int[] slot, EnumWeapon enumtype, float camX, float camY) {
+		float yStart = slot[3] + camY + 72;
+		float yEnd = slot[3] + camY + 104;
+		float border = 3;
+		
+		
+		float yRange = (104-72)-border*2;
+		float yCenter = (yEnd + yStart)/2;
+		
+		float yHeight = icon.getHeight();
+		float scale = yRange/yHeight;
+		
+		//icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, yCenter, scale);
+		
+		icon.draw(slot[2] - (icon.getWidth()*scale/2) + 56+ camX, yCenter-icon.getHeight()*scale/2, scale);
+		
+		
+		//Weapon name and resizing
+		enumtype.font.drawString(slot[2] - enumtype.font.getWidth(enumtype.shortenedString)/2 + camX + 56, slot[3] + 30 + camY - enumtype.font.getHeight(enumtype.shortenedString)/2, enumtype.shortenedString);
+		/*if(uniFont.getWidth(n) < 104) {
 			uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont.getHeight(n)/2, n);
 		} else if(uniFont2.getWidth(n) < 104) {
 			uniFont2.drawString(slot[2] - uniFont2.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont2.getHeight(n)/2, n);
@@ -117,7 +100,7 @@ public class Hotbar {
 				n = n.substring(0, n.length()-4) + "...";
 			}
 			uniFont3.drawString(slot[2] - uniFont3.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont3.getHeight(n)/2, n);
-		}
+		}*/
 	}
 	
 	private void renderStatus(Image icon, int[] slot, float camX, float camY){

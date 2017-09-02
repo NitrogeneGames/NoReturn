@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
@@ -109,6 +110,52 @@ public class GlobalInformation {
 		imagedata.put("res/icon/oxygensystem.png", new Circle(20,20,20));
 		//imagedata.put("res/asteroid1.png", new Circle(12, 12, 12));
 	}
+	public static UnicodeFont uniFont;
+	public static java.awt.Font mainFont;
+	public static UnicodeFont uniFont2;
+	public static java.awt.Font mainFont2;
+	public static UnicodeFont uniFont3;
+	public static java.awt.Font mainFont3;
+	
+	public static void loadFonts() {
+		try {
+			mainFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,org.newdawn.slick.util.ResourceLoader.getResourceAsStream("fonts/acknowtt.ttf"));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        mainFont = mainFont.deriveFont(java.awt.Font.PLAIN, 17);
+        uniFont = new org.newdawn.slick.UnicodeFont(mainFont);
+        uniFont.addAsciiGlyphs();
+        org.newdawn.slick.font.effects.ColorEffect a = new org.newdawn.slick.font.effects.ColorEffect();
+        a.setColor(java.awt.Color.white);
+        uniFont.getEffects().add(a);
+        
+        mainFont2 = mainFont.deriveFont(java.awt.Font.PLAIN, 15);
+        uniFont2 = new org.newdawn.slick.UnicodeFont(mainFont2);
+        uniFont2.addAsciiGlyphs();
+        uniFont2.getEffects().add(a);
+        
+        mainFont3 = mainFont.deriveFont(java.awt.Font.PLAIN, 13);
+        uniFont3 = new org.newdawn.slick.UnicodeFont(mainFont3);
+        uniFont3.addAsciiGlyphs();
+        uniFont3.getEffects().add(a);
+		try {
+			uniFont.loadGlyphs();
+			uniFont2.loadGlyphs();
+			uniFont3.loadGlyphs();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		EnumWeapon[] weapVals = EnumWeapon.class.getEnumConstants();
+		for(EnumWeapon e : weapVals) {
+			e.loadFont();
+		}
+	}
+	
+	
 	
 	public static void init(int SCR_width, int SCR_height){
 		SCRwidth=SCR_width;

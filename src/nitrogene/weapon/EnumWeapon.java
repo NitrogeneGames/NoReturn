@@ -1,5 +1,8 @@
 package nitrogene.weapon;
 
+import org.newdawn.slick.UnicodeFont;
+
+import nitrogene.core.GlobalInformation;
 
 public enum EnumWeapon{
 	//IMPORTANT: Providing a different scale requires a new set of boundbox rotation constants!
@@ -31,6 +34,8 @@ public enum EnumWeapon{
 	public int hp;
 	public boolean animated1;
 	public boolean animated2;
+	public UnicodeFont font;
+	public String shortenedString;
 	//im is the launcehrs image
 	//laserimage is the projectiles image
 	//interburst is time inbetween shots in a burst --> for non-burst, make this 0
@@ -59,6 +64,26 @@ public enum EnumWeapon{
 	}
 	EnumWeapon(String formalname, String im, int accuracy1, float speed1, int damage1, int planetdamage, float size1, int hp, String laserimage, String firesound, int interburst, int outerburst, int burstnumber) {
 		this(formalname, im, false, im, false, accuracy1, speed1, damage1, planetdamage, size1, hp, laserimage, firesound, interburst, outerburst,burstnumber);
+	}
+	public void loadFont() {
+		String n = formalname;
+		if(GlobalInformation.uniFont.getWidth(n) < 104) {
+			font = GlobalInformation.uniFont;
+		} else if(GlobalInformation.uniFont2.getWidth(n) < 104) {
+			font = GlobalInformation.uniFont2;
+		} else if(GlobalInformation.uniFont3.getWidth(n) < 104) {
+			font = GlobalInformation.uniFont3;
+		} else {
+			font = GlobalInformation.uniFont3;
+			while(GlobalInformation.uniFont3.getWidth(n) > 104) {
+				n = n.substring(0, n.length() - 4);			
+				n = n + "...";
+			}
+			if(n.charAt(n.length()-4) == ' ') {
+				n = n.substring(0, n.length()-4) + "...";
+			}
+		}
+		this.shortenedString = n;
 	}
 	public static EnumWeapon getWeaponFromFormalName(String fname) {
 		for(int i = 0; i<(EnumWeapon.values().length); i++) {

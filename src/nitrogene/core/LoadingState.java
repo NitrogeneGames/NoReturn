@@ -202,7 +202,7 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("ion1", ion1);
 		Image ion1Background = new Image("res/lazer_zap_animation.png");
 		AssetManager.get().put("ion1Background", ion1Background);
-		AnimationImage ion1Green = new AnimationImage(100, "ion1Background", 1, 4, 17, 24, true, 1, 0);
+		AnimationImage ion1Green = new AnimationImage(100, "ion1Background", 1, 4, 17, 24, true, 0, 0);
 		AssetManager.get().put("ion1Green", ion1Green);
 		
 		Image antibio = new Image("res/antibio.png");
@@ -212,6 +212,7 @@ public class LoadingState extends BasicGameState{
 		AnimationImage antibioAnimation = new AnimationImage(50, "antibioBackground", 1, 2, 16, 30, true, 0, 0);
 		AssetManager.get().put("antibioAnimation", antibioAnimation);
 		
+		GlobalInformation.loadFonts();
 		
 		Image ironitem = new Image("res/item/Iron.png");
 		AssetManager.get().put("ironitem", ironitem);
