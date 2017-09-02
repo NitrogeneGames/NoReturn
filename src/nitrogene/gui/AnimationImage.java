@@ -17,9 +17,6 @@ public class AnimationImage extends Animation{
 	private String background;
 	private boolean looping;
 	private float scale;
-	private Sound hit;
-	private String soundSource;
-
 	
 	
 	
@@ -43,39 +40,7 @@ public class AnimationImage extends Animation{
 		init(duration, background);
 	}	
 	
-	//Has sound for animation
-	//Used for animations that are temporary, have x and y in constructor for this
-	//REGISTER THESE WITH ANIMATIONMANAGER
-	public AnimationImage(float x, float y, float scale, int duration, String sound, String background, int rows, int columns, int width, int height, boolean centered) throws SlickException{
-		this(x, y, scale, duration, sound, background, rows, columns, width, height, centered, 0, 0);
-	}	
-	public AnimationImage(float x, float y, float scale, int duration, String sound, String background, int rows, int columns, int width, int height, boolean centered, int xOffset, int yOffset) throws SlickException{
-		super();
-		this.duration = duration;
-		this.background = background;
-		this.looping = looping;
-		this.width = width;
-		this.height = height;
-		this.rows = rows;
-		this.columns = columns;
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-		this.xS = x;
-		this.yS = y;
-		this.soundSource = sound;
-		hit = (Sound) AssetManager.get().get(sound);
-		this.setLooping(false);
-		this.scale = scale;
-		init(duration, background);
-		try {
-			if(hit.playing()){
-				hit.stop();
-			}
-			hit.play(1f, GlobalInformation.sfxlevel);
-		} catch (Exception e) {
-			Resources.log("Error with explosion sound effects");
-		}
-	}
+	//Use animation gui for temporary animations
 	
 	private void init(int duration, String background) throws SlickException{
 		Image baseimage = ((Image) AssetManager.get().get(background)).copy();
@@ -102,25 +67,9 @@ public class AnimationImage extends Animation{
 		draw(x-(width/2*s),y-(height/2*s),getWidth()*s,getHeight()*s);
 	}
 
-	
-	@Override
-	public void draw(){
-		if(centered) {
-			drawCentered();
-		} else {
-			draw(xS,yS,width*scale,height*scale);
-		}
-	}
-	public void drawCentered(){
-		draw(xS-(width/2*scale),yS-(height/2*scale),getWidth()*scale,getHeight()*scale);
-	}
 	public AnimationImage copy() {
 		try {
-			if(this.hit == null) {
-				return new AnimationImage(duration, background, rows, columns, width, height, looping, xOffset, yOffset);
-			} else {
-				return new AnimationImage(xS, yS, scale, duration, soundSource, background, rows, columns, width, height, centered, xOffset, yOffset);
-			}
+			return new AnimationImage(duration, background, rows, columns, width, height, looping, xOffset, yOffset);
 		} catch (Exception e) {
 			Resources.log("error copying animationimage");
 			return null;

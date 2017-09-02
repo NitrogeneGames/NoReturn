@@ -66,17 +66,17 @@ public class Craft extends PhysicalObject{
 		maxWeapons = 6;
 	}
 	@Override
-	public void load(Image img, float scalefactor, ArenaMap map){
+	public void load(String img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = new Sprite(img.copy());
-		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
+		this.mainimg = new Sprite(img);
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
-			Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
+			Resources.log(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		init(img.getWidth(), img.getHeight());
+		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
 		this.setY(tempy);
@@ -91,11 +91,11 @@ public class Craft extends PhysicalObject{
 		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
 		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
 		
-		shield.load(((Image) AssetManager.get().get("shieldsystemicon")).copy(), 1f, map);
-		engine.load(((Image) AssetManager.get().get("enginesystemicon")).copy(), 1f, map);
-		core.load(((Image) AssetManager.get().get("coresystemicon")).copy(), 1f, map);
-		lifesupport.load(((Image) AssetManager.get().get("oxygensystemicon")).copy(), 1f, map);
-		capacitor.load(((Image)AssetManager.get().get("coresystemicon")).copy(), 1f, map);
+		shield.load("shieldsystemicon", 1f, map);
+		engine.load("enginesystemicon", 1f, map);
+		core.load("coresystemicon", 1f, map);
+		lifesupport.load("oxygensystemicon", 1f, map);
+		capacitor.load("coresystemicon", 1f, map);
 		renderSystems();
 	}
 	public CraftData formData() {

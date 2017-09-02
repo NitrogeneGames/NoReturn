@@ -38,7 +38,7 @@ public class LaserLauncher extends ShipSystem{
 	public boolean isRotating;
 	private int interburst, outerburst, burstnumber;
 	public Craft parent;
-	private Image proje;
+	private String proje;
 	private Sound firesound;
 	public int laserId;
 	public String name;
@@ -120,7 +120,7 @@ public class LaserLauncher extends ShipSystem{
 		this.outerburst = stat.outerburst;
 		this.burstnumber = stat.burstnumber;
 		try {
-			this.proje = new Image(stat.laserimage);
+			this.proje = stat.laserimage;
 			this.firesound = new Sound(stat.firesound);
 		} catch (SlickException e) {
 			e.printStackTrace();

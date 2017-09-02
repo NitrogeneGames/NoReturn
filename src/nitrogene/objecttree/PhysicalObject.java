@@ -42,18 +42,18 @@ public class PhysicalObject {
 	public boolean isDestroyed() {
 		return destroyed;
 	}
-	public void load(Image img, float scalefactor, ArenaMap map){
+	public void load(String img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = new Sprite(img.copy());
-		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
+		this.mainimg = new Sprite(img);
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
 		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
-		init(img.getWidth(), img.getHeight());
+		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
 		this.setY(tempy);

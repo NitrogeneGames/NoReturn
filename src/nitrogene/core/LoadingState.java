@@ -100,10 +100,12 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("rockyplanet", rockplanetImage);
 		Image pauseMenu = new Image("res/button/pauseback.png");
 		AssetManager.get().put("pausemenu", pauseMenu);
+		
 		Image slaserImage = new Image("res/LaserV2ro.png");
-		AssetManager.get().put("slaserimage", slaserImage);
+		AssetManager.get().put("proj1", slaserImage);
 		Image slaserBolt = new Image("res/pulsar_bolt_fixed.png");
-		AssetManager.get().put("slaserBolt", slaserBolt);
+		AssetManager.get().put("proj2", slaserBolt);
+		
 		Image GUIimage = new Image("res/GUIportrait.png");
 		AssetManager.get().put("GUI", GUIimage);
 		Image twopixelstar = new Image("res/star2.png");
@@ -198,10 +200,17 @@ public class LoadingState extends BasicGameState{
 		
 		Image ion1 = new Image("res/lazer.png");
 		AssetManager.get().put("ion1", ion1);
-		Image ion1Animation = new Image("res/lazer_zap_animation.png");
-		AssetManager.get().put("ion1Animation", ion1Animation);
-		AnimationImage ion1Green = new AnimationImage(100, "ion1Animation", 1, 4, 17, 24, true, 1, 0);
+		Image ion1Background = new Image("res/lazer_zap_animation.png");
+		AssetManager.get().put("ion1Background", ion1Background);
+		AnimationImage ion1Green = new AnimationImage(100, "ion1Background", 1, 4, 17, 24, true, 1, 0);
 		AssetManager.get().put("ion1Green", ion1Green);
+		
+		Image antibio = new Image("res/antibio.png");
+		AssetManager.get().put("antibio", antibio);
+		Image antibioBackground = new Image("res/antibio_animation.png");
+		AssetManager.get().put("antibioBackground", antibioBackground);
+		AnimationImage antibioAnimation = new AnimationImage(50, "antibioBackground", 1, 2, 16, 30, true, 0, 0);
+		AssetManager.get().put("antibioAnimation", antibioAnimation);
 		
 		
 		Image ironitem = new Image("res/item/Iron.png");

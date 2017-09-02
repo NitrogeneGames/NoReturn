@@ -49,7 +49,7 @@ public class LaserProjectile extends PhysicalObject{
 		//recalculateAngle(desX, desY);
 	}
 	@Override
-	public void load(Image img, float scalefactor, ArenaMap map) {
+	public void load(String img, float scalefactor, ArenaMap map) {
 		super.load(img, scalefactor, map);
 		this.getSprite().setRotation(0);
 		this.getSprite().setCenterOfRotation(parent.getSprite().getImage().getWidth()/2,parent.getSprite().getImage().getHeight()/2);

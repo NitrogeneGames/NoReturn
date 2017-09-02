@@ -45,16 +45,17 @@ public class ShipSystem extends PhysicalObject{
 	}
 	public float rotation = 0;
 	
-	public void load(Image img, float scalefactor, ArenaMap map){
+	@Override
+	public void load(String img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = new Sprite(img.copy());
-		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
+		this.mainimg = new Sprite(img);
+		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		init(img.getWidth(), img.getHeight());
+		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Circle(boundbox.getCenterX(), boundbox.getCenterY(), ((Circle) boundbox).getRadius());
 		this.setX(x1);
 		this.setY(y1);

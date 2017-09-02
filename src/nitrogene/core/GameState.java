@@ -181,11 +181,11 @@ public class GameState extends BasicGameState{
 	      }
 	      */
 	      if(!craft.isLoaded){
-	    	  craft.load(((Image) AssetManager.get().get("craftimage")).copy(), 1, map);
+	    	  craft.load("craftimage", 1, map);
 	    	  craft.isLoaded = true;
 	      }
 	      if(!enemy.isLoaded){
-	    	  enemy.load(((Image) AssetManager.get().get("craftimage")).copy(), 1, map);
+	    	  enemy.load("craftimage", 1, map);
 	    	  enemy.isLoaded = true;
 	      }
 	      map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);

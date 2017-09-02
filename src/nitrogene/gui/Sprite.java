@@ -2,12 +2,16 @@ package nitrogene.gui;
 
 import org.newdawn.slick.Image;
 
+import nitrogene.core.AssetManager;
+import nitrogene.core.Resources;
+
 public class Sprite {
 	private Image image;
 	private boolean animated = false;
 	private AnimationImage animation = null;
 	public Sprite(Image i) {
 		this.image = i;
+		animated = false;
 	}
 	public Sprite(Image i, AnimationImage a) {
 		this.image = i;
@@ -18,6 +22,24 @@ public class Sprite {
 		this.image = a.getImage(0);
 		animated = true;
 		this.animation = a;
+	}
+	public Sprite(String s) {
+		if(AssetManager.get().containsKey(s)) {
+			if(AssetManager.get().get(s).getClass() == Image.class) {
+				this.image = ((Image) AssetManager.get().get(s)).copy();
+				animated = false;
+			} else if(AssetManager.get().get(s).getClass() == AnimationImage.class) {
+				this.animation = ((AnimationImage) AssetManager.get().get(s)).copy();
+				this.image = animation.getImage(0);
+				animated = true;				
+			} else {
+				Resources.log("no image found for sprite with key: " + s);
+				this.image = null;	
+			}
+		} else {
+			Resources.log("no image found for sprite with key: " + s);
+			this.image = null;
+		}
 	}
 	public AnimationImage getAnimation() {
 		return animation;

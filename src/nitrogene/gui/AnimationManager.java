@@ -38,6 +38,6 @@ public class AnimationManager {
 		return ListAnimation;		
 	}
 	public static void createExplosion(float x, float y, float scale, int duration) throws SlickException {
-		addAnimation(new AnimationImage(x, y, scale, duration, "explosionSound", "explosion", 2, 6, 32, 32, true));
+		addAnimation(new AnimationGui(x, y, scale, duration, "explosionSound", "explosion", 2, 6, 32, 32, true));
 	}
 }
