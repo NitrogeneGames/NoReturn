@@ -2,6 +2,9 @@ package nitrogene.core;
 
 import java.util.ArrayList;
 
+import nitrogene.gui.AnimationManager;
+import nitrogene.gui.Sprite;
+import nitrogene.gui.AnimationImage;
 import nitrogene.inventory.Item;
 import nitrogene.npc.NPCship;
 import nitrogene.objecttree.PhysicalObject;
@@ -12,10 +15,8 @@ import nitrogene.system.LifeSupport;
 import nitrogene.system.Shield;
 import nitrogene.system.ShipSystem;
 import nitrogene.util.AngledMovement;
-import nitrogene.util.AnimationManager;
 import nitrogene.util.EnumHull;
 import nitrogene.util.EnumStatus;
-import nitrogene.util.Explosion;
 import nitrogene.util.Movement;
 import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
@@ -68,7 +69,7 @@ public class Craft extends PhysicalObject{
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img.copy();
+		this.mainimg = new Sprite(img.copy());
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
@@ -137,7 +138,7 @@ public class Craft extends PhysicalObject{
 			}
 		}
 		
-		this.mainimg.setRotation(this.angledmovement.getRotationAngle());
+		this.getSprite().setRotation(this.angledmovement.getRotationAngle());
 		
 		moveAngled(20, delta);
 		
@@ -160,30 +161,30 @@ public class Craft extends PhysicalObject{
 	
 	public void renderSystems() {
 		if(!destroyed) {
-			this.core.getImage().drawCentered(this.core.getX(),this.core.getY());
+			this.core.getSprite().drawCentered(this.core.getX(),this.core.getY());
 			//rotateSystem(this.core);
 			
-			this.shield.getImage().drawCentered(this.shield.getX(),this.shield.getY());
+			this.shield.getSprite().drawCentered(this.shield.getX(),this.shield.getY());
 			//rotateSystem(this.shield);
 			
 			
-			this.engine.getImage().drawCentered(this.engine.getX(),this.engine.getY());
+			this.engine.getSprite().drawCentered(this.engine.getX(),this.engine.getY());
 			//rotateSystem(this.engine);
 			
-			this.lifesupport.getImage().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
+			this.lifesupport.getSprite().drawCentered(this.lifesupport.getX(),this.lifesupport.getY());
 			//rotateSystem(this.lifesupport);
 		}
 	
 	}
 	public void rotateSystem(ShipSystem s) {
-		s.getImage().setRotation(this.getRotation());
+		s.getSprite().setRotation(this.getRotation());
 		double[] coords = getRotatedCoordinates(s.getLockedX(), s.getLockedY());
 		s.setX((float) (this.getX()+this.width/2+coords[0]));
 		s.setY((float) (this.getY()+this.height/2+coords[1]));
 	}
 	public double[] getRotatedCoordinates(double x, double y) {
 
-		double currentRotation = -this.getImage().getRotation();
+		double currentRotation = -this.getSprite().getImage().getRotation();
 		double x1 = this.getCenterX() - x;
 		double y1 = this.getCenterY() - y;
 		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
@@ -194,10 +195,10 @@ public class Craft extends PhysicalObject{
 		return new double[] {x2, y2};
 	}
 	public float getShieldX(){
-		return getCenterX() - shield.getImage().getWidth()/2*1.2f;
+		return getCenterX() - shield.getSprite().getImage().getWidth()/2*1.2f;
 	}
 	public float getShieldY(){
-		return getCenterY() - shield.getImage().getHeight()/2*1.2f;
+		return getCenterY() - shield.getSprite().getImage().getHeight()/2*1.2f;
 	}
 	public double getHull(){
 		return hull;
@@ -221,7 +222,7 @@ public class Craft extends PhysicalObject{
 	private void destroy(){
 		destroyed = true;
 		try {
-			AnimationManager.addAnimation(new Explosion(this.getRealCenterX(), this.getRealCenterY(), 3f, 100));
+			AnimationManager.createExplosion(this.getRealCenterX(), this.getRealCenterY(), 3f, 100);
 		} catch (SlickException e) {
 			Resources.log("failed to create explosion animation");
 		}
@@ -237,10 +238,10 @@ public class Craft extends PhysicalObject{
 		}
 	}
 	public float getHeight() {
-		return this.getImage().getHeight();
+		return this.getSprite().getImage().getHeight();
 	}
 	public float getWidth() {
-		return this.getImage().getWidth();
+		return this.getSprite().getImage().getWidth();
 	}
 	public ArrayList<Item> getInventory(){
 		return this.inventory;

@@ -11,13 +11,13 @@ public class Target {
 	//gui}
 	
 	public static float getRotation(LaserLauncher laser) {	
-	  	  if((laser.getAngle() >= 0 && laser.getImage().getRotation() >= 0) || (laser.getAngle() <= 0 && laser.getImage().getRotation() <= 0))
+	  	  if((laser.getAngle() >= 0 && laser.getSprite().getImage().getRotation() >= 0) || (laser.getAngle() <= 0 && laser.getSprite().getImage().getRotation() <= 0))
 	  	  {
-	  		  return laser.getAngle()-laser.getImage().getRotation();
+	  		  return laser.getAngle()-laser.getSprite().getImage().getRotation();
 	  	  } else {
-	  		if(laser.getAngle() >= 0 && laser.getImage().getRotation() <= 0) {
+	  		if(laser.getAngle() >= 0 && laser.getSprite().getImage().getRotation() <= 0) {
 	  			float x = Math.abs(laser.getAngle());
-	  			float y = Math.abs(laser.getImage().getRotation());
+	  			float y = Math.abs(laser.getSprite().getImage().getRotation());
 	  			
 	  			float oneeighty = (180 - x) + (180 - y);
 	  			float zero = x + y;
@@ -26,9 +26,9 @@ public class Target {
 	  			} else {
 	  				return -oneeighty;
 	  			}
-	  		} else if(laser.getAngle() <= 0 && laser.getImage().getRotation() >= 0) {
+	  		} else if(laser.getAngle() <= 0 && laser.getSprite().getImage().getRotation() >= 0) {
 	  			float x = Math.abs(laser.getAngle());
-	  			float y = Math.abs(laser.getImage().getRotation());
+	  			float y = Math.abs(laser.getSprite().getImage().getRotation());
 	  			
 	  			float oneeighty = (180 - x) + (180 - y);
 	  			float zero = x + y;
@@ -112,7 +112,7 @@ public class Target {
 	}
 	public static double[] getRotatedCoordinates(double x, double y, PhysicalObject p) {
 
-		double currentRotation = -p.getImage().getRotation();
+		double currentRotation = -p.getSprite().getImage().getRotation();
 		double x1 = p.getCenterX() - x;
 		double y1 = p.getCenterY() - y;
 		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);

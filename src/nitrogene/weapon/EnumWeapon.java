@@ -15,7 +15,7 @@ public enum EnumWeapon{
 	IMMINEO2 ("Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100F, 20, 20, 0.7F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 2500, 1),
 	DEMOLITION ("Demolition Laser", "wep1", "wep1Green", 15, 20F, 100, 100, 1.5F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 7000, 1),
 	PRECISION ("Precision Laser", "wep2", "wep2Green", 3, 130F, 3, 3, 0.3F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 500, 1),
-	PDI ("Point Defense Interceptor", "wep2", "wep2Green", 2, 200F, 2, 1, 0.3F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 150, 1),
+	PDI ("Point Defense Interceptor", "ion1", false, "ion1Green", true, 2, 200F, 2, 1, 0.3F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 150, 1),
     //TESTING ("Testing Laser", "res/Laser1.png", 0, 100F, 1000, 1000, 3F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 100, 1),
 	MINING ("Mining Laser", "wep1", "wep1Green", 0, 100F, 10, 100, 0.7F, 100, "res/LaserV2ro.png", "res/sound/laser1final.ogg", 0, 2000, 1);
 	

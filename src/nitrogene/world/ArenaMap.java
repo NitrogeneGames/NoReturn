@@ -132,7 +132,7 @@ public class ArenaMap {
 			for(int i = 0; i < planetlist.size(); i++){
 				Planet planet = planetlist.get(i);
 				//radius of this planet + other planet + constant (for ship) + factor for amt of planets total
-				if(Math.sqrt(vec.distSQ(new Vector(planet.getRealCenterX(),planet.getRealCenterY()))) <= radius + 500 + (planet.getImage().getWidth()*planet.getScale()/2))
+				if(Math.sqrt(vec.distSQ(new Vector(planet.getRealCenterX(),planet.getRealCenterY()))) <= radius + 500 + (planet.getSprite().getImage().getWidth()*planet.getScale()/2))
 						{
 					radius = random.nextInt(200)+200;
 					vec.x = random.nextInt(mapwidth - (2*offsetx)) + offsetx;
@@ -141,7 +141,7 @@ public class ArenaMap {
 				}
 			}
 			
-			if(Math.sqrt(vec.distSQ(new Vector(craft.getRealCenterX(),craft.getRealCenterY()))) <= (craft.getImage().getWidth()/2) + radius + 200){
+			if(Math.sqrt(vec.distSQ(new Vector(craft.getRealCenterX(),craft.getRealCenterY()))) <= (craft.getSprite().getImage().getWidth()/2) + radius + 200){
 				e--;
 				continue main;
 			}

@@ -2,6 +2,7 @@ package nitrogene.system;
 
 import nitrogene.core.Craft;
 import nitrogene.core.GlobalInformation;
+import nitrogene.gui.Sprite;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
@@ -47,7 +48,7 @@ public class ShipSystem extends PhysicalObject{
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img;
+		this.mainimg = new Sprite(img.copy());
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			float[] m = {0,0,1,1,2,2};

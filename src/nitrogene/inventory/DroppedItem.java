@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Transform;
 import nitrogene.core.AssetManager;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
+import nitrogene.gui.Sprite;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
@@ -29,22 +30,22 @@ public class DroppedItem extends PhysicalObject{
 		this.map = map;
 		//ADD DIFFERENT CLASSES OF RESOURCES HERE FOR DIFFERENT IMAGES LOADING.
 		if(droplist.get(0).getType() == EnumDrop.IRON){
-			mainimg = (Image) AssetManager.get().get("ironitem");
+			mainimg = new Sprite(((Image) AssetManager.get().get("ironitem")).copy());
 		} else if(droplist.get(0).getType() == EnumDrop.TITANIUM){
-			mainimg = (Image) AssetManager.get().get("titaniumitem");
+			mainimg = new Sprite(((Image) AssetManager.get().get("titaniumitem")).copy());
 		} else if(droplist.get(0).getType() == EnumDrop.AMMO){
-			mainimg = (Image) AssetManager.get().get("ammoitem");
+			mainimg = new Sprite(((Image) AssetManager.get().get("ammoitem")).copy());
 		} else{
-			mainimg = (Image) AssetManager.get().get("ironitem");
+			mainimg = new Sprite(((Image) AssetManager.get().get("ironitem")).copy());
 		}
-		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(getSprite().getResourceReference());
 		if(boundbox == null){
 			Resources.log(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
 		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
-		init(mainimg.getWidth(), mainimg.getHeight());
+		init(getSprite().getImage().getWidth(), getSprite().getImage().getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
 		this.setX(tempx);

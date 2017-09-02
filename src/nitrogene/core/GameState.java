@@ -4,6 +4,8 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import nitrogene.gui.AnimationManager;
+import nitrogene.gui.AnimationImage;
 import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
 import nitrogene.gui.Minimap;
@@ -16,9 +18,7 @@ import nitrogene.npc.TaskFire;
 import nitrogene.npc.TaskFollow;
 import nitrogene.npc.TaskMoveTo;
 import nitrogene.objecttree.PhysicalObject;
-import nitrogene.util.AnimationManager;
 import nitrogene.util.Direction;
-import nitrogene.util.Explosion;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
 import nitrogene.util.TickSystem;
@@ -328,7 +328,7 @@ public class GameState extends BasicGameState{
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
-								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
+								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
@@ -337,7 +337,7 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
+								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								craft.damageHull(laser.getDamage());
 							}
@@ -372,7 +372,7 @@ public class GameState extends BasicGameState{
 							Planet mesh = map.getPlanets().get(e);
 							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
-								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
+								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
 								//mesh.getShake().shakeObject(3, 1000);
 								laserlauncher.slaserlist.remove(laser);
 								mesh.damage(laser.getPlanetDamage(), map);
@@ -381,7 +381,7 @@ public class GameState extends BasicGameState{
 						for(int r = 0; r < map.getCrafts().size(); r++){
 							Craft craft = map.getCrafts().get(r);
 							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-								AnimationManager.addAnimation(new Explosion(laser.getX()+laser.getImage().getWidth()/2, laser.getY()+laser.getImage().getHeight()/2, 2.5f, 100));
+								AnimationManager.createExplosion(laser.getX()+laser.getSprite().getImage().getWidth()/2, laser.getY()+laser.getSprite().getImage().getHeight()/2, 2.5f, 100);
 								laserlauncher.slaserlist.remove(laser);
 								craft.damageHull(laser.getDamage());
 							}
@@ -421,9 +421,9 @@ public class GameState extends BasicGameState{
 				di.destroy(map);
 			}
 		}
-		if(craft.getImage()!=null){
-			camX = (float) ((craft.getX()+(craft.getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
-			camY = (float) ((craft.getY()+(craft.getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
+		if(craft.getSprite()!=null){
+			camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
+			camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
 		}
 		
 		//for(GuiComponent component : componentlist){
@@ -502,9 +502,9 @@ public class GameState extends BasicGameState{
 			//image culling
 			
 			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
-					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
+					mesh.getX()+(mesh.getSprite().getImage().getWidth()*mesh.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
 					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
-					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
+					mesh.getY()+(mesh.getSprite().getImage().getHeight()*mesh.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
 				mesh = null;
 				continue;
 			}
@@ -529,7 +529,7 @@ public class GameState extends BasicGameState{
 			}
 			//drawing planet
 			if(GlobalInformation.testMode)g.draw(mesh.getBoundbox());
-			mesh.getImage().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
+			mesh.getSprite().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
 			if(debugMode) {
 				g.draw(mesh.getBoundbox());  //DRAW BOUNDBOX DEBUG
 			}
@@ -551,9 +551,9 @@ public class GameState extends BasicGameState{
 			}
 			//ASTEROID CULLING : BROKEN
 			*/
-			as.getImage().draw(as.getX(),as.getY(),as.getScale());
+			as.getSprite().draw(as.getX(),as.getY(),as.getScale());
 			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
-			as.getImage().setRotation(as.getRotation());
+			as.getSprite().setRotation(as.getRotation());
 			if(GlobalInformation.testMode){
 				g.draw(as.getBoundbox());
 			}
@@ -563,7 +563,7 @@ public class GameState extends BasicGameState{
 		//if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
 		for(int i = 0; i < map.getCrafts().size(); i++) {
 			Craft c = map.getCrafts().get(i);
-			if(!c.isDestroyed()) c.getImage().draw(c.getX(), c.getY());
+			if(!c.isDestroyed()) c.getSprite().draw(c.getX(), c.getY());
 			if(!c.isDestroyed()) c.renderSystems();
 			for(LaserLauncher cannon : c.laserlist){
 				cannon.render(g,camX,camY);
@@ -577,7 +577,7 @@ public class GameState extends BasicGameState{
 
 		
 		for(DroppedItem mesh : map.getDroppedItem()){
-			mesh.getImage().draw(mesh.getX(), mesh.getY());
+			mesh.getSprite().draw(mesh.getX(), mesh.getY());
 		}
 		
 		AnimationManager.renderAnimation();

@@ -1,8 +1,9 @@
-package nitrogene.util;
+package nitrogene.gui;
 
 import java.util.ArrayList;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.SlickException;
 
 public class AnimationManager {
 	private static ArrayList<Animation> ListAnimation = new ArrayList<Animation>();
@@ -35,5 +36,8 @@ public class AnimationManager {
 	
 	public static ArrayList<Animation> getAnimation(){
 		return ListAnimation;		
+	}
+	public static void createExplosion(float x, float y, float scale, int duration) throws SlickException {
+		addAnimation(new AnimationImage(x, y, scale, duration, "explosionSound", "explosion", 2, 6, 32, 32, true));
 	}
 }

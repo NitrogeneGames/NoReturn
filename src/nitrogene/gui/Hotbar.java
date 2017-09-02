@@ -71,7 +71,7 @@ public class Hotbar {
 		for(int i = 0; i < craft.laserlist.size(); i++) {
 			LaserLauncher launcher = craft.laserlist.get(i);
 			
-			Image rend = launcher.getImage().copy();
+			Image rend = launcher.getSprite().getImage().copy();
 			Image statusicon;
 			if(launcher.getStatus() == EnumStatus.READY){
 				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();

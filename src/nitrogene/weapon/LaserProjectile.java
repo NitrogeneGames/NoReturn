@@ -51,9 +51,9 @@ public class LaserProjectile extends PhysicalObject{
 	@Override
 	public void load(Image img, float scalefactor, ArenaMap map) {
 		super.load(img, scalefactor, map);
-		this.getImage().setRotation(0);
-		this.getImage().setCenterOfRotation(parent.getImage().getWidth()/2,parent.getImage().getHeight()/2);
-		this.getImage().rotate(mmangle);
+		this.getSprite().setRotation(0);
+		this.getSprite().setCenterOfRotation(parent.getSprite().getImage().getWidth()/2,parent.getSprite().getImage().getHeight()/2);
+		this.getSprite().rotate(mmangle);
 		basicTestLaser = (Sound) AssetManager.get().get("laserSound1");
 		basicTestLaser.play(1f, GlobalInformation.sfxlevel);
 	}

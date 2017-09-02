@@ -66,7 +66,7 @@ public class Minimap {
 			Planet mesh = planetlist.get(i);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
-			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
+			Image d = mesh.getSprite().getImage().getScaledCopy(mesh.getScale());
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
 			d.setRotation(mesh.getRotation());
 			d.draw(x, y, scalefactor);
@@ -75,7 +75,7 @@ public class Minimap {
 			Craft mesh = craftlist.get(e);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
-			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
+			Image d = mesh.getSprite().getImage().getScaledCopy(mesh.getScale());
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
 			d.setRotation(mesh.getRotation());
 			d.draw(x, y, scalefactor);
@@ -85,7 +85,7 @@ public class Minimap {
 			Asteroid mesh = asteroidlist.get(e);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
-			Image d = mesh.getImage().getScaledCopy(mesh.getScale());
+			Image d = mesh.getSprite().getImage().getScaledCopy(mesh.getScale());
 			d.setCenterOfRotation(d.getCenterOfRotationX() * scalefactor, d.getCenterOfRotationY() * scalefactor);
 			d.setRotation(mesh.getRotation());
 			d.draw(x, y, scalefactor);

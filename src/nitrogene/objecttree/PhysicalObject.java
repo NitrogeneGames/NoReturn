@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Transform;
 import nitrogene.collision.Vector;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
+import nitrogene.gui.Sprite;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
@@ -22,7 +23,7 @@ public class PhysicalObject {
 	protected Movement movement;
 	protected ArenaMap map;
 	protected Shape boundbox, newboundbox;
-	protected Image mainimg;
+	protected Sprite mainimg;
 	protected float scalefactor;
 	protected int delta;
 	protected float rotation;
@@ -44,7 +45,7 @@ public class PhysicalObject {
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img.copy();
+		this.mainimg = new Sprite(img.copy());
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
@@ -202,11 +203,18 @@ public boolean isColliding(PhysicalObject obj){
 		return rotation;
 	}
 	
-	public Image getImage(){
+	/*public Image getImage(){
+		if(mainimg != null) {
+			return mainimg.getImage();
+		} else {
+			return null;
+		}
+	}*/
+	public Sprite getSprite() {
 		return mainimg;
 	}
 	protected void changeOpac(float changepercent){
-		mainimg.setImageColor(1f, 1f, 1f, changepercent * 0.1f);
+		mainimg.getImage().setImageColor(1f, 1f, 1f, changepercent * 0.1f);
 	}
 	public Shape getShape(){
 		return newboundbox;
@@ -231,7 +239,7 @@ public boolean isColliding(PhysicalObject obj){
 		return newboundbox.getCenterX();
 		}else return 0f;
 		*/
-		return this.getImage().getCenterOfRotationX();
+		return this.getSprite().getImage().getCenterOfRotationX();
 	}
 	public float getCenterY(){
 		/*
@@ -241,17 +249,17 @@ public boolean isColliding(PhysicalObject obj){
 			return 0f;
 		}
 		*/
-		return this.getImage().getCenterOfRotationY();
+		return this.getSprite().getImage().getCenterOfRotationY();
 	}
 	public float getRealCenterX(){
-		if(this.getImage() != null) {
-			return this.getX()+(this.getImage().getWidth()*scalefactor/2);
+		if(this.getSprite() != null) {
+			return this.getX()+(this.getSprite().getImage().getWidth()*scalefactor/2);
 		}
 		return 0;
 	}
 	public float getRealCenterY(){
-		if(this.getImage() != null) {
-			return this.getY()+(this.getImage().getHeight()*scalefactor/2);
+		if(this.getSprite() != null) {
+			return this.getY()+(this.getSprite().getImage().getHeight()*scalefactor/2);
 		}
 		return 0;
 	}

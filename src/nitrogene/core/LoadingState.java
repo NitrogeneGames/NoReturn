@@ -17,6 +17,7 @@ import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import nitrogene.gui.AnimationImage;
 import nitrogene.util.AppData;
 
 public class LoadingState extends BasicGameState{
@@ -38,8 +39,10 @@ public class LoadingState extends BasicGameState{
 		Sound basicTestLaser = new Sound("res/sound/laser1final.ogg");
 		AssetManager.get().put("laserSound1", basicTestLaser);
 		Sound hit = new Sound("res/sound/Explosionfinal.ogg");
-		AssetManager.get().put("explosion", hit);
+		AssetManager.get().put("explosionSound", hit);
 		
+		Image explosion = new Image("res/explanim.png");
+		AssetManager.get().put("explosion", explosion);
 		
 		Image backgroundimg = new Image("res/menubackground4.png");
 		AssetManager.get().put("menubackgroundimg", backgroundimg);
@@ -192,6 +195,13 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("wep2", wep2);	
 		Image wep2green = new Image("res/wep2Green.png");
 		AssetManager.get().put("wep2Green", wep2green);
+		
+		Image ion1 = new Image("res/lazer.png");
+		AssetManager.get().put("ion1", ion1);
+		Image ion1Animation = new Image("res/lazer_zap_animation.png");
+		AssetManager.get().put("ion1Animation", ion1Animation);
+		AnimationImage ion1Green = new AnimationImage(100, "ion1Animation", 1, 4, 17, 24, true, 1, 0);
+		AssetManager.get().put("ion1Green", ion1Green);
 		
 		
 		Image ironitem = new Image("res/item/Iron.png");

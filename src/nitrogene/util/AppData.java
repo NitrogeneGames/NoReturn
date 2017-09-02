@@ -98,13 +98,11 @@ public class AppData {
 	  s5.setValue("" + Display.getHeight());
 	  rootElement.setAttributeNode(s4);
 	  rootElement.setAttributeNode(s5);
-	  System.out.println(Display.getParent() + " Par");
 	  TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	  Transformer transformer = transformerFactory.newTransformer();
 	  DOMSource source = new DOMSource(doc);
 	  StreamResult result = new StreamResult(new File(userDataRoot + "\\NoReturn\\rez.xml"));
 	  transformer.transform(source, result);
-		Resources.log("SAVING");
 	    } catch (Exception e) {
 	     e.printStackTrace();
 	    }

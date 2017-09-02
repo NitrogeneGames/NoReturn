@@ -3,6 +3,7 @@ package nitrogene.world;
 import java.util.ArrayList;
 
 import nitrogene.core.GlobalInformation;
+import nitrogene.gui.Sprite;
 import nitrogene.inventory.DroppedItem;
 import nitrogene.inventory.EnumDrop;
 import nitrogene.inventory.Item;
@@ -36,7 +37,7 @@ public class Planet extends PhysicalObject{
 	public void load(Image img, float scalefactor, ArenaMap map){
 		this.scalefactor = scalefactor;
 		this.map = map;
-		this.mainimg = img;
+		this.mainimg = new Sprite(img.copy());
 		boundbox = GlobalInformation.getHitbox(img.getResourceReference());
 		if(boundbox == null){
 			//Resources.log(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
@@ -53,7 +54,7 @@ public class Planet extends PhysicalObject{
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 		
-		this.getImage().setCenterOfRotation(realcenterx, realcentery);
+		this.getSprite().setCenterOfRotation(realcenterx, realcentery);
 	}
 	
 	public void damage(int damage, ArenaMap map, int e) throws SlickException{

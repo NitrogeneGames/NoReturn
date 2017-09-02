@@ -8,6 +8,8 @@ import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.core.Zoom;
+import nitrogene.gui.AnimationImage;
+import nitrogene.gui.Sprite;
 import nitrogene.npc.NPCship;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.system.ShipSystem;
@@ -94,8 +96,11 @@ public class LaserLauncher extends ShipSystem{
 	}
 	*/
 	public void loadSprite(EnumWeapon stat) {
-		Resources.log(stat.image + " loaded as image");
-		mainimg = ((Image) AssetManager.get().get(stat.image)).copy();
+		if(!stat.animated1) {
+			mainimg = new Sprite(((Image) (AssetManager.get().get(stat.image))).copy());
+		} else {
+			mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(stat.image))).copy());
+		}
 	}
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
 		//power usage 100 giga-watts
@@ -132,13 +137,13 @@ public class LaserLauncher extends ShipSystem{
 	
 	public void load(ArenaMap map){
 		this.map = map;
-		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
+		boundbox = GlobalInformation.getHitbox(getSprite().getResourceReference());
 		if(boundbox == null){
 			//System.out.println(mainimg.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		init(mainimg.getWidth(), mainimg.getHeight());
+		init(getSprite().getImage().getWidth(), getSprite().getImage().getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;
 		this.setX(tempx);
@@ -216,14 +221,22 @@ public class LaserLauncher extends ShipSystem{
 		}
 	}
 	public void setGreenImage(boolean b) {
-		float rot = this.getImage().getRotation();
+		float rot = this.getSprite().getImage().getRotation();
 		if(b && !greenImage) {
-			mainimg = ((Image) AssetManager.get().get(enumtype.image2)).copy();
-			this.getImage().setRotation(rot);
+			if(!enumtype.animated2) {
+				mainimg = new Sprite(((Image) (AssetManager.get().get(enumtype.image2))).copy());
+			} else {
+				mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(enumtype.image2))).copy());
+			}
+			this.getSprite().setRotation(rot);
 			greenImage = true;
 		} else if(!b && greenImage) {
-			mainimg = ((Image) AssetManager.get().get(enumtype.image)).copy();
-			this.getImage().setRotation(rot);
+			if(!enumtype.animated1) {
+				mainimg = new Sprite(((Image) (AssetManager.get().get(enumtype.image))).copy());
+			} else {
+				mainimg = new Sprite(((AnimationImage) (AssetManager.get().get(enumtype.image))).copy());
+			}
+			this.getSprite().setRotation(rot);
 			greenImage = false;
 		}
 	}
@@ -251,38 +264,38 @@ public class LaserLauncher extends ShipSystem{
 	    		  if(dist >= 100) {
 	    			  if(dist >= 200) {
 		    			  if(dist >= 300) {
-		    				  	this.getImage().rotate(rota/50*(delta/25f));
+		    				  	this.getSprite().rotate(rota/50*(delta/25f));
 				       
 		   				  } else {   //<300
-		   					  	this.getImage().rotate(rota/25*(delta/25f));
+		   					  	this.getSprite().rotate(rota/25*(delta/25f));
 		   				  }
 				      } else {  //<200
-				    	  this.getImage().rotate(rota/10*(delta/25f));
+				    	  this.getSprite().rotate(rota/10*(delta/25f));
 				      }
 				  } else { //<100
-				      this.getImage().rotate(rota/5*(delta/25f));
+				      this.getSprite().rotate(rota/5*(delta/25f));
 			      }
 	    		  //50,40,30,20
 	      } else {
 	    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
-	          this.getImage().setRotation(this.getAngle());
+	          this.getSprite().setRotation(this.getAngle());
 	      }
 	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
-	      this.getImage().drawCentered(this.getX()+craftX, this.getY()+craftY);
+	      this.getSprite().drawCentered(this.getX()+craftX, this.getY()+craftY);
 	      
 	      ArrayList<LaserProjectile> slaserlistcopy = new ArrayList<LaserProjectile>();
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
 	    	  LaserProjectile laser = slaserlistcopy.get(a);
 	    	  if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
-						laser.getX()+(laser.getImage().getWidth()*laser.getScale())<parent.getX()+174-(Zoom.getZoomWidth()/2)||
+						laser.getX()+(laser.getSprite().getImage().getWidth()*laser.getScale())<parent.getX()+174-(Zoom.getZoomWidth()/2)||
 						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||
-						laser.getY()+(laser.getImage().getHeight()*laser.getScale())<parent.getY()+88-(Zoom.getZoomHeight()/2)){
+						laser.getY()+(laser.getSprite().getImage().getHeight()*laser.getScale())<parent.getY()+88-(Zoom.getZoomHeight()/2)){
 	    		  	laser=null;
 					continue;
 				}
-				laser.getImage().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
+				laser.getSprite().draw(laser.getBoundbox().getX(), laser.getBoundbox().getY(),laser.getScale());
 				if(GameState.debugMode) {
 					g.draw(laser.getBoundbox());
 				}
