@@ -1,10 +1,13 @@
 package nitrogene.util;
 
+import java.awt.Canvas;
+import java.awt.Frame;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +22,9 @@ import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.weapon.EnumWeapon;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,11 +48,33 @@ public class AppData {
    GlobalInformation.musiclevel = Float.parseFloat(doc.getDocumentElement().getAttribute("music"));
    GlobalInformation.sfxlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("sfx"));
    GlobalInformation.alarmlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("alarm"));
+   int width = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("width"));
+   int height = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("height"));
+   Display.setDisplayMode(new DisplayMode(width, height));
    } catch (Exception e) {
     Resources.log("ERROR: CORRUPTED OPTIONS FILE CP 2");
     e.printStackTrace();
     }
  }
+ public static void loadRez() {
+	  try {
+	  File fXmlFile = new File(userDataRoot + "\\NoReturn\\rez.xml");
+	  DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	  DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	  Document doc = dBuilder.parse(fXmlFile);
+	  doc.getDocumentElement().normalize();
+	  if(doc.getDocumentElement().getNodeName() != "rez") {
+	   Resources.log("ERROR: CORRUPTRED REZ FILE CP 1");
+	   return;
+	  }
+	   int width = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("width"));
+	   int height = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("height"));
+	   Display.setDisplayModeAndFullscreen(new DisplayMode(width, height));
+	   } catch (Exception e) {
+	    Resources.log("ERROR: REZ FILE CP 2");
+	    e.printStackTrace();
+	    }
+	 }
  public static void log(String l) throws IOException {
 	 File file = new File(userDataRoot + "\\NoReturn\\log.txt");	  
 	file.createNewFile();
@@ -55,6 +83,32 @@ public class AppData {
 	writer.write(l);
 	writer.close();
  }
+ public static void saveRez() {
+	    try {
+
+	  DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+	  DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+	  Document doc = docBuilder.newDocument();
+	  
+	  Element rootElement = doc.createElement("rez");
+	  doc.appendChild(rootElement);
+	  Attr s4 = doc.createAttribute("width");
+	  s4.setValue("" + Display.getWidth());
+	  Attr s5 = doc.createAttribute("height");
+	  s5.setValue("" + Display.getHeight());
+	  rootElement.setAttributeNode(s4);
+	  rootElement.setAttributeNode(s5);
+	  System.out.println(Display.getParent() + " Par");
+	  TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	  Transformer transformer = transformerFactory.newTransformer();
+	  DOMSource source = new DOMSource(doc);
+	  StreamResult result = new StreamResult(new File(userDataRoot + "\\NoReturn\\rez.xml"));
+	  transformer.transform(source, result);
+		Resources.log("SAVING");
+	    } catch (Exception e) {
+	     e.printStackTrace();
+	    }
+	 }
  public static void saveOptions() {
     try {
 
@@ -98,8 +152,9 @@ public class AppData {
   
   if(new File(userDataRoot + "\\NoReturn\\options.xml").exists()) {
    loadOptions();
-  } else{
-   
+  }
+  if(new File(userDataRoot + "\\NoReturn\\rez.xml").exists()) {
+	   loadRez();
   }
   
 

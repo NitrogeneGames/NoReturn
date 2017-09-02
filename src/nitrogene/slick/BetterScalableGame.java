@@ -1,6 +1,8 @@
 package nitrogene.slick;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,6 +11,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.SlickCallable;
 import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.opengl.renderer.SGL;
+
+import nitrogene.core.Resources;
+import nitrogene.util.AppData;
 
 /**
  * A wrapper to allow any game to be scalable. This relies on knowing the 
@@ -182,6 +187,9 @@ public class BetterScalableGame implements Game {
 	 * @see org.newdawn.slick.Game#closeRequested()
 	 */
 	public boolean closeRequested() {
+		//DisplayMode d = Display.getDisplayMode();
+		
+		AppData.saveRez();
 		return held.closeRequested();
 	}
 

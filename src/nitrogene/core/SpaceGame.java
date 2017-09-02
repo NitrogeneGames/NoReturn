@@ -4,6 +4,11 @@ import nitrogene.slick.BetterAppGameContainer;
 import nitrogene.slick.BetterScalableGame;
 import nitrogene.util.AppData;
 
+import java.awt.Canvas;
+import java.awt.Frame;
+
+import javax.swing.JFrame;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -31,7 +36,7 @@ public class SpaceGame extends StateBasedGame{
 		//SCRheight = app.getScreenHeight();
 		//SCRwidth = app.getScreenWidth();
 		Display.setDisplayMode(new DisplayMode(SCRwidth, SCRheight));
-		app.setDisplayMode(SCRwidth, SCRheight, false);
+		//app.setDisplayMode(SCRwidth, SCRheight, false);
 		GlobalInformation.initHitboxData();
 		GlobalInformation.init(SCRwidth, SCRheight);
 		AppData.runInit();

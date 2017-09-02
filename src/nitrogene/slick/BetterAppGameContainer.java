@@ -30,6 +30,8 @@ import org.newdawn.slick.opengl.TGAImageData;
 import org.newdawn.slick.util.Log;
 import org.newdawn.slick.util.ResourceLoader;
 
+import nitrogene.util.AppData;
+
 /**
  * A game container that will display the game as an stand alone 
  * application.
