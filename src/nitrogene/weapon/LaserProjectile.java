@@ -54,7 +54,7 @@ public class LaserProjectile extends PhysicalObject{
 		this.getImage().setRotation(0);
 		this.getImage().setCenterOfRotation(parent.getImage().getWidth()/2,parent.getImage().getHeight()/2);
 		this.getImage().rotate(mmangle);
-		basicTestLaser = (Sound) AssetManager.get().get("laser1");
+		basicTestLaser = (Sound) AssetManager.get().get("laserSound1");
 		basicTestLaser.play(1f, GlobalInformation.sfxlevel);
 	}
 	/*

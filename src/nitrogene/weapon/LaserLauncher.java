@@ -6,6 +6,7 @@ import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
 import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
+import nitrogene.core.Resources;
 import nitrogene.core.Zoom;
 import nitrogene.npc.NPCship;
 import nitrogene.objecttree.PhysicalObject;
@@ -93,12 +94,8 @@ public class LaserLauncher extends ShipSystem{
 	}
 	*/
 	public void loadSprite(EnumWeapon stat) {
-		if(stat.image == "res/Laser1.png") mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
-		else if(stat.image == "res/klaar_pulsar_2.png") mainimg = ((Image) AssetManager.get().get("klaarpulsar")).copy();
-		else if(stat.image == "res/wep1.png") mainimg = ((Image) AssetManager.get().get("wep1")).copy();
-		else if(stat.image == "res/wep2.png") mainimg = ((Image) AssetManager.get().get("wep2")).copy();
-		else if(stat.image == "res/Laser2.png") mainimg = ((Image) AssetManager.get().get("laser2")).copy();
-		else mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
+		Resources.log(stat.image + " loaded as image");
+		mainimg = ((Image) AssetManager.get().get(stat.image)).copy();
 	}
 	public LaserLauncher(Craft w, float xpos, float ypos, EnumWeapon stat, int id, String n, short priority) throws SlickException{
 		//power usage 100 giga-watts
@@ -221,22 +218,12 @@ public class LaserLauncher extends ShipSystem{
 	public void setGreenImage(boolean b) {
 		float rot = this.getImage().getRotation();
 		if(b && !greenImage) {
-			if(enumtype.image == "res/Laser1.png") {
-				mainimg = ((Image) AssetManager.get().get("standardlasergreen")).copy();
-				this.getImage().setRotation(rot);
-			} else if(enumtype.image == "res/Laser2.png") {
-				mainimg = ((Image) AssetManager.get().get("laser2green")).copy();
-				this.getImage().setRotation(rot);
-			}
+			mainimg = ((Image) AssetManager.get().get(enumtype.image2)).copy();
+			this.getImage().setRotation(rot);
 			greenImage = true;
 		} else if(!b && greenImage) {
-			if(enumtype.image == "res/Laser1.png") {
-				mainimg = ((Image) AssetManager.get().get("standardlaser")).copy();
-				this.getImage().setRotation(rot);
-			} else if(enumtype.image == "res/Laser2.png") {
-				mainimg = ((Image) AssetManager.get().get("laser2")).copy();
-				this.getImage().setRotation(rot);
-			}
+			mainimg = ((Image) AssetManager.get().get(enumtype.image)).copy();
+			this.getImage().setRotation(rot);
 			greenImage = false;
 		}
 	}

@@ -36,7 +36,7 @@ public class LoadingState extends BasicGameState{
 		LoadingList.setDeferredLoading(true);
 		//SOUNDS
 		Sound basicTestLaser = new Sound("res/sound/laser1final.ogg");
-		AssetManager.get().put("laser1", basicTestLaser);
+		AssetManager.get().put("laserSound1", basicTestLaser);
 		Sound hit = new Sound("res/sound/Explosionfinal.ogg");
 		AssetManager.get().put("explosion", hit);
 		
@@ -172,22 +172,27 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("oxygensystemicon", oxygenSystemIcon);
 		
 		Image standardLaserImage = new Image("res/Laser1.png");
-		AssetManager.get().put("standardlaser", standardLaserImage);
+		AssetManager.get().put("laser1", standardLaserImage);
 		Image standardLaserGreenImage = new Image("res/Laser1Green.png");
-		AssetManager.get().put("standardlasergreen", standardLaserGreenImage);
+		AssetManager.get().put("laser1Green", standardLaserGreenImage);
 		Image laser2Image = new Image("res/Laser2.png");
 		AssetManager.get().put("laser2", laser2Image);
 		Image laser2ImageGreen = new Image("res/Laser2Green.png");
-		AssetManager.get().put("laser2green", laser2ImageGreen);
+		AssetManager.get().put("laser2Green", laser2ImageGreen);
+		Image klaarPulsarImage = new Image("res/Laser3.png");
+		AssetManager.get().put("laser3", klaarPulsarImage);
+		Image klaarPulsarImageGreen = new Image("res/Laser3Green.png");
+		AssetManager.get().put("laser3Green", klaarPulsarImageGreen);
 		
 		Image wep1 = new Image("res/wep1.png");
 		AssetManager.get().put("wep1", wep1);
+		Image wep1green = new Image("res/wep1Green.png");
+		AssetManager.get().put("wep1Green", wep1green);
 		Image wep2 = new Image("res/wep2.png");
 		AssetManager.get().put("wep2", wep2);	
+		Image wep2green = new Image("res/wep2Green.png");
+		AssetManager.get().put("wep2Green", wep2green);
 		
-		
-		Image klaarPulsarImage = new Image("res/klaar_pulsar_2.png");
-		AssetManager.get().put("klaarpulsar", klaarPulsarImage);
 		
 		Image ironitem = new Image("res/item/Iron.png");
 		AssetManager.get().put("ironitem", ironitem);
