@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -32,7 +33,7 @@ public class PhysicalObject {
 	public boolean isLoaded = false;
 	protected float tempx, tempy;
 	protected boolean destroyed = false;
-
+	protected Point centerOfRotation;
 	public PhysicalObject(float x, float y){
 		width = 0;
 		height = 0;
@@ -58,6 +59,7 @@ public class PhysicalObject {
 		this.setX(tempx);
 		this.setY(tempy);
 		rotationalconstant=0;
+		centerOfRotation = new Point(getSprite().getImage().getCenterOfRotationX(),getSprite().getImage().getCenterOfRotationY());
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 	}
@@ -309,6 +311,12 @@ public boolean isColliding(PhysicalObject obj){
 	public void removeBoundbox() {
 		this.boundbox = null;
 		
+	}
+	public void setCenterOfRotation(Point p) {
+		centerOfRotation = p;
+	}
+	public Point getCenterOfRotation() {
+		return centerOfRotation;
 	}
 	public static ArrayList<int[]> getCollidingPoints(PhysicalObject a, PhysicalObject a1) {
 		ArrayList<int[]> list = new ArrayList<int[]>();

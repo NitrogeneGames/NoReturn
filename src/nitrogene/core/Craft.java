@@ -26,6 +26,7 @@ import nitrogene.world.ArenaMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
@@ -79,6 +80,7 @@ public class Craft extends PhysicalObject{
 			boundbox = new Polygon(m);
 		}
 		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
+		centerOfRotation = new Point(getSprite().getImage().getCenterOfRotationX(),getSprite().getImage().getCenterOfRotationY());
 		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
 		this.setY(tempy);
@@ -166,7 +168,8 @@ public class Craft extends PhysicalObject{
 		
 		float carryx = this.getX();
 		float carryy = this.getY();
-		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),174,88)));
+		Point p = this.getCenterOfRotation();
+		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),p.getX(),p.getY())));
 		this.getBoundbox().setCenterX(this.getCenterX()+43);//43
 		this.getBoundbox().setCenterY(this.getCenterY()+16);//16
 		this.setX(carryx);
