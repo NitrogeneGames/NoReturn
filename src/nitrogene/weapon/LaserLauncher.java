@@ -278,13 +278,13 @@ public class LaserLauncher extends ShipSystem{
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
 	    	  LaserProjectile laser = slaserlistcopy.get(a);
-	    	  if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
-						laser.getX()+(laser.getSprite().getImage().getWidth()*laser.getScale())<parent.getX()+174-(Zoom.getZoomWidth()/2)||
+	    	  /*if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
+						laser.getX()+(laser.getSprite().getImage().getWidth()*laser.getScale())<parent.getX()-174-(Zoom.getZoomWidth()/2)||
 						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||
-						laser.getY()+(laser.getSprite().getImage().getHeight()*laser.getScale())<parent.getY()+88-(Zoom.getZoomHeight()/2)){
+						laser.getY()+(laser.getSprite().getImage().getHeight()*laser.getScale())<parent.getY()-88-(Zoom.getZoomHeight()/2)){
 	    		  	laser=null;
 					continue;
-				}
+				}*/
 	    	  	//float rotat = laser.getSprite().getImage().getRotation();
 	    	  	float rotat = 0;
 	    	  	float boundX = laser.getBoundbox().getX();

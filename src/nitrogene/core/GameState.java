@@ -514,13 +514,13 @@ public class GameState extends BasicGameState{
 			Planet mesh = map.getPlanets().get(i);
 			//image culling
 			
-			if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
-					mesh.getX()+(mesh.getSprite().getImage().getWidth()*mesh.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)||
+			/*if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
+					mesh.getX()+(mesh.getSprite().getImage().getWidth()*mesh.getScale())<craft.getX()-174-(Zoom.getZoomWidth()/2)||
 					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
-					mesh.getY()+(mesh.getSprite().getImage().getHeight()*mesh.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)){
+					mesh.getY()+(mesh.getSprite().getImage().getHeight()*mesh.getScale())<craft.getY()-88-(Zoom.getZoomHeight()/2)){
 				mesh = null;
 				continue;
-			}
+			}*/
 			
 			/*
 			 * if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
@@ -553,17 +553,16 @@ public class GameState extends BasicGameState{
 			//culling
 			//free constant
 			int fr = -100;
-			/*
-			if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
-					as.getX()+(as.getImage().getWidth()*as.getScale())<craft.getX()+174-(Zoom.getZoomWidth()/2)+fr||
+			
+			/*if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
+					as.getX()+(as.getSprite().getImage().getWidth()*as.getScale())<craft.getX()-174-(Zoom.getZoomWidth()/2)+fr||
 					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)-fr||
-					as.getY()+(as.getImage().getHeight()*as.getScale())<craft.getY()+88-(Zoom.getZoomHeight()/2)+fr){
+					as.getY()+(as.getSprite().getImage().getHeight()*as.getScale())<craft.getY()-88-(Zoom.getZoomHeight()/2)+fr){
 				as=null;
-				n++;
 				continue;
-			}
+			}*/
 			//ASTEROID CULLING : BROKEN
-			*/
+			
 			as.getSprite().draw(as.getX(),as.getY(),as.getScale());
 			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
 			as.getSprite().setRotation(as.getRotation());
