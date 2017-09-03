@@ -23,6 +23,7 @@ import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
 import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
+import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.LaserProjectile;
 import nitrogene.world.ArenaMap;
@@ -45,9 +46,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class GameState extends BasicGameState{
+	
+	public boolean superHardDifficulty = true;
+	
 	Graphics backup;
 	Craft craft;
-	NPCship enemy;
 	public Hotbar guihotbar;
 	private ShieldBar shieldbar;
 	private HullBar hullbar;
@@ -166,10 +169,15 @@ public class GameState extends BasicGameState{
 			
 			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 			
-			craft = new Craft(1200, 1200);
+			craft = new Craft(2000, 1200, "humanship", 1);
 			map.addCraft(craft);
-			enemy = new NPCship(00, 00, Relation.HOSTILE);
-			map.addCraft(enemy);
+			
+			map.addCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
+			map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
+			if(superHardDifficulty) {
+				map.addCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
+				map.addCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
+			}
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
@@ -180,13 +188,23 @@ public class GameState extends BasicGameState{
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
 	      }
 	      */
-	      if(!craft.isLoaded){
-	    	  craft.load("humanship", 1, map);
-	    	  craft.isLoaded = true;
-	      }
-	      if(!enemy.isLoaded){
-	    	  enemy.load("craftimage", 1, map);
-	    	  enemy.isLoaded = true;
+	      for(Craft c : map.getCrafts()) {
+	    	  if(!c.isLoaded) {
+	    		  c.load(c.img, c.getScale(), map);
+	    		  c.isLoaded = true;
+	    	  }
+	    	  if(c.getClass() != NPCship.class) {
+	    		  c.loadWeapons(GlobalInformation.getStartingWeapons());
+	    	  } else {
+	    		  NPCship n = (NPCship) c;
+	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
+	    		  enemyWeapons.add(EnumWeapon.VELOX2);
+	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
+	    		  c.loadWeapons(enemyWeapons);
+			      n.addTask(new TaskFollow(n, craft, 500));
+			      n.addTask(new TaskFire(n, craft, 0));
+			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
+		      }
 	      }
 	      map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
 	      if(!this.guielementsloaded){
@@ -195,11 +213,6 @@ public class GameState extends BasicGameState{
 	      	guihotbar = new Hotbar(craft);
 	      	this.guielementsloaded = true;
 	      }
-	      enemy.addCraftTarget(craft);
-	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      enemy.addTask(new TaskFollow(enemy, craft, 500));
-	      enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -367,9 +380,9 @@ public class GameState extends BasicGameState{
 				} else if (obj.getClass() == NPCship.class){
 				NPCship temp = (NPCship) obj;
 				temp.update(delta,camX,camY);
-				for(int m = 0; m<enemy.laserlist.size(); m++) {
-					LaserLauncher laserlauncher = enemy.laserlist.get(m);
-					laserlauncher.update(enemy.getX(), enemy.getY(),delta);
+				for(int m = 0; m<temp.laserlist.size(); m++) {
+					LaserLauncher laserlauncher = temp.laserlist.get(m);
+					laserlauncher.update(temp.getX(), temp.getY(),delta);
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						LaserProjectile laser = laserlauncher.slaserlist.get(i);
@@ -387,9 +400,8 @@ public class GameState extends BasicGameState{
 								mesh.damage(laser.getPlanetDamage(), map);
 							}
 							}
-						for(int r = 0; r < map.getCrafts().size(); r++){
-							Craft craft = map.getCrafts().get(r);
-							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
+						for(Craft craft : map.getCrafts()){
+							if(((craft.isColliding(laser) || craft.isColliding(path))) && !craft.equals(obj)){
 								float rotation = (float) -Math.toRadians(laser.getSprite().getImage().getRotation());
 								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
 								float xN = (float) (hyp*Math.cos(rotation))/2;

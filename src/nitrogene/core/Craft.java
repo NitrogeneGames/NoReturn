@@ -33,6 +33,7 @@ import org.newdawn.slick.geom.Transform;
 public class Craft extends PhysicalObject{
 	
 	//systems
+	public String img;
 	public Shield shield;
 	public LifeSupport lifesupport;
 	public Core core;
@@ -47,8 +48,10 @@ public class Craft extends PhysicalObject{
 	private ArrayList<Item> inventory;
 	protected int cumulative;
 	public String name = "";
-	public Craft(float xpos, float ypos) throws SlickException{
+	public Craft(float xpos, float ypos, String img, float scale) throws SlickException{
 		super(xpos, ypos);
+		this.scalefactor = scale;
+		this.img = img;
 		setDefaultMovement("angled");
 		systems = new ArrayList<ShipSystem>(30);
 		inventory = new ArrayList<Item>();
@@ -179,6 +182,7 @@ public class Craft extends PhysicalObject{
 		rotateSystem(this.engine);
 		rotateSystem(this.lifesupport);
 		if(hull<=0){
+			hull = 0;
 			this.destroy();
 			//GAME OVER
 		}

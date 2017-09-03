@@ -10,13 +10,13 @@ import nitrogene.world.ArenaMap;
 import nitrogene.world.Planet;
 
 public class NPCship extends Craft{
-	private Relation relation;
+	public Relation relation;
 	private ArrayList<Craft> crafttarget;
 	private ArrayList<Planet> planettarget;
 	public ArrayList<Task> tasks = new ArrayList<Task>();
 	
-	public NPCship(float xpos, float ypos, Relation relation) throws SlickException{
-		super(xpos, ypos);
+	public NPCship(float xpos, float ypos, Relation relation, String img, float scalefactor) throws SlickException{
+		super(xpos, ypos, img, scalefactor);
 		this.relation = relation;
 		crafttarget = new ArrayList<Craft>();
 		planettarget = new ArrayList<Planet>();

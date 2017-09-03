@@ -86,6 +86,7 @@ public class GlobalInformation {
 		startingweapons = start;
 	}
 	
+	
 	public static ArrayList<EnumWeapon> getStartingWeapons(){
 		return startingweapons;
 	}
