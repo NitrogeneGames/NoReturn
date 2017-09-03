@@ -22,23 +22,28 @@ public class Hotbar {
 	public int tab = 0;
 	public Craft ship;
 	private Image heart, bolt;
+	private Image statusicon;
+	private Image rend;
+	float camX = 0;
+	float camY = 0;
 	
 	
 	public Hotbar(Craft s) throws SlickException {
-		heart = (Image) AssetManager.get().get("heart");
-		bolt = (Image) AssetManager.get().get("bolt");
+		heart = ((Image) AssetManager.get().get("heart")).copy();
+		bolt = ((Image) AssetManager.get().get("bolt")).copy();
+		statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
+		rend = ((Image) AssetManager.get().get("laser1")).copy();
 		ship = s;
 	}
 	public void setTab(int i) {
 		
 	}
-	public void loadWeapons(Graphics g, Craft craft, float camX, float camY, int selected) throws SlickException {
-		for(int i = 0; i < craft.laserlist.size(); i++) {
-			LaserLauncher launcher = craft.laserlist.get(i);
-			
-			Image rend = launcher.getSprite().getImage().copy();
-			Image statusicon;
-			if(launcher.getStatus() == EnumStatus.READY){
+	public void render(Graphics g, Craft craft, float camX, float camY, int selected) throws SlickException {
+		for(LaserLauncher launcher : craft.laserlist) {
+			renderHealthBar(g, launcher.laserId, launcher.getHp()/launcher.getMaxHp(), camX, camY);
+			renderPowerBar(g, launcher.laserId, launcher.getPowerReceived()/launcher.getPowerUsage(), camX, camY);
+			rend = launcher.getSprite().getImage().copy();
+			/*if(launcher.getStatus() == EnumStatus.READY){
 				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
 			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
 				statusicon = ((Image) AssetManager.get().get("statusFiring")).copy();
@@ -50,25 +55,35 @@ public class Hotbar {
 				statusicon = ((Image) AssetManager.get().get("statusDestroyed")).copy();
 			} else{
 				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
+			}*/
+			if(launcher.getStatus() == EnumStatus.READY){
+				statusicon = ((Image) AssetManager.get().get("statusReady"));
+			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
+				statusicon = ((Image) AssetManager.get().get("statusFiring"));
+			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
+				statusicon = ((Image) AssetManager.get().get("statusDamaged"));
+			} else if(launcher.getStatus() == EnumStatus.POWER){
+				statusicon = ((Image) AssetManager.get().get("statusNeedPower"));
+			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
+				statusicon = ((Image) AssetManager.get().get("statusDestroyed"));
+			} else{
+				statusicon = ((Image) AssetManager.get().get("statusReady"));
 			}
 			statusicon.setFilter(Image.FILTER_NEAREST);
-			
-			renderTransparentBackground(g, getSlot(launcher.laserId), camX, camY, selected, launcher);
-			renderStatus(statusicon, getSlot(launcher.laserId), camX, camY);
 			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().active){
-				renderChargeBar(g, getSlot(launcher.laserId), launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
+				renderChargeBar(g, launcher.laserId, launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
 						camX, camY, launcher.getTimer().bursting, ((float) launcher.getTimer().burstShot) * launcher.getTimer().interBurst * 10);
 			}
-			renderHealthBar(g, getSlot(launcher.laserId), launcher.getHp()/launcher.getMaxHp(), camX, camY);
-			renderPowerBar(g, getSlot(launcher.laserId), launcher.getPowerReceived()/launcher.getPowerUsage(), camX, camY);
+			renderTransparentBackground(g, launcher.laserId, camX, camY, selected, launcher);
+			renderStatus(statusicon, launcher.laserId, camX, camY);
 			rend.setFilter(Image.FILTER_NEAREST);
-			renderWeapon(rend, getSlot(launcher.laserId), launcher.enumtype, camX, camY);
+			renderWeapon(rend, launcher.laserId, launcher.enumtype, camX, camY);
 		}
+		
 	}
-	public HashMap<String, Integer> stringLog = new HashMap<String, Integer>();
-	public void renderWeapon(Image icon, int[] slot, EnumWeapon enumtype, float camX, float camY) {
-		float yStart = slot[3] + camY + 72;
-		float yEnd = slot[3] + camY + 104;
+	public void renderWeapon(Image icon, int id, EnumWeapon enumtype, float camX, float camY) {
+		float yStart = 661 + camY + 72;
+		float yEnd = 661 + camY + 104;
 		float border = 3;
 		
 		
@@ -80,11 +95,11 @@ public class Hotbar {
 		
 		//icon.draw(slot[2] - (icon.getWidth()) + 56+ camX, yCenter, scale);
 		
-		icon.draw(slot[2] - (icon.getWidth()*scale/2) + 56+ camX, yCenter-icon.getHeight()*scale/2, scale);
+		icon.draw(333 + 117*id - (icon.getWidth()*scale/2) + 56+ camX, yCenter-icon.getHeight()*scale/2, scale);
 		
 		
 		//Weapon name and resizing
-		enumtype.font.drawString(slot[2] - enumtype.font.getWidth(enumtype.shortenedString)/2 + camX + 56, slot[3] + 30 + camY - enumtype.font.getHeight(enumtype.shortenedString)/2, enumtype.shortenedString);
+		enumtype.font.drawString(333 + 117*id - enumtype.font.getWidth(enumtype.shortenedString)/2 + camX + 56, 661 + 30 + camY - enumtype.font.getHeight(enumtype.shortenedString)/2, enumtype.shortenedString);
 		/*if(uniFont.getWidth(n) < 104) {
 			uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont.getHeight(n)/2, n);
 		} else if(uniFont2.getWidth(n) < 104) {
@@ -103,49 +118,47 @@ public class Hotbar {
 		}*/
 	}
 	
-	private void renderStatus(Image icon, int[] slot, float camX, float camY){
-		icon.draw(slot[2] + camX + 82, slot[3] + camY + 2);
+	private void renderStatus(Image icon, int id, float camX, float camY){
+		icon.draw(333 + 117*id + camX + 82, 661 + camY + 2);
 	}
 	
-	private void renderChargeBar(Graphics g, int[] slot, float progress, float camX, float camY, boolean bursting, float charge){
+	private void renderChargeBar(Graphics g, int id, float progress, float camX, float camY, boolean bursting, float charge){
 		g.setColor(Color.white);
-		g.drawRect(slot[2] + camX + 4, slot[3] + camY + 6, 74, 18);
+		g.drawRect(333 + 117*id + camX + 4, 661 + camY + 6, 74, 18);
 		if(bursting && charge >= 500) {
 			g.setColor(Color.red);
 		} else {
 			g.setColor(Color.blue);
 		}
-		g.fillRect(slot[2] + camX + 5, slot[3] + camY + 7, (int)(progress*73), 17);
+		g.fillRect(333 + 117*id + camX + 5, 661 + camY + 7, (int)(progress*73), 17);
 	}
 	
-	private void renderHealthBar(Graphics g, int[] slot, float progress, float camX, float camY){
-		heart.draw(slot[2] + camX + 3, slot[3] + camY + 45);
+	private void renderHealthBar(Graphics g, int id, float progress, float camX, float camY){
+		heart.draw(333 + 117*id + camX + 3, 661 + camY + 45);
 		
 		g.setColor(Color.white);
-		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 45, 89, 11);
+		g.drawRect(333 + 117*id + camX + 19, 661 + camY + 45, 89, 11);
 		g.setColor(Color.red);
-		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 46, (int)(progress*88), 10);
+		g.fillRect(333 + 117*id + camX + 20, 661 + camY + 46, (int)(progress*88), 10);
 	}
 	
-	private void renderPowerBar(Graphics g, int[] slot, float progress, float camX, float camY){
-		bolt.draw(slot[2] + camX + 7, slot[3] + camY + 62);
+	private void renderPowerBar(Graphics g, int id, float progress, float camX, float camY){
+		bolt.draw(333 + 117*id + camX + 7, 661 + camY + 62);
 		
 		g.setColor(Color.white);
-		g.drawRect(slot[2] + camX + 19, slot[3] + camY + 61, 89, 11);
+		g.drawRect(333 + 117*id + camX + 19, 661 + camY + 61, 89, 11);
 		g.setColor(Color.yellow);
-		g.fillRect(slot[2] + camX + 20, slot[3] + camY + 62, (int)(progress*88), 10);
+		g.fillRect(333 + 117*id + camX + 20, 661 + camY + 62, (int)(progress*88), 10);
 	}
 	
-	private void renderTransparentBackground(Graphics g, int[] slot, float camX, float camY, int selected, LaserLauncher launcher){
+	private void renderTransparentBackground(Graphics g, int id, float camX, float camY, int selected, LaserLauncher launcher){
 		if(launcher.laserId == selected){
 			g.setColor(new Color(0f, 204f, 0f, 0.3f));
 		} else{
 			g.setColor(new Color(0f, 0f, 0f, 0.3f));
 		}
-		g.fillRect(slot[2]+camX, slot[3]+camY, 111, 104);
+		g.fillRect(333 + 117*id+camX, 661+camY, 111, 104);
 	}
 	
-	public int[] getSlot(int id) {
-		return new int[] {333 + 117*id, 661, 333 + 117*id, 661};
-	}
+		//int[] {333 + 117*id, 661, 333 + 117*id, 661};
 }

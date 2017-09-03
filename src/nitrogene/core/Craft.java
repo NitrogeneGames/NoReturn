@@ -53,15 +53,17 @@ public class Craft extends PhysicalObject{
 		inventory = new ArrayList<Item>();
 		hull = 100;
 		maxhull = 100;
-		shield = new Shield(this,82,45,300,2,50,100f);
 		delta = 0;
-		engine = new Engine(this,48,77, 200,2,20,/*warpchage */ 100,50,100f);
-		core = new Core(this,82,83, 1000,5,50,500f); 
-		capacitor = new Capacitor(this,100,100, 1000,5,20,100000f);
-		lifesupport = new LifeSupport(this,82,125, 200,2,50,100f);
+		shield = new Shield(this,0,0,300,2,50,100f);
+		engine = new Engine(this,0,0, 200,2,20,/*warpchage */ 100,50,100f);
+		core = new Core(this,0,0, 1000,5,50,500f); 
+		capacitor = new Capacitor(this,0,0, 1000,5,20,100000f);
+		lifesupport = new LifeSupport(this,0,0, 200,2,50,100f);
 		systems.add(lifesupport);
 		systems.add(engine);
 		systems.add(shield);
+		systems.add(core);
+		systems.add(capacitor);
 		cumulative = 0;
 		maxWeapons = 6;
 	}
@@ -84,12 +86,32 @@ public class Craft extends PhysicalObject{
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 		
-		addSlot((int)(250*scalefactor), (int)(30*scalefactor));
-		addSlot((int)(174*scalefactor), (int)(30*scalefactor));
-		addSlot((int)(105*scalefactor), (int)(17*scalefactor));
-		addSlot((int)(250*scalefactor), (int)(136*scalefactor));
-		addSlot((int)(174*scalefactor), (int)(136*scalefactor));
-		addSlot((int)(105*scalefactor), (int)(136*scalefactor));
+		if(this.getSprite().getResourceReference() == "res/klaarship6.png") {
+			addSlot((int)(250*scalefactor), (int)(30*scalefactor));
+			addSlot((int)(174*scalefactor), (int)(30*scalefactor));
+			addSlot((int)(105*scalefactor), (int)(17*scalefactor));
+			addSlot((int)(250*scalefactor), (int)(136*scalefactor));
+			addSlot((int)(174*scalefactor), (int)(136*scalefactor));
+			addSlot((int)(105*scalefactor), (int)(136*scalefactor));
+			shield.setLocation(82,45);
+			engine.setLocation(48,77);
+			core.setLocation(82,83); 
+			capacitor.setLocation(100,100);
+			lifesupport.setLocation(82,125);
+			
+		} else if(this.getSprite().getResourceReference() == "res/humanship4.png") {
+			addSlot((int)(35*scalefactor), (int)(22*scalefactor));
+			addSlot((int)(35*scalefactor), (int)(168*scalefactor));
+			addSlot((int)(94*scalefactor), (int)(22*scalefactor));
+			addSlot((int)(94*scalefactor), (int)(168*scalefactor));
+			addSlot((int)(160*scalefactor), (int)(47*scalefactor));
+			addSlot((int)(160*scalefactor), (int)(143*scalefactor));
+			shield.setLocation(43,70);
+			engine.setLocation(43,120);
+			core.setLocation(80,70); 
+			capacitor.setLocation(120,95);
+			lifesupport.setLocation(80,120);
+		}
 		
 		shield.load("shieldsystemicon", 1f, map);
 		engine.load("enginesystemicon", 1f, map);

@@ -43,6 +43,10 @@ public class ShipSystem extends PhysicalObject{
 		this.craft = c;
 
 	}
+	public void setLocation(float x, float y) {
+		this.x1 = x;
+		this.y1 = y;
+	}
 	public float rotation = 0;
 	
 	@Override

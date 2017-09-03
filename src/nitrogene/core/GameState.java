@@ -181,7 +181,7 @@ public class GameState extends BasicGameState{
 	      }
 	      */
 	      if(!craft.isLoaded){
-	    	  craft.load("craftimage", 1, map);
+	    	  craft.load("humanship", 1, map);
 	    	  craft.isLoaded = true;
 	      }
 	      if(!enemy.isLoaded){
@@ -198,8 +198,8 @@ public class GameState extends BasicGameState{
 	      enemy.addCraftTarget(craft);
 	      craft.loadWeapons(GlobalInformation.getStartingWeapons());
 	      enemy.loadWeapons(GlobalInformation.getStartingWeapons());
-	      //enemy.addTask(new TaskFollow(enemy, craft, 500));
-	      //enemy.addTask(new TaskFire(enemy, craft, 1));
+	      enemy.addTask(new TaskFollow(enemy, craft, 500));
+	      enemy.addTask(new TaskFire(enemy, craft, 1));
 	      map.asteroidResume();
 	      this.PAUSED = false;
 	   }
@@ -248,8 +248,7 @@ public class GameState extends BasicGameState{
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
     	minimap.update();
-    	
-    	
+    	//guihotbar.update(craft);
     	//Input Controllers
     	if(!craft.isDestroyed()) {
 	    	if(input.isKeyDown(Input.KEY_RSHIFT) || input.isKeyDown(Input.KEY_LSHIFT)){
@@ -605,7 +604,7 @@ public class GameState extends BasicGameState{
 		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw(camX,camY);
-		guihotbar.loadWeapons(g,craft,camX,camY,selected);
+		guihotbar.render(g,craft, camX, camY, selected);
 		minimap.render(g,camX,camY,map.getPlanets(),map.getCrafts(),map.getAsteroids());
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);

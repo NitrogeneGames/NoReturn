@@ -90,8 +90,15 @@ public class LoadingState extends BasicGameState{
 		Image shipSelectionImage = new Image("res/hangar/shipselectionfinal.png");
 		AssetManager.get().put("shipselection", shipSelectionImage);
 		
-		Image craftImage = new Image("res/klaarship6.png");
-		AssetManager.get().put("craftimage", craftImage);
+		Image redShip = new Image("res/klaarship6.png");
+		AssetManager.get().put("craftimage", redShip);
+		
+		Image humanShip = new Image("res/humanship4.png");
+		AssetManager.get().put("humanship", humanShip);
+		
+		
+		
+		
 		Image sunImage = new Image("res/sun_1.png");
 		AssetManager.get().put("sun1", sunImage);
 		Image volcanicplanetImage = new Image("res/volcanicplanet2.png");
