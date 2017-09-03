@@ -33,14 +33,13 @@ public class LaserLauncher extends ShipSystem{
 	//Basic Variables for Laser Launcher
 	private float desx, desy, camX, camY;
 	public PhysicalObject target;
-	public ArrayList<LaserProjectile> slaserlist = new ArrayList<LaserProjectile>();
-	public int accuracy, timer, maxtime,  damage, planetdamage;
+	public ArrayList<PhysicalProjcetile> slaserlist = new ArrayList<PhysicalProjcetile>();
+	public int accuracy, timer, maxtime;
 	private double mangle;
-	private float mmangle, craftX, craftY, size, speed;
+	private float mmangle, craftX, craftY;
 	public boolean isRotating;
 	private int interburst, outerburst, burstnumber;
 	public Craft parent;
-	private String proje;
 	private Sound firesound;
 	public int laserId;
 	public String name;
@@ -113,12 +112,10 @@ public class LaserLauncher extends ShipSystem{
 		mangle = 0;
 		mmangle = 0f;
 		laserId = id;
-		this.planetdamage = stat.planetdamage;
 		this.interburst = stat.interburst;
 		this.outerburst = stat.outerburst;
 		this.burstnumber = stat.burstnumber;
 		try {
-			this.proje = stat.laserimage;
 			this.firesound = new Sound(stat.firesound);
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -128,9 +125,6 @@ public class LaserLauncher extends ShipSystem{
 		craftY = 0;
 		camX = 0;
 		camY = 0;
-		this.speed = stat.speed;
-		this.damage = stat.damage;
-		this.size = stat.size;
 	}
 	
 	public void load(ArenaMap map){
@@ -274,10 +268,10 @@ public class LaserLauncher extends ShipSystem{
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getSprite().drawCentered(this.getX()+craftX, this.getY()+craftY);
 	      
-	      ArrayList<LaserProjectile> slaserlistcopy = new ArrayList<LaserProjectile>();
+	      ArrayList<PhysicalProjcetile> slaserlistcopy = new ArrayList<PhysicalProjcetile>();
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
-	    	  LaserProjectile laser = slaserlistcopy.get(a);
+	    	  PhysicalProjcetile laser = slaserlistcopy.get(a);
 	    	  /*if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
 						laser.getX()+(laser.getSprite().getImage().getWidth()*laser.getScale())<parent.getX()-174-(Zoom.getZoomWidth()/2)||
 						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||
@@ -302,18 +296,21 @@ public class LaserLauncher extends ShipSystem{
 		int xOffset = GlobalInformation.getLaserOffsetX(enumtype.image2);
 		int yOffset = GlobalInformation.getLaserOffsetY(enumtype.image2);
 		
-		Image laser = (Image) AssetManager.get().get(enumtype.laserimage);
-		float width = laser.getWidth()*size;
-		float height = laser.getHeight()*size;
+		Image laser = new Sprite(enumtype.projectile.image).getImage();
+		float width = laser.getWidth()*enumtype.projectile.scale;
+		float height = laser.getHeight()*enumtype.projectile.scale;
 
 		float x = xOffset;
 		float y = yOffset;
 		double[] coords = getRotatedCoordinates((double) x, (double) y);
 		float newX = (float) coords[0];
 		float newY = (float) coords[1];
-		LaserProjectile temp = new LaserProjectile(newX + this.getX()+craftX- this.getSprite().getImage().getWidth()/2,newY + this.getY()+craftY- this.getSprite().getImage().getHeight()/2, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
-				accuracy, speed, damage, planetdamage, this.getAngle(), this);
-		temp.load(proje, size, map);
+		PhysicalProjcetile temp = new PhysicalProjcetile(enumtype.projectile, newX + this.getX()+craftX- this.getSprite().getImage().getWidth()/2,newY + this.getY()+craftY- this.getSprite().getImage().getHeight()/2, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
+				accuracy, this.getAngle(), this);
+		temp.load(enumtype.projectile.image, enumtype.projectile.scale, map);
+		if(enumtype.projectile.tracking && isTargetingObject) {
+			temp.setTargetObject(target);
+		}
 		slaserlist.add(temp);
 	}
 	public double[] getRotatedCoordinates(double x1, double y1) {

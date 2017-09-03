@@ -25,7 +25,7 @@ import nitrogene.util.TickSystem;
 import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
-import nitrogene.weapon.LaserProjectile;
+import nitrogene.weapon.PhysicalProjcetile;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Asteroid;
 import nitrogene.world.Planet;
@@ -196,9 +196,10 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  enemyWeapons.add(EnumWeapon.VELOX2);
+	    		  enemyWeapons.add(EnumWeapon.IMMINEO);
 	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
 	    		  c.loadWeapons(enemyWeapons);
+	    		  //n.addTask(new TaskMoveTo(n, 10000, 10000, 10));
 			      n.addTask(new TaskFollow(n, craft, 500));
 			      n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
@@ -323,7 +324,7 @@ public class GameState extends BasicGameState{
 					 laserlauncher.update(craft.getX(), craft.getY(),delta);
 					
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
-						LaserProjectile laser = laserlauncher.slaserlist.get(i);
+						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
@@ -374,7 +375,7 @@ public class GameState extends BasicGameState{
 					laserlauncher.update(temp.getX(), temp.getY(),delta);
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
-						LaserProjectile laser = laserlauncher.slaserlist.get(i);
+						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
 						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);

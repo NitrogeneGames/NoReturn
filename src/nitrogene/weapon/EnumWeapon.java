@@ -6,28 +6,25 @@ import nitrogene.core.GlobalInformation;
 
 public enum EnumWeapon{
 	//IMPORTANT: Providing a different scale requires a new set of boundbox rotation constants!
-	//Name, Launcher image, Accuracy, Speed, Damage, Size, Laser image, Fire sound, Time between shots, Time between bursts, Number of shots per bursts
-	BASIC ("Basic Laser", "laser1", "laser1Green",3, 100F, 10, 10, 0.7F, 100, "proj1", "res/sound/laser1final.ogg", 0, 2000, 1),
-	SPLIT ("Split Laser", "laser2", "laser2Green", 5, 100F, 20, 20, 0.6F, 100, "proj1", "res/sound/laser1final.ogg", 10, 2500, 2),
-	SPLIT2 ("Split Laser Mk.2", "laser2", "laser2Green", 7, 100F, 20, 20, 0.6F, 100, "proj1", "res/sound/laser1final.ogg", 10, 3000, 3),
-	PULSAR ("Pulsar", "laser3", "laser3Green", 1, 70f, 10, 10, 0.7f, 100, "proj2", "res/sound/laser1final.ogg", 200, 3000, 2),
-	PULSAR2 ("Pulsar Mk.2", "laser3", "laser3Green", 2, 70f, 20, 20, 0.7f, 100, "proj2", "res/sound/laser1final.ogg", 200, 3500, 3),
-	VELOX ("Velox Laser", "laser3", "laser3Green", 7, 100f, 15, 15, 0.6f, 100, "proj2", "res/sound/laser1final.ogg", 200, 5000, 5),
-	VELOX2 ("Velox Laser Mk.2", "laser3", "laser3Green", 7, 100f, 20, 20, 0.8f, 100, "proj2", "res/sound/laser1final.ogg", 200, 5000, 5),
-	IMMINEO ("Immineo Laser", "laser1", "laser1Green", 3, 100F, 10, 10, 0.7F, 100, "proj1", "res/sound/laser1final.ogg", 0, 2000, 1),
-	IMMINEO2 ("Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100F, 20, 20, 0.7F, 100, "proj1", "res/sound/laser1final.ogg", 0, 2500, 1),
-	DEMOLITION ("Demolition Laser", "wep1", "wep1Green", 15, 20F, 100, 100, 1.5F, 100, "proj1", "res/sound/laser1final.ogg", 0, 7000, 1),
-	PRECISION ("Precision Laser", "wep2", "wep2Green", 3, 130F, 3, 3, 0.3F, 100, "proj1", "res/sound/laser1final.ogg", 0, 500, 1),
-	PDI ("Point Defense Interceptor", "ion1", false, "ion1Green", true, 1, 200F, 2, 1, 0.3F, 100, "proj1", "res/sound/laser1final.ogg", 0, 150, 1),  
-	MINING ("Mining Laser", "wep1", "wep1Green", 0, 100F, 10, 100, 0.7F, 100, "proj1", "res/sound/laser1final.ogg", 0, 2000, 1);
+	//Name, Launcher image, Accuracy, Speed, Damage, Laser Size, Laser image, Fire sound, Time between shots, Time between bursts, Number of shots per bursts
+	BASIC (new ProjectileData("proj1", 100F, 0.7F, 10), "Basic Laser", "laser1", "laser1Green",3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
+	SPLIT (new ProjectileData("proj1", 100F, 0.6F, 20), "Split Laser", "laser2", "laser2Green", 5, 100, "res/sound/laser1final.ogg", 10, 2500, 2),
+	SPLIT2 (new ProjectileData("proj1", 100F, 0.6F, 10), "Split Laser Mk.2", "laser2", "laser2Green", 7, 100, "res/sound/laser1final.ogg", 10, 3000, 3),
+	PULSAR (new ProjectileData("proj2", 70F, 0.7F, 10), "Pulsar", "laser3", "laser3Green", 1, 100, "res/sound/laser1final.ogg", 200, 3000, 2),
+	PULSAR2 (new ProjectileData("proj2", 70F, 0.7F, 20), "Pulsar Mk.2", "laser3", "laser3Green", 2, 100, "res/sound/laser1final.ogg", 200, 3500, 3),
+	VELOX (new ProjectileData("proj2", 100F, 0.6F, 15), "Velox Laser", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
+	VELOX2 (new ProjectileData("proj2", 100F, 0.6f, 20), "Velox Laser Mk.2", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
+	IMMINEO (new ProjectileData("proj1", 50F, true, 130, 0.7F, 10), "Immineo Laser", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
+	IMMINEO2 (new ProjectileData("proj1", 50F, true, 130, 0.7F, 20), "Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2500, 1),
+	DEMOLITION (new ProjectileData("proj1", 20F, 1.5F, 100), "Demolition Laser", "wep1", "wep1Green", 15, 100, "res/sound/laser1final.ogg", 0, 7000, 1),
+	PRECISION (new ProjectileData("proj1", 130F, 0.3F, 3), "Precision Laser", "wep2", "wep2Green", 3, 100, "res/sound/laser1final.ogg", 0, 500, 1),
+	PDI (new ProjectileData("proj1", 200F, 0.3F, 1), "Point Defense Interceptor", "ion1", "ion1Green", 1, 100, "res/sound/laser1final.ogg", 0, 150, 1),  
+	MINING (new ProjectileData("proj1", 100F, 0.7F, 10, 10, 100), "Mining Laser", "wep1", "wep1Green", 0, 100, "res/sound/laser1final.ogg", 0, 2000, 1);
 	
+	public ProjectileData projectile;
 	public int accuracy; //Accuracy
-	public float speed; //Laser Speed
-	public int damage, planetdamage; //DUH
-	public float size;
 	public String image;
 	public String image2;
-	public String laserimage;
 	public String firesound;
 	public int interburst, outerburst, burstnumber;
 	public String formalname;
@@ -43,29 +40,17 @@ public enum EnumWeapon{
 	//interburst is time inbetween shots in a burst --> for non-burst, make this 0
 	//outerburst is the time between bursts --> for non-burst, use this as the time varaible between single shots
 	//burstnumber is the amt of shots in a burst --> for a non-burst, make this 1 (single shot per burst)
-	EnumWeapon(String formalname, String im, boolean animated1, String im2, boolean animated2, int accuracy1, float speed1, int damage1, int planetdamage, float size1, int hp, String laserimage, String firesound, int interburst, int outerburst, int burstnumber) {
+	EnumWeapon(ProjectileData l, String formalname, String im, String im2, int accuracy1, int hp, String firesound, int interburst, int outerburst, int burstnumber) {
+		this.projectile = l;
 		this.formalname = formalname;
 		this.image = im;
 		this.image2 = im2;
-		this.animated1 = animated1;
-		this.animated2 = animated2;
 		this.hp = hp;
-		this.laserimage = laserimage;
 		this.accuracy = accuracy1;
-		this.speed = speed1;
-		this.damage = damage1;
-		this.planetdamage = planetdamage;
-		this.size = size1;
 		this.firesound = firesound;
 		this.interburst = interburst;
 		this.outerburst = outerburst;
 		this.burstnumber = burstnumber;
-	}
-	EnumWeapon(String formalname, String im, String im2, int accuracy1, float speed1, int damage1, int planetdamage, float size1, int hp, String laserimage, String firesound, int interburst, int outerburst, int burstnumber) {
-		this(formalname, im, false, im2, false, accuracy1, speed1, damage1, planetdamage, size1, hp, laserimage, firesound, interburst, outerburst,burstnumber);
-	}
-	EnumWeapon(String formalname, String im, int accuracy1, float speed1, int damage1, int planetdamage, float size1, int hp, String laserimage, String firesound, int interburst, int outerburst, int burstnumber) {
-		this(formalname, im, false, im, false, accuracy1, speed1, damage1, planetdamage, size1, hp, laserimage, firesound, interburst, outerburst,burstnumber);
 	}
 	public void loadFont() {
 		String n = formalname;

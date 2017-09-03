@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import nitrogene.core.CursorSystem;
+import nitrogene.util.EnumStatus;
 
 import org.newdawn.slick.SlickException;
 
@@ -38,25 +39,32 @@ public class WeaponTimer {
     	Clock = t;
     }
     public void tick() {//called every 10 miliseconds, will count up to the set time then call action() to fire a laser
-    	counter++;
-    	if(counter >= outerBurst && !bursting) {
-    		if(burstShot > 1) {
-    			bursting = true;
-    			action();
-    			counter = 0;
-    			shot++;
-    		} else {
-    			action();
-    			counter = 0;
+    	if(counter < outerBurst) {
+    		counter++;
+    		if(counter > outerBurst) {
+    			counter = (int) outerBurst;
     		}
-    	} else if(counter >= interBurst && bursting) {
-    		action();
-    		shot++;
-    		counter = 0;
-    		if(shot >= burstShot) {
-    			bursting = false;
-    			shot = 0;
-    		}
+    	}
+    	if(w.getStatus() == EnumStatus.ENGAGED) {
+	    	if(counter >= outerBurst && !bursting) {
+	    		if(burstShot > 1) {
+	    			bursting = true;
+	    			action();
+	    			counter = 0;
+	    			shot++;
+	    		} else {
+	    			action();
+	    			counter = 0;
+	    		}
+	    	} else if(counter >= interBurst && bursting) {
+	    		action();
+	    		shot++;
+	    		counter = 0;
+	    		if(shot >= burstShot) {
+	    			bursting = false;
+	    			shot = 0;
+	    		}
+	    	}
     	}
     }
    public void action() {//called when the timer wants to fire a laser
