@@ -196,7 +196,7 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  enemyWeapons.add(EnumWeapon.IMMINEO);
+	    		  enemyWeapons.add(EnumWeapon.VELOX2);
 	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
 	    		  c.loadWeapons(enemyWeapons);
 	    		  //n.addTask(new TaskMoveTo(n, 10000, 10000, 10));

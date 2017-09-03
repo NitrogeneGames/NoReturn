@@ -24,12 +24,13 @@ public abstract class MovementTask extends Task {
 		super(s);
 		range = r;
 	}
+	boolean pathFound = false;
 	public void activate(int delta, float camX, float camY, float desty, float destx) {
 		float initx = destx;
 		float inity = desty;
 		float accuracy = 1; //scale of 0 to 1 on how well the AI slows down to the target
 		float rotation = this.ship.getRotation();
-		boolean pathFound = false;
+		
 		float startx = ship.getRealCenterX();
 		float starty = ship.getRealCenterY();
 		float legy = (desty - starty);
@@ -48,7 +49,7 @@ public abstract class MovementTask extends Task {
 		
 		int counter = 0;
 		
-		/*while((!pathFound)) {
+		while((!pathFound)) {
 			boolean collisionFlag1 = false;
 			boolean collisionFlag2 = false;
 			ArrayList<PhysicalObject> issue1 = new ArrayList<PhysicalObject>();
@@ -97,20 +98,20 @@ public abstract class MovementTask extends Task {
 				pathFound = true;
 				if(linePath1.getStart().x == startx && linePath1.getStart().y == starty) {
 					destx = linePath1.getEnd().x;
-					destx = linePath1.getEnd().y;
+					desty = linePath1.getEnd().y;
 				} else {
 					destx = linePath1.getStart().x;
-					destx = linePath1.getStart().y;				
+					desty = linePath1.getStart().y;				
 				}
 				
 			}else if(!collisionFlag2) {
 				pathFound = true;
 				if(linePath2.getStart().x == startx && linePath2.getStart().y == starty) {
 					destx = linePath2.getEnd().x;
-					destx = linePath2.getEnd().y;
+					desty = linePath2.getEnd().y;
 				} else {
 					destx = linePath2.getStart().x;
-					destx = linePath2.getStart().y;				
+					desty = linePath2.getStart().y;				
 				}
 			} else {
 				linePath1 = (Line) linePath1.transform(Transform.createRotateTransform(startx, starty, .1f)) ;
@@ -122,7 +123,7 @@ public abstract class MovementTask extends Task {
 			}
 		}
 		
-		*/
+		
 		//OH BOI ITS MECHANICS TIME
 		float Vnet =  ship.getMovement().getDirVelocity();
 		//d = hyp, Vi = Vnet, Vf = 0

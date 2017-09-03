@@ -173,6 +173,7 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public float getTargetX(){
+		
 		if(isTargetingObject) {
 			if(!target.isDestroyed()){
 				return target.getRealCenterX();
@@ -191,7 +192,6 @@ public class LaserLauncher extends ShipSystem{
 	}
 	public boolean greenImage = false;
 	public void update(float craftX,float craftY,int delta){
-		
 		this.craftX = craftX;
 		this.craftY = craftY;
 		//if(this.getTimer().isPauseLocked){
@@ -305,7 +305,7 @@ public class LaserLauncher extends ShipSystem{
 		double[] coords = getRotatedCoordinates((double) x, (double) y);
 		float newX = (float) coords[0];
 		float newY = (float) coords[1];
-		PhysicalProjcetile temp = new PhysicalProjcetile(enumtype.projectile, newX + this.getX()+craftX- this.getSprite().getImage().getWidth()/2,newY + this.getY()+craftY- this.getSprite().getImage().getHeight()/2, Zoom.scale(camX)+getTargetX(), Zoom.scale(camY)+getTargetY(),
+		PhysicalProjcetile temp = new PhysicalProjcetile(enumtype.projectile, newX + this.getX()+craftX- this.getSprite().getImage().getWidth()/2,newY + this.getY()+craftY- this.getSprite().getImage().getHeight()/2, getTargetX(), getTargetY(),
 				accuracy, this.getAngle(), this);
 		temp.load(enumtype.projectile.image, enumtype.projectile.scale, map);
 		if(enumtype.projectile.tracking && isTargetingObject) {
@@ -325,10 +325,11 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public float getAngle(){
-			double mecX = (getTargetX()+Zoom.scale(camX) - (this.getX()+craftX));
-			double mecY = (getTargetY()+Zoom.scale(camY) - (this.getY()+craftY));
+			double mecX = (getTargetX() - (this.getX()+parent.getX()));
+			double mecY = (getTargetY() - (this.getY()+parent.getY()));
 			mangle = Math.toDegrees(Math.atan2(mecY,mecX));
 			mmangle = (float) mangle;
+			//System.out.println(x);
 			return mmangle;
 	}
 	
