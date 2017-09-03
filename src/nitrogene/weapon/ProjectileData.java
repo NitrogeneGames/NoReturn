@@ -10,6 +10,15 @@ public class ProjectileData {
 	public int shipDamage;
 	public int planetDamage;
 	public int hp;
+	//image is projectile image
+	//speed is float for speed, total pixels moved
+	//homing boolean is to enable/disable homing
+	//angle is the speed in degrees/second of homing
+	//scale is the size
+	//damage is general damage
+	//planetdamage overrides damage when hitting planets
+	//shipdamage overrides damage when hitting ships (not yet)
+	//hp is a soon to be health for projectiles so they can get shot down
 	public ProjectileData(String image, float speed, boolean homing, float angle, float scale, int damage, int shipDamage, int planetDamage, int hp) {
 		this.image = image;
 		this.speed = speed;
