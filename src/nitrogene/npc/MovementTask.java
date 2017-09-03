@@ -4,28 +4,31 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Path;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
-
-
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 
 import nitrogene.core.GameState;
 import nitrogene.core.Resources;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Target;
+import nitrogene.world.ArenaMap;
 
 public abstract class MovementTask extends Task {
-	protected float range;
+	protected float setRange;
 	public MovementTask(NPCship s, float r) {
 		super(s);
-		range = r;
+		setRange = r;
 	}
 	boolean pathFound = false;
-	public void activate(int delta, float camX, float camY, float desty, float destx) {
+	public Path path;
+	ArrayList<Line> pd;
+	public void activate(int delta, float camX, float camY, float destx, float desty) {
 		float initx = destx;
 		float inity = desty;
 		float accuracy = 1; //scale of 0 to 1 on how well the AI slows down to the target
@@ -38,13 +41,33 @@ public abstract class MovementTask extends Task {
 		float anglex = (float) Math.toDegrees((Math.atan2(legy,legx)));
 		float hyp = (float) Math.pow(legx*legx + legy*legy, 0.5);		
 		float height = ship.getHeight();
-		float xRange = (float) (Math.cos(ship.getRotation()) * height/1.3);
-		float yRange = (float) (-Math.sin(ship.getRotation()) * height/1.3);
+		//float yRange = (float) (-Math.cos(ship.getRotation()) * height/2);
+		//float xRange = (float) (Math.sin(ship.getRotation()) * height/2);
+		float xRange = 0;
+		float yRange = 0;
+		
+		if(!pathFound) {
+			path = ArenaMap.getPathShape(ship, startx, startx, destx, desty, 1);	
+			pathFound = true;
+		}
+		/*if(pd==null || pd.size() < 1) {
+			this.close();
+			isComplete = true;
+		} else {
+			destx = pd.get(0).getX2();
+			desty = pd.get(0).getY2();
+		}*/
+		/*if(pathFound) {
+			Resources.appInstance.getGraphics().draw(p);
+		}*/
 		
 		
-		Line linePath1 = new Line(startx, destx, starty, desty);
-		Line linePath2 = new Line(startx, destx, starty, desty);
-		ArrayList<PhysicalObject> objs = GameState.map.getObjList();
+		
+		
+		
+		/*Line linePath1 = new Line(startx, starty, destx2, desty2);
+		Line linePath2 = new Line(startx, starty, destx2, desty2);
+
 		
 		
 		int counter = 0;
@@ -55,17 +78,17 @@ public abstract class MovementTask extends Task {
 			ArrayList<PhysicalObject> issue1 = new ArrayList<PhysicalObject>();
 			ArrayList<PhysicalObject> issue2 = new ArrayList<PhysicalObject>();
 			for(PhysicalObject o : objs) {
-				System.out.println("searching object at " + o.getRealCenterX() + " " + o.getRealCenterY());
-				System.out.println("line is " + linePath1.getStart().x + " " + linePath2.getStart().y + " " + linePath2.getEnd().x + " to " + linePath2.getEnd().y);
+				//System.out.println("searching object at " + o.getRealCenterX() + " " + o.getRealCenterY());
+				//System.out.println("line is " + linePath1.getStart().x + " " + linePath2.getStart().y + " to " + linePath2.getEnd().x + " " + linePath2.getEnd().y);
+				//System.out.println("cp1line is " + linePath1.getStart().x + " " + linePath1.getStart().y + " to " + linePath1.getEnd().x + " " + linePath1.getEnd().y);
 				if(o.isColliding(linePath1) || o.isColliding(linePath1.transform(Transform.createTranslateTransform(xRange, yRange))) || o.isColliding(linePath1.transform(Transform.createTranslateTransform(-xRange, -yRange)))) {
+					//System.out.println("cp2line is " + linePath1.getStart().x + " " + linePath1.getStart().y + " to " + linePath1.getEnd().x + " " + linePath1.getEnd().y);
 					collisionFlag1 = true;
 					issue1.add(o);
-					System.out.println("Issue found in path 1");
 				}
 				if(o.isColliding(linePath2) || o.isColliding(linePath2.transform(Transform.createTranslateTransform(xRange, yRange))) || o.isColliding(linePath2.transform(Transform.createTranslateTransform(-xRange, -yRange)))) {
 					collisionFlag2 = true;
 					issue2.add(o);
-					System.out.println("Issue found in path 2");
 				}
 			}
 			//FIND CLOSEST PHYSICAL OBJECT THATS A PROBLEM
@@ -78,8 +101,10 @@ public abstract class MovementTask extends Task {
 						smalles1 = Resources.getCloserObject(startx, starty, p, smalles1);
 					}
 				}
-				Line l1 = new Line(startx, starty, smalles1.getRealCenterX(), smalles1.getRealCenterY());
-				linePath1 = (Line) l1.transform(Transform.createRotateTransform(Resources.angleBetweenTwoLines(linePath1, l1), startx, starty));
+				//Line l1 = new Line(startx, starty, smalles1.getRealCenterX(), smalles1.getRealCenterY());
+				System.out.println("line1 is " + linePath1.getStart().x + " " + linePath1.getStart().y + " to " + linePath1.getEnd().x + " " + linePath1.getEnd().y);
+				linePath1 = (Line) linePath1.transform(Transform.createRotateTransform((float) Math.toRadians(1), startx, starty));
+				System.out.println("line1 is now " + linePath1.getStart().x + " " + linePath1.getStart().y + " to " + linePath1.getEnd().x + " " + linePath1.getEnd().y);
 			}
 			if(issue2.size() > 0) {
 				PhysicalObject smalles2 = null;
@@ -90,12 +115,14 @@ public abstract class MovementTask extends Task {
 						smalles2 = Resources.getCloserObject(startx, starty, p, smalles2);
 					}
 				}
-				Line l2 = new Line(startx, starty, smalles2.getRealCenterX(), smalles2.getRealCenterY());
-				linePath2 = (Line) l2.transform(Transform.createRotateTransform(Resources.angleBetweenTwoLines(linePath2, l2), startx, starty));
+				System.out.println("line2 is " + linePath2.getStart().x + " " + linePath2.getStart().y + " to " + linePath2.getEnd().x + " " + linePath2.getEnd().y);
+				linePath2 = (Line) linePath2.transform(Transform.createRotateTransform((float) Math.toRadians(-1), startx, starty));
+				System.out.println("line2 is now " + linePath2.getStart().x + " " + linePath2.getStart().y + " to " + linePath2.getEnd().x + " " + linePath2.getEnd().y);
 			}
 			//are we colliding? if not, lets translate the lines and check
 			if(!collisionFlag1) {
 				pathFound = true;
+				
 				if(linePath1.getStart().x == startx && linePath1.getStart().y == starty) {
 					destx = linePath1.getEnd().x;
 					desty = linePath1.getEnd().y;
@@ -103,7 +130,8 @@ public abstract class MovementTask extends Task {
 					destx = linePath1.getStart().x;
 					desty = linePath1.getStart().y;				
 				}
-				
+				//System.out.println("Starting: " + startx + ", " + starty);
+				System.out.println("New destination1: " + destx + ", " + desty + " after rotating " + counter);
 			}else if(!collisionFlag2) {
 				pathFound = true;
 				if(linePath2.getStart().x == startx && linePath2.getStart().y == starty) {
@@ -113,18 +141,21 @@ public abstract class MovementTask extends Task {
 					destx = linePath2.getStart().x;
 					desty = linePath2.getStart().y;				
 				}
-			} else {
-				linePath1 = (Line) linePath1.transform(Transform.createRotateTransform(startx, starty, .1f)) ;
-				linePath2 = (Line) linePath2.transform(Transform.createRotateTransform(startx, starty, -.1f)) ;
+				System.out.println("New destination2: " + destx + ", " + desty + " after rotating " + counter);
 			}
 			counter++;
 			if(counter > 10000) {
 				pathFound = true;
 			}
-		}
+		}*/
 		
+		//THIS PART WORKS, ITLL GET U TO DESX, DESY
 		
-		//OH BOI ITS MECHANICS TIME
+		float range = setRange;
+		/*float range = 0;
+		if(!(pd.size() > 1)) {
+			range = setRange;
+		}*/
 		float Vnet =  ship.getMovement().getDirVelocity();
 		//d = hyp, Vi = Vnet, Vf = 0
 		//Vf2 = Vi2 + 2ad
@@ -142,10 +173,7 @@ public abstract class MovementTask extends Task {
 			if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);	
 		}*/
 		
-		
-		
 		float theta = Target.getRotation(rotation, anglex);
-		
 		//CHECK FOR OBJECTS IN THE WAY
 		
 		if(initx == destx && inity == desty) {
@@ -175,7 +203,11 @@ public abstract class MovementTask extends Task {
 					}
 				}
 			}else{
-				this.isComplete = true;
+				/*if(pd.size() > 1) {
+					pd.remove(0);
+				} else {
+					this.isComplete = true;
+				}*/
 			}
 		} else {
 			if(Math.abs(ship.getX()-destx) > 30||Math.abs(ship.getY()-desty) > 30){
@@ -193,7 +225,11 @@ public abstract class MovementTask extends Task {
 			
 				if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
 			} else {
-				
+				/*if(pd.size() > 1) {
+					pd.remove(0);
+				} else {
+					this.isComplete = true;
+				}*/
 			}
 		}
 		//transformLine(findDirectLine());

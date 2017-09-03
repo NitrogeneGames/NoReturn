@@ -12,6 +12,7 @@ import nitrogene.gui.Minimap;
 import nitrogene.gui.ShieldBar;
 import nitrogene.inventory.DroppedItem;
 import nitrogene.inventory.Item;
+import nitrogene.npc.MovementTask;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
 import nitrogene.npc.TaskFire;
@@ -39,6 +40,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -171,7 +173,7 @@ public class GameState extends BasicGameState{
 			map.addCraft(craft);
 			
 			map.addCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
-			map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
+			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
 				map.addCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
 				map.addCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
@@ -199,9 +201,10 @@ public class GameState extends BasicGameState{
 	    		  enemyWeapons.add(EnumWeapon.VELOX2);
 	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
 	    		  c.loadWeapons(enemyWeapons);
-	    		  //n.addTask(new TaskMoveTo(n, 10000, 10000, 10));
-			      n.addTask(new TaskFollow(n, craft, 500));
-			      n.addTask(new TaskFire(n, craft, 0));
+	    		  n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
+	    		  
+			      //n.addTask(new TaskFollow(n, craft, 500));
+			      //n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
 		      }
 	      }
@@ -229,6 +232,9 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		if (delta > 200) {
+			delta = 200;
+		}
 		Resources.updateGraphics(container);
 		if(!container.hasFocus()){
 			PAUSED = true;
@@ -572,6 +578,11 @@ public class GameState extends BasicGameState{
 			}
 			if(debugMode) {
 				g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
+				if(c.getClass() == NPCship.class) {
+					NPCship n = (NPCship) c;
+					g.setColor(Color.white);
+					g.draw(((MovementTask) n.tasks.get(0)).path);
+				}
 			}
 		}
 		int n = 0;

@@ -8,16 +8,18 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.util.pathfinding.Mover;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.gui.Sprite;
+import nitrogene.npc.NPCship;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.ArenaMap;
 
-public class PhysicalObject {
+public class PhysicalObject implements Mover {
 	protected AngledMovement angledmovement;
 	protected String defaultmovement;
 	protected float rotationalconstant;
@@ -83,20 +85,18 @@ public class PhysicalObject {
 		angledmovement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
-		
 		this.setX(this.getBoundbox().getX()+((angledmovement.getDx()*gj)*mm));
 		this.setY(this.getBoundbox().getY()+((angledmovement.getDy()*gj)*mm));
 		
 		this.rotation = angledmovement.getRotationAngle();
 	}
-	
 	public Line move(float thrust, int delta){
 		float x1 = getX();
 		float y1 = getY();
 		movement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
-		
+
 		this.setX(this.getBoundbox().getX()+((movement.getDx()*gj)*mm));
 		this.setY(this.getBoundbox().getY()+((movement.getDy()*gj)*mm));
 		

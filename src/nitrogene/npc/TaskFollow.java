@@ -21,7 +21,7 @@ public class TaskFollow extends MovementTask {
 		} else {
 			float destx = target.getX();
 			float desty = target.getY();
-			super.activate(delta, camX, camY, desty, destx);
+			super.activate(delta, camX, camY, destx, desty);
 		}
 
 	}

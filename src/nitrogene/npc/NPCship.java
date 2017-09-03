@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
+import nitrogene.core.GameState;
 import nitrogene.world.ArenaMap;
 import nitrogene.world.Planet;
 
@@ -43,7 +44,7 @@ public class NPCship extends Craft{
 		
 		//movement.Accelerate(new Vector(boundbox.getCenterX(),boundbox.getCenterY()), delta);
 		//move(20);
-		if(!destroyed) {
+		if(!destroyed && !GameState.PAUSED) {
 			runTasks(delta, camX, camY);
 		}
 		
