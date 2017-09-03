@@ -47,7 +47,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState{
 	
-	public boolean superHardDifficulty = true;
+	public static boolean superHardDifficulty = true;
 	
 	Graphics backup;
 	Craft craft;
