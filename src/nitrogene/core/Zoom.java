@@ -4,15 +4,16 @@ import nitrogene.util.ZoomEnum;
 
 public class Zoom {
 	
-	private static ZoomEnum zoom;
+	//This is the scale, and the inverse from ZoomEnum is 1/scale (start at 1=scale)
+	private static float zoom;
 	private static float width;
 	private static float height;
 	
 	
-	public static void setZoom(ZoomEnum z){
+	public static void setZoom(float z){
 		zoom = z;
 	}
-	public static ZoomEnum getZoom(){
+	public static float getZoom(){
 		return zoom;
 	}
 	
@@ -22,15 +23,15 @@ public class Zoom {
 	}
 	
 	public static float getZoomWidth(){
-		return Zoom.width*(Zoom.zoom.inverse);
+		return Zoom.width*(1/Zoom.zoom);
 	}
 	public static float getZoomHeight(){
-		return Zoom.height*(Zoom.zoom.inverse);
+		return Zoom.height*(1/Zoom.zoom);
 	}
 	public static float scale(float i) {
-		return (float) (i*getZoom().inverse);
+		return (float) (i*(1/getZoom()));
 	}
 	public static int scale(int i) {
-		return (int) (i*getZoom().inverse);
+		return (int) (i*(1/getZoom()));
 	}
 }

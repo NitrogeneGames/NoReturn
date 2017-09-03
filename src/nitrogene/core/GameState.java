@@ -59,7 +59,6 @@ public class GameState extends BasicGameState{
 	Stars stars;
 	SpriteSheet spriteex;
 	private boolean planetCollisions = false;
-	private int mousewheelposition;
 	private int mapwidth, mapheight;
 	private Minimap minimap;
 	private int offsetX, offsetY;
@@ -151,9 +150,8 @@ public class GameState extends BasicGameState{
 	      super.enter(container, game);
 			CursorSystem.init();
 
-			mousewheelposition = 0;
-			//set largest zoom for generation
-			Zoom.setZoom(ZoomEnum.MAP);
+			//set largest zoom for generation: 0.5f maximum (minimum is 1.0f)
+			Zoom.setZoom(1.0f);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
 
 			//other variables
@@ -236,15 +234,6 @@ public class GameState extends BasicGameState{
 		}
 		
 		Zoom.setZoomWindow(SCR_width, SCR_height);
-		if(mousewheelposition == -1){
-			Zoom.setZoom(ZoomEnum.NORMAL);
-		} else if(mousewheelposition == 0){
-		    Zoom.setZoom(ZoomEnum.LARGE);
-		} else if (mousewheelposition == 1){
-			Zoom.setZoom(ZoomEnum.MAP);
-		} else{
-			Resources.log("ERROR! in beginning of update method, scroll zoom controls out of range");
-		}
 		
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
@@ -447,8 +436,8 @@ public class GameState extends BasicGameState{
 			}
 		}
 		if(craft.getSprite()!=null){
-			camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom().scale) - (SCR_width/2);	 
-			camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom().scale) - (SCR_height/2);
+			camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
+			camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
 		}
 		
 		//for(GuiComponent component : componentlist){
@@ -495,23 +484,11 @@ public class GameState extends BasicGameState{
 		//Stars and Background
 		//Order for Physical Objects:
 		// 1) Planets, 2) Asteroids, 3) Craft, 4) Enemy Craft, 5) Craft Systems/Lasers, 6) Enemy Systems/Lasers
-		// 7) LaserProjectiles
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		// 7) LaserProjectiles		
 		//System.out.println(enemy.getX()  + " " + enemy.getY());
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
-		g.scale((float)Zoom.getZoom().scale,(float)Zoom.getZoom().scale);
+		g.scale((float)Zoom.getZoom(),(float)Zoom.getZoom());
 		
 		//Change the third paramater to control the camera's view rotation
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
@@ -610,7 +587,7 @@ public class GameState extends BasicGameState{
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		
-		g.scale((float)Zoom.getZoom().inverse,(float)Zoom.getZoom().inverse);
+		g.scale((float)(1/Zoom.getZoom()),(float)(1/Zoom.getZoom()));
 		shieldbar.render(g, camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
 		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
@@ -656,10 +633,12 @@ public class GameState extends BasicGameState{
 	}
 	
 	public void mouseWheelMoved(int change){
-		if(change <= -120 && mousewheelposition < 1){
-			mousewheelposition += 1;
-		} else if(change >= 120 && mousewheelposition > -1){
-			mousewheelposition -= 1;
+		if(change <= -120 && Zoom.getZoom() > 0.5f){
+			//Zoom out
+			Zoom.setZoom(Zoom.getZoom()-0.08f);
+		} else if(change >= 120 && Zoom.getZoom() < 1.0f){
+			//Zoom in
+			Zoom.setZoom(Zoom.getZoom()+0.08f);
 		}
 	}
 

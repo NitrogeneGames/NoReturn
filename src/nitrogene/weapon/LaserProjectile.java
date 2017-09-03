@@ -122,7 +122,7 @@ public class LaserProjectile extends PhysicalObject{
 	private int randomize(int distance) {
 		Random rand = new Random();
 		int  n = rand.nextInt(distance * 2) + 1;
-		return (int) (n* Zoom.getZoom().scale - distance);
+		return (int) (n* Zoom.getZoom() - distance);
 		}
 	
 	public int getDamage(){
