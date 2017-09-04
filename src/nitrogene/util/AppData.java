@@ -49,9 +49,6 @@ public class AppData {
 			GlobalInformation.musiclevel = Float.parseFloat(doc.getDocumentElement().getAttribute("music"));
 			GlobalInformation.sfxlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("sfx"));
 			GlobalInformation.alarmlevel = Float.parseFloat(doc.getDocumentElement().getAttribute("alarm"));
-			int width = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("width"));
-			int height = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("height"));
-			Display.setDisplayMode(new DisplayMode(width, height));
 		} catch (Exception e) {
 			Resources.log("ERROR: CORRUPTED OPTIONS FILE CP 2");
 			e.printStackTrace();

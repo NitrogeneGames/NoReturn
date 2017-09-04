@@ -77,6 +77,7 @@ public class AngledMovement extends Movement{
 
 	@Override
 	public void Accelerate(Vector location, int delta){
+		float decel_const = 0.3f;
 		/*
 		float DELTACON = delta/1000f;
 		
@@ -89,21 +90,20 @@ public class AngledMovement extends Movement{
 		float ldistance = (lspeed*ltime) + ((1/2) * (lspeed/ltime) * ltime * ltime);
 		*/
 
-		
 		if(toggle[1] && diracceleration[1] < maxForwardSpeed) diracceleration[1] += delta*dirAccel;
-		else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= delta*dirAccel;
+		else if(!toggle[1] && diracceleration[1] > 0f) diracceleration[1] -= decel_const*delta*dirAccel;
 		else if(!toggle[1]) diracceleration[1] = 0f;
 		
 		if(toggle[2] && diracceleration[2] < maxForwardSpeed) diracceleration[2] += delta*dirAccel;
-		else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= delta*dirAccel;
+		else if(!toggle[2] && diracceleration[2] > 0f) diracceleration[2] -= decel_const*delta*dirAccel;
 		else if(!toggle[2]) diracceleration[2] = 0f;
 		
 		if(toggle[4] && diracceleration[4] < maxTurnSpeed) diracceleration[4] += delta*angleAccel;
-		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= delta*angleAccel;
+		else if(!toggle[4] && diracceleration[4] > 0f) diracceleration[4] -= decel_const*delta*angleAccel;
 		else if(!toggle[4]) diracceleration[4] = 0f;
 		
 		if(toggle[3] && diracceleration[3] < maxTurnSpeed) diracceleration[3] += delta*angleAccel;
-		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= delta*angleAccel;
+		else if(!toggle[3] && diracceleration[3] > 0f) diracceleration[3] -= decel_const*delta*angleAccel;
 		else if(!toggle[3]) diracceleration[3] = 0f;
 		
 		/*
