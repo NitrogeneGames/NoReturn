@@ -53,7 +53,6 @@ public class Stars {
 		g.drawImage(backgroundimg, initial_x, initial_y);
 	}
 	
-	@Deprecated
 	public void render(Graphics g, float camX, float camY){
 		for(int g1 = 0; g1 < n; g1++){
 			if(starx[g1]-biggeststarsize>Zoom.getZoomWidth()+camX||starx[g1]+biggeststarsize<camX){

@@ -51,7 +51,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState{
 	
-	public static boolean superHardDifficulty = false;
+	public static boolean superHardDifficulty = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -166,21 +166,22 @@ public class GameState extends BasicGameState{
 			Zoom.setZoom(currentZoom);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
 			//other variables
-					mapwidth = 5000;
-					mapheight = 2000;
+					mapwidth = 10000;
+					mapheight = 4000;
 					offsetY = SCR_height/2;
 			    	offsetX = SCR_width/2;
 			    	camX = 0;
 			    	camY = 0;
 			//load all resources here
 			craft = new Craft(2000, 1200, "humanship", 1);
-			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
+			map = new ArenaMap(10,offsetX,offsetY,mapwidth,mapheight,craft);
 			map.loadCraft(craft);
 			map.loadCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
 				map.loadCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
-				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
+				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));
+				map.loadCraft(new NPCship(00, 1000, Relation.HOSTILE, "craftimage", 1));
 			}
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(this.SCR_width);
@@ -201,14 +202,22 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  enemyWeapons.add(EnumWeapon.VELOX2);
-	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
+	    		  enemyWeapons.add(EnumWeapon.BASIC);
+	    		  if(superHardDifficulty){
+	    			  enemyWeapons.add(EnumWeapon.BASIC);
+	    			  enemyWeapons.add(EnumWeapon.VELOX2);
+	    			  enemyWeapons.add(EnumWeapon.IMMINEO);
+	    		  }
 	    		  c.loadWeapons(enemyWeapons);
-	    		  n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
+	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
-			      //n.addTask(new TaskFollow(n, craft, 500));
-			      //n.addTask(new TaskFire(n, craft, 0));
-			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
+	    		  n.addTask(new TaskFollow(n, craft, 500));
+			      n.addTask(new TaskFire(n, craft, 0));
+			      if(superHardDifficulty){
+			    	  n.addTask(new TaskFire(n, craft, 1));
+			    	  n.addTask(new TaskFire(n, craft, 2));
+			    	  n.addTask(new TaskFire(n, craft, 3));
+			      }
 		      }
 	      }
 		  map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
@@ -488,6 +497,7 @@ public class GameState extends BasicGameState{
 		}
 		
 		
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
@@ -508,7 +518,8 @@ public class GameState extends BasicGameState{
 		//g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
-		stars.render(Zoom.scale(camX),Zoom.scale(camY));
+		stars.render(g, Zoom.scale(camX),Zoom.scale(camY));
+		//stars.render(g);
 		//if(GlobalInformation.testMode)Resources.log("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
