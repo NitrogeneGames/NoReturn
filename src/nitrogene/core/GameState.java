@@ -51,7 +51,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState{
 	
-	public static boolean superHardDifficulty = false;
+	public static boolean superHardDifficulty = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -158,8 +158,8 @@ public class GameState extends BasicGameState{
 			Zoom.setZoom(currentZoom);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
 			//other variables
-					mapwidth = 5000;
-					mapheight = 2000;
+					mapwidth = 20000;
+					mapheight = 20000;
 					offsetY = SCR_height/2;
 			    	offsetX = SCR_width/2;
 			    	camX = 0;
@@ -174,7 +174,9 @@ public class GameState extends BasicGameState{
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
 				map.loadCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
-				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
+				map.loadCraft(new NPCship(00, 1000, Relation.HOSTILE, "craftimage", 1));	
+				//map.loadCraft(new NPCship(00, 500, Relation.HOSTILE, "craftimage", 1));
+				//map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));
 			}
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
@@ -196,14 +198,23 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  enemyWeapons.add(EnumWeapon.VELOX2);
-	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
+	    		  enemyWeapons.add(EnumWeapon.PRECISION);
+	    		  if(superHardDifficulty) {
+	    			  enemyWeapons.add(EnumWeapon.PRECISION);
+	    			  enemyWeapons.add(EnumWeapon.PRECISION);
+	    			  enemyWeapons.add(EnumWeapon.PRECISION);
+	    		  }
 	    		  c.loadWeapons(enemyWeapons);
-	    		  n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
+	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
-			      //n.addTask(new TaskFollow(n, craft, 500));
-			      //n.addTask(new TaskFire(n, craft, 0));
-			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
+			      n.addTask(new TaskFollow(n, craft, 500));
+			      n.addTask(new TaskFire(n, craft, 0));
+			      if(superHardDifficulty) {
+			    	  n.addTask(new TaskFire(n, craft, 1));
+			    	  n.addTask(new TaskFire(n, craft, 2));
+			    	  n.addTask(new TaskFire(n, craft, 3));
+			     
+			      }
 		      }
 	      }
 		  map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
