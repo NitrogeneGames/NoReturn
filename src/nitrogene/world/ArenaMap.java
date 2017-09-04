@@ -68,51 +68,34 @@ public class ArenaMap {
 		asteroiddelay = random.nextInt(500)+500;
 		//variable for belt seperation
 		int n = 10;
+		//variable for the amount of asteroids to spawn per tick
+		int asteroid_amt = 3;
 		asteroidtimer.setInitialDelay(asteroiddelay);
 		asteroidtimer.restart();
 		asteroidstart = System.currentTimeMillis();
 		
 		String img = "asteroid";
 		
-		Asteroid a1 = new Asteroid(0+random.nextInt(50),-1000,0,mapheight+1000);
-		a1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(a1);
-		Asteroid a2 = new Asteroid(n+random.nextInt(50),-1000,0,mapheight+1000);
-		a2.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(a2);
-		Asteroid a3 = new Asteroid(2*n+random.nextInt(50),-1000,0,mapheight+1000);
-		a3.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(a3);
+		for(int i=0; i<asteroid_amt; i++){
+			//Downward moving asteroids
+			Asteroid a = new Asteroid((n*i)+random.nextInt(50),-1000,0,mapheight+1000);
+			a.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+			this.getAsteroids().add(a);
+			
+			//Right moving asteroids (on the bottom)
+			Asteroid b = new Asteroid(-1000,(n*i)+random.nextInt(50),mapwidth+1000,0);
+			b.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+			this.getAsteroids().add(b);
+			
+			Asteroid c = new Asteroid((n*i)+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
+			c.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+			this.getAsteroids().add(c);
+			
+			Asteroid d = new Asteroid(-1000,(n*i)+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
+			d.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+			this.getAsteroids().add(d);
+		}
 		
-		Asteroid b1 = new Asteroid(-1000,0+random.nextInt(50),mapwidth+1000,0);
-		b1.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(b1);
-		Asteroid b2 = new Asteroid(-1000,n+random.nextInt(50),mapwidth+1000,0);
-		b2.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(b2);
-		Asteroid b3 = new Asteroid(-1000,2*n+random.nextInt(50),mapwidth+1000,0);
-		b3.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(b3);
-		
-		Asteroid c1 = new Asteroid(0+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
-		c1.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(c1);
-		Asteroid c2 = new Asteroid(n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
-		c2.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(c2);
-		Asteroid c3 = new Asteroid(2*n+mapwidth+random.nextInt(50),-1000,mapwidth,mapheight+1000);
-		c3.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(c3);
-		
-		Asteroid d1 = new Asteroid(-1000,0+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
-		d1.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(d1);
-		Asteroid d2 = new Asteroid(-1000,n+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
-		d2.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(d2);
-		Asteroid d3 = new Asteroid(-1000,2*n+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
-		d3.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
-		this.getAsteroids().add(d3);
 	}
 	
 	public ArenaMap(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight, Craft craft) throws SlickException{
@@ -148,7 +131,8 @@ public class ArenaMap {
 		this.rightbound = mapwidth - offsetx;
 	}
 	
-	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft c){
+	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft c) throws SlickException{
+		//Generate initial amount of planets
 		float counter = 0;
 		main:
 		for(int e = 1; e <= planetnumber; e++){
@@ -186,6 +170,41 @@ public class ArenaMap {
 			addPlanet((int)vec.x,(int)vec.y,maxhp,radius);
 			Resources.log("PLANET  "+vec.x+ "   :   "+vec.y);
 		}
+		
+		generateAsteroids();
+	}
+	
+	private void generateAsteroids() throws SlickException{
+		//Generates initial amount of asteroids
+				String img = "asteroid";
+				//variable for belt seperation
+				int n = 10;
+				int asteroid_spacing = 100;
+				//variable for the amount of asteroids to spawn per tick
+				int asteroid_amt = 3;
+				for(int u=0; u<(mapwidth+1000)/asteroid_spacing; u++){
+					for(int i=0; i<asteroid_amt; i++){
+						//Downward moving asteroids (on the left)
+						Asteroid a = new Asteroid((n*i)+random.nextInt(50),-1000+(u*asteroid_spacing),0,mapheight+1000);
+						a.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+						this.getAsteroids().add(a);
+						
+						//Right moving asteroids (on the top)
+						Asteroid b = new Asteroid(-1000+(u*asteroid_spacing),(n*i)+random.nextInt(50),mapwidth+1000,0);
+						b.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+						this.getAsteroids().add(b);
+						
+						//Downward moving asteroids (on the right)
+						Asteroid c = new Asteroid((n*i)+mapwidth+random.nextInt(50),-1000+(u*asteroid_spacing),mapwidth,mapheight+1000);
+						c.load(img,Direction.DOWNWARD,random.nextFloat()*2f+2f,this);
+						this.getAsteroids().add(c);
+						
+						//Rightward moving asteroids(on the bottom)
+						Asteroid d = new Asteroid(-1000+(u*asteroid_spacing),(n*i)+mapheight+random.nextInt(50),mapwidth+1000,mapheight);
+						d.load(img,Direction.FORWARD,random.nextFloat()*2f+2f,this);
+						this.getAsteroids().add(d);
+					}
+				}
 	}
 	
 	private void addPlanet(int centerx, int centery, int maxhp, int radius){
