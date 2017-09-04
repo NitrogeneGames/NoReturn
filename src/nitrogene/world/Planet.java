@@ -83,6 +83,8 @@ public class Planet extends PhysicalObject{
 	}
 	public void destroy(ArenaMap map, Planet planet) throws SlickException {
 		this.mainimg = null;
+		this.removeBoundbox();
+		this.destroyed = true;
 		spawnItem(map);
 		map.getObjList().remove(planet);
 		map.removePlanet(planet);

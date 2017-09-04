@@ -67,10 +67,6 @@ public class PhysicalObject implements Mover {
 		angledmovement = new AngledMovement(map.getUpbound(), map.getDownbound(), map.getLeftbound(), map.getRightbound());
 		movement = new Movement();
 	}
-	private void destroy(){
-		destroyed = true;
-		this.removeBoundbox();
-	}
 	protected void setDefaultMovement(String s){
 		if(s == "angled"){
 			defaultmovement = "angled";
