@@ -3,6 +3,7 @@ package nitrogene.npc;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Path;
 import org.newdawn.slick.geom.Point;
@@ -21,9 +22,18 @@ import nitrogene.world.ArenaMap;
 
 public abstract class MovementTask extends Task {
 	protected float setRange;
+	private ArrayList<PhysicalObject> ignore = new ArrayList<PhysicalObject>();
+	public void addIgnore(PhysicalObject o) {
+		if(ignore.contains(o)) ignore.add(o);
+	}
 	public MovementTask(NPCship s, float r) {
 		super(s);
 		setRange = r;
+	}
+	public MovementTask(NPCship s, float r, PhysicalObject ign) {
+		super(s);
+		setRange = r;
+		this.ignore.add(ign);
 	}
 	boolean pathFound = false;
 	public Path path;
@@ -46,10 +56,14 @@ public abstract class MovementTask extends Task {
 		float xRange = 0;
 		float yRange = 0;
 		
-		if(!pathFound) {
-			path = ArenaMap.getPathShape(ship, startx, startx, destx, desty, 1);	
-			pathFound = true;
-		}
+		//if(!pathFound) {
+			path = ArenaMap.getPathShape(ship, startx, startx, destx, desty, 50, ignore);
+			if(path == null) {
+				path = new Path(startx,starty);
+				path.lineTo(destx, desty);
+			}
+			//pathFound = true;
+		//}
 		/*if(pd==null || pd.size() < 1) {
 			this.close();
 			isComplete = true;

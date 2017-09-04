@@ -201,9 +201,9 @@ public class GameState extends BasicGameState{
 	    		  enemyWeapons.add(EnumWeapon.VELOX2);
 	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
 	    		  c.loadWeapons(enemyWeapons);
-	    		  n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
+	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
-			      //n.addTask(new TaskFollow(n, craft, 500));
+			      n.addTask(new TaskFollow(n, craft, 500));
 			      //n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
 		      }

@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
+import org.newdawn.slick.util.pathfinding.heuristics.ClosestHeuristic;
 
 import nitrogene.collision.Vector;
 import nitrogene.core.AssetManager;
@@ -38,63 +39,25 @@ public class ArenaMap {
 	private Timer asteroidtimer;
 	public boolean isLoaded;
 	Random random;
-	public static ArrayList<Line> getPath(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth) {
-		int dist = (int) Math.ceil(Math.pow(Math.pow(y2f-y1f,2) + Math.pow(x2f-x1f,2), .5));
-		int maxSteps = (int) dist/chunkWidth;
-		int x1 = (int) x1f;
-		int x2 = (int) x2f;
-		int y1 = (int) y1f;
-		int y2 = (int) y2f;		
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth), maxSteps, true);
-		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
-		//Path d = new Path(p.getX(0), p.getY(1));
-		int lastx = p.getX(0);
-		int lasty = p.getY(0);
-		ArrayList<Line> lines = new ArrayList<Line>();
-		for(int i = 1; i < p.getLength(); i++) {
-			
-			int j = 1;
-			int x = p.getX(i);
-			int y = p.getY(i);
-			/*loops:
-			while(i+j < p.getLength()) {
-				while(p.getX(i+j) == x && i+j+1 < p.getLength()) {
-					j++;
-					x = p.getX(i+j);
-					i = i+j;
-					break loops;
-				}
-				while(p.getY(i+j) == y && i+j+1 < p.getLength()) {
-					j++;
-					y = p.getY(i+j);
-					i = i+j;
-					break loops;
-				}
-				break loops;
-			}*/
-			lines.add(new Line(lastx, lasty, x, y));
-			lastx = x;
-			lasty = y;
-			//d.lineTo(x, y);
-		}
-		return lines;
-	}
-	public static Path getPathShape(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth) {
+	public static Path getPathShape(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
 		int dist = (int) Math.ceil(Math.pow(Math.pow(y2f-y1f,2) + Math.pow(x2f-x1f,2), .5));
 		int maxSteps = (int) 100000;
-		int x1 = (int) x1f;
-		int x2 = (int) x2f;
-		int y1 = (int) y1f;
-		int y2 = (int) y2f;		
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth), maxSteps, true);
+		int x1 = (int) Math.floor(x1f/chunkWidth);
+		int x2 = (int) Math.floor(x2f/chunkWidth);
+		int y1 = (int) Math.floor(y1f/chunkWidth);
+		int y2 = (int) Math.floor(y2f/chunkWidth);	
+		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, false, new ClosestHeuristic());
 		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
-		Path d = new Path(p.getX(0), p.getY(1));
-		for(int i = 1; i < p.getLength(); i++) {		
-			int x = p.getX(i);
-			int y = p.getY(i);
-			d.lineTo(x, y);
+		if(p!=null) {
+			Path d = new Path(p.getX(0)*chunkWidth, p.getY(1)*chunkWidth);
+			for(int i = 1; i < p.getLength(); i++) {		
+				int x = p.getX(i)*chunkWidth;
+				int y = p.getY(i)*chunkWidth;
+				d.lineTo(x, y);
+			}
+			return d;
 		}
-		return d;
+		return null;
 	}
 	public void tick() throws SlickException{
 		//randomizer for delay
