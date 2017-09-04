@@ -175,7 +175,11 @@ public class LaserLauncher extends ShipSystem{
 	public float getTargetX(){
 		
 		if(isTargetingObject) {
-			if(!target.isDestroyed()){
+			if(target.isDestroyed()){
+				//If the target is destroyed, stop targeting (turn off)
+				this.setFire(0,0,Zoom.scale(camX),Zoom.scale(camY), false);
+				return desx;
+			} else{
 				return target.getRealCenterX();
 			}
 		}
@@ -184,7 +188,11 @@ public class LaserLauncher extends ShipSystem{
 	
 	public float getTargetY(){
 		if(isTargetingObject) {
-			if(!target.isDestroyed()){
+			if(target.isDestroyed()){
+				//If the target is destroyed, stop targeting (turn off)
+				this.setFire(0,0,Zoom.scale(camX),Zoom.scale(camY), false);
+				return desy;
+			} else{
 				return target.getRealCenterY();
 			}
 		}
@@ -346,6 +354,7 @@ public class LaserLauncher extends ShipSystem{
 		return outerburst;
 	}
 	
+	//Target a location: x, y, camX, camY, whether or not shooting is on
 	public void setFire(int x, int y, float camX, float camY, boolean b){
 		if(!b){
 			if(this.getTimer().getClock().isRunning()){
