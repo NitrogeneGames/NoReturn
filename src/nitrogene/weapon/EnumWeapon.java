@@ -19,7 +19,7 @@ public enum EnumWeapon{
 	IMMINEO (200, new ProjectileData("proj1", 50F, true, 130, 0.7F, 10), "Immineo Laser", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
 	IMMINEO2 (300, new ProjectileData("proj1", 50F, true, 130, 0.7F, 20), "Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2500, 1),
 	DEMOLITION (300, new ProjectileData("proj1", 20F, 1.5F, 100), "Demolition Laser", "wep1", "wep1Green", 15, 100, "res/sound/laser1final.ogg", 0, 7000, 1),
-	PRECISION (100, new ProjectileData("proj1", 50F, 0.5F, 1), "Precision Laser", "wep2", "wep2Green", 30, 100, "res/sound/laser1final.ogg", 0, 400, 1),
+	PRECISION (100, new ProjectileData("proj1", 130F, 0.3F, 3), "Precision Laser", "wep2", "wep2Green", 3, 100, "res/sound/laser1final.ogg", 0, 500, 1),
 	PDI (40, new ProjectileData("proj1", 200F, 0.3F, 1), "Point Defense Interceptor", "ion1", "ion1Green", 1, 100, "res/sound/laser1final.ogg", 0, 150, 1),  
 	MINING (100, new ProjectileData("proj1", 100F, 0.7F, 10, 10, 100), "Mining Laser", "wep1", "wep1Green", 0, 100, "res/sound/laser1final.ogg", 0, 2000, 1);
 	
