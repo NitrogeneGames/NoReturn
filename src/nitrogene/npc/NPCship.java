@@ -27,9 +27,9 @@ public class NPCship extends Craft{
 	}
 	public void addTaskOverride(Task t) {
 		for (Task t2: tasks){ 
-		if(t.getTaskID() == t2.getTaskID()){
-			tasks.remove(t2);
-		}
+			if(t.getTaskID() == t2.getTaskID()){
+				tasks.remove(t2);
+			}
 		}
 		addTask(t);
 	}

@@ -20,8 +20,8 @@ public class ObjectMap implements TileBasedMap {
 		this.ignore = ignore;
 		if(!this.ignore.contains(o)) this.ignore.add(o);
 		traveler = o;
-		float width = (o.getSprite().getImage().getWidth())/2;
-		float height = (o.getSprite().getImage().getHeight())/2;
+		float width = (float) (o.getSprite().getImage().getWidth()/2);
+		float height = (float) (o.getSprite().getImage().getHeight()/2);
 		float radius = width;
 		if(width>height) radius = height;
 		radius*=1.3;

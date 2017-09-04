@@ -39,6 +39,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.loading.LoadingList;
@@ -201,9 +202,9 @@ public class GameState extends BasicGameState{
 	    		  enemyWeapons.add(EnumWeapon.VELOX2);
 	    		  if(superHardDifficulty) enemyWeapons.add(EnumWeapon.PDI);
 	    		  c.loadWeapons(enemyWeapons);
-	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
+	    		  n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
-			      n.addTask(new TaskFollow(n, craft, 500));
+			      //n.addTask(new TaskFollow(n, craft, 500));
 			      //n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
 		      }
@@ -581,7 +582,14 @@ public class GameState extends BasicGameState{
 				if(c.getClass() == NPCship.class) {
 					NPCship n = (NPCship) c;
 					g.setColor(Color.white);
-					g.draw(((MovementTask) n.tasks.get(0)).path);
+					MovementTask m = ((MovementTask) n.tasks.get(0));
+					g.draw(m.image);
+					int l = m.path.currentVectorNum;
+					try { 
+					g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],5));
+					} catch (Exception e) {
+						//gonna happen fuk this
+					}
 				}
 			}
 		}
