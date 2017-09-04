@@ -180,7 +180,7 @@ public class GameState extends BasicGameState{
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(this.SCR_width);
 			int vary = (int)(this.SCR_height);
-	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 100);
+	    	stars = new Stars(2,mapwidth+(3*varx),mapheight+(3*vary), -1*(varx), -1*(vary), 100);
 	      /*
 	      for(LaserLauncher l : craft.laserlist){
 	    	  TickSystem.removeTimer(TickSystem.getTimer(l));
@@ -503,7 +503,8 @@ public class GameState extends BasicGameState{
 		//g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
-		stars.render(Zoom.scale(camX),Zoom.scale(camY));
+		//stars.render(Zoom.scale(camX),Zoom.scale(camY));
+		stars.render(g);
 		//if(GlobalInformation.testMode)Resources.log("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
