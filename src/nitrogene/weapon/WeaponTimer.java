@@ -27,6 +27,9 @@ public class WeaponTimer {
    private int counter = 0;
 	ActionListener taskPerformer = new ActionListener() {//event to call tick() every 10 miliseconds
     	public void actionPerformed(ActionEvent evt) {
+    		if(w.parent.isDestroyed()) {
+    			Clock.stop();
+    		}
     		if(!isPauseLocked && !isLocked) {
     			tick();
     		}

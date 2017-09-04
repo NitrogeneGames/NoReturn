@@ -576,7 +576,7 @@ public class GameState extends BasicGameState{
 				cannon.render(g,camX,camY);
 			}
 			if(debugMode) {
-				g.draw(craft.getBoundbox());  //DRAW BOUNDBOX DEBUG
+				g.draw(c.getBoundbox());  //DRAW BOUNDBOX DEBUG
 				if(c.getClass() == NPCship.class) {
 					NPCship n = (NPCship) c;
 					g.setColor(Color.white);
