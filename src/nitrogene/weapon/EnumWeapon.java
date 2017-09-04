@@ -7,7 +7,8 @@ import nitrogene.core.GlobalInformation;
 public enum EnumWeapon{
 	//IMPORTANT: Providing a different scale requires a new set of boundbox rotation constants!
 	//Test
-	//Name, Launcher image, Accuracy, Speed, Damage, Laser Size, Laser image, Fire sound, Time between shots, Time between bursts, Number of shots per bursts
+	//Cost, new ProjectileData(projImage, projSpeed, projScale, damage), "Name", laserImage, onLaserImage, accuracy, hp, sound, time between shots in burst, time between each burst, shots per burst)
+	//Cost, new ProjectileData(projImage, projSpeed, enableHoming, degreesPerSecond, projScale, damage), "Name", laserImage, onLaserImage, accuracy, hp, sound, time between shots in burst, time between each burst, shots per burst)
 	BASIC (20, new ProjectileData("proj1", 100F, 0.7F, 10), "Basic Laser", "laser1", "laser1Green",3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
 	SPLIT (50, new ProjectileData("proj1", 100F, 0.6F, 20), "Split Laser", "laser2", "laser2Green", 5, 100, "res/sound/laser1final.ogg", 10, 2500, 2),
 	SPLIT2 (80, new ProjectileData("proj1", 100F, 0.6F, 10), "Split Laser Mk.2", "laser2", "laser2Green", 7, 100, "res/sound/laser1final.ogg", 10, 3000, 3),
