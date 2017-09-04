@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Circle;
@@ -13,6 +14,7 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import nitrogene.gui.Sprite;
 import nitrogene.weapon.EnumWeapon;
 
 public class GlobalInformation {
@@ -90,7 +92,50 @@ public class GlobalInformation {
 	public static ArrayList<EnumWeapon> getStartingWeapons(){
 		return startingweapons;
 	}
-	
+	public static Polygon generateHitbox(String s) {
+		ArrayList<float[]> points = new ArrayList<float[]>();
+		Image i = new Sprite(s).getImage();
+		for(int x = 0; x < i.getWidth(); x++) {
+			for(int y = 0; y < i.getHeight(); y++) {
+				if(i.getColor(x, y).getAlpha() != 0) {
+					boolean flag = false;
+					if(x > 0) {
+						if(y > 0) {
+							if(i.getColor(x-1, y-1).getAlpha() == 0) {
+								flag = true;
+							}
+						}
+						if(y < i.getHeight()) {
+							if(i.getColor(x-1, y+1).getAlpha() == 0) {
+								flag = true;
+							}
+						}
+					}
+					if(x < i.getWidth()) {
+						if(y > 0) {
+							if(i.getColor(x+1, y-1).getAlpha() == 0) {
+								flag = true;
+							}	
+						}
+						if(y < i.getHeight()) {
+							if(i.getColor(x+1, y+1).getAlpha() == 0) {
+								flag = true;
+							}
+						}
+					}
+					if(flag) {
+						points.add(new float[] {x,y});
+					}
+				}
+			}
+		}
+		float[] pts = new float[points.size()*2];
+		for(int k = 0; k < points.size(); ) {
+			pts[2*k] = points.get(k)[0];
+			pts[2*k+1] = points.get(k)[1];
+		}
+		return new Polygon(pts);
+	}
 	public static void initHitboxData(){
 		float[] craftData = {6,52,37,52,53,36,99,10,131,0,245,0,245,5,312,5,312,31,
 				317,36,328,41,332,46,343,57,343,62,328,67,322,72,94,72,94,93,322,93,

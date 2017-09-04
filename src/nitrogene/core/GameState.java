@@ -77,12 +77,21 @@ public class GameState extends BasicGameState{
 
 	public static boolean PAUSED = false;
 	public static boolean drawPauseMenu = true;
-
+	//Image gameRender;
+	//Graphics g;
 	
 	public GameState(int width, int height) {
 
 		this.SCR_width = width;
 		this.SCR_height = height;
+		/*try {
+			//gameRender = new Image(SCR_width, SCR_height);
+			//g = gameRender.getGraphics();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 	}
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
@@ -153,7 +162,6 @@ public class GameState extends BasicGameState{
 	         throws SlickException {
 	      super.enter(container, game);
 			CursorSystem.init();
-
 			//set largest zoom for generation: 0.5f maximum (minimum is 1.0f)
 			Zoom.setZoom(currentZoom);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
@@ -164,11 +172,9 @@ public class GameState extends BasicGameState{
 			    	offsetX = SCR_width/2;
 			    	camX = 0;
 			    	camY = 0;
-
 			//load all resources here
 			craft = new Craft(2000, 1200, "humanship", 1);
 			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-
 			map.loadCraft(craft);
 			map.loadCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
@@ -176,7 +182,6 @@ public class GameState extends BasicGameState{
 				map.loadCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
 				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
 			}
-	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(this.SCR_width);
 			int vary = (int)(this.SCR_height);
@@ -608,17 +613,16 @@ public class GameState extends BasicGameState{
 		
 		AnimationManager.renderAnimation();
 
-		
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
-		
-		g.scale((float)(1/Zoom.getZoom()),(float)(1/Zoom.getZoom()));
-		shieldbar.render(g, camX, camY, (craft.shield.getHp()/craft.shield.getMaxHp()));
-		hullbar.render(g, camX, camY, (float)(craft.getHull()/craft.getMaxHull()));
+		g.pushTransform();
+		minimap.render(g,map);		
+		shieldbar.render(g, (craft.shield.getHp()/craft.shield.getMaxHp()));
+		hullbar.render(g, (float)(craft.getHull()/craft.getMaxHull()));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
-		GUI.draw(camX,camY);
-		guihotbar.render(g,craft, camX, camY, selected);
-		minimap.render(g,camX,camY,map.getPlanets(),map.getCrafts(),map.getAsteroids());
+		GUI.draw();
+		guihotbar.render(g,craft,selected);
+
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);
 		//}
@@ -636,12 +640,12 @@ public class GameState extends BasicGameState{
 	        hangar.render(g,camX,camY);
 	        menu.render(g,camX,camY);
 	        exit.render(g,camX,camY);*/
-	        resume.render(g,0,0);
-	        restart.render(g,0,0);
-	        options.render(g,0,0);
-	        hangar.render(g,0,0);
-	        menu.render(g,0,0);
-	        exit.render(g,0,0);
+	        resume.render(g);
+	        restart.render(g);
+	        options.render(g);
+	        hangar.render(g);
+	        menu.render(g);
+	        exit.render(g);
 		}
 	}
 

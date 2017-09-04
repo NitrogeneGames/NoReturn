@@ -76,9 +76,9 @@ public class PauseButton {
         
     }
 
-    public void render (Graphics gr, float camX, float camY)
+    public void render (Graphics gr)
     {
-        renderImage.draw(position.x+camX,position.y+camY);
+        renderImage.draw(position.x,position.y);
     }
 
     public boolean isClicked()

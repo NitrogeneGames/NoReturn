@@ -25,13 +25,13 @@ public class HullBar {
 		font = GlobalInformation.getPixelFont(26F);
 	}
 	
-	public void render(Graphics g, float camX, float camY, float progress) throws SlickException{
-		hullicon.draw(camX + 73 + 256*2*scalefactor + 10*scalefactor + 3,camY+20);
-		hullBackground.draw(camX + 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*scalefactor, 32*scalefactor);
-		hullFill.draw(camX+ 73 + 256*scalefactor + 10*scalefactor, camY + 20, 256*progress*scalefactor, 32*scalefactor);
+	public void render(Graphics g, float progress) throws SlickException{
+		hullicon.draw(73 + 256*2*scalefactor + 10*scalefactor + 3,20);
+		hullBackground.draw(73 + 256*scalefactor + 10*scalefactor, 20, 256*scalefactor, 32*scalefactor);
+		hullFill.draw(73 + 256*scalefactor + 10*scalefactor, 20, 256*progress*scalefactor, 32*scalefactor);
 		g.setColor(Color.black);
 		g.setFont(font);
 		offsetx = Button.getTextWidth((int)(progress*100)+"%", font);
-		g.drawString((int)(progress*100) + "%", camX+73+128*scalefactor + 256*scalefactor + 20*scalefactor - offsetx, camY + 23);
+		g.drawString((int)(progress*100) + "%", 73+128*scalefactor + 256*scalefactor + 20*scalefactor - offsetx, 23);
 	}
 }

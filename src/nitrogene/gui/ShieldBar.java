@@ -26,14 +26,14 @@ public class ShieldBar {
 		font = GlobalInformation.getPixelFont(26F);
 	}
 	
-	public void render(Graphics g, float camX, float camY, float progress) throws SlickException{
-		shieldicon.draw(camX+5,camY+26,0.7f);
-		shieldBackground.draw(camX + 73, camY + 20, scalefactor);
-		shieldFill.draw(camX+73, camY+20, 256*progress*scalefactor, 32*scalefactor);
+	public void render(Graphics g, float progress) throws SlickException{
+		shieldicon.draw(5,26,0.7f);
+		shieldBackground.draw(73, 20, scalefactor);
+		shieldFill.draw(73, 20, 256*progress*scalefactor, 32*scalefactor);
 		g.setColor(Color.black);
 		g.setFont(font);
 		offsetx = Button.getTextWidth((int)(progress*100)+"%", font)/2;
-		g.drawString((int)(progress*100) + "%", camX+73+128*scalefactor - offsetx + 10*scalefactor, camY + 23);
+		g.drawString((int)(progress*100) + "%", 73+128*scalefactor - offsetx + 10*scalefactor, 23);
 	}
 	
 }
