@@ -22,17 +22,19 @@ public class BuyButton extends Button
 	private int cost;
 	private String finalrender = "normalimage";
 	private boolean selected;
+	public EnumWeapon enumwep;
 
-	public BuyButton(String name, int cost, float x, float y, float width, float height,Sound mouseover) throws FontFormatException, IOException,
+	public BuyButton(EnumWeapon e, float x, float y, float width, float height,Sound mouseover) throws FontFormatException, IOException,
 			SlickException {
-		super(name, x, y, width, height,mouseover);
-		this.cost = cost;
+		super(e.formalname, x, y, width, height,mouseover);
+		this.enumwep = e;
+		this.cost = e.cost;
 		selected = false;
 		this.fontsize = 25f;
 	}
 
 	@Override
-	public void update (GameContainer gc, ArrayList<EnumWeapon> weapons, EnumWeapon enumwep)
+	public void update (GameContainer gc, ArrayList<EnumWeapon> weapons)
      {
 		if(this.font==null){
     		try {

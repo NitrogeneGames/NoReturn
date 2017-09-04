@@ -178,8 +178,7 @@ public class Button
     	return buttonDown;
     }
 
-	public void update(GameContainer container, ArrayList<EnumWeapon> weapons,
-			EnumWeapon basic) {		
+	public void update(GameContainer container, ArrayList<EnumWeapon> weapons) {		
 	}
 
 	public void render(Graphics g, int scalefactor, Image renderImage,

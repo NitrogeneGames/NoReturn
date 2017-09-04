@@ -7,19 +7,19 @@ import nitrogene.core.GlobalInformation;
 public enum EnumWeapon{
 	//IMPORTANT: Providing a different scale requires a new set of boundbox rotation constants!
 	//Name, Launcher image, Accuracy, Speed, Damage, Laser Size, Laser image, Fire sound, Time between shots, Time between bursts, Number of shots per bursts
-	BASIC (new ProjectileData("proj1", 100F, 0.7F, 10), "Basic Laser", "laser1", "laser1Green",3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
-	SPLIT (new ProjectileData("proj1", 100F, 0.6F, 20), "Split Laser", "laser2", "laser2Green", 5, 100, "res/sound/laser1final.ogg", 10, 2500, 2),
-	SPLIT2 (new ProjectileData("proj1", 100F, 0.6F, 10), "Split Laser Mk.2", "laser2", "laser2Green", 7, 100, "res/sound/laser1final.ogg", 10, 3000, 3),
-	PULSAR (new ProjectileData("proj2", 70F, 0.7F, 10), "Pulsar", "laser3", "laser3Green", 1, 100, "res/sound/laser1final.ogg", 200, 3000, 2),
-	PULSAR2 (new ProjectileData("proj2", 70F, 0.7F, 20), "Pulsar Mk.2", "laser3", "laser3Green", 2, 100, "res/sound/laser1final.ogg", 200, 3500, 3),
-	VELOX (new ProjectileData("proj2", 100F, 0.6F, 15), "Velox Laser", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
-	VELOX2 (new ProjectileData("proj2", 100F, 0.6f, 20), "Velox Laser Mk.2", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
-	IMMINEO (new ProjectileData("proj1", 50F, true, 130, 0.7F, 10), "Immineo Laser", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
-	IMMINEO2 (new ProjectileData("proj1", 50F, true, 130, 0.7F, 20), "Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2500, 1),
-	DEMOLITION (new ProjectileData("proj1", 20F, 1.5F, 100), "Demolition Laser", "wep1", "wep1Green", 15, 100, "res/sound/laser1final.ogg", 0, 7000, 1),
-	PRECISION (new ProjectileData("proj1", 130F, 0.3F, 3), "Precision Laser", "wep2", "wep2Green", 3, 100, "res/sound/laser1final.ogg", 0, 500, 1),
-	PDI (new ProjectileData("proj1", 200F, 0.3F, 1), "Point Defense Interceptor", "ion1", "ion1Green", 1, 100, "res/sound/laser1final.ogg", 0, 150, 1),  
-	MINING (new ProjectileData("proj1", 100F, 0.7F, 10, 10, 100), "Mining Laser", "wep1", "wep1Green", 0, 100, "res/sound/laser1final.ogg", 0, 2000, 1);
+	BASIC (20, new ProjectileData("proj1", 100F, 0.7F, 10), "Basic Laser", "laser1", "laser1Green",3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
+	SPLIT (50, new ProjectileData("proj1", 100F, 0.6F, 20), "Split Laser", "laser2", "laser2Green", 5, 100, "res/sound/laser1final.ogg", 10, 2500, 2),
+	SPLIT2 (80, new ProjectileData("proj1", 100F, 0.6F, 10), "Split Laser Mk.2", "laser2", "laser2Green", 7, 100, "res/sound/laser1final.ogg", 10, 3000, 3),
+	PULSAR (80, new ProjectileData("proj2", 70F, 0.7F, 10), "Pulsar", "laser3", "laser3Green", 1, 100, "res/sound/laser1final.ogg", 200, 3000, 2),
+	PULSAR2 (150, new ProjectileData("proj2", 70F, 0.7F, 20), "Pulsar Mk.2", "laser3", "laser3Green", 2, 100, "res/sound/laser1final.ogg", 200, 3500, 3),
+	VELOX (250, new ProjectileData("proj2", 100F, 0.6F, 15), "Velox Laser", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
+	VELOX2 (350, new ProjectileData("proj2", 100F, 0.6f, 20), "Velox Laser Mk.2", "laser3", "laser3Green", 7, 100, "res/sound/laser1final.ogg", 200, 5000, 5),
+	IMMINEO (200, new ProjectileData("proj1", 50F, true, 130, 0.7F, 10), "Immineo Laser", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2000, 1),
+	IMMINEO2 (300, new ProjectileData("proj1", 50F, true, 130, 0.7F, 20), "Immineo Laser Mk.2", "laser1", "laser1Green", 3, 100, "res/sound/laser1final.ogg", 0, 2500, 1),
+	DEMOLITION (300, new ProjectileData("proj1", 20F, 1.5F, 100), "Demolition Laser", "wep1", "wep1Green", 15, 100, "res/sound/laser1final.ogg", 0, 7000, 1),
+	PRECISION (100, new ProjectileData("proj1", 130F, 0.3F, 3), "Precision Laser", "wep2", "wep2Green", 3, 100, "res/sound/laser1final.ogg", 0, 500, 1),
+	PDI (40, new ProjectileData("proj1", 200F, 0.3F, 1), "Point Defense Interceptor", "ion1", "ion1Green", 1, 100, "res/sound/laser1final.ogg", 0, 150, 1),  
+	MINING (100, new ProjectileData("proj1", 100F, 0.7F, 10, 10, 100), "Mining Laser", "wep1", "wep1Green", 0, 100, "res/sound/laser1final.ogg", 0, 2000, 1);
 	
 	public ProjectileData projectile;
 	public int accuracy; //Accuracy
@@ -35,12 +35,14 @@ public enum EnumWeapon{
 	public String shortenedString;
 	public int xLaunchOffset;
 	public int yLaunchOffset;
+	public int cost;
 	//im is the launcehrs image
 	//laserimage is the projectiles image
 	//interburst is time inbetween shots in a burst --> for non-burst, make this 0
 	//outerburst is the time between bursts --> for non-burst, use this as the time varaible between single shots
 	//burstnumber is the amt of shots in a burst --> for a non-burst, make this 1 (single shot per burst)
-	EnumWeapon(ProjectileData l, String formalname, String im, String im2, int accuracy1, int hp, String firesound, int interburst, int outerburst, int burstnumber) {
+	EnumWeapon(int cost, ProjectileData l, String formalname, String im, String im2, int accuracy1, int hp, String firesound, int interburst, int outerburst, int burstnumber) {
+		this.cost = cost;
 		this.projectile = l;
 		this.formalname = formalname;
 		this.image = im;
