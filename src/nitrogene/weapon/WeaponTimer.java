@@ -27,7 +27,7 @@ public class WeaponTimer {
    private int counter = 0;
 	ActionListener taskPerformer = new ActionListener() {//event to call tick() every 10 miliseconds
     	public void actionPerformed(ActionEvent evt) {
-    		if(!isPauseLocked && active && !isLocked) {
+    		if(!isPauseLocked && !isLocked) {
     			tick();
     		}
     	}
@@ -96,6 +96,7 @@ public class WeaponTimer {
 	   outerBurst = ((float)d.getOuterburst())/10;
 	   burstShot = d.getBurstNumber();
        Clock = new Timer(tickTime, taskPerformer);
+       Clock.start();
        //CursorSystem.changeCursor("greenfire");
    }
    public void start() {   
@@ -109,17 +110,21 @@ public class WeaponTimer {
 	 	resume(delay);
    }
    public void stop() { //called by the game istelf to deactivate the laser, ie laser breaks
-	   counter = 0;
+	   //counter = 0;
+	   if(bursting) {
+		   counter = 0;
+		   bursting = false;
+	   }
 	   active = false;
 	   pause();
    }
    public void resume(int delay) { //resume function called by gameResume and start
 		start = System.currentTimeMillis();
-		Clock.start();		   
+		//Clock.start();		   
    }
    public void pause() { //pause function called by gamePause and stop
 	   elapsed = System.currentTimeMillis() - start;
-	   Clock.stop();
+	   //Clock.stop();
    }
    public void gameResume() { //resume the timer when game is unpaused
 	   if(!isLocked ) {

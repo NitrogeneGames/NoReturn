@@ -70,7 +70,7 @@ public class Hotbar {
 				statusicon = ((Image) AssetManager.get().get("statusReady"));
 			}
 			statusicon.setFilter(Image.FILTER_NEAREST);
-			if(launcher.getTimer().getMaxChargeTime() != 0 && launcher.getTimer().active){
+			if(launcher.getTimer().getMaxChargeTime() != 0){
 				renderChargeBar(g, launcher.laserId, launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
 						camX, camY, launcher.getTimer().bursting, ((float) launcher.getTimer().burstShot) * launcher.getTimer().interBurst * 10);
 			}
