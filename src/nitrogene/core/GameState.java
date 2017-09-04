@@ -15,6 +15,7 @@ import nitrogene.inventory.Item;
 import nitrogene.npc.MovementTask;
 import nitrogene.npc.NPCship;
 import nitrogene.npc.Relation;
+import nitrogene.npc.Task;
 import nitrogene.npc.TaskFire;
 import nitrogene.npc.TaskFollow;
 import nitrogene.npc.TaskMoveTo;
@@ -582,13 +583,20 @@ public class GameState extends BasicGameState{
 				if(c.getClass() == NPCship.class) {
 					NPCship n = (NPCship) c;
 					g.setColor(Color.white);
-					MovementTask m = ((MovementTask) n.tasks.get(0));
-					g.draw(m.image);
-					int l = m.path.currentVectorNum;
-					try { 
-					g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],5));
-					} catch (Exception e) {
-						//gonna happen fuk this
+					
+					for(Task t : n.tasks) {
+						if(t.getClass().isAssignableFrom(MovementTask.class)) {
+							MovementTask m = (MovementTask) t;
+							if(m.pathFinding) {
+								try { 
+									g.draw(m.image);
+									int l = m.path.currentVectorNum;	
+									g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],5));
+								} catch (Exception e) {
+									//gonna happen fuk this
+								}
+							}
+						}
 					}
 				}
 			}

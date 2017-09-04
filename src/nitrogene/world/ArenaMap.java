@@ -46,7 +46,7 @@ public class ArenaMap {
 		int x2 = (int) Math.floor(x2f/chunkWidth);
 		int y1 = (int) Math.floor(y1f/chunkWidth);
 		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, false, new ClosestHeuristic());
+		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
 		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
 		if(p!=null) {
 			Path d = new Path(p.getX(0)*chunkWidth, p.getY(1)*chunkWidth);
@@ -65,7 +65,7 @@ public class ArenaMap {
 		int x2 = (int) Math.floor(x2f/chunkWidth);
 		int y1 = (int) Math.floor(y1f/chunkWidth);
 		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, false, new ClosestHeuristic());
+		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
 		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
 		ArrayList<Vector2f> vectors = new ArrayList<Vector2f>();
 		if(p!=null) {
@@ -82,7 +82,7 @@ public class ArenaMap {
 		int x2 = (int) Math.floor(x2f/chunkWidth);
 		int y1 = (int) Math.floor(y1f/chunkWidth);
 		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, false, new ClosestHeuristic());
+		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
 		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
 		ArrayList<Vector2f> vectors = new ArrayList<Vector2f>();
 		if(p!=null) {

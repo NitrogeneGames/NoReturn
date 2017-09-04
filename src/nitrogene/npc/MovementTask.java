@@ -23,6 +23,12 @@ import nitrogene.world.ArenaMap;
 import nitrogene.world.TravelPath;
 
 public abstract class MovementTask extends Task {
+	
+	
+	public static boolean pathFinding = false;
+	
+	
+	
 	protected float setRange;
 	float lastX = 0;
 	float lastY = 0;
@@ -52,21 +58,26 @@ public abstract class MovementTask extends Task {
 		float starty = ship.getRealCenterY();
 		float legy = (desty - starty);
 		float legx = (destx - startx);
-		//float anglex = (float) Math.toDegrees((Math.atan2(legy,legx)));
+		
 		float hyp = (float) Math.pow(legx*legx + legy*legy, 0.5);
 		float height = ship.getHeight();
 		//float yRange = (float) (-Math.cos(ship.getRotation()) * height/2);
 		//float xRange = (float) (Math.sin(ship.getRotation()) * height/2);
 		float xRange = 0;
 		float yRange = 0;
-		if(!pathFound) {
+		if(!pathFound && pathFinding) {
 			lastX = 0;
 			lastY = 0;
 			pathFound = true;
 			path = ArenaMap.getTravelPath(ship, startx, startx, destx, desty, 50, ignore);
 			image = ArenaMap.getPathShape(ship, startx, startx, destx, desty, 50, ignore);
 		}
-		float anglex = path.getAngle();
+		float anglex;
+		if(!pathFinding) {
+			anglex = (float) Math.toDegrees((Math.atan2(legy,legx)));
+		} else {
+			anglex = path.getAngle();
+		}
 		float range = setRange;
 
 		float Vnet =  ship.getMovement().getDirVelocity();
@@ -112,9 +123,8 @@ public abstract class MovementTask extends Task {
 			float turnSpeed = 14f;
 			float acc = (Vnet*Vnet - turnSpeed*turnSpeed)/(2*path.distToTurn());
 			acc = acc/cons;
-			if(acc >= ship.getMovement().maxDirAccel*2 && Vnet > turnSpeed) {
+			if(acc >= ship.getMovement().maxDirAccel && Vnet > turnSpeed) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
-				if(!ship.getMovement().getToggle(Direction.BACKWARD)) this.ship.getMovement().Toggle(Direction.BACKWARD);
 			} else if(Math.abs(theta) > 30 ) {
 				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
 			} else if(Math.abs(theta) <= 30) {

@@ -43,7 +43,7 @@ public class ObjectMap implements TileBasedMap {
 
 	@Override
 	public float getCost(PathFindingContext arg0, int arg1, int arg2) {
-		return 0;
+		return 1;
 	}
 
 	@Override

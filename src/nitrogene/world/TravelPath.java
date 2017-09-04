@@ -73,8 +73,13 @@ public class TravelPath {
 			dist = Math.abs(Target.getRotation(theta, theta2));
 			if(dist < 10) {
 				i = i+2;
-				xDist = xDist + vectors.get(i).x+vectors.get(i+1).x;
-				yDist = yDist + vectors.get(i).y+vectors.get(i+1).y;
+				if(vectors.size()>i) {
+					xDist = xDist + vectors.get(i).x;
+					yDist = yDist + vectors.get(i).y;
+				} else {
+					xDist = xDist + vectors.get(i).x+vectors.get(i+1).x;
+					yDist = yDist + vectors.get(i).y+vectors.get(i+1).y;				
+				}
 			} else {
 				break;
 			}
