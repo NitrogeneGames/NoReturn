@@ -54,7 +54,7 @@ public class Stars {
 	}
 	
 	@Deprecated
-	public void render(float camX, float camY){
+	public void render(Graphics g, float camX, float camY){
 		for(int g1 = 0; g1 < n; g1++){
 			if(starx[g1]-biggeststarsize>Zoom.getZoomWidth()+camX||starx[g1]+biggeststarsize<camX){
 				continue;
