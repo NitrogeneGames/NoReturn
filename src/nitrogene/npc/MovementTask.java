@@ -69,8 +69,9 @@ public abstract class MovementTask extends Task {
 			lastX = 0;
 			lastY = 0;
 			pathFound = true;
-			path = ArenaMap.getTravelPath(ship, startx, startx, destx, desty, 50, ignore);
-			image = ArenaMap.getPathShape(ship, startx, startx, destx, desty, 50, ignore);
+			ArrayList<float[]> pathCoords = Resources.getPath(ship, startx, startx, destx, desty, 50, ignore);
+			path = Resources.toTravelPath(pathCoords);
+			image = Resources.toPathShape(pathCoords);
 		}
 		float anglex;
 		if(!pathFinding) {
@@ -120,18 +121,28 @@ public abstract class MovementTask extends Task {
 			//Vf2 - Vi2 = -2ad
 			//a = (Vi2 - Vf2)/2d
 			//Resources.log(path.distToTurn() + ", " + Vnet);
-			float turnSpeed = 14f;
-			float acc = (Vnet*Vnet - turnSpeed*turnSpeed)/(2*path.distToTurn());
-			acc = acc/cons;
-			if(acc >= ship.getMovement().maxDirAccel && Vnet > turnSpeed) {
-				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
-			} else if(Math.abs(theta) > 30 ) {
-				if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
-			} else if(Math.abs(theta) <= 30) {
-				if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
+			if(pathFinding) {
+				float turnSpeed = 14f;
+				float acc = (Vnet*Vnet - turnSpeed*turnSpeed)/(2*path.distToTurn());
+				acc = acc/cons;
+				if(acc >= ship.getMovement().maxDirAccel && Vnet > turnSpeed) {
+					if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
+				} else if(Math.abs(theta) > 30 ) {
+					if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
+				} else if(Math.abs(theta) <= 30) {
+					if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
+				}
+			} else {
+				if(Math.abs(theta) > 30 ) {
+					if(ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);
+				} else if(Math.abs(theta) <= 30) {
+					if(!ship.getMovement().getToggle(Direction.FORWARD)) this.ship.getMovement().Toggle(Direction.FORWARD);		
+				}
 			}
 		}
-		path.registerMovement(ship.getX() - lastX, ship.getY() - lastY);
+		if(pathFinding) {
+			path.registerMovement(ship.getX() - lastX, ship.getY() - lastY);
+		}
 		lastX = ship.getX();
 		lastY = ship.getY();
 		if(hyp < 100) {

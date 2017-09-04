@@ -40,58 +40,28 @@ public class ArenaMap {
 	private Timer asteroidtimer;
 	public boolean isLoaded;
 	Random random;
-	public static Path getPathShape(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
-		int maxSteps = (int) 100000;
-		int x1 = (int) Math.floor(x1f/chunkWidth);
-		int x2 = (int) Math.floor(x2f/chunkWidth);
-		int y1 = (int) Math.floor(y1f/chunkWidth);
-		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
-		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
-		if(p!=null) {
-			Path d = new Path(p.getX(0)*chunkWidth, p.getY(1)*chunkWidth);
-			for(int i = 1; i < p.getLength(); i++) {		
-				int x = p.getX(i)*chunkWidth;
-				int y = p.getY(i)*chunkWidth;
-				d.lineTo(x, y);
+	public void loadCraft(Craft c) {
+		/*int cons = 10;
+		int counter = 0;
+		boolean flag = false;
+		while(flag == false && counter < 100) {
+			flag = true;
+			forl:*/
+			for(Planet p : getPlanets()) {
+				if(p.isColliding(c)) {
+					/*flag = false;
+					if(counter >= 50) {
+						c.setX(c.getX() + cons);
+					} else {
+						c.setX(c.getY() + cons);
+					}
+					break forl;*/
+					System.out.println("Collision found");
+				}
 			}
-			return d;
-		}
-		return null;
-	}
-	public static ArrayList<Vector2f> getPathVectors(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
-		int maxSteps = (int) 100000;
-		int x1 = (int) Math.floor(x1f/chunkWidth);
-		int x2 = (int) Math.floor(x2f/chunkWidth);
-		int y1 = (int) Math.floor(y1f/chunkWidth);
-		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
-		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
-		ArrayList<Vector2f> vectors = new ArrayList<Vector2f>();
-		if(p!=null) {
-			for(int i = 0; i < p.getLength()-1; i++) {		
-				vectors.add(new Vector2f(new float[] {chunkWidth*(p.getX(i+1)-p.getX(i)),chunkWidth*(p.getY(i+1)-p.getY(i))}));
-			}
-			return vectors;
-		}
-		return null;
-	}
-	public static TravelPath getTravelPath(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
-		int maxSteps = (int) 100000;
-		int x1 = (int) Math.floor(x1f/chunkWidth);
-		int x2 = (int) Math.floor(x2f/chunkWidth);
-		int y1 = (int) Math.floor(y1f/chunkWidth);
-		int y2 = (int) Math.floor(y2f/chunkWidth);	
-		AStarPathFinder finder = new AStarPathFinder(new ObjectMap(o, chunkWidth, ignore), maxSteps, true, new ClosestHeuristic());
-		org.newdawn.slick.util.pathfinding.Path p = finder.findPath(o, x1, y1, x2, y2);
-		ArrayList<Vector2f> vectors = new ArrayList<Vector2f>();
-		if(p!=null) {
-			for(int i = 0; i < p.getLength()-1; i++) {		
-				vectors.add(new Vector2f(new float[] {chunkWidth*(p.getX(i+1)-p.getX(i)),chunkWidth*(p.getY(i+1)-p.getY(i))}));
-			}
-			return new TravelPath(vectors);
-		}
-		return null;
+		//}
+		
+		this.craftlist.add(c);
 	}
 	public void tick() throws SlickException{
 		//randomizer for delay

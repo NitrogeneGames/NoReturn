@@ -168,17 +168,15 @@ public class GameState extends BasicGameState{
 
 			//load all resources here
 			
-			
 			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
-			
 			craft = new Craft(2000, 1200, "humanship", 1);
-			map.addCraft(craft);
+			map.loadCraft(craft);
 			
-			map.addCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
+			map.loadCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
-				map.addCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
-				map.addCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
+				map.loadCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
+				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));	
 			}
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
