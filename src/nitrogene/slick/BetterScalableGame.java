@@ -188,7 +188,6 @@ public class BetterScalableGame implements Game {
 	 */
 	public boolean closeRequested() {
 		//DisplayMode d = Display.getDisplayMode();
-		
 		AppData.saveRez();
 		return held.closeRequested();
 	}

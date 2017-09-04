@@ -148,7 +148,8 @@ public class ArenaMap {
 		this.rightbound = mapwidth - offsetx;
 	}
 	
-	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft craft){
+	public void generate(int offsetx, int offsety, int mapwidth, int mapheight, Craft c){
+		float counter = 0;
 		main:
 		for(int e = 1; e <= planetnumber; e++){
 			
@@ -171,11 +172,17 @@ public class ArenaMap {
 				}
 			}
 			
-			if(Math.sqrt(vec.distSQ(new Vector(craft.getRealCenterX(),craft.getRealCenterY()))) <= (craft.getSprite().getImage().getWidth()/2) + radius + 200){
-				e--;
-				continue main;
+			if(Math.sqrt(vec.distSQ(new Vector(c.getRealCenterX(),c.getRealCenterY()))) <= (c.getSprite().getImage().getWidth()/2) + radius + 200){				
+				counter++;
+				if(counter < 10) {
+					e--;
+					continue main;
+				} else {
+					Resources.log("no room for planet to be made?");
+					break main;
+				}
 			}
-			
+
 			addPlanet((int)vec.x,(int)vec.y,maxhp,radius);
 			Resources.log("PLANET  "+vec.x+ "   :   "+vec.y);
 		}
@@ -184,6 +191,11 @@ public class ArenaMap {
 	private void addPlanet(int centerx, int centery, int maxhp, int radius){
 		Planet planet = new Planet(centerx, centery,  maxhp, radius);
 		this.loadPlanet(planet);
+		for(Craft c : getCrafts()) {
+			if(c.isColliding(planet)) {
+				System.out.println("Collision found");
+			}
+		}
 		objlist.add(planet);
 		planetlist.add(planet);
 	}

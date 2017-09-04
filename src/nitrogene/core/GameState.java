@@ -52,7 +52,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState{
 	
 	public static boolean superHardDifficulty = false;
-	
+	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
 	public Hotbar guihotbar;
@@ -155,9 +155,8 @@ public class GameState extends BasicGameState{
 			CursorSystem.init();
 
 			//set largest zoom for generation: 0.5f maximum (minimum is 1.0f)
-			Zoom.setZoom(1.0f);
+			Zoom.setZoom(currentZoom);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
-
 			//other variables
 					mapwidth = 5000;
 					mapheight = 2000;
@@ -167,11 +166,10 @@ public class GameState extends BasicGameState{
 			    	camY = 0;
 
 			//load all resources here
-			
-			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
 			craft = new Craft(2000, 1200, "humanship", 1);
+			map = new ArenaMap(5,offsetX,offsetY,mapwidth,mapheight,craft);
+
 			map.loadCraft(craft);
-			
 			map.loadCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
@@ -180,8 +178,8 @@ public class GameState extends BasicGameState{
 			}
 	    	
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
-			int varx = (int)(Zoom.getZoomWidth()-this.SCR_width);
-			int vary = (int)(Zoom.getZoomWidth()-this.SCR_height);
+			int varx = (int)(this.SCR_width);
+			int vary = (int)(this.SCR_height);
 	    	stars = new Stars(2,mapwidth+(2*varx),mapheight+(2*vary), -1*(varx), -1*(vary), 100);
 	      /*
 	      for(LaserLauncher l : craft.laserlist){
@@ -208,7 +206,7 @@ public class GameState extends BasicGameState{
 			      if(superHardDifficulty) n.addTask(new TaskFire(n, craft, 1));
 		      }
 	      }
-	      map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
+		  map.generate(map.getOffsetX(), map.getOffsetY(), mapwidth, mapheight, craft);
 	      if(!this.guielementsloaded){
 	    	shieldbar = new ShieldBar(1.4f);
 	      	hullbar = new HullBar(1.4f);
@@ -232,6 +230,7 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		//System.out.println(Zoom.getZoom());
 		if (delta > 200) {
 			delta = 200;
 		}

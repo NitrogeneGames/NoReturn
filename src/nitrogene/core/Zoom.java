@@ -11,6 +11,7 @@ public class Zoom {
 	
 	
 	public static void setZoom(float z){
+		GameState.currentZoom = z;
 		zoom = z;
 	}
 	public static float getZoom(){
