@@ -300,7 +300,12 @@ public class LaserLauncher extends ShipSystem{
 				laser = null;
 	      }
 	}
-	public void fire() throws SlickException{
+	public boolean fire() throws SlickException{
+		float rota = Target.getRotation(this);
+	    float dist = Math.abs(rota);
+	    if(dist > 1) {
+	    	return false;
+	    }
 		int xOffset = GlobalInformation.getLaserOffsetX(enumtype.image2);
 		int yOffset = GlobalInformation.getLaserOffsetY(enumtype.image2);
 		
@@ -320,6 +325,7 @@ public class LaserLauncher extends ShipSystem{
 			temp.setTargetObject(target);
 		}
 		slaserlist.add(temp);
+		return true;
 	}
 	public double[] getRotatedCoordinates(double x1, double y1) {
 

@@ -51,32 +51,39 @@ public class WeaponTimer {
     	if(w.getStatus() == EnumStatus.ENGAGED) {
 	    	if(counter >= outerBurst && !bursting) {
 	    		if(burstShot > 1) {
-	    			bursting = true;
-	    			action();
-	    			counter = 0;
-	    			shot++;
+	    			if(action()) {
+		    			bursting = true;
+		    			counter = 0;
+		    			shot++;
+	    			}
 	    		} else {
-	    			action();
-	    			counter = 0;
+	    			if(action()) {
+	    				counter = 0;
+	    			}
 	    		}
 	    	} else if(counter >= interBurst && bursting) {
-	    		action();
-	    		shot++;
-	    		counter = 0;
-	    		if(shot >= burstShot) {
-	    			bursting = false;
-	    			shot = 0;
+	    		if(action()) {
+		    		shot++;
+		    		counter = 0;
+		    		if(shot >= burstShot) {
+		    			bursting = false;
+		    			shot = 0;
+		    		}
 	    		}
 	    	}
     	}
     }
-   public void action() {//called when the timer wants to fire a laser
+   public boolean action() {//called when the timer wants to fire a laser
 	   try {
-		w.fire();
-		start = System.currentTimeMillis();
-	} catch (SlickException e) {
-		e.printStackTrace();
-	}
+		   	boolean success = w.fire();
+			if(success) {
+				start = System.currentTimeMillis();
+			}
+			return success;
+	   } catch (SlickException e) {
+		   	e.printStackTrace();
+	   }
+	   return false;
    }
    public LaserLauncher getWeapon() {
 	   return w;
