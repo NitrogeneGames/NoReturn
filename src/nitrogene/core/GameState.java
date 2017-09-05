@@ -270,6 +270,7 @@ public class GameState extends BasicGameState{
 		}
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
+		TickSystem.update(delta);
     	minimap.update();
     	//guihotbar.update(craft);
     	//Input Controllers

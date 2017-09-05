@@ -363,8 +363,8 @@ public class LaserLauncher extends ShipSystem{
 	//Target a location: x, y, camX, camY, whether or not shooting is on
 	public void setFire(int x, int y, float camX, float camY, boolean b){
 		if(!b){
-			if(this.getTimer().getClock().isRunning()){
-				this.getTimer().stop();
+			if(this.getTimer().active){
+				this.getTimer().stop();//no more clocks hehe
 			}
 		} else{
 			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
@@ -390,7 +390,7 @@ public class LaserLauncher extends ShipSystem{
 	}
 	
 	public void toggleFire(int x, int y, float camX, float camY){
-		if(this.getTimer().getClock().isRunning()){
+		if(this.getTimer().active){
 			this.getTimer().stop();
 		}
 		else{

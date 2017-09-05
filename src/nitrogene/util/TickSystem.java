@@ -8,7 +8,23 @@ import nitrogene.weapon.WeaponTimer;
 public class TickSystem {
 	private static boolean isPaused = false;
 	public static ArrayList<WeaponTimer> timers = new ArrayList<WeaponTimer>();
-
+	static ArrayList<WeaponTimer> markForDead = new ArrayList<WeaponTimer>();
+	public static void update(int delta) {
+		
+		for(WeaponTimer t : timers) {
+			if(t.parent.parent.isDestroyed()) {
+				markForDead.add(t);
+			} else {
+				t.update(delta);
+			}
+		}
+		for(WeaponTimer t : markForDead) {
+			removeTimer(t);
+		}
+		if(markForDead.size() > 0) {
+			markForDead = new ArrayList<WeaponTimer>();
+		}
+	}
 	public static void pause() {
 		for (int i = 0; i < timers.size(); i++) {
 			timers.get(i).pause();

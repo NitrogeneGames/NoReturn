@@ -11,11 +11,10 @@ import nitrogene.util.EnumStatus;
 import org.newdawn.slick.SlickException;
 
 public class WeaponTimer {
-   public Timer Clock; //needs to be optimized to static
    public boolean isPauseLocked = false;
    public boolean active = false;
    public boolean isLocked = false;
-   public int tickTime = 10;
+   public int tickTime = 1;
    public float interBurst = 0;
    public float outerBurst = 0;
    public int burstShot = 0;
@@ -23,32 +22,21 @@ public class WeaponTimer {
    private int shot = 0;
    private long start;
    private long elapsed;
-   private LaserLauncher w;
+   public LaserLauncher parent;
    private int counter = 0;
-	ActionListener taskPerformer = new ActionListener() {//event to call tick() every 10 miliseconds
-    	public void actionPerformed(ActionEvent evt) {
-    		if(w.parent.isDestroyed()) {
-    			Clock.stop();
-    		}
-    		if(!isPauseLocked && !isLocked) {
-    			tick();
-    		}
+	//ActionListener taskPerformer = new ActionListener() {//event to call tick() every 10 miliseconds
+	public void update(int delta) {
+		if(!isPauseLocked && !isLocked) {
+			tick(delta);
+		}
+	}
+    //};
+    public void tick(int delta) {//called every 10 miliseconds, will count up to the set time then call action() to fire a laser
+		counter = counter + delta;
+    	if(counter > outerBurst) {
+    		counter = (int) outerBurst;
     	}
-    };
-    public Timer getClock() {
-    	return Clock;
-    }
-    public void setClock(Timer t) {
-    	Clock = t;
-    }
-    public void tick() {//called every 10 miliseconds, will count up to the set time then call action() to fire a laser
-    	if(counter < outerBurst) {
-    		counter++;
-    		if(counter > outerBurst) {
-    			counter = (int) outerBurst;
-    		}
-    	}
-    	if(w.getStatus() == EnumStatus.ENGAGED) {
+    	if(parent.getStatus() == EnumStatus.ENGAGED) {
 	    	if(counter >= outerBurst && !bursting) {
 	    		if(burstShot > 1) {
 	    			if(action()) {
@@ -71,11 +59,14 @@ public class WeaponTimer {
 		    		}
 	    		}
 	    	}
+    	} else {
+			bursting = false;
+			shot = 0;
     	}
     }
    public boolean action() {//called when the timer wants to fire a laser
 	   try {
-		   	boolean success = w.fire();
+		   	boolean success = parent.fire();
 			if(success) {
 				start = System.currentTimeMillis();
 			}
@@ -86,27 +77,27 @@ public class WeaponTimer {
 	   return false;
    }
    public LaserLauncher getWeapon() {
-	   return w;
+	   return parent;
    }
    public void setWeapon(LaserLauncher t) {//assigns a weapon to the timer, will trigger the weapon to fire as needed
-	   w = t;
+	   parent = t;
    }
    //interburst = time between burst shots, outerburst = time to charge, burstshot = shots in burst
    public WeaponTimer(int c, LaserLauncher d) {
-	   w = d; 
-	   interBurst = d.getInterburst()/10;
-	   outerBurst = d.getOuterburst()/10;
+	   parent = d; 
+	   interBurst = d.getInterburst();
+	   outerBurst = d.getOuterburst();
 	   burstShot = d.getBurstNumber();
-       Clock = new Timer(tickTime, taskPerformer);
+       //Clock = new Timer(tickTime, taskPerformer);
        //CursorSystem.changeCursor("greenfire");
    }
    public WeaponTimer(LaserLauncher d) {
-	   w = d;
-	   interBurst = ((float)d.getInterburst())/10;
-	   outerBurst = ((float)d.getOuterburst())/10;
+	   parent = d;
+	   interBurst = ((float)d.getInterburst());
+	   outerBurst = ((float)d.getOuterburst());
 	   burstShot = d.getBurstNumber();
-       Clock = new Timer(tickTime, taskPerformer);
-       Clock.start();
+       //Clock = new Timer(tickTime, taskPerformer);
+       //Clock.start();
        //CursorSystem.changeCursor("greenfire");
    }
    public void start() {   
