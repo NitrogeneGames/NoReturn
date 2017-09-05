@@ -38,44 +38,46 @@ public class Hotbar {
 	}
 	public void render(Graphics g, Craft craft, int selected) throws SlickException {
 		for(LaserLauncher launcher : craft.laserlist) {
-			renderHealthBar(g, launcher.laserId, launcher.getHp()/launcher.getMaxHp());
-			renderPowerBar(g, launcher.laserId, launcher.getPowerReceived()/launcher.getPowerUsage());
-			rend = launcher.getSprite().getImage().copy();
-			/*if(launcher.getStatus() == EnumStatus.READY){
-				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
-			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
-				statusicon = ((Image) AssetManager.get().get("statusFiring")).copy();
-			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
-				statusicon = ((Image) AssetManager.get().get("statusDamaged")).copy();
-			} else if(launcher.getStatus() == EnumStatus.POWER){
-				statusicon = ((Image) AssetManager.get().get("statusNeedPower")).copy();
-			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
-				statusicon = ((Image) AssetManager.get().get("statusDestroyed")).copy();
-			} else{
-				statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
-			}*/
-			if(launcher.getStatus() == EnumStatus.READY){
-				statusicon = ((Image) AssetManager.get().get("statusReady"));
-			} else if(launcher.getStatus() == EnumStatus.ENGAGED){
-				statusicon = ((Image) AssetManager.get().get("statusFiring"));
-			} else if(launcher.getStatus() == EnumStatus.DAMAGED){
-				statusicon = ((Image) AssetManager.get().get("statusDamaged"));
-			} else if(launcher.getStatus() == EnumStatus.POWER){
-				statusicon = ((Image) AssetManager.get().get("statusNeedPower"));
-			} else if(launcher.getStatus() == EnumStatus.DESTROYED){
-				statusicon = ((Image) AssetManager.get().get("statusDestroyed"));
-			} else{
-				statusicon = ((Image) AssetManager.get().get("statusReady"));
+			if(!launcher.isDestroyed() && launcher.getTimer() != null) {
+				renderHealthBar(g, launcher.laserId, launcher.getHp()/launcher.getMaxHp());
+				renderPowerBar(g, launcher.laserId, launcher.getPowerReceived()/launcher.getPowerUsage());
+				rend = launcher.getSprite().getImage().copy();
+				/*if(launcher.getStatus() == EnumStatus.READY){
+					statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
+				} else if(launcher.getStatus() == EnumStatus.ENGAGED){
+					statusicon = ((Image) AssetManager.get().get("statusFiring")).copy();
+				} else if(launcher.getStatus() == EnumStatus.DAMAGED){
+					statusicon = ((Image) AssetManager.get().get("statusDamaged")).copy();
+				} else if(launcher.getStatus() == EnumStatus.POWER){
+					statusicon = ((Image) AssetManager.get().get("statusNeedPower")).copy();
+				} else if(launcher.getStatus() == EnumStatus.DESTROYED){
+					statusicon = ((Image) AssetManager.get().get("statusDestroyed")).copy();
+				} else{
+					statusicon = ((Image) AssetManager.get().get("statusReady")).copy();
+				}*/
+				if(launcher.getStatus() == EnumStatus.READY){
+					statusicon = ((Image) AssetManager.get().get("statusReady"));
+				} else if(launcher.getStatus() == EnumStatus.ENGAGED){
+					statusicon = ((Image) AssetManager.get().get("statusFiring"));
+				} else if(launcher.getStatus() == EnumStatus.DAMAGED){
+					statusicon = ((Image) AssetManager.get().get("statusDamaged"));
+				} else if(launcher.getStatus() == EnumStatus.POWER){
+					statusicon = ((Image) AssetManager.get().get("statusNeedPower"));
+				} else if(launcher.getStatus() == EnumStatus.DESTROYED){
+					statusicon = ((Image) AssetManager.get().get("statusDestroyed"));
+				} else{
+					statusicon = ((Image) AssetManager.get().get("statusReady"));
+				}
+				statusicon.setFilter(Image.FILTER_NEAREST);
+				if(launcher.getTimer().getMaxChargeTime() != 0){
+					renderChargeBar(g, launcher.laserId, launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
+							launcher.getTimer().bursting, ((float) launcher.getTimer().burstShot) * launcher.getTimer().interBurst * 10);
+				}
+				renderTransparentBackground(g, launcher.laserId, selected, launcher);
+				renderStatus(statusicon, launcher.laserId);
+				rend.setFilter(Image.FILTER_NEAREST);
+				renderWeapon(rend, launcher.laserId, launcher.enumtype);
 			}
-			statusicon.setFilter(Image.FILTER_NEAREST);
-			if(launcher.getTimer().getMaxChargeTime() != 0){
-				renderChargeBar(g, launcher.laserId, launcher.getTimer().getCurrentChargeTime()/launcher.getTimer().getMaxChargeTime(),
-						launcher.getTimer().bursting, ((float) launcher.getTimer().burstShot) * launcher.getTimer().interBurst * 10);
-			}
-			renderTransparentBackground(g, launcher.laserId, selected, launcher);
-			renderStatus(statusicon, launcher.laserId);
-			rend.setFilter(Image.FILTER_NEAREST);
-			renderWeapon(rend, launcher.laserId, launcher.enumtype);
 		}
 		
 	}

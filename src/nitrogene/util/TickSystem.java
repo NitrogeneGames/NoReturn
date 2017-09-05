@@ -11,18 +11,13 @@ public class TickSystem {
 	static ArrayList<WeaponTimer> markForDead = new ArrayList<WeaponTimer>();
 	public static void update(int delta) {
 		
-		for(WeaponTimer t : timers) {
-			if(t.parent.parent.isDestroyed()) {
-				markForDead.add(t);
+		for(int i = 0; i < timers.size(); i++) {
+			if(timers.get(i).parent.parent.isDestroyed()) {
+				timers.remove(i);
+				i--;
 			} else {
-				t.update(delta);
+				timers.get(i).update(delta);
 			}
-		}
-		for(WeaponTimer t : markForDead) {
-			removeTimer(t);
-		}
-		if(markForDead.size() > 0) {
-			markForDead = new ArrayList<WeaponTimer>();
 		}
 	}
 	public static void pause() {

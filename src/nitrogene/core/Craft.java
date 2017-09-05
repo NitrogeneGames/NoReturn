@@ -186,6 +186,12 @@ public class Craft extends PhysicalObject{
 			this.destroy();
 			//GAME OVER
 		}
+		for(int i = 0; i < laserlist.size(); i++) {
+			if(laserlist.get(i).isDestroyed()) {
+				laserlist.remove(i);
+				i--;
+			}
+		}
 	}
 	
 	public void renderSystems() {

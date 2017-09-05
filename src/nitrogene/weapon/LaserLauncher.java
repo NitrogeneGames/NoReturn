@@ -362,54 +362,58 @@ public class LaserLauncher extends ShipSystem{
 	
 	//Target a location: x, y, camX, camY, whether or not shooting is on
 	public void setFire(int x, int y, float camX, float camY, boolean b){
-		if(!b){
-			if(this.getTimer().active){
-				this.getTimer().stop();//no more clocks hehe
-			}
-		} else{
-			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
-				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
-					//Target Planet
-					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p);
-				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
-						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
-					//Target Ship
-					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p);
+		if(!isDestroyed() && this.getTimer() != null) {
+			if(!b){
+				if(this.getTimer().active){
+					this.getTimer().stop();//no more clocks hehe
 				}
-				
-			} else {
-			this.setTarget(x + camX, y + camY);
-			isTargetingObject = false;
-			}
-			if(!this.getTimer().isLocked) {
-				this.getTimer().start();
+			} else{
+				if(Target.getTargetObject(x+camX, y+camY, map) != null) {
+					if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
+						//Target Planet
+						Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
+						this.setTarget(p);
+					}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
+							Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
+						//Target Ship
+						Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
+						this.setTarget(p);
+					}
+					
+				} else {
+				this.setTarget(x + camX, y + camY);
+				isTargetingObject = false;
+				}
+				if(!this.getTimer().isLocked) {
+					this.getTimer().start();
+				}
 			}
 		}
 	}
 	
 	public void toggleFire(int x, int y, float camX, float camY){
-		if(this.getTimer().active){
-			this.getTimer().stop();
-		}
-		else{
-			if(Target.getTargetObject(x+camX, y+camY, map) != null) {
-				if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
-					//Target Planet
-					Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
-					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
-				}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
-						Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
-					//Target Ship
-					Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
-					this.setTarget(p.getRealCenterX(), p.getRealCenterY());
-				}
-			} else {
-			this.setTarget(x + camX, y + camY);
+		if(!isDestroyed() && this.getTimer() != null) {
+			if(this.getTimer().active){
+				this.getTimer().stop();
 			}
-			//TickSystem.resume();
-			this.getTimer().gameResume();
+			else{
+				if(Target.getTargetObject(x+camX, y+camY, map) != null) {
+					if(Target.getTargetObject(x+camX, y+camY, map).getClass() == Planet.class) {
+						//Target Planet
+						Planet p = (Planet) Target.getTargetObject(x+camX, y+camY, map);				
+						this.setTarget(p.getRealCenterX(), p.getRealCenterY());
+					}else if(Target.getTargetObject(camX + x, camY + y, map).getClass() == Craft.class ||
+							Target.getTargetObject(camX + x, camY + y, map).getClass() ==  NPCship.class) {
+						//Target Ship
+						Craft p = (Craft) Target.getTargetObject(camX + x,camY + y, map);				
+						this.setTarget(p.getRealCenterX(), p.getRealCenterY());
+					}
+				} else {
+				this.setTarget(x + camX, y + camY);
+				}
+				//TickSystem.resume();
+				this.getTimer().gameResume();
+			}
 		}
 	}
 }

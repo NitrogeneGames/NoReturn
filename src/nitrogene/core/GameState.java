@@ -52,7 +52,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState{
 	
-	public static boolean superHardDifficulty = false;
+	public static boolean superHardDifficulty = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -203,8 +203,9 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  enemyWeapons.add(EnumWeapon.BASIC);
+	    		  
 	    		  if(superHardDifficulty){
+	    			  enemyWeapons.add(EnumWeapon.BASIC);
 	    			  enemyWeapons.add(EnumWeapon.BASIC);
 	    			  enemyWeapons.add(EnumWeapon.VELOX2);
 	    			  enemyWeapons.add(EnumWeapon.IMMINEO);
