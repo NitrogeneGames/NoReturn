@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import nitrogene.core.Craft;
 import nitrogene.core.GameState;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.Planet;
 
 public class NPCship extends Craft{
@@ -16,8 +16,8 @@ public class NPCship extends Craft{
 	private ArrayList<Planet> planettarget;
 	public ArrayList<Task> tasks = new ArrayList<Task>();
 	
-	public NPCship(float xpos, float ypos, Relation relation, String img, float scalefactor) throws SlickException{
-		super(xpos, ypos, img, scalefactor);
+	public NPCship(World world, float xpos, float ypos, Relation relation, String img, float scalefactor) throws SlickException{
+		super(world, xpos, ypos, img, scalefactor);
 		this.relation = relation;
 		crafttarget = new ArrayList<Craft>();
 		planettarget = new ArrayList<Planet>();

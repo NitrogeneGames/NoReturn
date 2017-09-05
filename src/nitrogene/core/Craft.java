@@ -22,7 +22,7 @@ import nitrogene.util.TickSystem;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.WeaponTimer;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -48,8 +48,8 @@ public class Craft extends PhysicalObject{
 	private ArrayList<Item> inventory;
 	protected int cumulative;
 	public String name = "";
-	public Craft(float xpos, float ypos, String img, float scale) throws SlickException{
-		super(xpos, ypos);
+	public Craft(World world, float xpos, float ypos, String img, float scale) throws SlickException{
+		super(world, xpos, ypos);
 		this.scalefactor = scale;
 		this.img = img;
 		setDefaultMovement("angled");
@@ -72,7 +72,7 @@ public class Craft extends PhysicalObject{
 		maxWeapons = 6;
 	}
 	@Override
-	public void load(String img, float scalefactor, ArenaMap map){
+	public void load(String img, float scalefactor, World map){
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = new Sprite(img);

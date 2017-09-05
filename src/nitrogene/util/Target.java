@@ -3,7 +3,7 @@ package nitrogene.util;
 
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.weapon.LaserLauncher;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.Planet;
 
 public class Target {
@@ -94,7 +94,7 @@ public class Target {
 				return a-a1;
 			}
 	} */
-	public static PhysicalObject getTargetObject(float f, float g, ArenaMap map) {
+	public static PhysicalObject getTargetObject(float f, float g, World map) {
 		/*
 		for(BoxMesh box : boxmeshlist){
 			if(CollisionLibrary.testBoxPoint(box.boundbox, f, g)){

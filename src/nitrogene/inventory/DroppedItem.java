@@ -8,24 +8,25 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.gui.Sprite;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 
 public class DroppedItem extends PhysicalObject{
 	private ArrayList<Item> droplist;
 
 	public DroppedItem(ArrayList<Item> droplist, float x, float y) throws SlickException{
-		super(x, y);
+		super(GameState.map, x, y);
 		this.droplist = droplist;
 	}
 	
 
-	public void load(float scalefactor, ArenaMap map){
+	public void load(float scalefactor, World map){
 		this.scalefactor = scalefactor;
 		this.map = map;
 		//ADD DIFFERENT CLASSES OF RESOURCES HERE FOR DIFFERENT IMAGES LOADING.
@@ -60,7 +61,7 @@ public class DroppedItem extends PhysicalObject{
 		return droplist;
 	}
 	
-	public void destroy(ArenaMap map){
+	public void destroy(World map){
 		this.mainimg = null;
 		map.getDroppedItem().remove(this);
 	}

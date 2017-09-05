@@ -18,7 +18,7 @@ import nitrogene.gui.Sprite;
 import nitrogene.npc.NPCship;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.TravelPath;
 
 public class PhysicalObject implements Mover {
@@ -26,7 +26,7 @@ public class PhysicalObject implements Mover {
 	protected String defaultmovement;
 	protected float rotationalconstant;
 	protected Movement movement;
-	protected ArenaMap map;
+	protected World map;
 	protected Shape boundbox, newboundbox;
 	protected Sprite mainimg;
 	protected float scalefactor;
@@ -38,7 +38,9 @@ public class PhysicalObject implements Mover {
 	protected float tempx, tempy;
 	protected boolean destroyed = false;
 	protected Point centerOfRotation;
-	public PhysicalObject(float x, float y){
+	public World world;
+	public PhysicalObject(World world, float x, float y){
+		this.world = world;
 		width = 0;
 		height = 0;
 		tempx = x;
@@ -47,7 +49,7 @@ public class PhysicalObject implements Mover {
 	public boolean isDestroyed() {
 		return destroyed;
 	}
-	public void load(String img, float scalefactor, ArenaMap map){
+	public void load(String img, float scalefactor, World map){
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = new Sprite(img);

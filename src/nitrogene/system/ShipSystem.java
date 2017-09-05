@@ -7,7 +7,7 @@ import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
 import nitrogene.util.Movement;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
@@ -32,7 +32,7 @@ public class ShipSystem extends PhysicalObject{
 	//The damagebox for damage collision/proximity is the boundbox of CircleObject
 	
 	public ShipSystem(Craft c, float x, float y, int maxhp, int durability, int damageradius, float powerNeeded){
-		super(x,y);
+		super(c.world, x,y);
 		x1 = x;
 		y1 = y;
 		setDefaultMovement("normal");
@@ -50,7 +50,7 @@ public class ShipSystem extends PhysicalObject{
 	public float rotation = 0;
 	
 	@Override
-	public void load(String img, float scalefactor, ArenaMap map){
+	public void load(String img, float scalefactor, World map){
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = new Sprite(img);

@@ -18,7 +18,7 @@ import nitrogene.util.EnumStatus;
 import nitrogene.util.Movement;
 import nitrogene.util.Target;
 import nitrogene.util.TickSystem;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.Planet;
 
 import org.newdawn.slick.Graphics;
@@ -127,7 +127,7 @@ public class LaserLauncher extends ShipSystem{
 		camY = 0;
 	}
 	
-	public void load(ArenaMap map){
+	public void load(World map){
 		this.map = map;
 		boundbox = GlobalInformation.getHitbox(getSprite().getResourceReference());
 		if(boundbox == null){
@@ -200,24 +200,52 @@ public class LaserLauncher extends ShipSystem{
 	}
 	public boolean greenImage = false;
 	public void update(float craftX,float craftY,int delta){
-		this.craftX = craftX;
-		this.craftY = craftY;
-		//if(this.getTimer().isPauseLocked){
-		//	CursorSystem.changeCursor("redfire");
-		//}else CursorSystem.changeCursor("greenfire");
-		this.delta = delta;
-		if(this.getHp() < 0){
-			this.setStatus(EnumStatus.DESTROYED);
-			setGreenImage(false);
-		} else if(this.getTimer().active){
-			this.setStatus(EnumStatus.ENGAGED);
-			setGreenImage(true);
-		} else if(this.getHp()<this.getMaxHp()){
-			this.setStatus(EnumStatus.DAMAGED);
-			setGreenImage(false);
-		} else{
-			this.setStatus(EnumStatus.READY);
-			setGreenImage(false);
+		if(!parent.isDestroyed()) {
+			this.craftX = craftX;
+			this.craftY = craftY;
+			//if(this.getTimer().isPauseLocked){
+			//	CursorSystem.changeCursor("redfire");
+			//}else CursorSystem.changeCursor("greenfire");
+			this.delta = delta;
+			if(this.getHp() < 0){
+				this.setStatus(EnumStatus.DESTROYED);
+				setGreenImage(false);
+			} else if(this.getTimer().active){
+				this.setStatus(EnumStatus.ENGAGED);
+				setGreenImage(true);
+			} else if(this.getHp()<this.getMaxHp()){
+				this.setStatus(EnumStatus.DAMAGED);
+				setGreenImage(false);
+			} else{
+				this.setStatus(EnumStatus.READY);
+				setGreenImage(false);
+			}
+		      double[] coords = parent.getRotatedCoordinates(this.getLockedX(), this.getLockedY());
+		      this.setX((float) (parent.width/2+coords[0]));
+			  this.setY((float) (parent.height/2+coords[1]));
+	
+		      float rota = Target.getRotation(this);
+		      float dist = Math.abs(rota);
+			  if(dist > 1) {
+		    		  if(dist >= 100) {
+		    			  if(dist >= 200) {
+			    			  if(dist >= 300) {
+			    				  	this.getSprite().rotate(rota/50*(delta/25f));
+					       
+			   				  } else {   //<300
+			   					  	this.getSprite().rotate(rota/25*(delta/25f));
+			   				  }
+					      } else {  //<200
+					    	  this.getSprite().rotate(rota/10*(delta/25f));
+					      }
+					  } else { //<100
+					      this.getSprite().rotate(rota/5*(delta/25f));
+				      }
+		    		  //50,40,30,20
+		      } else {
+		    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
+		          this.getSprite().setRotation(this.getAngle());
+		      }
 		}
 	}
 	public void setGreenImage(boolean b) {
@@ -232,13 +260,6 @@ public class LaserLauncher extends ShipSystem{
 			greenImage = false;
 		}
 	}
-	public void update(float craftX, float craftY, float camX, float camY, int delta){
-		this.craftX = craftX;
-		this.craftY = craftY;
-		this.camX = camX; 
-		this.camY = camY;
-		this.delta = delta;
-	}
 	
 	public void render(Graphics g, float camX, float camY){
 			if(isTargetingObject) {
@@ -246,32 +267,7 @@ public class LaserLauncher extends ShipSystem{
 					this.setFire(0, 0, camX, camY, false);
 				}
 			}
-	      double[] coords = parent.getRotatedCoordinates(this.getLockedX(), this.getLockedY());
-	      this.setX((float) (parent.width/2+coords[0]));
-		  this.setY((float) (parent.height/2+coords[1]));
 
-	      float rota = Target.getRotation(this);
-	      float dist = Math.abs(rota);
-		  if(dist > 1) {
-	    		  if(dist >= 100) {
-	    			  if(dist >= 200) {
-		    			  if(dist >= 300) {
-		    				  	this.getSprite().rotate(rota/50*(delta/25f));
-				       
-		   				  } else {   //<300
-		   					  	this.getSprite().rotate(rota/25*(delta/25f));
-		   				  }
-				      } else {  //<200
-				    	  this.getSprite().rotate(rota/10*(delta/25f));
-				      }
-				  } else { //<100
-				      this.getSprite().rotate(rota/5*(delta/25f));
-			      }
-	    		  //50,40,30,20
-	      } else {
-	    	  //this.getImage().setCenterOfRotation(this.getX(), this.getY());
-	          this.getSprite().setRotation(this.getAngle());
-	      }
 	      //this.getImage().setCenterOfRotation(parent.getX(), parent.getY());
 	      //this.getImage().setRotation(parent.getMovement().getRotationAngle());
 	      this.getSprite().drawCentered(this.getX()+craftX, this.getY()+craftY);
@@ -280,6 +276,10 @@ public class LaserLauncher extends ShipSystem{
 	      slaserlistcopy = slaserlist;
 	      for(int a = 0; a < slaserlistcopy.size(); a++){
 	    	  PhysicalProjcetile laser = slaserlistcopy.get(a);
+	    	  for(int i : map.getSectors(laser)) {
+	    		  System.out.println(map.getSquare(i).getCenterX());
+	    		  g.draw(map.getSquare(i));
+	    	  }
 	    	  /*if(laser.getX()>Zoom.getZoomWidth()/2+(parent.getX()+174)||
 						laser.getX()+(laser.getSprite().getImage().getWidth()*laser.getScale())<parent.getX()-174-(Zoom.getZoomWidth()/2)||
 						laser.getY()>Zoom.getZoomHeight()/2+(parent.getY()+88)||

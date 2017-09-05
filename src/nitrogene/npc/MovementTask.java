@@ -19,7 +19,7 @@ import nitrogene.core.Resources;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Target;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.TravelPath;
 
 public abstract class MovementTask extends Task {

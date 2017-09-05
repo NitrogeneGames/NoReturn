@@ -24,8 +24,8 @@ public class Planet extends PhysicalObject{
 	private int hp;
 	private Shake shake;
 
-	public Planet(float centerx, float centery, int maxhp, int radius) {
-		super(centerx-radius, centery-radius);
+	public Planet(World world, float centerx, float centery, int maxhp, int radius) {
+		super(world, centerx-radius, centery-radius);
 		this.realcenterx = centerx;
 		this.realcentery = centery;
 		this.maxhp = maxhp;
@@ -33,8 +33,10 @@ public class Planet extends PhysicalObject{
 		hp = maxhp;
 		shake = new Shake();
 	}
-	
-	public void load(String img, float radius, ArenaMap map){
+	public Shake getShake() {
+		return shake;
+	}
+	public void load(String img, float radius, World map){
 		this.map = map;
 		this.mainimg = new Sprite(img);		
 		this.scalefactor = (radius*2)/mainimg.getImage().getWidth();
@@ -57,7 +59,7 @@ public class Planet extends PhysicalObject{
 		this.getSprite().setCenterOfRotation(realcenterx, realcentery);
 	}
 	
-	public void damage(int damage, ArenaMap map, int e) throws SlickException{
+	public void damage(int damage, World map, int e) throws SlickException{
 		hp -= damage;
 		if(hp <= 0){
 			hp = 0;
@@ -65,7 +67,7 @@ public class Planet extends PhysicalObject{
 			this.destroy(map, e);
 		}
 	}
-	public void damage(int damage, ArenaMap map) throws SlickException{
+	public void damage(int damage, World map) throws SlickException{
 		hp -= damage;
 		if(hp <= 0){
 			hp = 0;
@@ -73,7 +75,7 @@ public class Planet extends PhysicalObject{
 			this.destroy(map, this);
 		}
 	}
-	public void destroy(ArenaMap map, int e) throws SlickException {
+	public void destroy(World map, int e) throws SlickException {
 		this.mainimg = null;
 		this.removeBoundbox();
 		this.destroyed = true;
@@ -81,7 +83,7 @@ public class Planet extends PhysicalObject{
 		map.removePlanet(e);
 		map.getObjList().remove(e);
 	}
-	public void destroy(ArenaMap map, Planet planet) throws SlickException {
+	public void destroy(World map, Planet planet) throws SlickException {
 		this.mainimg = null;
 		this.removeBoundbox();
 		this.destroyed = true;
@@ -89,7 +91,7 @@ public class Planet extends PhysicalObject{
 		map.getObjList().remove(planet);
 		map.removePlanet(planet);
 	}
-	private void spawnItem(ArenaMap map) throws SlickException{
+	private void spawnItem(World map) throws SlickException{
 		ArrayList<Item> list = new ArrayList<Item>();
 		Item item = new Item(EnumDrop.IRON, list);
 		item.addStack(10);
@@ -106,9 +108,6 @@ public class Planet extends PhysicalObject{
 		return maxhp;
 	}
 	
-	public Shake getShake(){
-		return shake;
-	}
 
 	public int getRadius() {
 		return radius;

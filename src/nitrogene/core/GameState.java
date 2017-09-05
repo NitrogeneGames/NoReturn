@@ -28,7 +28,7 @@ import nitrogene.util.ZoomEnum;
 import nitrogene.weapon.EnumWeapon;
 import nitrogene.weapon.LaserLauncher;
 import nitrogene.weapon.PhysicalProjcetile;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.Asteroid;
 import nitrogene.world.Planet;
 
@@ -60,7 +60,7 @@ public class GameState extends BasicGameState{
 	private ShieldBar shieldbar;
 	private HullBar hullbar;
 	PauseButton resume, restart, hangar, menu, options, exit;
-	public static ArenaMap map;
+	public static World map;
 	Stars stars;
 	SpriteSheet spriteex;
 	private boolean planetCollisions = false;
@@ -163,6 +163,7 @@ public class GameState extends BasicGameState{
 	         throws SlickException {
 	      super.enter(container, game);
 			CursorSystem.init();
+
 			//set largest zoom for generation: 0.5f maximum (minimum is 1.0f)
 			Zoom.setZoom(currentZoom);
 			Zoom.setZoomWindow(SCR_width, SCR_height);
@@ -173,16 +174,17 @@ public class GameState extends BasicGameState{
 			    	offsetX = SCR_width/2;
 			    	camX = 0;
 			    	camY = 0;
+			map = new World(10,offsetX,offsetY,mapwidth,mapheight);
 			//load all resources here
-			craft = new Craft(2000, 1200, "humanship", 1);
-			map = new ArenaMap(10,offsetX,offsetY,mapwidth,mapheight,craft);
+			craft = new Craft(map, 2000, 1200, "humanship", 1);
+
 			map.loadCraft(craft);
-			map.loadCraft(new NPCship(00, 00, Relation.HOSTILE, "craftimage", 1));			
+			map.loadCraft(new NPCship(map, 00, 00, Relation.HOSTILE, "craftimage", 1));			
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
-				map.loadCraft(new NPCship(4000, 00, Relation.HOSTILE, "craftimage", 1));	
-				map.loadCraft(new NPCship(00, 1600, Relation.HOSTILE, "craftimage", 1));
-				map.loadCraft(new NPCship(00, 1000, Relation.HOSTILE, "craftimage", 1));
+				map.loadCraft(new NPCship(map, 4000, 00, Relation.HOSTILE, "craftimage", 1));	
+				map.loadCraft(new NPCship(map, 00, 1600, Relation.HOSTILE, "craftimage", 1));
+				map.loadCraft(new NPCship(map, 00, 1000, Relation.HOSTILE, "craftimage", 1));
 			}
 	    	minimap = new Minimap(300, 121, SCR_width, SCR_height, mapwidth, mapheight, craft);
 			int varx = (int)(this.SCR_width);
@@ -231,6 +233,7 @@ public class GameState extends BasicGameState{
 	      }
 	      map.asteroidResume();
 	      this.PAUSED = false;
+	      map.generateSectors();
 	   }
 	
 	@SuppressWarnings("static-access")
@@ -246,6 +249,7 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		int lasercount = 0;
 		//System.out.println(Zoom.getZoom());
 		if (delta > 200) {
 			delta = 200;
@@ -272,6 +276,7 @@ public class GameState extends BasicGameState{
 		AnimationManager.updateAnimation(delta);
 		CursorSystem.update(container);
 		TickSystem.update(delta);
+		//map.updateSectors(map.getCrafts());
     	minimap.update();
     	//guihotbar.update(craft);
     	//Input Controllers
@@ -348,9 +353,9 @@ public class GameState extends BasicGameState{
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
-						for(int e = 0; e < map.getPlanets().size(); e++){
+						collide(laser, laserlauncher, map.checkCollision(laser));
+						/*for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
-							mesh.getShake().update(delta);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
 								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
 								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
@@ -390,6 +395,7 @@ public class GameState extends BasicGameState{
 					laserlauncher = null;
 				}
 				} else if (obj.getClass() == NPCship.class){
+				
 				NPCship temp = (NPCship) obj;
 				temp.update(delta,camX,camY);
 				for(int m = 0; m<temp.laserlist.size(); m++) {
@@ -397,32 +403,17 @@ public class GameState extends BasicGameState{
 					laserlauncher.update(temp.getX(), temp.getY(),delta);
 					
 					for(int i = 0;i<laserlauncher.slaserlist.size();i++){
+						lasercount++;
 						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
-						for(int e = 0; e < map.getPlanets().size(); e++){
+						collide(laser, laserlauncher, map.checkCollision(laser));
+						/*for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
-							mesh.getShake().update(delta);
-							if(mesh.isColliding(laser) || mesh.isColliding(path)){
-								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
-								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-								float xN = (float) (hyp*Math.cos(rotation))/2;
-								float yN = (float) (hyp*-Math.sin(rotation))/2;
-								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-								laserlauncher.slaserlist.remove(laser);
-								mesh.damage(laser.getPlanetDamage(), map);
-							}
+
 							}
 						for(Craft craft : map.getCrafts()){
-							if(((craft.isColliding(laser) || craft.isColliding(path))) && !craft.equals(obj)){
-								float rotation = (float) -Math.toRadians(laser.getSprite().getImage().getRotation());
-								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-								float xN = (float) (hyp*Math.cos(rotation))/2;
-								float yN = (float) (hyp*-Math.sin(rotation))/2;
-								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-								laserlauncher.slaserlist.remove(laser);
-								craft.damageHull(laser.getDamage());
-							}
-						}
+
+						}*/
 					}
 					laserlauncher = null;
 				} 
@@ -475,30 +466,59 @@ public class GameState extends BasicGameState{
 			}*/
 		}
 		else{
-		//pause menu here
-			//Button Controllers
-			if(!TickSystem.isPaused()) {
-				TickSystem.gamePause();
-				map.asteroidPause();
+			//pause menu here
+				//Button Controllers
+				if(!TickSystem.isPaused()) {
+					TickSystem.gamePause();
+					map.asteroidPause();
+				}
+				resume.update(container);
+		    	restart.update(container);
+		    	menu.update(container);
+		    	exit.update(container);
+		    	options.update(container);
+		    	hangar.update(container);
+		    	
+		    	if(resume.isClicked()){
+		    		PAUSED = false;
+		    	}
+		    	if(restart.isClicked()) game.enterState(2);
+		    	if(options.isClicked()) game.enterState(4);
+		    	if(hangar.isClicked()) game.enterState(3);
+		    	if(menu.isClicked()) game.enterState(1);
+		    	if(exit.isClicked()) container.exit();
 			}
-			resume.update(container);
-	    	restart.update(container);
-	    	menu.update(container);
-	    	exit.update(container);
-	    	options.update(container);
-	    	hangar.update(container);
-	    	
-	    	if(resume.isClicked()){
-	    		PAUSED = false;
-	    	}
-	    	if(restart.isClicked()) game.enterState(2);
-	    	if(options.isClicked()) game.enterState(4);
-	    	if(hangar.isClicked()) game.enterState(3);
-	    	if(menu.isClicked()) game.enterState(1);
-	    	if(exit.isClicked()) container.exit();
 		}
+	public void collide(PhysicalProjcetile laser, LaserLauncher laserlauncher, PhysicalObject mesh) {
+		if (mesh == null) return;
+		if(mesh.getClass() == Planet.class){
+			float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+			float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+			float xN = (float) (hyp*Math.cos(rotation))/2;
+			float yN = (float) (hyp*-Math.sin(rotation))/2;			
+			laserlauncher.slaserlist.remove(laser);
+			try {
+				AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+				((Planet) mesh).damage(laser.getPlanetDamage(), map);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
-		
+		if(mesh.getClass() == Craft.class){
+			if(((Craft) mesh).equals(laserlauncher.parent)) return;
+			float rotation = (float) -Math.toRadians(laser.getSprite().getImage().getRotation());
+			float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+			float xN = (float) (hyp*Math.cos(rotation))/2;
+			float yN = (float) (hyp*-Math.sin(rotation))/2;
+			try {
+				AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+			laserlauncher.slaserlist.remove(laser);
+			craft.damageHull(laser.getDamage());
+		}
+	}
 		
 	@SuppressWarnings("deprecation")
 	@Override

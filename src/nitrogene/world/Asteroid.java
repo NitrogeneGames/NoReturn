@@ -19,14 +19,14 @@ public class Asteroid extends PhysicalObject{
 	private float endx, endy;
 	private Direction direction;
 
-	public Asteroid(float startx, float starty, float endx, float endy) throws SlickException {
-		super(startx, starty);
+	public Asteroid(World world, float startx, float starty, float endx, float endy) throws SlickException {
+		super(world, startx, starty);
 		setDefaultMovement("normal");
 		this.endx = endx;
 		this.endy = endy;
 	}
 	
-	public void load(String img, Direction movement, float scalefactor, ArenaMap map){
+	public void load(String img, Direction movement, float scalefactor, World map){
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = new Sprite(img);

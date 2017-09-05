@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Transform;
 import nitrogene.core.Craft;
 import nitrogene.core.Resources;
 import nitrogene.core.Zoom;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 import nitrogene.world.Asteroid;
 import nitrogene.world.Planet;
 
@@ -45,7 +45,7 @@ public class Minimap {
 			e.printStackTrace();
 		}
 	}
-	public void render(Graphics gr, ArenaMap map) {
+	public void render(Graphics gr, World map) {
 		renderImage(map.getPlanets(), map.getCrafts(), map.getAsteroids());
 		gr.drawImage(l, 0, SCR_height-height);
 	}

@@ -16,7 +16,7 @@ public class TaskFire extends Task {
 
 	@Override
 	public void activate(int delta, float camX, float camY) {
-		ship.laserlist.get(weaponID).update(craftX, craftY, camX, camY,delta);
+		ship.laserlist.get(weaponID).update(craftX, craftY, delta);
 		ship.laserlist.get(weaponID).setTarget(target);
 		//WeaponTimer t = ship.laserlist.get(weaponID).getTimer();
 		

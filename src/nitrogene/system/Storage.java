@@ -1,7 +1,7 @@
 package nitrogene.system;
 
 import nitrogene.core.Craft;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 
 import org.newdawn.slick.Image;
 

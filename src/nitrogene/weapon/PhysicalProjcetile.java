@@ -1,11 +1,12 @@
 package nitrogene.weapon;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Target;
-import nitrogene.world.ArenaMap;
+import nitrogene.world.World;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -35,7 +36,7 @@ public class PhysicalProjcetile extends PhysicalObject{
 	Sound basicTestLaser;
 	
 	public PhysicalProjcetile(ProjectileData proj, float startX, float startY, float destinX, float destinY, int accuracy, float rotation, LaserLauncher l) throws SlickException{
-		super(startX, startY);
+		super(GameState.map, startX, startY);
 		//Movement class unused
 		setDefaultMovement("normal");
 		isRotated = false;
@@ -60,7 +61,7 @@ public class PhysicalProjcetile extends PhysicalObject{
 		//recalculateAngle(desX, desY);
 	}
 	@Override
-	public void load(String img, float scalefactor, ArenaMap map) {
+	public void load(String img, float scalefactor, World map) {
 		super.load(img, scalefactor, map);
 		this.getSprite().setRotation(0);
 		this.getSprite().setCenterOfRotation(parent.getSprite().getImage().getWidth()/2,parent.getSprite().getImage().getHeight()/2);
