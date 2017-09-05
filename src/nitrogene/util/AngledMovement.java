@@ -77,7 +77,7 @@ public class AngledMovement extends Movement{
 
 	@Override
 	public void Accelerate(Vector location, int delta){
-		float decel_const = 0.3f;
+		float decel_const = 1f;
 		/*
 		float DELTACON = delta/1000f;
 		

@@ -42,6 +42,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
@@ -51,7 +52,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState{
 	
-	public static boolean superHardDifficulty = true;
+	public static boolean superHardDifficulty = false;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -212,7 +213,7 @@ public class GameState extends BasicGameState{
 	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
 	    		  n.addTask(new TaskFollow(n, craft, 500));
-			      n.addTask(new TaskFire(n, craft, 0));
+			      //n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty){
 			    	  n.addTask(new TaskFire(n, craft, 1));
 			    	  n.addTask(new TaskFire(n, craft, 2));
@@ -518,8 +519,8 @@ public class GameState extends BasicGameState{
 		//g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
-		stars.render(g, Zoom.scale(camX),Zoom.scale(camY));
-		//stars.render(g);
+		//stars.render(g, Zoom.scale(camX),Zoom.scale(camY));
+		stars.render(g);
 		//if(GlobalInformation.testMode)Resources.log("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
@@ -592,6 +593,9 @@ public class GameState extends BasicGameState{
 				cannon.render(g,camX,camY);
 			}
 			if(debugMode) {
+				/*for(float[] f : GlobalInformation.ptsTest) {
+					g.draw(new Circle(f[0],f[1],5));
+				}*/
 				g.draw(c.getBoundbox());  //DRAW BOUNDBOX DEBUG
 				if(c.getClass() == NPCship.class) {
 					NPCship n = (NPCship) c;
@@ -604,7 +608,7 @@ public class GameState extends BasicGameState{
 								try { 
 									g.draw(m.image);
 									int l = m.path.currentVectorNum;	
-									g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],5));
+									g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],1));
 								} catch (Exception e) {
 									//gonna happen fuk this
 								}
@@ -626,7 +630,7 @@ public class GameState extends BasicGameState{
 
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
-		g.pushTransform();
+		//g.pushTransform();
 		minimap.render(g,map);		
 		shieldbar.render(g, (craft.shield.getHp()/craft.shield.getMaxHp()));
 		hullbar.render(g, (float)(craft.getHull()/craft.getMaxHull()));

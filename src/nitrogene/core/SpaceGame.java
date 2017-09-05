@@ -37,7 +37,7 @@ public class SpaceGame extends StateBasedGame{
 		//SCRwidth = app.getScreenWidth();
 		Display.setDisplayMode(new DisplayMode(SCRwidth, SCRheight));
 		//app.setDisplayMode(SCRwidth, SCRheight, false);
-		GlobalInformation.initHitboxData();
+		
 		GlobalInformation.init(SCRwidth, SCRheight);
 		AppData.runInit();
 		app.setUpdateOnlyWhenVisible(true);

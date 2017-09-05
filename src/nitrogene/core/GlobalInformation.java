@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -92,50 +94,17 @@ public class GlobalInformation {
 	public static ArrayList<EnumWeapon> getStartingWeapons(){
 		return startingweapons;
 	}
-	public static Polygon generateHitbox(String s) {
-		ArrayList<float[]> points = new ArrayList<float[]>();
-		Image i = new Sprite(s).getImage();
-		for(int x = 0; x < i.getWidth(); x++) {
-			for(int y = 0; y < i.getHeight(); y++) {
-				if(i.getColor(x, y).getAlpha() != 0) {
-					boolean flag = false;
-					if(x > 0) {
-						if(y > 0) {
-							if(i.getColor(x-1, y-1).getAlpha() == 0) {
-								flag = true;
-							}
-						}
-						if(y < i.getHeight()) {
-							if(i.getColor(x-1, y+1).getAlpha() == 0) {
-								flag = true;
-							}
-						}
-					}
-					if(x < i.getWidth()) {
-						if(y > 0) {
-							if(i.getColor(x+1, y-1).getAlpha() == 0) {
-								flag = true;
-							}	
-						}
-						if(y < i.getHeight()) {
-							if(i.getColor(x+1, y+1).getAlpha() == 0) {
-								flag = true;
-							}
-						}
-					}
-					if(flag) {
-						points.add(new float[] {x,y});
-					}
-				}
-			}
+
+
+	public static boolean adjacent(float x1, float y1, float x2, float y2) {
+		float x = Math.abs(x2 - x1);
+		float y = Math.abs(y2 - y1);
+		if(x <= 1 && y <=1) {
+			return true;
 		}
-		float[] pts = new float[points.size()*2];
-		for(int k = 0; k < points.size(); ) {
-			pts[2*k] = points.get(k)[0];
-			pts[2*k+1] = points.get(k)[1];
-		}
-		return new Polygon(pts);
+		return false;
 	}
+	public static ArrayList<float[]> ptsTest = new ArrayList<float[]>();
 	public static void initHitboxData(){
 		float[] craftData = {6,52,37,52,53,36,99,10,131,0,245,0,245,5,312,5,312,31,
 				317,36,328,41,332,46,343,57,343,62,328,67,322,72,94,72,94,93,322,93,
@@ -147,8 +116,11 @@ public class GlobalInformation {
 				33,190,0,190,10,150,0,143,0,113,19,100,19,90,0,77,0,47,10,40};
 		float[] slaserData = {0,7,1,6,6,4,15,2,21,2,30,0,45,0,47,1,49,3,50,5,50,10,49,12,47,14,
 				45,15,30,15,21,14,15,13,6,11,1,9,0,8};
-		imagedata.put("res/klaarship6.png", new Polygon(craftData));
-		imagedata.put("res/humanship4.png", new Polygon(craftData2));
+		//imagedata.put("res/klaarship6.png", new Polygon(craftData));
+		imagedata.put("res/klaarship6.png", Resources.generateBoundboxJared("craftimage"));
+		//imagedata.put("res/humanship4.png", new Polygon(craftData2));
+		imagedata.put("res/humanship4.png", Resources.generateBoundboxJared("humanship"));
+		//ptsTest = getPoints("humanship");
 		imagedata.put("res/volcanicplanet2.png", new Circle(64,64,64));
 		imagedata.put("res/rockyplanet.png", new Circle(64,64,64));
 		imagedata.put("res/sun_1.png", new Circle(50,50,50));

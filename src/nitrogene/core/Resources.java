@@ -2,18 +2,25 @@ package nitrogene.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Path;
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.heuristics.ClosestHeuristic;
 
+import nitrogene.gui.Sprite;
 import nitrogene.objecttree.PhysicalObject;
 import nitrogene.slick.BetterScalableGame;
 import nitrogene.slick.BetterAppGameContainer;
@@ -93,6 +100,152 @@ public class Resources {
 	}
 	public static TravelPath toTravelPath(ArrayList<float[]> p) {
 		return new TravelPath(toVectorArray(p));
+	}
+	public static ArrayList<float[]> generateBoundboxFloats(String s) {
+		ArrayList<float[]> points = new ArrayList<float[]>();
+		
+		Image i = new Sprite(s).getImage();
+		for(int x = 0; x < i.getWidth()+1; x++) {
+			for(int y = 0; y < i.getHeight()+1; y++) {
+				if(i.getColor(x, y).getAlpha() != 0) {
+					boolean flag = false;
+					if(x > 0) {
+						if(y > 0) {
+							if(i.getColor(x-1, y-1).getAlpha() == 0) {
+								flag = true;
+							}
+						} else {
+							flag = true;
+						}
+						if(y < i.getHeight()) {
+							if(i.getColor(x-1, y+1).getAlpha() == 0) {
+								flag = true;
+							}
+						}
+					} else {
+						if(y < i.getHeight() || y > 0) {
+							flag = true;
+						}
+					}
+					if(x < i.getWidth()) {
+						if(y > 0) {
+							if(i.getColor(x+1, y-1).getAlpha() == 0) {
+								flag = true;
+							}	
+						} else {
+							flag = true;
+						}
+						if(y < i.getHeight()) {
+							if(i.getColor(x+1, y+1).getAlpha() == 0) {
+								flag = true;
+							}
+						} else {
+							flag = true;
+						}
+					} else {
+						if(y < i.getHeight() || y > 0) {
+							flag = true;
+						}
+					}
+					if(flag) {
+						points.add(new float[] {x,y});
+					}
+				}
+			}
+		}
+		return points;
+	}
+	public static ArrayList<float[]> sortClockwise(ArrayList<float[]> points, float xCenter, float yCenter) {
+		ArrayList<float[]> finala = new ArrayList<float[]>();
+		HashMap<Float, Float[]> hmap = new HashMap<Float, Float[]>();
+		ArrayList<Float> angles = new ArrayList<Float>();
+		for(float[] f : points) {
+			float x = f[0] - xCenter;
+			float y = f[1] - yCenter;
+			Float theta = (float) Math.atan2(y, x);
+			angles.add(theta);
+			hmap.put(theta, new Float[] {x,y});
+		}
+		Collections.sort(angles);
+		for(int i = 0; i < angles.size(); i++) {
+			float theta = angles.get(i);
+		
+			finala.add(new float[] {hmap.get(theta)[0]+xCenter, hmap.get(theta)[1]+yCenter});
+		}
+		return finala;
+	}
+	public static ArrayList<float[]> removeInnards(ArrayList<float[]> list) {
+		Comparator<float[]> floatCompareX = new Comparator<float[]>() {
+	        public int compare(float[] p1, float[] p2) {
+	            if(p1[0]>p2[0]) {
+	            	return 1;
+	            } else if(p1[0]<p2[0]) {
+	            	return -1;
+	            } else if(p1[1]>p2[1]) {
+	            	return 1;
+	            } else if(p1[1]<p2[1]) {
+	            	return -1;
+	            } else {
+	            	return 0;
+	            }
+	        }
+	    };
+	    Collections.sort(list, floatCompareX);
+		ArrayList<float[]> markedForDeath = new ArrayList<float[]>();
+	    for(int i = 0; i < list.size(); i++) {
+	    	int j =0;
+	    	while(list.get(i+j)[0] == list.get(i)[0]) {
+	    		
+	    	}
+	    }
+	    return null;
+		
+	}
+	public static Polygon toPolygon(ArrayList<float[]> arr) {
+		float[] points = new float[arr.size()*2];
+		for(int i = 0; i < arr.size(); i++) {
+			points[2*i] = arr.get(i)[0];
+			points[2*i+1] = arr.get(i)[1];
+		}
+		return new Polygon(points);
+	}
+	public static ArrayList<float[]> sortPointsJared(ArrayList<float[]> m) {
+		ArrayList<float[]> orderedList = new ArrayList<float[]>();
+
+		orderedList.add(m.remove(0)); //Arbitrary starting point
+
+		while (m.size() > 0) {
+		   //Find the index of the closest point (using another method)
+		   int nearestIndex=findNearestIndexJared(orderedList.get(orderedList.size()-1), m);
+
+		   //Remove from the unorderedList and add to the ordered one
+		   orderedList.add(m.remove(nearestIndex));
+		}
+		return orderedList;
+	}
+	static int findNearestIndexJared (float[] thisPoint, ArrayList<float[]> listToSearch) {
+	    double nearestDistSquared=Double.POSITIVE_INFINITY;
+	    int nearestIndex = 0;
+	    for (int i=0; i< listToSearch.size(); i++) {
+	        float[] point2=listToSearch.get(i);
+	        float distsq = (thisPoint[0] - point2[0])*(thisPoint[0] - point2[0]) 
+	               + (thisPoint[1] - point2[1])*(thisPoint[1] - point2[1]);
+	        if(distsq < nearestDistSquared) {
+	            nearestDistSquared = distsq;
+	            nearestIndex=i;
+	        }
+	    }
+	    return nearestIndex;
+	}
+	public static Polygon generateBoundboxJoey(String s) {
+		Image i = new Sprite(s).getImage();
+		float x = i.getWidth()/2;
+		float y = i.getHeight()/2;
+		return toPolygon(sortClockwise(generateBoundboxFloats(s), x, y));
+	}
+	public static Polygon generateBoundboxJared(String s) {
+		Image i = new Sprite(s).getImage();
+		return toPolygon(sortPointsJared(generateBoundboxFloats(s)));
 	}
 	/*public static Path getPathShape(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
 	int maxSteps = (int) 100000;
