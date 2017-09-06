@@ -353,8 +353,8 @@ public class GameState extends BasicGameState{
 					 for(int i = 0;i<laserlauncher.slaserlist.size();i++){
 						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
-						collide(laser, laserlauncher, map.checkCollision(laser));
-						/*for(int e = 0; e < map.getPlanets().size(); e++){
+						//collide(laser, laserlauncher, map.checkCollision(laser));
+						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
 							if(mesh.isColliding(laser) || mesh.isColliding(path)){
 								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
@@ -406,14 +406,31 @@ public class GameState extends BasicGameState{
 						lasercount++;
 						PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 						Line path = laser.move(10,delta);
-						collide(laser, laserlauncher, map.checkCollision(laser));
-						/*for(int e = 0; e < map.getPlanets().size(); e++){
+						//collide(laser, laserlauncher, map.checkCollision(laser));
+						for(int e = 0; e < map.getPlanets().size(); e++){
 							Planet mesh = map.getPlanets().get(e);
-
+							if(mesh.isColliding(laser) || mesh.isColliding(path)){
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+								laserlauncher.slaserlist.remove(laser);
+								mesh.damage(laser.getPlanetDamage(), map);
 							}
-						for(Craft craft : map.getCrafts()){
-
-						}*/
+							}
+						for(int r = 0; r < map.getCrafts().size(); r++){
+							Craft craft = map.getCrafts().get(r);
+							if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
+								float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+								float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+								float xN = (float) (hyp*Math.cos(rotation))/2;
+								float yN = (float) (hyp*-Math.sin(rotation))/2;
+								AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+								laserlauncher.slaserlist.remove(laser);
+								craft.damageHull(laser.getDamage());
+							}
+						}
 					}
 					laserlauncher = null;
 				} 
