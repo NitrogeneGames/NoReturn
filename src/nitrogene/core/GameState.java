@@ -179,10 +179,11 @@ public class GameState extends BasicGameState{
 			craft = new Craft(map, 2000, 1200, "humanship", 1);
 
 			map.loadCraft(craft);
-			map.loadCraft(new NPCship(map, 00, 00, Relation.HOSTILE, "craftimage", 1));			
+			map.loadCraft(new NPCship(map, 00, 00, Relation.HOSTILE, "craftimage", 1));	
+			map.loadCraft(new NPCship(map, 4000, 00, Relation.HOSTILE, "craftimage", 1));
 			//map.addCraft(new NPCship(4000, 1600, Relation.HOSTILE, "craftimage", 1));
 			if(superHardDifficulty) {
-				map.loadCraft(new NPCship(map, 4000, 00, Relation.HOSTILE, "craftimage", 1));	
+					
 				map.loadCraft(new NPCship(map, 00, 1600, Relation.HOSTILE, "craftimage", 1));
 				map.loadCraft(new NPCship(map, 00, 1000, Relation.HOSTILE, "craftimage", 1));
 			}
@@ -205,9 +206,9 @@ public class GameState extends BasicGameState{
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
-	    		  
+	    		  enemyWeapons.add(EnumWeapon.BASIC);
 	    		  if(superHardDifficulty){
-	    			  enemyWeapons.add(EnumWeapon.BASIC);
+	    			  
 	    			  enemyWeapons.add(EnumWeapon.BASIC);
 	    			  enemyWeapons.add(EnumWeapon.VELOX2);
 	    			  enemyWeapons.add(EnumWeapon.IMMINEO);
@@ -216,7 +217,7 @@ public class GameState extends BasicGameState{
 	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
 	    		  n.addTask(new TaskFollow(n, craft, 500));
-			      //n.addTask(new TaskFire(n, craft, 0));
+			      n.addTask(new TaskFire(n, craft, 0));
 			      if(superHardDifficulty){
 			    	  n.addTask(new TaskFire(n, craft, 1));
 			    	  n.addTask(new TaskFire(n, craft, 2));
