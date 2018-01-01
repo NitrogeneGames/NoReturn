@@ -440,16 +440,15 @@ public class GameState extends BasicGameState{
 					}
 					laserlauncher = null;
 				} 
-			} else if (obj.getClass() == Planet.class){
+			} else if (obj.getClass() == Planet.class || obj.getClass() == Asteroid.class){
 				if(planetCollisions) {
-					for(Planet mesh : map.getPlanets()){
-						for(Craft c : map.getCrafts()) {
-							if(c.isColliding(mesh)){
-								c.setHull(0d);
-							}
+					for(Craft c : map.getCrafts()) {
+						if(c.isColliding(obj)){
+							c.setHull(0d);
 						}
 					}
 				}
+			
 			} else{
 				Resources.log("ERROR! physical object " + obj.getClass() + " is unidentified in gamestate update");
 			}

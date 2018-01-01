@@ -36,6 +36,7 @@ public class Asteroid extends PhysicalObject{
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
+		boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
 		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon();
 		newboundbox = boundbox;

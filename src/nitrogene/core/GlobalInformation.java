@@ -116,10 +116,12 @@ public class GlobalInformation {
 				33,190,0,190,10,150,0,143,0,113,19,100,19,90,0,77,0,47,10,40};
 		float[] slaserData = {0,7,1,6,6,4,15,2,21,2,30,0,45,0,47,1,49,3,50,5,50,10,49,12,47,14,
 				45,15,30,15,21,14,15,13,6,11,1,9,0,8};
-		//imagedata.put("res/klaarship6.png", new Polygon(craftData));
-		imagedata.put("res/klaarship6.png", Resources.generateBoundboxJared("craftimage"));
-		//imagedata.put("res/humanship4.png", new Polygon(craftData2));
-		imagedata.put("res/humanship4.png", Resources.generateBoundboxJared("humanship"));
+		float[] asteroid = {0, 5, 4, 0, 10, 0, 19, 3, 21, 4, 26, 8, 26, 11, 24, 19, 20,
+				22, 13, 22, 5, 19, 0, 11};
+		imagedata.put("res/klaarship6.png", new Polygon(craftData));
+		//imagedata.put("res/klaarship6.png", Resources.generateBoundboxJared("craftimage"));
+		imagedata.put("res/humanship4.png", new Polygon(craftData2));
+		//imagedata.put("res/humanship4.png", Resources.generateBoundboxJared("humanship"));
 		//ptsTest = getPoints("humanship");
 		imagedata.put("res/volcanicplanet2.png", new Circle(64,64,64));
 		imagedata.put("res/rockyplanet.png", new Circle(64,64,64));
@@ -129,7 +131,7 @@ public class GlobalInformation {
 		imagedata.put("res/icon/enginesystem.png", new Circle(20,20,20));
 		imagedata.put("res/icon/coresystem.png", new Circle(20,20,20));
 		imagedata.put("res/icon/oxygensystem.png", new Circle(20,20,20));
-		//imagedata.put("res/asteroid1.png", new Circle(12, 12, 12));
+		imagedata.put("res/asteroid1.png", new Polygon(asteroid));
 	}
 	public static UnicodeFont uniFont;
 	public static java.awt.Font mainFont;
