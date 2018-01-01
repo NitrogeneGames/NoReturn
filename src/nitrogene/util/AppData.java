@@ -103,9 +103,11 @@ public class AppData {
 			   s6.setValue("" + GameState.currentZoom);
 			   Attr s7 = doc.createAttribute("state");
 			   s7.setValue("" + HybridDisplay.frameInstance.getExtendedState());
+			   System.out.println("State saving: " + HybridDisplay.frameInstance.getExtendedState());
 			   rootElement.setAttributeNode(s4);
 			   rootElement.setAttributeNode(s5);
 			   rootElement.setAttributeNode(s6);
+			   rootElement.setAttributeNode(s7);
 			   TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			   Transformer transformer = transformerFactory.newTransformer();
 			   DOMSource source = new DOMSource(doc);

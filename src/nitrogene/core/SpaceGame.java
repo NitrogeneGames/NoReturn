@@ -68,6 +68,7 @@ public class SpaceGame extends StateBasedGame{
 			frame.setExtendedState(6);
 			frame.addWindowListener(new WindowListener(){
 	            public void windowClosing(WindowEvent e){
+	            	AppData.saveRez();
 	            	app.exit();
 	            	app.destroy();
 	            }
@@ -78,7 +79,7 @@ public class SpaceGame extends StateBasedGame{
 				}
 	
 				public void windowClosed(WindowEvent arg0) {
-					
+					System.exit(0);
 				}
 	
 				@Override

@@ -10,6 +10,7 @@ import nitrogene.gui.AnimationManager;
 import nitrogene.gui.AnimationImage;
 import nitrogene.gui.Hotbar;
 import nitrogene.gui.HullBar;
+import nitrogene.gui.HybridDisplay;
 import nitrogene.gui.Minimap;
 import nitrogene.gui.ShieldBar;
 import nitrogene.inventory.DroppedItem;
@@ -253,6 +254,7 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		System.out.println(HybridDisplay.frameInstance.getExtendedState());
 		int lasercount = 0;
 		//System.out.println(Zoom.getZoom());
 		if (delta > 200) {
