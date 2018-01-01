@@ -9,7 +9,10 @@ import java.awt.Canvas;
 import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.lwjgl.LWJGLException;
@@ -25,6 +28,7 @@ import com.sun.glass.ui.Application;
 
 public class SpaceGame extends StateBasedGame{
 
+	public static String version = "Alpha 0.0.1";
 	public static int SCRwidth;
 	public static int SCRheight;
 	public SpaceGame(String title) {
@@ -57,7 +61,12 @@ public class SpaceGame extends StateBasedGame{
 		
 		if(jFrameVersion) {
 			
-			JFrame frame = new JFrame();
+			JFrame frame = new JFrame("No Return: " + version);
+			try {
+				frame.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			frame.setSize(SCRwidth, SCRheight);
 			HybridDisplay.frameInstance = frame;
 			Canvas canvas = new Canvas();

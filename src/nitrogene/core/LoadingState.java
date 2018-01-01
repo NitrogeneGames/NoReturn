@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -290,14 +291,21 @@ public class LoadingState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		//container.setFullscreen(true);
-		float width = container.getWidth();
-		float height = container.getHeight();
+		float width = SpaceGame.SCRwidth;
+		float height = SpaceGame.SCRheight;
+		Font currentFont = g.getFont();
 		if(nextResource!=null){
-			g.drawString("Loaded: "+lastLoaded, 100, 100);
-			Resources.log("Loaded: "+lastLoaded);
+			String currStr = "Loaded: "+lastLoaded;
+			int strWidth = currentFont.getWidth(currStr);
+			int strHeight = currentFont.getHeight(currStr);
+			g.drawString(currStr, width/2-strWidth/2, height/2-strHeight-10);
+			Resources.log(currStr);
 			float temp = resourcesLoaded/totalResources;
-			g.drawString(Math.round(temp*100) + "%", 105, 120);
-			//renderLoadingBar(g, temp, width, height);
+			currStr = Math.round(temp*100) + "%";
+			strWidth = currentFont.getWidth(currStr);
+			strHeight = currentFont.getHeight(currStr);
+			g.drawString(currStr, width/2-strWidth/2, height/2+strHeight-10);
+			renderLoadingBar(g, temp, width, height);
 		} else{
 		g.drawString("LOADING COMPLETE", 200, 200);
 		}
@@ -305,11 +313,11 @@ public class LoadingState extends BasicGameState{
 	private void renderLoadingBar(Graphics g, float progress, float width, float height){
 		float barWidth = width/3;
 		float barHeight = height/20;
-		g.setColor(Color.white);
-		g.drawRect(width/2-barWidth/2, height/2-barHeight/2, barWidth, barHeight);
-		g.setColor(Color.blue);
-		g.fillRect(width/2-barWidth/2, height/2-barHeight/2, (int)(progress*barWidth)-1, barHeight-1);
-		g.setColor(Color.white);
+		//g.setColor(Color.white);
+		g.drawRect(width/2-barWidth/2, height/2-barHeight/2 + 70, barWidth, barHeight);
+		//g.setColor(Color.white);
+		g.fillRect(width/2-barWidth/2, height/2-barHeight/2 + 70, (int)(progress*barWidth)-1, barHeight);
+		//g.setColor(Color.white);
 	}	
 	public int getID() {
 		return 0;
