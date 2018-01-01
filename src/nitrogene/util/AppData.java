@@ -21,6 +21,7 @@ import nitrogene.core.CraftData;
 import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
+import nitrogene.gui.HybridDisplay;
 import nitrogene.weapon.EnumWeapon;
 
 import org.lwjgl.LWJGLException;
@@ -68,7 +69,9 @@ public class AppData {
 			int width = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("width"));
 			int height = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("height"));
 			float zoom = Float.parseFloat(doc.getDocumentElement().getAttribute("zoom"));
-			Display.setDisplayModeAndFullscreen(new DisplayMode(width, height));
+			int state = (int)Float.parseFloat(doc.getDocumentElement().getAttribute("state"));
+			//Display.setDisplayModeAndFullscreen(new DisplayMode(width, height));
+			HybridDisplay.set(width, height, state);
 			GameState.currentZoom = zoom;
 		} catch (Exception e) {
 			Resources.log("ERROR: REZ FILE CP 2");
@@ -98,6 +101,8 @@ public class AppData {
 			   s5.setValue("" + Display.getHeight());
 			   Attr s6 = doc.createAttribute("zoom");
 			   s6.setValue("" + GameState.currentZoom);
+			   Attr s7 = doc.createAttribute("state");
+			   s7.setValue("" + HybridDisplay.frameInstance.getExtendedState());
 			   rootElement.setAttributeNode(s4);
 			   rootElement.setAttributeNode(s5);
 			   rootElement.setAttributeNode(s6);

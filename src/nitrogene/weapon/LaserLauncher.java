@@ -178,7 +178,6 @@ public class LaserLauncher extends ShipSystem{
 			if(target.isDestroyed()){
 				//If the target is destroyed, stop targeting (turn off)
 				this.setFire(0,0,Zoom.scale(camX),Zoom.scale(camY), false);
-				return desx;
 			} else{
 				return target.getRealCenterX();
 			}
@@ -191,7 +190,6 @@ public class LaserLauncher extends ShipSystem{
 			if(target.isDestroyed()){
 				//If the target is destroyed, stop targeting (turn off)
 				this.setFire(0,0,Zoom.scale(camX),Zoom.scale(camY), false);
-				return desy;
 			} else{
 				return target.getRealCenterY();
 			}
@@ -328,7 +326,6 @@ public class LaserLauncher extends ShipSystem{
 		return true;
 	}
 	public double[] getRotatedCoordinates(double x1, double y1) {
-
 		double currentRotation = this.getSprite().getImage().getRotation();
 		double hypotenuse = Math.sqrt(x1*x1 + y1*y1);
 		double theta = (180 + Math.toDegrees(Math.atan2(y1,x1))); 

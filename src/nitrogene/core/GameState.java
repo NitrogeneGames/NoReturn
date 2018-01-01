@@ -4,6 +4,8 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 import nitrogene.gui.AnimationManager;
 import nitrogene.gui.AnimationImage;
 import nitrogene.gui.Hotbar;
@@ -32,6 +34,7 @@ import nitrogene.world.World;
 import nitrogene.world.Asteroid;
 import nitrogene.world.Planet;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
