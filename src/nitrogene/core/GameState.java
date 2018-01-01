@@ -712,11 +712,25 @@ public class GameState extends BasicGameState{
 	public void mousePressed(int button, int x, int y){	
 		x=Zoom.scale(x);
 		y=Zoom.scale(y);
+		
+		
+		
 		if(!PAUSED && selected > -1) {
-			if(button == 1) {
-				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
-			} else if (button == 0){
-				craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
+			if(Resources.appInstance.getInput().isKeyDown(Input.KEY_RCONTROL) || 
+					Resources.appInstance.getInput().isKeyDown(Input.KEY_LCONTROL)){
+				for(LaserLauncher laser : craft.laserlist) {
+					if(button == 1) {
+						laser.setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
+					} else if (button == 0){
+						laser.setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
+					}
+				}
+			} else {
+				if(button == 1) {
+					craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), false);
+				} else if (button == 0){
+					craft.laserlist.get(selected).setFire(x,y,Zoom.scale(camX),Zoom.scale(camY), true);
+				}
 			}
 		}
 	}

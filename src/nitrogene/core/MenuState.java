@@ -57,7 +57,7 @@ public class MenuState extends BasicGameState{
 			throws SlickException {
 		Resources.updateGraphics(container);
 		quickPlay.update(container);
-		campaign.update(container);
+		//campaign.update(container);
 		quitgame.update(container);
 		hangar.update(container);
 		options.update(container);
@@ -89,7 +89,7 @@ public class MenuState extends BasicGameState{
 		Image temphover = ((Image) AssetManager.get().get("defaultbuttonhover")).copy();
 		temp.setFilter(Image.FILTER_NEAREST);
 		temp.draw(0,0);
-		campaign.render(g, tempnormal, temppressed, temphover);
+		//campaign.render(g, tempnormal, temppressed, temphover);
 		quickPlay.render(g, tempnormal, temppressed, temphover);
 		hangar.render(g, tempnormal, temppressed, temphover);
 		options.render(g, tempnormal, temppressed, temphover);

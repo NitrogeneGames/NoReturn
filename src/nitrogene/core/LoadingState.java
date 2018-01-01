@@ -298,13 +298,13 @@ public class LoadingState extends BasicGameState{
 			String currStr = "Loaded: "+lastLoaded;
 			int strWidth = currentFont.getWidth(currStr);
 			int strHeight = currentFont.getHeight(currStr);
-			g.drawString(currStr, width/2-strWidth/2, height/2-strHeight-10);
+			g.drawString(currStr, width/2-strWidth/2, height/2-strHeight-40);
 			Resources.log(currStr);
 			float temp = resourcesLoaded/totalResources;
 			currStr = Math.round(temp*100) + "%";
 			strWidth = currentFont.getWidth(currStr);
 			strHeight = currentFont.getHeight(currStr);
-			g.drawString(currStr, width/2-strWidth/2, height/2+strHeight-10);
+			g.drawString(currStr, width/2-strWidth/2, height/2+strHeight-40);
 			renderLoadingBar(g, temp, width, height);
 		} else{
 		g.drawString("LOADING COMPLETE", 200, 200);
@@ -314,9 +314,9 @@ public class LoadingState extends BasicGameState{
 		float barWidth = width/3;
 		float barHeight = height/20;
 		//g.setColor(Color.white);
-		g.drawRect(width/2-barWidth/2, height/2-barHeight/2 + 70, barWidth, barHeight);
+		g.drawRect(width/2-barWidth/2, height/2-barHeight/2 + 40, barWidth, barHeight);
 		//g.setColor(Color.white);
-		g.fillRect(width/2-barWidth/2, height/2-barHeight/2 + 70, (int)(progress*barWidth)-1, barHeight);
+		g.fillRect(width/2-barWidth/2, height/2-barHeight/2 + 40, (int)(progress*barWidth)-1, barHeight);
 		//g.setColor(Color.white);
 	}	
 	public int getID() {
