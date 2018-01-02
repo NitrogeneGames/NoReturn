@@ -22,7 +22,6 @@ import nitrogene.npc.Task;
 import nitrogene.npc.TaskFire;
 import nitrogene.npc.TaskFollow;
 import nitrogene.npc.TaskMoveTo;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 import nitrogene.util.PauseButton;
 import nitrogene.util.Stars;
@@ -349,7 +348,7 @@ public class GameState extends BasicGameState{
     	}
     	
 		for(int n = 0; n < map.getObjList().size(); n++){
-			PhysicalObject obj = map.getObjList().get(n);
+			GameObject obj = map.getObjList().get(n);
 			if(obj.getClass() == Craft.class){
 				obj.update(delta,camX,camY);
 				for(int m = 0; m<craft.laserlist.size(); m++) {
@@ -511,7 +510,7 @@ public class GameState extends BasicGameState{
 		    	if(exit.isClicked()) container.exit();
 			}
 		}
-	public void collide(PhysicalProjcetile laser, LaserLauncher laserlauncher, PhysicalObject mesh) {
+	public void collide(PhysicalProjcetile laser, LaserLauncher laserlauncher, GameObject mesh) {
 		if (mesh == null) return;
 		if(mesh.getClass() == Planet.class){
 			float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());

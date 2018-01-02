@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.core.GameObject;
 import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
@@ -11,7 +12,6 @@ import nitrogene.core.Zoom;
 import nitrogene.gui.AnimationImage;
 import nitrogene.gui.Sprite;
 import nitrogene.npc.NPCship;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.system.ShipSystem;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
@@ -32,7 +32,7 @@ import org.newdawn.slick.geom.Transform;
 public class LaserLauncher extends ShipSystem{
 	//Basic Variables for Laser Launcher
 	private float desx, desy, camX, camY;
-	public PhysicalObject target;
+	public GameObject target;
 	public ArrayList<PhysicalProjcetile> slaserlist = new ArrayList<PhysicalProjcetile>();
 	public int accuracy, timer, maxtime;
 	private double mangle;
@@ -167,7 +167,7 @@ public class LaserLauncher extends ShipSystem{
 		camY = 0;
 		isTargetingObject = false;
 	}
-	public void setTarget(PhysicalObject p){
+	public void setTarget(GameObject p){
 		this.target = p;
 		isTargetingObject = true;
 	}

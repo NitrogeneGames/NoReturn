@@ -1,7 +1,5 @@
 package nitrogene.util;
 
-import nitrogene.collision.Vector;
-
 public class Movement {
 	protected boolean[] toggle;
 	protected float[] diracceleration;

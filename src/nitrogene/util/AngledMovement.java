@@ -1,7 +1,5 @@
 package nitrogene.util;
 
-import nitrogene.collision.Vector;
-
 public class AngledMovement extends Movement{
 	private float rotangle = 0;
 	private int rotspeed = 3;

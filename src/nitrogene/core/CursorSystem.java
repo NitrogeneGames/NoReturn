@@ -5,11 +5,15 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class CursorSystem {
+	
+	//Class that manages the mouse cursor image/color
+	
 	private static String controller;
 	private static Image redfire, greenfire, yellowfire;
 	private static GameContainer cont;
 	
 	public static void changeCursor(String st){
+		//Update the cursor to match the string argument
 		controller = st;
 		try {
 			if(controller == "default") cont.setDefaultMouseCursor();

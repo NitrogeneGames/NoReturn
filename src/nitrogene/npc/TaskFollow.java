@@ -1,14 +1,14 @@
 package nitrogene.npc;
 
 
-import nitrogene.objecttree.PhysicalObject;
+import nitrogene.core.GameObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Target;
 
 public class TaskFollow extends MovementTask {
-	public PhysicalObject target;
+	public GameObject target;
 	public int taskID = 1;
-	public TaskFollow(NPCship s, PhysicalObject c, float r){
+	public TaskFollow(NPCship s, GameObject c, float r){
 		super(s, r, c);
 		target = c;
 	}

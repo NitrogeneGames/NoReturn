@@ -1,10 +1,10 @@
 package nitrogene.weapon;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GameObject;
 import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Zoom;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Target;
 import nitrogene.world.World;
 
@@ -17,10 +17,10 @@ import org.newdawn.slick.geom.Transform;
 import java.util.Random;
 
 
-public class PhysicalProjcetile extends PhysicalObject{
+public class PhysicalProjcetile extends GameObject{
 	
 	private float startX = 0, startY = 0, desX = 0, desY = 0, speed = 0, dx, dy;
-	private PhysicalObject target;
+	private GameObject target;
 	private boolean isTargetingObject = false;
 	double mangle = 0;
 	private int hp;
@@ -193,7 +193,7 @@ public class PhysicalProjcetile extends PhysicalObject{
 	public int getPlanetDamage() {
 		return this.planetdamage;
 	}
-	public void setTargetObject(PhysicalObject target) {
+	public void setTargetObject(GameObject target) {
 		this.target = target;
 		isTargetingObject = true;
 	}

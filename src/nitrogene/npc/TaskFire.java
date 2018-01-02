@@ -1,13 +1,13 @@
 package nitrogene.npc;
 
 import nitrogene.core.Craft;
-import nitrogene.objecttree.PhysicalObject;
+import nitrogene.core.GameObject;
 
 public class TaskFire extends Task {
-	public PhysicalObject target;
+	public GameObject target;
 	public int weaponID;
 	public int taskID = 0;
-	public TaskFire(NPCship s, PhysicalObject t, int wid){
+	public TaskFire(NPCship s, GameObject t, int wid){
 		super(s);
 		target = t;
 		weaponID = wid;

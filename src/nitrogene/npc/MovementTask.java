@@ -14,9 +14,9 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 
+import nitrogene.core.GameObject;
 import nitrogene.core.GameState;
 import nitrogene.core.Resources;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
 import nitrogene.util.Target;
 import nitrogene.world.World;
@@ -32,15 +32,15 @@ public abstract class MovementTask extends Task {
 	protected float setRange;
 	float lastX = 0;
 	float lastY = 0;
-	private ArrayList<PhysicalObject> ignore = new ArrayList<PhysicalObject>();
-	public void addIgnore(PhysicalObject o) {
+	private ArrayList<GameObject> ignore = new ArrayList<GameObject>();
+	public void addIgnore(GameObject o) {
 		if(ignore.contains(o)) ignore.add(o);
 	}
 	public MovementTask(NPCship s, float r) {
 		super(s);
 		setRange = r;
 	}
-	public MovementTask(NPCship s, float r, PhysicalObject ign) {
+	public MovementTask(NPCship s, float r, GameObject ign) {
 		super(s);
 		setRange = r;
 		this.ignore.add(ign);

@@ -10,6 +10,11 @@ import nitrogene.util.EnumHull;
 import nitrogene.weapon.EnumWeapon;
 
 public class CraftData {
+	
+	//Simple class to store all data about a craft
+	//Used to save a created craft to XML
+	
+	
 	public ArrayList<EnumWeapon> weapons;
 	public String name;
 	public EnumHull hull;

@@ -23,7 +23,6 @@ import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.heuristics.ClosestHeuristic;
 
 import nitrogene.gui.Sprite;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.slick.BetterScalableGame;
 import nitrogene.slick.BetterAppGameContainer;
 import nitrogene.util.AppData;
@@ -50,7 +49,7 @@ public class Resources {
 		float angle2 = (float) Math.atan2(ln2.getY1() - ln2.getY2(), ln2.getX1() - ln2.getX2());
 		return angle1 - angle2;
 	}
-	public static PhysicalObject getCloserObject(float x, float y, PhysicalObject p1, PhysicalObject p2) {
+	public static GameObject getCloserObject(float x, float y, GameObject p1, GameObject p2) {
 		Line l1 = new Line(x, y, p1.getRealCenterX(), p1.getRealCenterY());
 		Line l2 = new Line(x, y, p2.getRealCenterX(), p2.getRealCenterY());
 		if(l1.length() > l2.length()) {
@@ -69,7 +68,7 @@ public class Resources {
 	        }
 	    }
 	}
-	public static ArrayList<float[]> getPath(PhysicalObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<PhysicalObject> ignore) {
+	public static ArrayList<float[]> getPath(GameObject o, float x1f, float y1f, float x2f, float y2f, int chunkWidth, ArrayList<GameObject> ignore) {
 		int maxSteps = (int) 100000;
 		int x1 = (int) Math.floor(x1f/chunkWidth);
 		int x2 = (int) Math.floor(x2f/chunkWidth);

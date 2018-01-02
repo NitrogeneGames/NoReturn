@@ -8,16 +8,16 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GameObject;
 import nitrogene.core.GameState;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.gui.Sprite;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.world.World;
 
-public class DroppedItem extends PhysicalObject{
+public class DroppedItem extends GameObject{
 	private ArrayList<Item> droplist;
 
 	public DroppedItem(ArrayList<Item> droplist, float x, float y) throws SlickException{

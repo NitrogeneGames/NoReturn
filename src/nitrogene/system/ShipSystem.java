@@ -1,9 +1,9 @@
 package nitrogene.system;
 
 import nitrogene.core.Craft;
+import nitrogene.core.GameObject;
 import nitrogene.core.GlobalInformation;
 import nitrogene.gui.Sprite;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.EnumStatus;
 import nitrogene.util.Movement;
@@ -13,7 +13,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 
-public class ShipSystem extends PhysicalObject{
+public class ShipSystem extends GameObject{
 	protected int hp;
 	private int durability;
 	private int maxpower;

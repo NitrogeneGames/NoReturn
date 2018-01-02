@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import nitrogene.objecttree.PhysicalObject;
+import nitrogene.core.GameObject;
 
 public class Sector {
 	public static float width = 100;
-	private ArrayList<PhysicalObject> objects = new ArrayList<PhysicalObject>();
+	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	public Sector() {
 		
 	}
-	public void addObject(PhysicalObject p) {
+	public void addObject(GameObject p) {
 		objects.add(p);
 	}
-	public void removeObject(PhysicalObject p) {
+	public void removeObject(GameObject p) {
 		objects.remove(p);
 	}
-	public ArrayList<PhysicalObject> getObjects() {
+	public ArrayList<GameObject> getObjects() {
 		return objects;
 	}
 

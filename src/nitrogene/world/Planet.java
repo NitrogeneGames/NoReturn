@@ -2,12 +2,12 @@ package nitrogene.world;
 
 import java.util.ArrayList;
 
+import nitrogene.core.GameObject;
 import nitrogene.core.GlobalInformation;
 import nitrogene.gui.Sprite;
 import nitrogene.inventory.DroppedItem;
 import nitrogene.inventory.EnumDrop;
 import nitrogene.inventory.Item;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
 import nitrogene.util.Shake;
@@ -17,7 +17,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
-public class Planet extends PhysicalObject{
+public class Planet extends GameObject{
 	private int maxhp;
 	private float realcenterx, realcentery;
 	private int radius;

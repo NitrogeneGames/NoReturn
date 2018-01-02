@@ -1,4 +1,4 @@
-package nitrogene.collision;
+package nitrogene.util;
 
 public class Vector 
 {

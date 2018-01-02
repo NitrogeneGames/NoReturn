@@ -1,4 +1,4 @@
-package nitrogene.objecttree;
+package nitrogene.core;
 
 import java.util.ArrayList;
 
@@ -11,17 +11,21 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.util.pathfinding.Mover;
 
-import nitrogene.collision.Vector;
-import nitrogene.core.GlobalInformation;
-import nitrogene.core.Resources;
 import nitrogene.gui.Sprite;
 import nitrogene.npc.NPCship;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Movement;
+import nitrogene.util.Vector;
 import nitrogene.world.World;
 import nitrogene.world.TravelPath;
 
-public class PhysicalObject implements Mover {
+public class GameObject implements Mover {
+	
+	//Class that represents an actual object in the game
+	//Almost all objects are an instance of this class, or an extension of it
+	//TODO - change to an interface (maybe?)
+	
+	
 	protected AngledMovement angledmovement;
 	protected String defaultmovement;
 	protected float rotationalconstant;
@@ -39,7 +43,8 @@ public class PhysicalObject implements Mover {
 	protected boolean destroyed = false;
 	protected Point centerOfRotation;
 	public World world;
-	public PhysicalObject(World world, float x, float y){
+	public GameObject(World world, float x, float y){
+		//Initializer, requires the world that the object is in as well as a location
 		this.world = world;
 		width = 0;
 		height = 0;
@@ -50,9 +55,12 @@ public class PhysicalObject implements Mover {
 		return destroyed;
 	}
 	public void load(String img, float scalefactor, World map){
+		//Load the image/boundbox since they do not exist during the constructor
 		this.scalefactor = scalefactor;
 		this.map = map;
 		this.mainimg = new Sprite(img);
+		
+		//Load the boundbox
 		boundbox = GlobalInformation.getHitbox(mainimg.getResourceReference());
 		if(boundbox == null){
 			//System.out.println(img.getResourceReference() + "   :   " + "WARNING, NEEDS HITBOX REFERENCE");
@@ -60,6 +68,8 @@ public class PhysicalObject implements Mover {
 			boundbox = new Polygon(m);
 		}
 		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
+		
+		//Set image data as well as physicall location/rotations
 		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
 		newboundbox = new Polygon(boundbox.getPoints());
 		this.setX(tempx);
@@ -70,6 +80,7 @@ public class PhysicalObject implements Mover {
 		movement = new Movement();
 	}
 	protected void setDefaultMovement(String s){
+		//Decide if movement is angled or standard
 		if(s == "angled"){
 			defaultmovement = "angled";
 		} else if(s == "normal"){
@@ -82,6 +93,7 @@ public class PhysicalObject implements Mover {
 		this.height = height;
 	}
 	public void moveAngled(int thrust, int delta){
+		//Move the object using angled movement
 		angledmovement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
 		float mm = delta/1000f;
 		float gj = thrust*1f;
@@ -91,6 +103,7 @@ public class PhysicalObject implements Mover {
 		this.rotation = angledmovement.getRotationAngle();
 	}
 	public Line move(float thrust, int delta){
+		//Move the object along a line
 		float x1 = getX();
 		float y1 = getY();
 		movement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
@@ -104,6 +117,7 @@ public class PhysicalObject implements Mover {
 		return new Line(x1, y1, getX(), getY());
 	}
 	public Line move(float thrust, int delta, TravelPath path){
+		//Move the object along a TravelPath (obsolete pathfinding system)
 		float x1 = getX();
 		float y1 = getY();
 		movement.Accelerate(new Vector(newboundbox.getCenterX(),newboundbox.getCenterY()), delta);
@@ -119,8 +133,8 @@ public class PhysicalObject implements Mover {
 		return new Line(x1, y1, getX(), getY());
 	}
 	/*
-public boolean isColliding(PhysicalObject obj){
-		
+	public boolean isColliding(PhysicalObject obj){
+		//Obsolete collision detection system
 
 		double dist = Math.sqrt((boundbox.getCenterX()-obj.getCenterX())*(boundbox.getCenterX()-obj.getCenterX()) + (boundbox.getCenterY()-obj.getCenterY())*(boundbox.getCenterY()-obj.getCenterY()));
 		if(this.boundbox.getCenterX() + width + this.movement.getDx() >= dist || 
@@ -166,18 +180,20 @@ public boolean isColliding(PhysicalObject obj){
 		return false;
 	}
 	 */
-	public boolean isColliding(PhysicalObject obj){
-				if(this.getBoundbox().intersects(obj.getBoundbox())) {
-					return true;
-				} else if(this.getBoundbox().contains(obj.getBoundbox())) {
-					return true;
-				} else if(obj.getBoundbox().contains(this.getBoundbox())) {
-					return true;
-				} else {
-					return false;
-				}
+	public boolean isColliding(GameObject obj){
+		//Check to see if 2 objects' boundboxes are colliding
+		if(this.getBoundbox().intersects(obj.getBoundbox())) {
+			return true;
+		} else if(this.getBoundbox().contains(obj.getBoundbox())) {
+			return true;
+		} else if(obj.getBoundbox().contains(this.getBoundbox())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public boolean isColliding(Shape obj){
+		//Check to see if the object is colliding with a Shape
 		if(this.getBoundbox().intersects(obj)) {
 			return true;
 		} else if(this.getBoundbox().contains(obj)) {
@@ -187,31 +203,14 @@ public boolean isColliding(PhysicalObject obj){
 		} else {
 			return false;
 		}
-}
-	public boolean isColliding(Line l) {
-		if(this.getBoundbox().intersects(l)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	public boolean isContaining(float x, float y){
-		/*
-		if(this.getBoundbox().getX() + width + this.getMovement().getDx() >= x ||
-				this.getBoundbox().getY() + height + this.getMovement().getDy() >= y ||
-				this.getBoundbox().getX() - width - this.getMovement().getDx() <= x ||
-				this.getBoundbox().getY() - height - this.getMovement().getDy() <= y
-				){
-				*/
 		return this.getBoundbox().contains(x, y);
-		/*
-		}
-		else return false;
-		*/
 	}
 	
 	public float getRotation(){
+		//Get rotation, range between -180 and 180
 		if(rotation > 180) {
 			return rotation - 360;
 		} else if(rotation < -180) {
@@ -219,14 +218,6 @@ public boolean isColliding(PhysicalObject obj){
 		}
 		return rotation;
 	}
-	
-	/*public Image getImage(){
-		if(mainimg != null) {
-			return mainimg.getImage();
-		} else {
-			return null;
-		}
-	}*/
 	public Sprite getSprite() {
 		return mainimg;
 	}
@@ -251,21 +242,9 @@ public boolean isColliding(PhysicalObject obj){
 		}
 	}
 	public float getCenterX(){
-		/*
-		if(newboundbox!=null){
-		return newboundbox.getCenterX();
-		}else return 0f;
-		*/
 		return this.getSprite().getImage().getCenterOfRotationX();
 	}
 	public float getCenterY(){
-		/*
-		if(newboundbox!=null){
-		return newboundbox.getCenterY();
-		}else{
-			return 0f;
-		}
-		*/
 		return this.getSprite().getImage().getCenterOfRotationY();
 	}
 	public float getRealCenterX(){
@@ -333,7 +312,8 @@ public boolean isColliding(PhysicalObject obj){
 	public Point getCenterOfRotation() {
 		return centerOfRotation;
 	}
-	public static ArrayList<int[]> getCollidingPoints(PhysicalObject a, PhysicalObject a1) {
+	public static ArrayList<int[]> getCollidingPoints(GameObject a, GameObject a1) {
+		//Get points that are contained in both objects
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for(int i = 0; i < a.boundbox.getPointCount(); i++) {
 			if(a1.isContaining(a.boundbox.getPoint(i)[0], a.boundbox.getPoint(i)[1])) {

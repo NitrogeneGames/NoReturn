@@ -19,13 +19,13 @@ import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 import org.newdawn.slick.util.pathfinding.heuristics.ClosestHeuristic;
 
-import nitrogene.collision.Vector;
 import nitrogene.core.AssetManager;
 import nitrogene.core.Craft;
+import nitrogene.core.GameObject;
 import nitrogene.core.Resources;
 import nitrogene.inventory.DroppedItem;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.Direction;
+import nitrogene.util.Vector;
 
 public class World {
 	private int planetnumber;
@@ -34,7 +34,7 @@ public class World {
 	private ArrayList<Asteroid> asteroidlist;
 	private long asteroidelapsed, asteroidstart;
 	private int asteroiddelay;
-	private ArrayList<PhysicalObject> objlist;
+	private ArrayList<GameObject> objlist;
 	private ArrayList<DroppedItem> itemlist;
 	private int upbound, downbound, rightbound, leftbound, mapwidth, mapheight,offsetx, offsety;
 	private Timer asteroidtimer;
@@ -104,7 +104,7 @@ public class World {
 	
 	public World(int planetnumber, int offsetx, int offsety, int mapwidth, int mapheight) throws SlickException{
 		this.planetnumber = planetnumber;
-		objlist = new ArrayList<PhysicalObject>();
+		objlist = new ArrayList<GameObject>();
 		itemlist = new ArrayList<DroppedItem>();
 		planetlist = new ArrayList<Planet>();
 		random = new Random();
@@ -297,8 +297,8 @@ public class World {
 		return asteroidlist;
 	}
 	//any new item categories are added into the general list HERE!
-	public ArrayList<PhysicalObject> getObjList(){
-		ArrayList<PhysicalObject> objs = new ArrayList<PhysicalObject>();
+	public ArrayList<GameObject> getObjList(){
+		ArrayList<GameObject> objs = new ArrayList<GameObject>();
 		for(Planet mesh : planetlist){
 			objs.add(mesh);
 		}
@@ -307,10 +307,10 @@ public class World {
 		}
 		return objs;
 	}
-	public PhysicalObject checkCollision(PhysicalObject o) {
-		ArrayList<PhysicalObject> os = new ArrayList<PhysicalObject>();
+	public GameObject checkCollision(GameObject o) {
+		ArrayList<GameObject> os = new ArrayList<GameObject>();
 		for(int i : getSectors(o)) {
-			for(PhysicalObject p : sectors.get(i).getObjects()) {
+			for(GameObject p : sectors.get(i).getObjects()) {
 				if(!os.contains(p)) {
 					os.add(p);
 					if(o.isColliding(p) && !o.equals(p)) {
@@ -355,7 +355,7 @@ public class World {
 		System.out.println(sectors.get(0).getObjects().size());
 	}
 	
-	public ArrayList<Integer> getSectors(PhysicalObject p) {
+	public ArrayList<Integer> getSectors(GameObject p) {
 		int xmin = (int) Math.floor(p.getBoundbox().getMinX()/100);
 		int xmax = (int) Math.ceil(p.getBoundbox().getMaxX()/100);
 		int ymin = (int) Math.floor(p.getBoundbox().getMinY()/100);
@@ -388,7 +388,7 @@ public class World {
 	}
 	
 	//(in range x*100 - (x+1)*100 - y*100 - y+1*100)
-	public ArrayList<PhysicalObject> objectsInSector(int id) {
+	public ArrayList<GameObject> objectsInSector(int id) {
 		return null;
 	}
 

@@ -6,17 +6,17 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+import nitrogene.core.GameObject;
 import nitrogene.core.GameState;
 import nitrogene.core.Resources;
-import nitrogene.objecttree.PhysicalObject;
 
 public class ObjectMap implements TileBasedMap {
 	public Circle marble;
 	private int chunkWidth;
-	private PhysicalObject traveler;
+	private GameObject traveler;
 	private float radius;
-	ArrayList<PhysicalObject> ignore;
-	public ObjectMap(PhysicalObject o, int chunkWidth, ArrayList<PhysicalObject> ignore) {
+	ArrayList<GameObject> ignore;
+	public ObjectMap(GameObject o, int chunkWidth, ArrayList<GameObject> ignore) {
 		this.ignore = ignore;
 		if(!this.ignore.contains(o)) this.ignore.add(o);
 		traveler = o;
@@ -32,7 +32,7 @@ public class ObjectMap implements TileBasedMap {
 	public boolean blocked(PathFindingContext arg0, int x, int y) {
 		
 		marble.setLocation(chunkWidth*x-marble.radius, chunkWidth*y-marble.radius);
-		for(PhysicalObject o : GameState.map.getObjList()) {
+		for(GameObject o : GameState.map.getObjList()) {
 			
 			if(o.getClass() != Asteroid.class && o.isColliding(marble) && !this.ignore.contains(o)) {
 				return true;

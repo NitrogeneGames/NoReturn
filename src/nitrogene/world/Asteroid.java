@@ -7,15 +7,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
+import nitrogene.core.GameObject;
 import nitrogene.core.GlobalInformation;
 import nitrogene.core.Resources;
 import nitrogene.gui.Sprite;
-import nitrogene.objecttree.PhysicalObject;
 import nitrogene.util.AngledMovement;
 import nitrogene.util.Direction;
 import nitrogene.util.Movement;
 
-public class Asteroid extends PhysicalObject{
+public class Asteroid extends GameObject{
 	private float endx, endy;
 	private Direction direction;
 
