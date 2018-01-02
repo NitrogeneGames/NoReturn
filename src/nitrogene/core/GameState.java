@@ -217,21 +217,21 @@ public class GameState extends BasicGameState{
 	    		  c.loadWeapons(GlobalInformation.getStartingWeapons());
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
-	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
 	    		  enemyWeapons.add(EnumWeapon.BASIC);
+	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
 	    		  for(int i = 0; i < level%4 && i < 4; i++){
 	    			  
-	    			  enemyWeapons.add(EnumWeapon.IMMINEO);
+	    			  enemyWeapons.add(EnumWeapon.BASIC);
+	    		  }
+	    		  if(level == 7) {
+	    			  enemyWeapons.add(EnumWeapon.IMMINEO2);
 	    		  }
 	    		  c.loadWeapons(enemyWeapons);
 	    		  //n.addTask(new TaskMoveTo(n, 2000, 1000, 10));
 	    		  
 	    		  n.addTask(new TaskFollow(n, craft, 500));
-			      n.addTask(new TaskFire(n, craft, 0));
-			      if(superHardDifficulty){
-			    	  n.addTask(new TaskFire(n, craft, 1));
-			    	  n.addTask(new TaskFire(n, craft, 2));
-			    	  n.addTask(new TaskFire(n, craft, 3));
+			      for(int i = 0; i < enemyWeapons.size(); i++) {
+			    	  n.addTask(new TaskFire(n, craft, i));
 			      }
 		      }
 	      }
@@ -721,7 +721,7 @@ public class GameState extends BasicGameState{
 			Image tempnormal = ((Image) AssetManager.get().get("defaultbuttonnormal")).copy();
 			Image temppressed = ((Image) AssetManager.get().get("defaultbuttonpressed")).copy();
 			Image temphover = ((Image) AssetManager.get().get("defaultbuttonhover")).copy();
-			if (level != 8) {
+			if (level != 7) {
 				nextLevel.render(g, tempnormal, temppressed, temphover);
 			}
 			g.scale(scale,  scale);
