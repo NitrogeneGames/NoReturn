@@ -23,16 +23,16 @@ import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.heuristics.ClosestHeuristic;
 
 import nitrogene.gui.Sprite;
-import nitrogene.slick.BetterScalableGame;
-import nitrogene.slick.BetterAppGameContainer;
+import nitrogene.slick.NitroScalableGame;
+import nitrogene.slick.NitroAppGameContainer;
 import nitrogene.util.AppData;
 import nitrogene.world.ObjectMap;
 import nitrogene.world.TravelPath;
 
 public class Resources {
 	public static String logStream = "";
-	public static BetterAppGameContainer appInstance;
-	public static BetterScalableGame scaleGameInstance;
+	public static NitroAppGameContainer appInstance;
+	public static NitroScalableGame scaleGameInstance;
 	public final static boolean systemPrintLn = true;
 	public static void log(Object ll){
 		ll = ll.toString();

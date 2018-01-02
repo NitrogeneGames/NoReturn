@@ -1,8 +1,8 @@
 package nitrogene.core;
 
 import nitrogene.gui.HybridDisplay;
-import nitrogene.slick.BetterAppGameContainer;
-import nitrogene.slick.BetterScalableGame;
+import nitrogene.slick.NitroAppGameContainer;
+import nitrogene.slick.NitroScalableGame;
 import nitrogene.util.AppData;
 
 import java.awt.Canvas;
@@ -39,9 +39,9 @@ public class SpaceGame extends StateBasedGame{
 
 	public static void main(String[] args) throws SlickException, LWJGLException{
 		
-		BetterScalableGame game = new BetterScalableGame(new SpaceGame("Space Game"), 1366, 768, false);
+		NitroScalableGame game = new NitroScalableGame(new SpaceGame("Space Game"), 1366, 768, false);
 		Resources.scaleGameInstance = game;
-		BetterAppGameContainer app = new BetterAppGameContainer(game);
+		NitroAppGameContainer app = new NitroAppGameContainer(game);
 		
 		Resources.appInstance = app;
 		

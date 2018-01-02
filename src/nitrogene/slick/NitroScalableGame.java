@@ -25,7 +25,7 @@ import nitrogene.util.AppData;
  * 
  * @author kevin
  */
-public class BetterScalableGame implements Game {
+public class NitroScalableGame implements Game {
 	/** The renderer to use for all GL operations */
 	private static SGL GL = Renderer.get();
 	
@@ -51,7 +51,7 @@ public class BetterScalableGame implements Game {
 	 * @param normalWidth The normal width of the game
 	 * @param normalHeight The noral height of the game
 	 */
-	public BetterScalableGame(Game held, int normalWidth, int normalHeight) {
+	public NitroScalableGame(Game held, int normalWidth, int normalHeight) {
 		this(held, normalWidth, normalHeight, false);
 	}
 	
@@ -63,7 +63,7 @@ public class BetterScalableGame implements Game {
 	 * @param normalHeight The noral height of the game
 	 * @param maintainAspect True if we should maintain the aspect ratio
 	 */
-	public BetterScalableGame(Game held, int normalWidth, int normalHeight, boolean maintainAspect) {
+	public NitroScalableGame(Game held, int normalWidth, int normalHeight, boolean maintainAspect) {
 		this.held = held;
 		this.normalWidth = normalWidth;
 		this.normalHeight = normalHeight;

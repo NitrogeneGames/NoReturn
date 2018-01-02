@@ -38,7 +38,7 @@ import nitrogene.util.AppData;
  *
  * @author kevin
  */
-public class BetterAppGameContainer extends GameContainer {
+public class NitroAppGameContainer extends GameContainer {
 	static {
 		AccessController.doPrivileged(new PrivilegedAction() {
             public Object run() {
@@ -66,7 +66,7 @@ public class BetterAppGameContainer extends GameContainer {
 	 * @param game The game to be wrapped
 	 * @throws SlickException Indicates a failure to initialise the display
 	 */
-	public BetterAppGameContainer(Game game) throws SlickException {
+	public NitroAppGameContainer(Game game) throws SlickException {
 		this(game,640,480,false);
 	}
 
@@ -79,7 +79,7 @@ public class BetterAppGameContainer extends GameContainer {
 	 * @param fullscreen True if we want fullscreen mode
 	 * @throws SlickException Indicates a failure to initialise the display
 	 */
-	public BetterAppGameContainer(Game game,int width,int height,boolean fullscreen) throws SlickException {
+	public NitroAppGameContainer(Game game,int width,int height,boolean fullscreen) throws SlickException {
 		super(game);
 		
 		originalDisplayMode = Display.getDisplayMode();

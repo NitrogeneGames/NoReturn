@@ -99,7 +99,7 @@ public class Hotbar {
 		
 		
 		//Weapon name and resizing
-		enumtype.font.drawString(333 + 117*id - enumtype.font.getWidth(enumtype.shortenedString)/2 + 56, 661 + 30 - enumtype.font.getHeight(enumtype.shortenedString)/2, enumtype.shortenedString);
+		enumtype.font.drawString(389 + 117*id - enumtype.font.getWidth(enumtype.shortenedString)/2, 700 - enumtype.font.getHeight(enumtype.shortenedString), enumtype.shortenedString);
 		/*if(uniFont.getWidth(n) < 104) {
 			uniFont.drawString(slot[2] - uniFont.getWidth(n)/2 + camX + 56, slot[3] + 30 + camY - uniFont.getHeight(n)/2, n);
 		} else if(uniFont2.getWidth(n) < 104) {

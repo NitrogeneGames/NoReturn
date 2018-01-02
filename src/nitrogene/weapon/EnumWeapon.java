@@ -57,16 +57,19 @@ public enum EnumWeapon{
 		this.burstnumber = burstnumber;
 	}
 	public void loadFont() {
+		
+		int hotBarWidth = 117;
+		
 		String n = formalname;
-		if(GlobalInformation.uniFont.getWidth(n) < 104) {
+		if(GlobalInformation.uniFont.getWidth(n) < hotBarWidth) {
 			font = GlobalInformation.uniFont;
-		} else if(GlobalInformation.uniFont2.getWidth(n) < 104) {
+		} else if(GlobalInformation.uniFont2.getWidth(n) < hotBarWidth) {
 			font = GlobalInformation.uniFont2;
-		} else if(GlobalInformation.uniFont3.getWidth(n) < 104) {
+		} else if(GlobalInformation.uniFont3.getWidth(n) < hotBarWidth) {
 			font = GlobalInformation.uniFont3;
 		} else {
 			font = GlobalInformation.uniFont3;
-			while(GlobalInformation.uniFont3.getWidth(n) > 104) {
+			while(GlobalInformation.uniFont3.getWidth(n) > hotBarWidth) {
 				n = n.substring(0, n.length() - 4);			
 				n = n + "...";
 			}
