@@ -217,8 +217,9 @@ public class GameState extends BasicGameState{
 	    		  c.loadWeapons(GlobalInformation.getStartingWeapons());
 	    	  } else {
 	    		  NPCship n = (NPCship) c;
-	    		  enemyWeapons.add(EnumWeapon.BASIC);
+	    		  
 	    		  ArrayList<EnumWeapon> enemyWeapons = new ArrayList<EnumWeapon>();
+	    		  enemyWeapons.add(EnumWeapon.BASIC);
 	    		  for(int i = 0; i < level%4 && i < 4; i++){
 	    			  
 	    			  enemyWeapons.add(EnumWeapon.BASIC);

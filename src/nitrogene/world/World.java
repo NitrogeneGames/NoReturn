@@ -339,7 +339,7 @@ public class World {
 	}
 	
 	public void generateSectors() {
-		for(int i = 0; i < totalSectors; i++) {
+		/*for(int i = 0; i < totalSectors; i++) {
 			sectors.add(new Sector());
 		}
 		for(Planet p : getPlanets()) {
@@ -352,7 +352,7 @@ public class World {
 				sectors.get(i).addObject(c);
 			}			
 		}
-		System.out.println(sectors.get(0).getObjects().size());
+		System.out.println(sectors.get(0).getObjects().size());*/
 	}
 	
 	public ArrayList<Integer> getSectors(GameObject p) {

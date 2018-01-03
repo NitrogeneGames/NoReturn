@@ -28,7 +28,7 @@ import com.sun.glass.ui.Application;
 
 public class SpaceGame extends StateBasedGame{
 
-	public static String version = "Alpha 0.0.1";
+	public static String version = "Alpha 0.1.2";
 	public static int SCRwidth;
 	public static int SCRheight;
 	public SpaceGame(String title) {
