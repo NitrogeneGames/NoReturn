@@ -307,7 +307,7 @@ public class GameState extends BasicGameState{
 				CursorSystem.update(container);
 				TickSystem.update(delta);
 				//map.updateSectors(map.getCrafts());
-		    	minimap.update();
+				minimap.update(delta);
 		    	//guihotbar.update(craft);
 		    	//Input Controllers
 		    	if(!craft.isDestroyed()) {
@@ -542,7 +542,6 @@ public class GameState extends BasicGameState{
 		    	if(exit.isClicked()) container.exit();
 			}
 			screenBox = new Rectangle(camX/Zoom.getZoom(), camY/Zoom.getZoom(), SCR_width/Zoom.getZoom(), SCR_height/Zoom.getZoom());
-			minimap.update(map, delta);
 		}
 	public void collide(PhysicalProjcetile laser, LaserLauncher laserlauncher, GameObject mesh) {
 		if (mesh == null) return;
@@ -678,7 +677,7 @@ public class GameState extends BasicGameState{
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		
 		resetScale();
-		minimap.render(g);
+		minimap.render(g, map);
 		shieldbar.render(g, (craft.shieldPercent));
 		hullbar.render(g, (float)(craft.hullPercent));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();

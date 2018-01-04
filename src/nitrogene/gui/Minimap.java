@@ -48,19 +48,17 @@ public class Minimap {
 			e.printStackTrace();
 		}
 	}
-	public void update(World map, float delta) {
+	public void update(float delta) {
 		updateDelta += delta;
+
+	}
+	public void render(Graphics gr, World map) {
+
+		gr.drawImage(l, 0, SCR_height-height);
 		if(updateDelta > updateTime) {
 			updateDelta = 0;
 			renderImage(map.getPlanets(), map.getCrafts(), map.getAsteroids());
 		}
-	}
-	public void render(Graphics gr) {
-
-		gr.drawImage(l, 0, SCR_height-height);
-	}
-	public void update(){
-
 	}
 	public void renderImage(ArrayList<Planet> planetlist, ArrayList<Craft> craftlist, ArrayList<Asteroid> asteroidlist){
 
