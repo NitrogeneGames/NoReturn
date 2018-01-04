@@ -18,6 +18,7 @@ public class Stars {
 	private int initial_x, initial_y;
 	private ArrayList<int[]> stars = new ArrayList<int[]>();
 	private Image backgroundimg;
+	private Image twopixelstar;
 	private Graphics gr;
 	
 	public Stars(int biggeststarsize, int mapwidth, int mapheight, int startx, int starty, int frequency) throws SlickException{
@@ -45,6 +46,7 @@ public class Stars {
 	    	stars.add(new int[] { random.nextInt(mapwidth+startx - biggeststarsize) + 1,     			
 	    			random.nextInt(mapheight+starty - biggeststarsize) + 1});
     	}
+    	twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();
 	}
 	
 	//Get the graphics from Gamestate
@@ -54,7 +56,7 @@ public class Stars {
 	
 	public void render(Graphics g){
 		
-		Image twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();
+		
 		for(int[] loc : stars){
 			
 			twopixelstar.draw(loc[0],loc[1]);

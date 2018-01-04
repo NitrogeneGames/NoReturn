@@ -571,8 +571,10 @@ public class GameState extends BasicGameState{
 		camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
 		camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
 		g.translate(-camX, -camY);
+		g.setWorldClip(camX, camY, SCR_width, SCR_height);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom(),(float)Zoom.getZoom());
+		
 		
 		//Change the third paramater to control the camera's view rotation
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
