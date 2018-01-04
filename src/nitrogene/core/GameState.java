@@ -87,6 +87,8 @@ public class GameState extends BasicGameState{
 
 	public static boolean PAUSED = false;
 	public static boolean drawPauseMenu = true;
+	Image i;
+	Graphics gr;
 	//Image gameRender;
 	//Graphics g;
 	
@@ -105,6 +107,8 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		Resources.log("Initializing Gamestate...");
+		i = new Image(0,0);
+		gr = i.getGraphics();
     	//ADDRESS PROBLEM
     	
     	//componentlist = new ArrayList<GuiComponent>();
@@ -278,7 +282,7 @@ public class GameState extends BasicGameState{
 		}
 		
 		Zoom.setZoomWindow(SCR_width, SCR_height);
-		screenBox = new Rectangle(camX/Zoom.getZoom(), camY/Zoom.getZoom(), SCR_width/Zoom.getZoom(), SCR_height/Zoom.getZoom());
+
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -287,6 +291,7 @@ public class GameState extends BasicGameState{
 			container.exit();
 		}
 		nextLevel.update(container);
+
 		if(!PAUSED){
 			if(getEnemyCount() == 0) {
 				if(nextLevel.isClicked()) {
@@ -481,14 +486,11 @@ public class GameState extends BasicGameState{
 				}
 				
 				//TODO ~ 100 FPS
-				for(int f = 0; f < map.getAsteroids().size(); f++){
-					Asteroid as = map.getAsteroids().get(f);
-					as.update(delta);
-				}
 				/*for(int f = 0; f < map.getAsteroids().size(); f++){
 					Asteroid as = map.getAsteroids().get(f);
-					as.move(7, delta);
+					as.update(delta);
 				}*/
+				map.updateAsteroids(delta);
 				
 				for(int d = 0; d < map.getDroppedItem().size(); d++){
 					DroppedItem di = map.getDroppedItem().get(d);
@@ -539,6 +541,8 @@ public class GameState extends BasicGameState{
 		    	if(menu.isClicked()) game.enterState(1);
 		    	if(exit.isClicked()) container.exit();
 			}
+			screenBox = new Rectangle(camX/Zoom.getZoom(), camY/Zoom.getZoom(), SCR_width/Zoom.getZoom(), SCR_height/Zoom.getZoom());
+			minimap.update(map, delta);
 		}
 	public void collide(PhysicalProjcetile laser, LaserLauncher laserlauncher, GameObject mesh) {
 		if (mesh == null) return;
@@ -672,8 +676,9 @@ public class GameState extends BasicGameState{
 
 		//Type inverse of third paramater here to counteract (for GUI components)
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
-		//g.pushTransform();
-		minimap.render(g,map);		
+		
+		resetScale();
+		minimap.render(g);
 		shieldbar.render(g, (craft.shieldPercent));
 		hullbar.render(g, (float)(craft.hullPercent));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
@@ -796,7 +801,10 @@ public class GameState extends BasicGameState{
 		}
 		return count;
 	}
-
+	public void resetScale() {
+		gr.draw(new Point(0,0));
+		gr.clear();
+	}
 
 	@Override
 	public int getID() {

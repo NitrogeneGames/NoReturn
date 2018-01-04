@@ -391,5 +391,18 @@ public class World {
 	public ArrayList<GameObject> objectsInSector(int id) {
 		return null;
 	}
+	
+	int asteroidDeltaCount = 0;
+	int asteroidUpdateDelta = 10;
+	public void updateAsteroids(int delta) {
+		asteroidDeltaCount += delta;
+		if (asteroidDeltaCount > asteroidUpdateDelta) {
+			for(int f = 0; f <getAsteroids().size(); f++){
+				Asteroid as = getAsteroids().get(f);
+				as.update(asteroidDeltaCount);
+			}
+			asteroidDeltaCount = 0;
+		}
+	}
 
 }

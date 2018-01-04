@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
@@ -25,6 +26,8 @@ public class Minimap {
 	private float locationx, locationy;
 	public Image l;
 	private Graphics g;
+	public float updateDelta = 0;
+	public float updateTime = 50;
 	
 	public Minimap(int width, int height, int SCR_width, int SCR_height, int mapwidth, int mapheight, Craft f){
 		System.out.println(SCR_width + " x");
@@ -45,8 +48,15 @@ public class Minimap {
 			e.printStackTrace();
 		}
 	}
-	public void render(Graphics gr, World map) {
-		renderImage(map.getPlanets(), map.getCrafts(), map.getAsteroids());
+	public void update(World map, float delta) {
+		updateDelta += delta;
+		if(updateDelta > updateTime) {
+			updateDelta = 0;
+			renderImage(map.getPlanets(), map.getCrafts(), map.getAsteroids());
+		}
+	}
+	public void render(Graphics gr) {
+
 		gr.drawImage(l, 0, SCR_height-height);
 	}
 	public void update(){
@@ -81,7 +91,7 @@ public class Minimap {
 			g.drawImage(d, x, y);
 			mesh = null;
 		}
-		/*for(int e = 0; e < asteroidlist.size(); e++){
+		for(int e = 0; e < asteroidlist.size(); e++){
 			Asteroid mesh = asteroidlist.get(e);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
@@ -90,7 +100,7 @@ public class Minimap {
 			d.setRotation(mesh.getRotation());
 			g.drawImage(d, x, y);
 			mesh = null;
-		}*/
+		}
 		g.flush();
 	}
 }
