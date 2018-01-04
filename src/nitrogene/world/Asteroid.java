@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Transform;
 
@@ -35,10 +36,11 @@ public class Asteroid extends GameObject{
 			float[] m = {0,0,1,1,2,2};
 			boundbox = new Polygon(m);
 		}
-		boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
+		boundbox = boundbox.transform(Transform.createScaleTransform(scalefactor, scalefactor));
+		
 		init(mainimg.getImage().getWidth(), mainimg.getImage().getHeight());
-		newboundbox = new Polygon();
-		newboundbox = boundbox;
+		newboundbox = new Polygon(boundbox.getPoints());
+		//newboundbox = boundbox;
 		this.setX(tempx);
 		this.setY(tempy);
 		rotationalconstant=0;
@@ -50,9 +52,17 @@ public class Asteroid extends GameObject{
 		Random rand1 = new Random();
 		this.rotationalconstant = rand1.nextInt(8)+2;
 		this.rotation = rand1.nextInt(360);
+		centerOfRotation = new Point(getSprite().getImage().getCenterOfRotationX(),getSprite().getImage().getCenterOfRotationY());
 	}
 	
 	public void update(int delta){
+		float carryx = this.getX();
+		float carryy = this.getY();
+		Point p = this.getCenterOfRotation();
+		this.setBoundbox(this.getOriginalBoundbox().transform(Transform.createRotateTransform((float)Math.toRadians(rotation),p.getX(),p.getY())));
+		this.setX(carryx);
+		this.setY(carryy);
+		this.getSprite().setRotation(this.getRotation());
 		if(this.direction==Direction.FORWARD && this.getX() > endx){
 			destroy();
 		} else if(this.direction==Direction.UPWARD && this.getY() < endy){

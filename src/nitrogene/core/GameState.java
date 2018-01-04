@@ -59,7 +59,7 @@ public class GameState extends BasicGameState{
 	public static Rectangle screenBox;
 	public static int level = 1;
 	public static boolean superHardDifficulty = false;
-	private boolean doStars = false;
+	private boolean doStars = true;
 	private boolean debugRender = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
@@ -641,7 +641,10 @@ public class GameState extends BasicGameState{
 			Asteroid as = map.getAsteroids().get(e);
 			if(as.isOnScreen()) {
 				as.getSprite().draw(as.getX(),as.getY(),as.getScale());
-				as.getSprite().setRotation(as.getRotation());			
+				//as.getSprite().setRotation(as.getRotation());		
+				if(debugMode) {
+					g.draw(as.getBoundbox());
+				}
 			}
 		}
 		//if(GlobalInformation.testMode) g.draw(craft.getBoundbox());

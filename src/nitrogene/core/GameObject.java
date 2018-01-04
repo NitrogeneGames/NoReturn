@@ -316,16 +316,16 @@ public class GameObject implements Mover {
 	public static ArrayList<int[]> getCollidingPoints(GameObject a, GameObject a1) {
 		//Get points that are contained in both objects
 		ArrayList<int[]> list = new ArrayList<int[]>();
-		for(int i = 0; i < a.boundbox.getPointCount(); i++) {
-			if(a1.isContaining(a.boundbox.getPoint(i)[0], a.boundbox.getPoint(i)[1])) {
-				list.add(new int[]{(int) a.boundbox.getPoint(i)[0], (int) a.boundbox.getPoint(i)[1]});
+		for(int i = 0; i < a.getBoundbox().getPointCount(); i++) {
+			if(a1.isContaining(a.getBoundbox().getPoint(i)[0], a.getBoundbox().getPoint(i)[1])) {
+				list.add(new int[]{(int) a.getBoundbox().getPoint(i)[0], (int) a.getBoundbox().getPoint(i)[1]});
 			}
 		}
 		return list;
 	}
 	public boolean isOnScreen() {
-		return GameState.screenBox.intersects(this.boundbox) || 
-				GameState.screenBox.contains(this.boundbox);
+		return GameState.screenBox.intersects(this.getBoundbox()) || 
+				GameState.screenBox.contains(this.getBoundbox());
 	}
 	
 }

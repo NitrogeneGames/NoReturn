@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import nitrogene.core.AssetManager;
+import nitrogene.core.GameState;
 import nitrogene.core.Resources;
 import nitrogene.core.Zoom;
 import nitrogene.gui.Sprite;
@@ -24,7 +25,7 @@ public class Stars {
 	public Stars(int biggeststarsize, int mapwidth, int mapheight, int startx, int starty, int frequency) throws SlickException{
 		//Create an image to place the stars on
 		n = 1100;
-		backgroundimg = new Image(mapwidth, mapheight);
+		/*backgroundimg = new Image(mapwidth, mapheight);
 		gr = backgroundimg.getGraphics();
 		Color black = new Color(1f,1f,1f,1f);
 		gr.setColor(black);
@@ -40,27 +41,28 @@ public class Stars {
 	    	gr.drawImage(twopixelstar, random.nextInt(mapwidth+startx - biggeststarsize) + 1, random.nextInt(mapheight+starty - biggeststarsize) + 1);
     	}
     	this.biggeststarsize = biggeststarsize;
-    	gr.flush();
+    	gr.flush();*/
 
-    	/*for(int i = 0; i < n; i++) {
+    	for(int i = 0; i < n; i++) {
 	    	Random random = new Random();
 	    	stars.add(new int[] { random.nextInt(mapwidth+startx - biggeststarsize) + 1,     			
 	    			random.nextInt(mapheight+starty - biggeststarsize) + 1});
     	}
-    	twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();*/
+    	twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();
 	}
 	
 	//Get the graphics from Gamestate
-	public void render(Graphics g){
-		g.drawImage(backgroundimg, initial_x, initial_y);
-	}
-	
 	/*public void render(Graphics g){
+		g.drawImage(backgroundimg, initial_x, initial_y);
+	}*/
+	
+	public void render(Graphics g){
 		
 		
 		for(int[] loc : stars){
-			
-			twopixelstar.draw(loc[0],loc[1]);
+			if(GameState.screenBox.contains(loc[0], loc[1])) {
+				twopixelstar.draw(loc[0],loc[1]);
+			}
 		}
-	}*/
+	}
 }
