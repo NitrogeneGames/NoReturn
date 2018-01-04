@@ -50,6 +50,8 @@ public class Craft extends GameObject{
 	private ArrayList<Item> inventory;
 	protected int cumulative;
 	public String name = "";
+	public float hullPercent = 100;
+	public float shieldPercent = 100;
 	
 
 	public Craft(World world, float xpos, float ypos, String img, float scale) throws SlickException{
@@ -227,6 +229,10 @@ public class Craft extends GameObject{
 				i--;
 			}
 		}
+		
+		//Update render variables
+		shieldPercent = shield.getHp()/shield.getMaxHp();
+		hullPercent = (float) (getHull()/getMaxHull());
 	}
 	
 	public void renderSystems() {

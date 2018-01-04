@@ -81,7 +81,7 @@ public class Minimap {
 			g.drawImage(d, x, y);
 			mesh = null;
 		}
-		for(int e = 0; e < asteroidlist.size(); e++){
+		/*for(int e = 0; e < asteroidlist.size(); e++){
 			Asteroid mesh = asteroidlist.get(e);
 			float x = ((mesh.getX()-focus.getX())*scalefactor)+statx+width/2-focus.width/2*scalefactor;
 			float y = ((mesh.getY()-focus.getY())*scalefactor)+staty+height/2-focus.height/2*scalefactor;
@@ -90,7 +90,7 @@ public class Minimap {
 			d.setRotation(mesh.getRotation());
 			g.drawImage(d, x, y);
 			mesh = null;
-		}
+		}*/
 		g.flush();
 	}
 }

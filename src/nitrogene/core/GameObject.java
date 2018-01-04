@@ -1,5 +1,6 @@
 package nitrogene.core;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
@@ -321,6 +322,10 @@ public class GameObject implements Mover {
 			}
 		}
 		return list;
+	}
+	public boolean isOnScreen() {
+		return GameState.screenBox.intersects(this.boundbox) || 
+				GameState.screenBox.contains(this.boundbox);
 	}
 	
 }

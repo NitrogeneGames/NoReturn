@@ -18,7 +18,6 @@ import nitrogene.util.Movement;
 public class Asteroid extends GameObject{
 	private float endx, endy;
 	private Direction direction;
-
 	public Asteroid(World world, float startx, float starty, float endx, float endy) throws SlickException {
 		super(world, startx, starty);
 		setDefaultMovement("normal");

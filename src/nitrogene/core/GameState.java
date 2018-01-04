@@ -47,6 +47,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
@@ -55,10 +56,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class GameState extends BasicGameState{
-	
+	public static Rectangle screenBox;
 	public static int level = 1;
 	public static boolean superHardDifficulty = false;
-	private boolean doStars = true;
+	private boolean doStars = false;
+	private boolean debugRender = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -96,7 +98,6 @@ public class GameState extends BasicGameState{
 			//gameRender = new Image(SCR_width, SCR_height);
 			//g = gameRender.getGraphics();
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
 		
@@ -265,6 +266,7 @@ public class GameState extends BasicGameState{
 			camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
 			camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
 		}
+		
 		int lasercount = 0;
 		//System.out.println(Zoom.getZoom());
 		if (delta > 200) {
@@ -276,7 +278,7 @@ public class GameState extends BasicGameState{
 		}
 		
 		Zoom.setZoomWindow(SCR_width, SCR_height);
-		
+		screenBox = new Rectangle(camX/Zoom.getZoom(), camY/Zoom.getZoom(), SCR_width/Zoom.getZoom(), SCR_height/Zoom.getZoom());
 		Input input = container.getInput();
 		if(input.isKeyPressed(Input.KEY_ESCAPE)){
 			PAUSED = !PAUSED;
@@ -346,7 +348,7 @@ public class GameState extends BasicGameState{
 					debugMode = !debugMode;
 				}
 				if(input.isKeyPressed(Input.KEY_I)){//open inventory
-					//show inventory gui TODO
+
 				}
 		    	
 		    	if(craft.laserlist.size() > 0 && input.isKeyPressed(Input.KEY_1)){
@@ -377,28 +379,31 @@ public class GameState extends BasicGameState{
 								PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 								Line path = laser.move(10,delta);
 								//collide(laser, laserlauncher, map.checkCollision(laser));
-								for(int e = 0; e < map.getPlanets().size(); e++){
-									Planet mesh = map.getPlanets().get(e);
-									if(mesh.isColliding(laser) || mesh.isColliding(path)){
-										float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
-										float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-										float xN = (float) (hyp*Math.cos(rotation))/2;
-										float yN = (float) (hyp*-Math.sin(rotation))/2;
-										AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-										laserlauncher.slaserlist.remove(laser);
-										mesh.damage(laser.getPlanetDamage(), map);
-									}
-									}
-								for(int r = 0; r < map.getCrafts().size(); r++){
-									Craft craft = map.getCrafts().get(r);
-									if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-										float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
-										float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-										float xN = (float) (hyp*Math.cos(rotation))/2;
-										float yN = (float) (hyp*-Math.sin(rotation))/2;
-										AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-										laserlauncher.slaserlist.remove(laser);
-										craft.damageHull(laser.getDamage());
+								if(debugRender) {
+									//TODO LAGGY
+									for(int e = 0; e < map.getPlanets().size(); e++){
+										Planet mesh = map.getPlanets().get(e);
+										if(mesh.isColliding(laser) || mesh.isColliding(path)){
+											float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+											float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+											float xN = (float) (hyp*Math.cos(rotation))/2;
+											float yN = (float) (hyp*-Math.sin(rotation))/2;
+											AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+											laserlauncher.slaserlist.remove(laser);
+											mesh.damage(laser.getPlanetDamage(), map);
+										}
+										}
+									for(int r = 0; r < map.getCrafts().size(); r++){
+										Craft craft = map.getCrafts().get(r);
+										if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
+											float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+											float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+											float xN = (float) (hyp*Math.cos(rotation))/2;
+											float yN = (float) (hyp*-Math.sin(rotation))/2;
+											AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+											laserlauncher.slaserlist.remove(laser);
+											craft.damageHull(laser.getDamage());
+										}
 									}
 								}
 								//map.setPlanets(planetlist);
@@ -430,28 +435,31 @@ public class GameState extends BasicGameState{
 								PhysicalProjcetile laser = laserlauncher.slaserlist.get(i);
 								Line path = laser.move(10,delta);
 								//collide(laser, laserlauncher, map.checkCollision(laser));
-								for(int e = 0; e < map.getPlanets().size(); e++){
-									Planet mesh = map.getPlanets().get(e);
-									if(mesh.isColliding(laser) || mesh.isColliding(path)){
-										float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
-										float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-										float xN = (float) (hyp*Math.cos(rotation))/2;
-										float yN = (float) (hyp*-Math.sin(rotation))/2;
-										AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-										laserlauncher.slaserlist.remove(laser);
-										mesh.damage(laser.getPlanetDamage(), map);
-									}
-									}
-								for(int r = 0; r < map.getCrafts().size(); r++){
-									Craft craft = map.getCrafts().get(r);
-									if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
-										float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
-										float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
-										float xN = (float) (hyp*Math.cos(rotation))/2;
-										float yN = (float) (hyp*-Math.sin(rotation))/2;
-										AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
-										laserlauncher.slaserlist.remove(laser);
-										craft.damageHull(laser.getDamage());
+								if(debugRender) {
+									//SAME TODO AS ABOE
+									for(int e = 0; e < map.getPlanets().size(); e++){
+										Planet mesh = map.getPlanets().get(e);
+										if(mesh.isColliding(laser) || mesh.isColliding(path)){
+											float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+											float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+											float xN = (float) (hyp*Math.cos(rotation))/2;
+											float yN = (float) (hyp*-Math.sin(rotation))/2;
+											AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+											laserlauncher.slaserlist.remove(laser);
+											mesh.damage(laser.getPlanetDamage(), map);
+										}
+										}
+									for(int r = 0; r < map.getCrafts().size(); r++){
+										Craft craft = map.getCrafts().get(r);
+										if((craft.isColliding(laser) || craft.isColliding(path)) && !craft.equals(obj)){
+											float rotation = (float) Math.toRadians(laser.getSprite().getImage().getRotation());
+											float hyp = (float) (Math.pow(laser.getSprite().getImage().getWidth()^2+laser.getSprite().getImage().getHeight()^2,.5)*laser.getScale());
+											float xN = (float) (hyp*Math.cos(rotation))/2;
+											float yN = (float) (hyp*-Math.sin(rotation))/2;
+											AnimationManager.createExplosion(laser.getX()+xN, laser.getY()+yN, 2.5f, 100);
+											laserlauncher.slaserlist.remove(laser);
+											craft.damageHull(laser.getDamage());
+										}
 									}
 								}
 							}
@@ -472,10 +480,15 @@ public class GameState extends BasicGameState{
 		
 				}
 				
+				//TODO ~ 100 FPS
 				for(int f = 0; f < map.getAsteroids().size(); f++){
 					Asteroid as = map.getAsteroids().get(f);
 					as.update(delta);
 				}
+				/*for(int f = 0; f < map.getAsteroids().size(); f++){
+					Asteroid as = map.getAsteroids().get(f);
+					as.move(7, delta);
+				}*/
 				
 				for(int d = 0; d < map.getDroppedItem().size(); d++){
 					DroppedItem di = map.getDroppedItem().get(d);
@@ -568,122 +581,80 @@ public class GameState extends BasicGameState{
 		// 1) Planets, 2) Asteroids, 3) Craft, 4) Enemy Craft, 5) Craft Systems/Lasers, 6) Enemy Systems/Lasers
 		// 7) LaserProjectiles		
 		//System.out.println(enemy.getX()  + " " + enemy.getY());
-		camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
-		camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
+		//camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
+		//camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
 		g.translate(-camX, -camY);
-		g.setWorldClip(camX, camY, SCR_width, SCR_height);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom(),(float)Zoom.getZoom());
 		
 		
 		//Change the third paramater to control the camera's view rotation
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, -90);
-		
-		g.setColor(Color.red);
+		if(debugMode) {
+			g.setColor(Color.red);
+			g.draw(screenBox);
+		}
 		//g.drawRect(0, 0, mapwidth, mapheight);
 		g.setColor(Color.yellow);
 		//g.drawRect(0,0, mapwidth-5, mapheight-5);
 		//stars.render(g, Zoom.scale(camX),Zoom.scale(camY));
 		if (doStars) {
+			//TODO, laggy on entry
 			stars.render(g);
 		}
 		//if(GlobalInformation.testMode)Resources.log("Asteroid amount culling:"+n+ "   :   "+ map.getAsteroids().size());
 		for(int i = 0; i < map.getPlanets().size(); i ++){
 			Planet mesh = map.getPlanets().get(i);
-			//image culling
-			
-			/*if(mesh.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)||
-					mesh.getX()+(mesh.getSprite().getImage().getWidth()*mesh.getScale())<craft.getX()-174-(Zoom.getZoomWidth()/2)||
-					mesh.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)||
-					mesh.getY()+(mesh.getSprite().getImage().getHeight()*mesh.getScale())<craft.getY()-88-(Zoom.getZoomHeight()/2)){
+			if(mesh.isOnScreen()) {
+				//label at top with health
+				if(mesh.getHp() < mesh.getMaxHp()){
+					if(mesh.getHp() <= 200) g.setColor(Color.red);
+					else if(mesh.getHp() <= 500) g.setColor(Color.orange);
+					else g.setColor(Color.green);
+					float gg = mesh.getHp();
+					float ff = mesh.getMaxHp();
+					float boxWidth = (gg/ff) * (mesh.getShape().getWidth());
+					g.fillRect(mesh.getX() + mesh.getShape().getWidth()/2 - boxWidth/2, 
+							mesh.getY() - 30, boxWidth, 20);
+				}
+				//drawing planet
+				if(GlobalInformation.testMode)g.draw(mesh.getBoundbox());
+				mesh.getSprite().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
+				if(debugMode) {
+					g.draw(mesh.getBoundbox());  //DRAW BOUNDBOX DEBUG
+				}
 				mesh = null;
-				continue;
-			}*/
-			
-			/*
-			 * if(mesh.getX()-(mesh.getImage().getWidth()*mesh.getScale())>Zoom.getZoomWidth()+camX||
-					mesh.getX()+(mesh.getImage().getWidth()*mesh.getScale())<camX||
-					mesh.getY()-(mesh.getImage().getHeight()*mesh.getScale())>Zoom.getZoomHeight()+camY||
-					mesh.getY()+(mesh.getImage().getHeight()*mesh.getScale())<camY){
-				mesh = null;
-				continue;
 			}
-			 */
-			//label at top with health
-			if(mesh.getHp() < mesh.getMaxHp()){
-				if(mesh.getHp() <= 200) g.setColor(Color.red);
-				else if(mesh.getHp() <= 500) g.setColor(Color.orange);
-				else g.setColor(Color.green);
-				float gg = mesh.getHp();
-				float ff = mesh.getMaxHp();
-				float boxWidth = (gg/ff) * (mesh.getShape().getWidth());
-				g.fillRect(mesh.getX() + mesh.getShape().getWidth()/2 - boxWidth/2, 
-						mesh.getY() - 30, boxWidth, 20);
-			}
-			//drawing planet
-			if(GlobalInformation.testMode)g.draw(mesh.getBoundbox());
-			mesh.getSprite().draw(mesh.getX()+mesh.getShake().getDx(),mesh.getY()+mesh.getShake().getDy(),mesh.getScale());
-			if(debugMode) {
-				g.draw(mesh.getBoundbox());  //DRAW BOUNDBOX DEBUG
-			}
-			mesh = null;
 		}
-		for(int e = 0; e < map.getAsteroids().size(); e++){
+		/*for(int e = 0; e < map.getAsteroids().size(); e++){
 			Asteroid as = map.getAsteroids().get(e);
-			//culling
-			//free constant
-			int fr = -100;
-			
-			/*if(as.getX()>Zoom.getZoomWidth()/2+(craft.getX()+174)+fr||
-					as.getX()+(as.getSprite().getImage().getWidth()*as.getScale())<craft.getX()-174-(Zoom.getZoomWidth()/2)+fr||
-					as.getY()>Zoom.getZoomHeight()/2+(craft.getY()+88)-fr||
-					as.getY()+(as.getSprite().getImage().getHeight()*as.getScale())<craft.getY()-88-(Zoom.getZoomHeight()/2)+fr){
-				as=null;
-				continue;
-			}*/
-			//ASTEROID CULLING : BROKEN
-			
+			int fr = -100;			
 			as.getSprite().draw(as.getX(),as.getY(),as.getScale());
-			//as.getImage().setCenterOfRotation(as.getRealCenterX(), as.getRealCenterY());
 			as.getSprite().setRotation(as.getRotation());
 			if(GlobalInformation.testMode){
 				g.draw(as.getBoundbox());
 			}
 			as = null;
+			//TODO lots of FPS
+		}*/
+		for(int e = 0; e < map.getAsteroids().size(); e++){
+			Asteroid as = map.getAsteroids().get(e);
+			if(as.isOnScreen()) {
+				as.getSprite().draw(as.getX(),as.getY(),as.getScale());
+				as.getSprite().setRotation(as.getRotation());			
+			}
 		}
 		//if(GlobalInformation.testMode) g.draw(craft.getBoundbox());
 		//if(GlobalInformation.testMode) g.draw(enemy.getBoundbox());
 		for(int i = 0; i < map.getCrafts().size(); i++) {
 			Craft c = map.getCrafts().get(i);
+			if(debugMode) {
+				g.draw(c.getBoundbox());
+			}
 			if(!c.isDestroyed()) c.getSprite().draw(c.getX(), c.getY());
 			if(!c.isDestroyed()) c.renderSystems();
 			for(LaserLauncher cannon : c.laserlist){
 				cannon.render(g,camX,camY);
-			}
-			if(debugMode) {
-				/*for(float[] f : GlobalInformation.ptsTest) {
-					g.draw(new Circle(f[0],f[1],5));
-				}*/
-				g.draw(c.getBoundbox());  //DRAW BOUNDBOX DEBUG
-				if(c.getClass() == NPCship.class) {
-					NPCship n = (NPCship) c;
-					g.setColor(Color.white);
-					
-					for(Task t : n.tasks) {
-						if(t.getClass().isAssignableFrom(MovementTask.class)) {
-							MovementTask m = (MovementTask) t;
-							if(m.pathFinding) {
-								try { 
-									g.draw(m.image);
-									int l = m.path.currentVectorNum;	
-									g.draw(new Circle(m.image.getPoint(l)[0],m.image.getPoint(l)[1],1));
-								} catch (Exception e) {
-									//gonna happen fuk this
-								}
-							}
-						}
-					}
-				}
 			}
 		}
 		int n = 0;
@@ -700,11 +671,12 @@ public class GameState extends BasicGameState{
 		//g.rotate(camX + this.SCR_width/2, camY + this.SCR_height/2, 90);
 		//g.pushTransform();
 		minimap.render(g,map);		
-		shieldbar.render(g, (craft.shield.getHp()/craft.shield.getMaxHp()));
-		hullbar.render(g, (float)(craft.getHull()/craft.getMaxHull()));
+		shieldbar.render(g, (craft.shieldPercent));
+		hullbar.render(g, (float)(craft.hullPercent));
 		Image GUI = ((Image) AssetManager.get().get("GUI")).copy();
 		GUI.draw();
 		guihotbar.render(g,craft,selected);
+		
 
 		//for(GuiComponent component : componentlist){
 		//	component.render(g);

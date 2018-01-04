@@ -112,5 +112,5 @@ public class Planet extends GameObject{
 	public int getRadius() {
 		return radius;
 	}
-
+	
 }
