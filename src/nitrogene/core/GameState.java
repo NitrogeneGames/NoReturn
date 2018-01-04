@@ -58,7 +58,7 @@ public class GameState extends BasicGameState{
 	
 	public static int level = 1;
 	public static boolean superHardDifficulty = false;
-	private boolean doStars = false;
+	private boolean doStars = true;
 	public static float currentZoom = 1.0f;
 	Graphics backup;
 	Craft craft;
@@ -261,7 +261,10 @@ public class GameState extends BasicGameState{
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-
+		if(craft.getSprite()!=null){
+			camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
+			camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
+		}
 		int lasercount = 0;
 		//System.out.println(Zoom.getZoom());
 		if (delta > 200) {
@@ -485,10 +488,7 @@ public class GameState extends BasicGameState{
 						di.destroy(map);
 					}
 				}
-				if(craft.getSprite()!=null){
-					camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
-					camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
-				}
+
 				
 				//for(GuiComponent component : componentlist){
 				//	component.move(camX, camY);
@@ -568,6 +568,8 @@ public class GameState extends BasicGameState{
 		// 1) Planets, 2) Asteroids, 3) Craft, 4) Enemy Craft, 5) Craft Systems/Lasers, 6) Enemy Systems/Lasers
 		// 7) LaserProjectiles		
 		//System.out.println(enemy.getX()  + " " + enemy.getY());
+		camX = (float) ((craft.getX()+(craft.getSprite().getImage().getWidth()/2))*Zoom.getZoom()) - (SCR_width/2);	 
+		camY = (float) ((craft.getY()+(craft.getSprite().getImage().getHeight()/2))*Zoom.getZoom()) - (SCR_height/2);
 		g.translate(-camX, -camY);
 		g.setBackground(Color.black);
 		g.scale((float)Zoom.getZoom(),(float)Zoom.getZoom());

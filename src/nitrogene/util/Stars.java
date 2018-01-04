@@ -54,9 +54,10 @@ public class Stars {
 	
 	public void render(Graphics g){
 		
+		Image twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();
 		for(int[] loc : stars){
-			Image twopixelstar = ((Image) AssetManager.get().get("twopixelstar")).copy();
-			twopixelstar.draw(loc[0], loc[1]);
+			
+			twopixelstar.draw(loc[0],loc[1]);
 		}
 	}
 }

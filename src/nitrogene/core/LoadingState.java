@@ -245,6 +245,10 @@ public class LoadingState extends BasicGameState{
 		AssetManager.get().put("ammoitem", ammoitem);	
 		Music millionaireMusic = new Music("res/sound/millionaire.ogg");
 		AssetManager.get().put("millionaire", millionaireMusic);
+		
+		Image starsBackground = new Image(1, 1);
+		AssetManager.get().put("unitImage", starsBackground);
+		
 		GlobalInformation.initHitboxData();
 		
 		Resources.log(LoadingList.get().getRemainingResources());
