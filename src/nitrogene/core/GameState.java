@@ -578,6 +578,7 @@ public class GameState extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		g.resetTransform();
 		//ORDER OF RENDERING IS THE ORDER IT IS CALLED TO BE DRAWN
 		//Stars and Background
 		//Order for Physical Objects:
